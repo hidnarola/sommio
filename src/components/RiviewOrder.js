@@ -4,7 +4,6 @@ import { CartContext, CheckoutContext } from '../context'
 import CartItemList from './CartItemList'
 
 let RiviewOrder = ({ stripe, formEnable }) => {
-  console.info('stripe on render ======>', stripe )
   const {
     cartId,
     shipping_address,
@@ -12,56 +11,13 @@ let RiviewOrder = ({ stripe, formEnable }) => {
     customerDetails,
     rate
   } = useContext(CartContext)
-  const { defaultPayment, checkout, pay, paymentDetails } = useContext(
+  const {  checkout, pay, paymentDetails } = useContext(
     CheckoutContext
   )
   const [checkoutError, setCheckoutError] = useState(null)
 
   async function handleOrder() {
     let billing_address = shipping_address
-    // let Promises = [
-    //   checkout(
-    //     cartId,
-    //     customerDetails,
-    //     shipping_address,
-    //     billing_address,
-    //     paymentDetails,
-    //     rate
-    //   ),
-    //   stripe.createToken({
-    //     type: 'card',
-    //     name: `${shipping_address.first_name} ${shipping_address.last_name}`,
-    //     address_line1: shipping_address.line_1,
-    //     address_line2: shipping_address.line_2,
-    //     address_city: shipping_address.city,
-    //     address_state: shipping_address.county,
-    //     address_zip: shipping_address.postcode,
-    //     address_country: shipping_address.country
-    //   })
-    // ]
-
-    // Promise.all(Promises)
-    //   .then(resp => {
-    //     let order = resp[0]
-    //     let token = resp[1]
-
-    //     pay({
-    //       gateway: 'stripe',
-    //       method: 'purchase',
-    //       orderId: order.id,
-    //       payment: token.token.id
-    //     })
-    //       .then(resp => {
-    //         console.info('Pay resp ====>', resp)
-    //       })
-    //       .catch(err => {
-    //         console.info('Pay err ====>', err)
-    //       })
-    //   })
-    //   .catch(err => {
-    //     console.info('err ====>', err)
-    //   })
-
     try {
       const order = await checkout(
         cartId,
@@ -111,5 +67,4 @@ let RiviewOrder = ({ stripe, formEnable }) => {
   )
 }
 
-RiviewOrder = injectStripe(RiviewOrder)
-export default RiviewOrder
+export default injectStripe(RiviewOrder);

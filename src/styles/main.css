@@ -138,6 +138,9 @@ button:disabled {
 .custom_cart {width: 100%;background: #eaeaee;box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.12);padding: 0px;display: flex;}
 .custom_cart h2 {font-size: 18px;color: #6e6e6e;text-align: center;text-transform: uppercase;margin: 0;padding: 20px 0;    border: 0;}
 .cart_first, .cart_second, .cart_third {flex: 0 0 33.33%;max-width: 33.33%; padding: 0 50px 25px; height: calc(100vh - 60px); overflow: auto; position: relative;}
+
+.cart_first.purple, .cart_second.purple, .cart_third.purple {background: #5b2761;}
+
 .cart_first {padding: 0 0 25px;}
 .cart_first .shipping-boxs {height: calc(100vh - 19vh); overflow-y: auto; overflow-x: hidden; padding: 0 50px;}
 
@@ -149,7 +152,7 @@ button:disabled {
 .frm_half > div {margin: 0;}
 .frm_half {padding: 0 10px;margin: 0 -10px;margin-bottom: 20px;}
 .submit_btn {padding: 0px; position: absolute; left: 50px; bottom: 25px; right: 50px;}
-.submit_btn button {background-color: #131313 ;width: 100%;height: 60px;color: #fff;font-size: 16px;text-transform: uppercase;}
+.submit_btn button {background-color: #421947 ;width: 100%;height: 60px;color: #fff;font-size: 16px;text-transform: uppercase;}
 
 .cost_option p {font-size: 16px;margin-top: 10px;    text-align: right;}
 .cost_option select {font-size: 14px;font-weight: 400;height: 60px;box-sizing: border-box;width: 100%;position: relative;border-radius: 2px;outline: 0px;transition: all 300ms ease 0s;color: #333;border: 2px solid transparent;}
@@ -184,3 +187,10 @@ button:disabled {
   opacity: 0.15;
   background-color: rgb(255, 255, 248);
 }
+
+.orderconfimatio-main {max-width: 1200px; width: 100%; margin: 0 auto;}
+.orderconfimatio-main .address-main {display: flex; flex-wrap: wrap; margin: 0 -15px;}
+.orderconfimatio-main .address-main .boxs {width: 25%; text-align: left; padding: 0 15px;}
+.orderconfimatio-main .address-main .boxs.yourproduct-main {width: 50%;}
+
+.orderconfimatio-main .continue-btn {display: flex; flex-wrap: wrap; justify-content: flex-end; width: 100%; margin-top:30px;}

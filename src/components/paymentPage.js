@@ -142,4 +142,4 @@ function PaymentPage({ changeFormEnable, isEditable }) {
   )
 }
 
-export default injectStripe(PaymentPage)
+export default PaymentPage

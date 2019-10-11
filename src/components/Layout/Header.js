@@ -1,23 +1,22 @@
 import React, { useContext } from 'react'
 import { Link } from 'gatsby'
 
-import { CartContext } from '../../context'
+import { CartContext ,CheckoutContext} from '../../context'
 // import {  CustomerContext } from '../../context'
 
 import Logo from '../../images/logo.svg'
 
 function Header({ siteTitle, collections }) {
 
-  const { count, isEmpty } = useContext(CartContext)
-  console.log('window.location => ',window.location.pathname);
-
-  // const { loggedIn, user } = useContext(CustomerContext)
+  const { count, isEmpty } = useContext(CartContext);
+  const {orderId} = useContext(CheckoutContext);
+console.info('orderId in Header => ',orderId);
 
   return (
     <div>
     { window.location.pathname === "/checkout" ?
     <header className="header-checkout">
-      <Link to="/cart" className="backcart-btn"><svg class="StyledBackArrow-amagyn-6 fIdZUy" width="6px" height="10px" viewBox="0 0 6 10" version="1.1" aria-labelledby="back-arrow-title"><title id="back-arrow-title">Back arrow</title><desc>Created with Sketch.</desc><defs></defs><g id="Cart/Checkout/Errors-desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Checkout/Shipping-filled-desktop" transform="translate(-44.000000, -33.000000)" fill="#763679"><path d="M46.1182432,37.9529268 L50.01,41.84547 L48.949,42.90547 L44,37.95547 L44.0032515,37.9522215 L44.0001,37.94907 L48.9491,33.00007 L50.0101,34.06107 L46.1182432,37.9529268 Z" id="backarrow"></path></g></g></svg>Back to Cart</Link>
+      { !orderId ? <Link to="/cart" className="backcart-btn"><svg class="StyledBackArrow-amagyn-6 fIdZUy" width="6px" height="10px" viewBox="0 0 6 10" version="1.1" aria-labelledby="back-arrow-title"><title id="back-arrow-title">Back arrow</title><desc>Created with Sketch.</desc><defs></defs><g id="Cart/Checkout/Errors-desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Checkout/Shipping-filled-desktop" transform="translate(-44.000000, -33.000000)" fill="#763679"><path d="M46.1182432,37.9529268 L50.01,41.84547 L48.949,42.90547 L44,37.95547 L44.0032515,37.9522215 L44.0001,37.94907 L48.9491,33.00007 L50.0101,34.06107 L46.1182432,37.9529268 Z" id="backarrow"></path></g></g></svg>Back to Cart</Link> : ""}
       <Link
           to="/"
           className="mx-auto flex items-center logo"
