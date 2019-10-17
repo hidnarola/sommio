@@ -1,0 +1,83 @@
+.reinvented-bg {
+    position: relative;
+    background: url(/reinvented-bg.png) center center no-repeat;
+    background-size: cover;
+    padding: 200px 0 0;
+    margin:-180px 0 0 0;
+    z-index: 1;
+
+    h4 {
+        margin: 0;
+        font-size: 130px;
+        color: #FFF9F4;
+        font-weight: 900;
+        display: block;
+        line-height: 1;
+
+        @media (max-width:$desktop18) {
+            font-size: 100px;
+        }
+
+    }
+
+    h2 {
+        font-size: 337px;
+        color: #ACC7F0;
+        font-weight:900;
+        margin: 0;
+        line-height: 0.75;
+
+        @media (max-width:$desktop18) {
+            font-size: 250px;
+        }
+    }
+
+    .introducing-boxs {
+        display: block;
+
+        h5 {
+            display: block;
+            font-size: 60px;
+            color: $white;
+            line-height: 1;
+            font-weight: 900;
+            margin: 0 0 30px;
+
+            @media (max-width:$desktop18) {
+                font-size: 50px;
+            }
+        }
+
+        p {
+            display: block;
+            font-family: $tkitcavantgardegothicpro;
+            font-size: 34px;
+            color: $white;
+            line-height: 42px;
+            margin: 0 10px 80px 0;
+
+            @media (max-width:$desktop18) {
+                font-size: 28px;
+                margin: 0 10px 50px 0;
+                line-height: 36px;
+            }
+        }
+
+    }
+
+    .img {
+        margin-left: 14px;
+        margin-top: -40px;
+
+        @media (max-width:$desktop18) {
+            margin-right: -15px;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+    }
+
+}

@@ -13,6 +13,7 @@ export const SET_ADDRESS = 'SET_ADDRESS'
 export const SET_SELCETED_RATES = 'SET_SELCETED_RATES'
 export const SET_LOADING = 'SET_LOADING'
 export const CLEAN_CART = 'CLEAN_CART'
+
 export const initialState = {
   count: 0,
   items: [],
@@ -43,14 +44,14 @@ export default function reducer(state, action) {
         (sum, { type, quantity }) => type === 'cart_item' && sum + quantity,
         0
       )
-
+      // const subTotal = meta ? meta.display_price.without_tax.amount : '00'
       const total = meta ? meta.display_price.without_tax.formatted : '00'
       const subTotal = total && parseInt(total.slice(1))
-      // const subTotal = selectedShipRate ? (selectedShipRate + subTotal) : 0
       console.log(
-        'subTotal==>',
+        'subTotal in cartContext ==> ',
         subTotal,
-        meta.display_price.without_tax.formatted
+        meta.display_price.without_tax.formatted,
+        meta.display_price.without_tax.amount
       )
       console.log('subTotal type==>', typeof subTotal)
 
@@ -105,8 +106,8 @@ export default function reducer(state, action) {
       const loading = true
 
       return { loading: loading }
-     case CLEAN_CART :
-       return initialState
+    case CLEAN_CART:
+      return initialState
 
     case RESET_CART:
       return {
@@ -120,7 +121,7 @@ export default function reducer(state, action) {
         meta: null,
         rate: 0,
         paymentButton: false,
-        shippingProvider: null,
+        shippingProvider: null
       }
 
     default:
@@ -154,14 +155,12 @@ function CartProvider({
     dispatch({ type: SET_CART, payload })
   }
 
-  async function addToCart(id, quantity, size, weight, color, subTotal, rate) {
-    console.log('subTotal and rate  => ', subTotal, rate)
-
+  async function addToCart(id, quantity, size, weight, cover, subTotal, rate) {
     const payload = await moltin.post(`carts/${cartId}/items`, {
       type: 'cart_item',
       id,
       quantity,
-      variations: { size, weight, color }
+      variations: { size, weight, cover }
     })
     console.log('HERE is cartcontext-getCart in ADD_toCart==>', payload)
 
@@ -305,9 +304,9 @@ function CartProvider({
       payload: { convertedRates, shipping_provider }
     })
   }
-function cleanCart () {
-    dispatch({type: CLEAN_CART })
-}
+  function cleanCart() {
+    dispatch({ type: CLEAN_CART })
+  }
   return (
     <Provider
       value={{

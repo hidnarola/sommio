@@ -1,3 +1,4 @@
+const path = require('path')
 require('dotenv').config()
 
 module.exports = {
@@ -10,11 +11,12 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-react-helmet',
+    'gatsby-plugin-sass',
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'images',
-        path: `${__dirname}/src/images`
+        path: path.join(__dirname, `src`, `images`)
       }
     },
     'gatsby-transformer-sharp',
@@ -44,8 +46,9 @@ module.exports = {
         tailwind: true,
         purgeOnly: ['src/styles/main.css']
       }
-    },{
-    resolve: "gatsby-plugin-react-svg",
+    },
+    {
+      resolve: 'gatsby-plugin-react-svg',
       options: {
         rule: {
           include: /svgImages/ // See below to configure properly
@@ -55,10 +58,10 @@ module.exports = {
     {
       resolve: `gatsby-source-contentful`,
       options: {
-          spaceId: `1eaguqndmewd`,
-          accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-      },
-  },
+        spaceId: `1eaguqndmewd`,
+        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
+      }
+    },
     'gatsby-plugin-stripe'
   ]
 }

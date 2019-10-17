@@ -3,7 +3,6 @@ import Img from 'gatsby-image'
 import cx from 'classnames'
 import Noimage from "../images/no_img.jpg"
 export default function Photo({ src, cartImg, transparent, ...props }) {
-  console.log("src.childImageSharp", src);
 
   const imageClass = cx(
     'product-image cursor-pointer flex items-center justify-center w-full overflow-hidden relative',
