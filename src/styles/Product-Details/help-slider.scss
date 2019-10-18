@@ -1,0 +1,121 @@
+.helpslider-bg {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 80px;
+
+    h3 {
+        display: block;
+        font-size: 45px;
+        color: $white;
+        font-weight: 700;
+        margin: 0 0 40px 0;
+    }
+
+    .slick-slider {
+        position: relative;
+
+        .help-boxs {
+            position: relative;
+            padding: 0 10px;
+
+            img {
+                width: 100%;
+                display: block;
+            }
+
+            .help-content {
+                position: absolute;
+                left: 30px;
+                right: 30px;
+                bottom: 20px;
+
+                h2 {
+                    font-size: 140px;
+                    color: $white;
+                    display: block;
+                    line-height: 1;
+                    margin: 0;
+                    font-weight: 900;
+
+                    @media (max-width:$desktop18) {
+                        font-size: 90px
+                    }
+
+                }
+
+                a.btn-link {
+                    color: $white;
+                    font-size: 34px;
+                    font-weight: 300;
+                    line-height: 1;
+                    text-decoration: none;
+
+                    @media (max-width:$desktop18) {
+                        font-size: $FontSize28;
+                    }
+                }
+
+            }
+
+        }
+
+        .slick-arrow {
+            position: absolute;
+            left: 29%;
+            right: auto;
+            top: -58px;
+            width: 70px;
+            height: 70px;
+
+            @media (max-width:$desktop18) {
+                left: 35%;
+                width: 50px;
+                height: 50px;
+            }
+
+            &.slick-prev {
+                left: 24%;
+                right: auto;
+
+                @media (max-width:$desktop18) {
+                    left: 30%;
+                }
+
+                &:before {
+                    content: '';
+                    background-image: url(/slick-prev.svg);
+                }
+
+            }
+
+            &.slick-next {
+
+                &:before {
+                    content: '';
+                    background-image: url(/slick-next.svg);
+                }
+
+            }
+
+            &:before {
+                font-size: 45px;
+                background-color: rgba(129, 213, 244, 0.4);
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: auto 50%;
+                border-radius: 50%;
+                width: 70px;
+                height: 70px;
+                display: block;
+
+                @media (max-width:$desktop18) {
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+
+        }
+
+    }
+
+}

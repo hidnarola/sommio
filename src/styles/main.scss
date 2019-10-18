@@ -2,63 +2,21 @@
 @tailwind utilities;
 @tailwind components;
 @import "~react-image-gallery/styles/css/image-gallery.css";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import url('https://use.typekit.net/lam5mga.css');
+@import "./variable.scss";
+@import "./global.scss";
+@import "./button.scss";
+@import "./header.scss";
+@import "./Product-Details/product-service.scss";
+@import "./Product-Details/product-name.scss";
+@import "./Product-Details/product-review.scss";
+@import "./Product-Details/product-details.scss";
+@import "./Product-Details/free-delivery.scss";
+@import "./Product-Details/product-variation.scss";
+@import "./Product-Details/product-tabs.scss";
+@import "./Product-Details/help-slider.scss";
 
-body {
-  @apply bg-white font-sans antialiased leading-normal;
-}
-
-* {
-  transition: all 0.2s ease;
-}
-
-a {
-  @apply text-grey-dark;
-}
-
-a:hover {
-  @apply text-black;
-}
-
-/* Typography */
-
-p {
-  @apply text-grey leading-normal;
-}
-
-.page-title h1::after {
-  @apply bg-grey-light h-px w-16 block mx-auto;
-  content: '';
-}
-
-/* Product */
-
-.product-image:hover img {
-  /* transform: scale(1.05); */
-  transition: all 0.2s ease;
-  /* cursor: zoom-in; */
-}
-
-/* button */
-
-.btn {
-  width: 100%;
-  display: block;
-  font-weight: 400;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  border: 1px solid transparent;
-  padding: .375rem .75rem;
-  font-size: 16px;
-  line-height: 1.5;
-  border-radius: 0;
-  height: 60px;
-  text-transform: uppercase;
-}
 .submit_btn .btn-outline-secondary {
   color: #000;
   background-color: transparent;
@@ -68,61 +26,6 @@ p {
 .submit_btn .btn-outline-secondary:hover {
   background: #000;
   color:#fff;
-}
-/* Nav */
-
-.nav-item:first-child {
-  @apply ml-0;
-}
-
-.nav-item {
-  @apply ml-12;
-}
-
-.nav-item > a,
-.nav-item-link {
-  @apply no-underline block text-grey;
-}
-
-.nav-item > a:hover,
-.nav-item-link:hover {
-  @apply text-black;
-}
-
-/* Home */
-
-.hero {
-  @apply bg-grey-light w-screen relative flex items-center;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
-.bannerWide{
-  @apply w-screen relative flex items-center;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-}
-
-@screen lg {
-  .hero {
-    min-height: 700px;
-  }
-}
-
-.hero img {
-  transform: scale(2);
-  transform-origin: top;
-}
-
-button:disabled {
-  @apply opacity-50 cursor-not-allowed;
-}
-
-.group:hover .group-hover\:block {
-  display: block !important;
 }
 
 /* Stripe */

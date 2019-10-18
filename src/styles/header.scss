@@ -1,0 +1,88 @@
+.navbar {
+    padding: 0;
+    border-bottom: solid 1px rgba($white, 0.3);
+    align-content: center;
+
+    .navbar-brand {
+        padding: 0;
+        margin: 0;
+        width: 200px;
+
+        img {
+            max-width: 100%;
+        }
+
+    }
+
+    .navbar-nav {
+
+        &.menu-list {
+
+            .nav-item {
+
+                a {
+                    display: block;
+                    padding: 45px 25px;
+                    line-height: 1;
+                    font-weight: 700;
+                    font-size: $FontSize24;
+                    color: $white;
+                    text-decoration: none;
+                    position: relative;
+
+                    &:hover {
+
+                        &:before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            border-bottom:solid 3px rgba($white, 0.5);
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        &.cart-boxs {
+            border-left: solid 1px rgba($white, 0.3);
+            padding: 40px 30px;
+
+            .nav-item {
+                display: block;
+
+                a {
+                    display: flex;
+                    // flex-wrap: wrap;
+                    align-content: center;
+                    text-decoration: none;
+
+                    span.count-number {
+                        display: flex;
+                        flex-wrap: wrap;
+                        width: 33px;
+                        height: 33px;
+                        justify-content: center;
+                        align-content: center;
+                        font-size: $FontSize24;
+                        color: $white;
+                        font-weight: 700;
+                        background: $apricotpeach;
+                        border-radius: 50%;
+                        margin-left: 10px;
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}

@@ -1,0 +1,48 @@
+.btn {
+    padding: 15px 40px;
+    margin: 0;
+    font-size: 43px;
+    line-height: 1;
+    font-weight: 700;
+    border-radius: 50px;
+    border: 0;
+
+    @media (max-width:$desktop18) {
+        font-size: 30px;
+        padding: 12px 30px;
+    }
+
+    &.btn-primary {
+        background: $perano;
+        color: $violet;
+
+        &:hover {
+            background: $violet;
+            color: $perano;
+        }
+
+    }
+
+    &.btn-success {
+        border-radius: 0;
+        background: $madang;
+        font-size: $FontSize30;
+        color: $midnight;
+        font-weight: 700;
+        padding: 0;
+    }
+
+    &.btn-link {
+        font-size: $FontSize17;
+        color: $madang;
+        font-weight: 500;
+        padding: 0;
+        text-decoration: underline;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+    }
+
+}

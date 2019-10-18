@@ -31,7 +31,7 @@ export default function OrderConfirmation(props) {
   }, []);
   return (
     <div className="orderconfimatio-main">
-        <div className="text-center py-12">
+        <div className="text-center py-21">
             <svg
                 className="text-black w-24 h-24 mx-auto mb-6"
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +86,7 @@ export default function OrderConfirmation(props) {
             <div className="continue-btn">
                 <Link
                     to="/"
-                    className="inline-block appearance-none bg-black border border-black text-white          hover:text-white px-4 py-3 leading-tight rounded-none focus:outline-none no-underline"
+                    className="inline-block appearance-none bg-black border border-black text-white hover:text-white px-4 py-3 leading-tight rounded-none focus:outline-none no-underline"
                 >
                     Continue shopping &rarr;
                 </Link>
