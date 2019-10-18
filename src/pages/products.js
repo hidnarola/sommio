@@ -6,24 +6,26 @@ import PageTitle from '../components/PageTitle'
 import ProductGrid from '../components/ProductGrid'
 
 const IndexPage = ({ data: { allMoltinProduct } }) => {
-  const productList = [];
-  allMoltinProduct.edges.map((pro)=>{
-    if(pro.node.relationships.parent === null){
-        productList.push(pro.node)
-      }
-    })
+  const productList = []
+  allMoltinProduct.edges.map(pro => {
+    if (pro.node.relationships.parent === null) {
+      productList.push(pro.node)
+    }
+  })
 
-  return(
-  <>
+  return (
+    <>
+      <SEO title="All Products" />
+      {console.log(
+        'allMoltinProduct',
+        allMoltinProduct,
+        'productList==>',
+        productList
+      )}
+      <PageTitle>All Products</PageTitle>
 
-    <SEO title="All Products" />
-  {console.log("allMoltinProduct", allMoltinProduct, "productList==>", productList)}
-    <PageTitle>All Products</PageTitle>
-
-    <ProductGrid
-      products={productList}
-    />
-  </>
+      <ProductGrid products={productList} />
+    </>
   )
 }
 

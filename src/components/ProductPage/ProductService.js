@@ -1,7 +1,7 @@
 import React from 'react'
-import NightIcon from '../../images/moon-stars-duotone.svg';
-import WarantyIcon from '../../images/badge-check-duotone.svg';
-import DeliveryIcon from '../../images/truck-duotone.svg';
+import NightIcon from '../../images/moon-stars-duotone.svg'
+import WarantyIcon from '../../images/badge-check-duotone.svg'
+import DeliveryIcon from '../../images/truck-duotone.svg'
 
 const ProductService = () => {
   return (
@@ -21,4 +21,4 @@ const ProductService = () => {
     </div>
   )
 }
-export default ProductService;
+export default ProductService

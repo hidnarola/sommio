@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
-import { CartContext } from '../../context/CartContext'
 import classnames from 'classnames'
+import { CartContext } from '../../context/CartContext'
 import PlushImages from '../../images/plush.png'
 
 import Select from '../Select'
@@ -11,13 +11,8 @@ import {
   DropdownItem
 } from 'reactstrap'
 import { useStaticQuery, Link } from 'gatsby'
-function AddToCart({
-  disabled,
-  productId,
-  variationData,
-  selectedProductImage
-}) {
-  const dataMoltin = useStaticQuery(graphql`
+const AddToCart = ({ disabled, productId, variationData }) => {
+  const { allMoltinProduct } = useStaticQuery(graphql`
     query {
       allMoltinProduct {
         nodes {
@@ -50,10 +45,17 @@ function AddToCart({
       }
     }
   `)
-
-  const childData = []
-  const parentData = []
-  dataMoltin.allMoltinProduct.nodes.map(data => {
+  const { addToCart, subTotal, rate } = useContext(CartContext)
+  const [quantity, setQuantity] = useState(1)
+  const [weight, setWeight] = useState('6')
+  const [size, setSize] = useState('single')
+  const [cover, setCover] = useState('Plush')
+  const [blancketCover, setBlancketCover] = useState('Plush')
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  let i = 0
+  let childData = []
+  let parentData = []
+  allMoltinProduct.nodes.map(data => {
     if (
       data.relationships.parent !== null &&
       productId === data.relationships.parent.data.id
@@ -63,14 +65,7 @@ function AddToCart({
       parentData.push(data)
     }
   })
-  const { addToCart, subTotal, rate } = useContext(CartContext)
-  const [quantity, setQuantity] = useState(1)
-  const [weight, setWeight] = useState('6')
-  const [size, setSize] = useState('single')
-  const [cover, setCover] = useState('Plush')
-  const [blancketCover, setBlancketCover] = useState('Plush')
-  const [dropdownOpen, setDropdownOpen] = useState(false)
-  let i = 0
+
   const toggle = () => {
     setDropdownOpen(!dropdownOpen)
   }
@@ -83,24 +78,9 @@ function AddToCart({
       setWeight(e.target.value)
     } else if (name === 'Cover') {
       setCover(e)
-      // getImage(e.target.value)
     } else {
       setSize('single')
     }
-  }
-
-  const getImage = c => {
-    if (c == 'none') {
-      return selectedProductImage(parentData)
-    }
-
-    const obj = childData.filter(item => {
-      if (item.name.indexOf(c) >= 0) {
-        return item
-      }
-    })
-
-    selectedProductImage(obj && obj.length > 0 && obj)
   }
 
   const comparision = () => {
@@ -109,17 +89,16 @@ function AddToCart({
 
     return (id_obj && id_obj.length > 0 && id_obj[0].id) || false
   }
+
   const selectedProductPrice = childData.filter(i => {
     const id = comparision()
     return id === i.id
   })
-  console.log('selectedProductPrice => ', selectedProductPrice)
 
   const handleAddToCart = () => {
     const id = comparision()
     addToCart(id, parseInt(quantity, 10), size, weight, cover, subTotal, rate)
   }
-  console.log('childData => ', childData)
 
   return (
     <div className="product-variation">
@@ -234,7 +213,11 @@ function AddToCart({
           </span>
           <p>Or 6 weekly Interest free payments from £ 21.12</p>
         </div>
-        <button className="btn btn-success" onClick={handleAddToCart}>
+        <button
+          className="btn btn-success"
+          onClick={handleAddToCart}
+          disabled={disabled || !weight || !cover}
+        >
           Add to Basket
         </button>
         <p className="delivery-text">

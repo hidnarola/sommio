@@ -75,9 +75,21 @@ const ProductOverview = () => {
             <Row>
               <Col xs="12" md="8">
                 <h3>What is it?</h3>
-                <p>Our Sommio Comfort is a pocketless blanket in a plush cover. The double sided cover has a luxurious plush furry fabric and a smooth fuzzy velvet; providing fantastic tactile stimulation (We never user cheap microfibre/minky). The weighted inner is hand sewn. The cover and blanket are paired with a zip, ensuring the blanket stays in perfect position inside the cover.</p>
+                <p>
+                  Our Sommio Comfort is a pocketless blanket in a plush cover.
+                  The double sided cover has a luxurious plush furry fabric and
+                  a smooth fuzzy velvet; providing fantastic tactile stimulation
+                  (We never user cheap microfibre/minky). The weighted inner is
+                  hand sewn. The cover and blanket are paired with a zip,
+                  ensuring the blanket stays in perfect position inside the
+                  cover.
+                </p>
               </Col>
-              <Col xs="12" md="4" className="d-flex flex-wrap align-content-center justify-content-center">
+              <Col
+                xs="12"
+                md="4"
+                className="d-flex flex-wrap align-content-center justify-content-center"
+              >
                 <ul>
                   <li>Weightex™ fabric</li>
                   <li>Handmade</li>

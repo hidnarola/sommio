@@ -1,11 +1,10 @@
-
-import React, { useState } from "react"
-import { useStaticQuery, graphql } from "gatsby"
-import Img from "gatsby-image"
+import React, { useState } from 'react'
+import { useStaticQuery, graphql } from 'gatsby'
+import Img from 'gatsby-image'
+import Slider from 'react-slick'
 
 function ProductImage() {
-  const [index, setIndex] = useState(0)
-  const data = useStaticQuery(
+  const { allMoltinProduct } = useStaticQuery(
     graphql`
       query {
         allMoltinProduct {
@@ -14,9 +13,7 @@ function ProductImage() {
               mainImage {
                 childImageSharp {
                   fluid {
-
                     src
-
                   }
                 }
               }
@@ -26,58 +23,38 @@ function ProductImage() {
       }
     `
   )
-  const length = data.allMoltinProduct.edges.length - 1
-  const handleNext = () =>
-    index === length ? setIndex(0) : setIndex(index + 1)
-  const handlePrevious = () =>
-    index === 0 ? setIndex(length) : setIndex(index - 1)
-  const { node } = data.allMoltinProduct.edges[index]
+  // const length = allMoltinProduct.edges.length - 1
+  // const handleNext = () =>
+  //   index === length ? setIndex(0) : setIndex(index + 1)
+  // const handlePrevious = () =>
+  //   index === 0 ? setIndex(length) : setIndex(index - 1)
+  // const { node } = allMoltinProduct.edges[index]
 
-  console.log("node ==>", node)
-  console.log("length", length)
+  // console.log('node ==>', node)
+  // console.log('length', length)
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  }
   return (
-    <div>
-      <div>
-        {/* <Img
-          fluid={node.childImageSharp.fluid}
-          key={node.id}
-          alt={node.name.replace(/-/g, " ").substring(2)}
-        /> */}
-      </div>
-      <div>
-        <button onClick={() => handlePrevious()}>Previous</button>
-        <button onClick={() => handleNext()}>Next</button>
-      </div>
+    <div className="product-gallery">
+      <Slider {...settings}>
+        {allMoltinProduct.edges.map(product => (
+          <Img
+            fluid={
+              product.node &&
+              product.node.mainImage &&
+              product.node.mainImage.childImageSharp &&
+              product.node.mainImage.childImageSharp.fluid
+            }
+            alt="product-image"
+          />
+        ))}
+      </Slider>
     </div>
   )
 }
-export default ProductImage;
-// import React from 'react'
-// import ImageGallery from 'react-image-gallery'
-// import Img from 'gatsby-image'
-// import NoImage from '../../images/NoImage.jpg'
-// const ProductImage = ({ imageArray, product }) => {
-//   console.log('product => ', product)
-
-//   return (
-//     <div>
-//       {/* <ImageGallery
-//         items={imageArray}
-//         showPlayButton={false}
-//         showFullscreenButton={false}
-//         showNav={false}
-//       /> */}
-
-//           <Img
-//             fluid={
-//               product.files
-//                 ? product.files.href
-//                 : NoImage
-//             }
-//             alt={product.name}
-//           />
-
-//     </div>
-//   )
-// }
-// export default ProductImage
+export default ProductImage

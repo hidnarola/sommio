@@ -1,58 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { graphql, withPrefix } from 'gatsby'
-import ImageGallery from 'react-image-gallery'
-import SEO from '../components/SEO'
-// import Photo from '../components/Photo'
-import Badge from '../components/Badge'
-import AddToCart from '../components/ProductPage/AddToCart'
 import useMoltinInventory from '../hooks/useMoltinInventory'
+import SEO from '../components/SEO'
+import AddToCart from '../components/ProductPage/AddToCart'
 import Noimage from '../images/no_img.jpg'
-import BlogPost from '../components/BlogPost'
 import ProductService from '../components/ProductPage/ProductService'
 import ProductReview from '../components/ProductPage/ProductReview'
 import ProductTitle from '../components/ProductPage/ProductTitle'
-import ProductImage from '../components/ProductPage/ProductImage'
 import ProductDetails from '../components/ProductPage/ProductDetails'
 import HelpSlider from '../components/ProductPage/HelpSlider'
 import FreeDelivery from '../components/ProductPage/FreeDelivery'
 import ProductOverview from '../components/ProductPage/ProductOverview'
+import ProductImage from '../components/ProductPage/ProductImage'
 
 function ProductPage({ data: { product } }) {
   const [inventory, inventoryLoading, inventoryError] = useMoltinInventory(
     product
   )
-
-  const {
-    meta: { display_price }
-  } = product
-
-  let [imageArray, setImageArray] = useState([])
-
-  useEffect(() => {
-    product.files &&
-      product.files.map(img => {
-        if (img) {
-          imageArray.push({ original: img.href, thumbnail: img.href })
-        }
-      })
-  }, [])
-
-  const selectedProductImage = obj => {
-    let tempArray = []
-    obj &&
-      obj.map(product => {
-        product.files.map(img => {
-          tempArray.push({
-            original: img && img.href ? img.href : Noimage,
-            thumbnail: img && img.href ? img.href : Noimage
-          })
-        })
-      })
-
-    setImageArray(tempArray)
-  }
-  console.log('imageArray &&&&', imageArray)
-
   return (
     <React.Fragment>
       <SEO
@@ -84,11 +48,10 @@ function ProductPage({ data: { product } }) {
                     productId={product.id}
                     disabled={!inventory.inStock}
                     variationData={product.meta.variations}
-                    selectedProductImage={selectedProductImage}
                   />
                 </div>
-                <div className="col-12 col-lg-8 d-none">
-                  <ProductImage imageArray={imageArray} product={product} />
+                <div className="col-12 col-lg-8">
+                  <ProductImage />
                 </div>
               </div>
             </div>
@@ -114,28 +77,15 @@ export const query = graphql`
   query($id: String!) {
     product: moltinProduct(id: { eq: $id }) {
       id
-      slug
       name
       description
       sku
-      relationships {
-        parent {
-          data {
-            id
-          }
-        }
-      }
-      files {
-        id
-        href
-      }
       mainImage {
         childImageSharp {
           fluid(maxWidth: 560) {
             ...GatsbyImageSharpFluid
           }
         }
-        publicURL
       }
       meta {
         variations {

@@ -1,9 +1,7 @@
 import React from 'react'
-import FlagIcon from '../../images/flag-of-europe.png';
-// import {graphql,useStaticQuery} from "gatsby";
+import FlagIcon from '../../images/flag-of-europe.png'
 
-const ProductTitle = ({title}) => {
-
+const ProductTitle = ({ title }) => {
   return (
     <div className="product-name">
       <h1>{title}</h1>

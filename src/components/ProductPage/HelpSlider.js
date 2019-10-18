@@ -8,7 +8,6 @@ const HelpSlider = () => {
   const settings = {
     dots: false,
     infinite: false,
-    // speed: 500,
     slidesToShow: 2.5,
     slidesToScroll: 1,
     centerMode: false

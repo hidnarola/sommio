@@ -1,0 +1,110 @@
+.product-gallery {
+    display: block;
+    position: relative;
+    height: 630px;
+    z-index: 3;
+    margin: 15px 0 0;
+
+    @media (max-width:$desktop18) {
+        height: 580px;
+    }
+
+    .slick-slider {
+        position: relative;
+        height: 100%;
+
+        .slick-arrow {
+            top: 15px;
+            bottom: 0;
+            transform: translateY(0);
+            height: auto;
+            width: 25%;
+            z-index: 1;
+            cursor: pointer;
+
+            &::before {
+                display: none;
+            }
+
+            &.slick-prev {
+                left: 0;
+            }
+
+            &.slick-next {
+                right: 0;
+            }
+
+        }
+
+        .slick-dots {
+            text-align: right;
+            display: flex !important;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            bottom: -30px;
+
+            li {
+                display: block;
+                margin: 0 5px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+
+                &.slick-active {
+
+                    button {
+                        background: $madang;
+                    }
+
+                }
+
+                button {
+                    width: 18px;
+                    height: 18px;
+                    background: $white;
+                    border-radius: 50%;
+
+                    &:before {
+                        display: none;
+                    }
+
+                }
+
+            }
+
+        }
+
+        .slick-list {
+            position: relative;
+            height: 100%;
+
+            .slick-track {
+                height: 100%;
+
+                .slick-slide {
+                    height: 100%;
+
+                    > div {
+                        position: relative;
+                        height: 100%;
+                    }
+
+                    .gatsby-image-wrapper {
+                        height: 100%;
+
+                        picture {
+                            height: 100%;
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
