@@ -1,7 +1,6 @@
 @tailwind preflight;
 @tailwind utilities;
 @tailwind components;
-@import "~react-image-gallery/styles/css/image-gallery.css";
 @import "~bootstrap/dist/css/bootstrap.css";
 @import url('https://use.typekit.net/lam5mga.css');
 @import "./variable.scss";
@@ -18,16 +17,26 @@
 @import "./Product-Details/help-slider.scss";
 @import "./Product-Details/product-gallery.scss";
 
+.visible {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
 .submit_btn .btn-outline-secondary {
-  color: #000;
+  color: #5b2761;
   background-color: transparent;
   background-image: none;
-  border-color: #000;
+  border: solid 1px #5b2761;
+  border-radius: 0;
 }
 .submit_btn .btn-outline-secondary:hover {
-  background: #000;
+  background: #5b2761;
   color:#fff;
 }
+.cart_second.purple pre {color: #fff;}
 
 /* Stripe */
 
@@ -43,7 +52,7 @@
 .custom_cart h2 {font-size: 18px;color: #6e6e6e;text-align: center;text-transform: uppercase;margin: 0;padding: 20px 0;    border: 0;}
 .cart_first, .cart_second, .cart_third {flex: 0 0 33.33%;max-width: 33.33%; padding: 0 50px 25px; height: calc(100vh - 60px); overflow: auto; position: relative;}
 
-.cart_first.purple, .cart_second.purple, .cart_third.purple {background: #5b2761;}
+.cart_first.purple, .cart_second.purple, .cart_third.purple {background: #5b2761; color: #fff;}
 
 .cart_first {padding: 0 0 25px;}
 .cart_first .shipping-boxs {height: calc(100vh - 19vh); overflow-y: auto; overflow-x: hidden; padding: 0 50px;}

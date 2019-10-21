@@ -32,6 +32,10 @@
         padding: 0;
     }
 
+    &.btn-delete {
+        font-size:20px;
+    }
+
     &.btn-link {
         font-size: $FontSize17;
         color: $madang;

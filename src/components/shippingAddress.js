@@ -57,7 +57,7 @@ return(
                <AddressFields type="shipping_address" />
              </div>
              <div className="submit_btn">
-               <button type="submit" disabled={pristine || invalid }>
+               <button type="submit" disabled={pristine || invalid}>
                  Submit
                </button>
              </div>

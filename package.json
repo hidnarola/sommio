@@ -31,7 +31,6 @@
     "react-dom": "16.9.0",
     "react-final-form": "4.1.0",
     "react-helmet": "^5.2.1",
-    "react-image-gallery": "^0.9.1",
     "react-load-script": "^0.0.6",
     "react-native-animated-emoji": "^0.1.4",
     "react-pose": "^4.0.8",

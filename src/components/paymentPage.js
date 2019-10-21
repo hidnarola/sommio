@@ -12,16 +12,25 @@ function PaymentPage({ changeFormEnable, isEditable }) {
     customerDetails,
     shippingProvider,
     rate,
+    shippingRates,
     loading
   } = useContext(CartContext)
   const { paymentData, paymentDetails } = useContext(CheckoutContext)
   const [checkoutError, setCheckoutError] = useState(null)
   const [makeEnable, setMakeEnable] = useState(true)
-  console.log('paymentDetails, loading==> ', paymentDetails,loading)
+  const enableForm =
+    shippingRates &&
+    shippingRates.map(
+      charge => charge && charge.total_charge && charge.total_charge.amount
+    )
+  console.log(
+    'rate ,shippingRates,enableForm ==> ',
+    rate,
+    shippingRates,
+    enableForm
+  )
 
   async function handlePayment(values) {
-    console.log('values => ', values)
-
     setMakeEnable(false)
     paymentData(values)
   }

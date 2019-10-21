@@ -69,11 +69,11 @@ const AddToCart = ({ disabled, productId, variationData }) => {
   const toggle = () => {
     setDropdownOpen(!dropdownOpen)
   }
-  function updateQuantity({ target: { value } }) {
-    setQuantity(value)
-  }
+  // const updateQuantity = ({ target: { value } }) => {
+  //   setQuantity(value)
+  // }
 
-  function updateVariations(e, name) {
+  const updateVariations = (e, name) => {
     if (name === 'Weight') {
       setWeight(e.target.value)
     } else if (name === 'Cover') {

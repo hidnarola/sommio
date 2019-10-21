@@ -29,11 +29,18 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           }
         }
       }
+      contentfulCondition : allContentfulCondition {
+        edges {
+          node {
+            slug
+            id
+          }
+        }
+      }
     }
   `)
 
   pages.data.allProducts.edges.forEach(({ node: { id, slug } }) => {
-
     createPage({
       path: `/products/${slug}`,
       component: path.resolve('./src/templates/ProductPage.js'),
@@ -59,6 +66,15 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       context: {
         id
       }
+    })
+  })
+  pages.data.contentfulCondition.edges.forEach(({ node: { id, slug } }) => {
+    createPage({
+      path: `/ReadMore/${slug}`,
+      component: path.resolve('./src/templates/ReadMorePage.js'),
+      // context: {
+      //   id
+      // }
     })
   })
 }
