@@ -38,7 +38,7 @@ function Header({ siteTitle, collections }) {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto menu-list">
               <li className="nav-item">
-                <Link to="/products">Shop</Link>
+                <Link to="/products/weighted-blanket">Shop</Link>
               </li>
               <li className="nav-item">
                 <Link to="/about">About us</Link>
