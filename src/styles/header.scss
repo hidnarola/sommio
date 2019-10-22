@@ -1,6 +1,6 @@
 .navbar {
     padding: 0;
-    border-bottom: solid 1px rgba($white, 0.3);
+    border-bottom: solid 2px rgba($white, 0.3);
     align-content: center;
 
     .navbar-brand {
@@ -50,7 +50,7 @@
         }
 
         &.cart-boxs {
-            border-left: solid 1px rgba($white, 0.3);
+            border-left: solid 2px rgba($white, 0.3);
             padding: 40px 30px;
 
             .nav-item {

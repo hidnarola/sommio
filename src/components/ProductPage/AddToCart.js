@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import { CartContext } from '../../context/CartContext'
 import PlushImages from '../../images/plush.png'
 
+
 import Select from '../Select'
 import {
   Dropdown,
@@ -52,6 +53,12 @@ const AddToCart = ({ disabled, productId, variationData }) => {
   const [cover, setCover] = useState('Plush')
   const [blancketCover, setBlancketCover] = useState('Plush')
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const weightInfo = {
+    '6':'kg | 13lb',
+    '8':'kg | 18lb',
+    '10':'kg | 22lb',
+    '12':'kg | 26lb',
+  }
   let i = 0
   let childData = []
   let parentData = []
@@ -99,6 +106,13 @@ const AddToCart = ({ disabled, productId, variationData }) => {
     const id = comparision()
     addToCart(id, parseInt(quantity, 10), size, weight, cover, subTotal, rate)
   }
+  function returnWeightInfo(x){
+    if(weightInfo.hasOwnProperty(x)){
+      return weightInfo[x];
+    }
+
+  }
+
 
   return (
     <div className="product-variation">
@@ -132,7 +146,7 @@ const AddToCart = ({ disabled, productId, variationData }) => {
                   {data &&
                     data.options &&
                     data.options.map((w, k) => (
-                      <div className="radio-boxs">
+                      <div className="radio-boxs" data-order={i}>
                         <input
                           type="radio"
                           name="weight"
@@ -142,7 +156,13 @@ const AddToCart = ({ disabled, productId, variationData }) => {
                           defaultChecked={k === 0 ? true : false}
                         />
                         <label for={data.name + i++}>
-                          <div className="title">{w.name}</div>
+                          <div className="title">
+                            {w.name}
+                            <span>
+                              {returnWeightInfo(w.name)}
+                            </span>
+
+                          </div>
                           <div className="content">
                             <h4>Recommended for users who weigh between:</h4>
                             <span>{w.description}</span>
