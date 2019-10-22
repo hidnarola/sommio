@@ -80,6 +80,7 @@ function Header({ siteTitle, collections }) {
       </div>
     </header>
     }
+
     </div>
   )
 }

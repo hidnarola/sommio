@@ -70,11 +70,11 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   })
   pages.data.contentfulCondition.edges.forEach(({ node: { id, slug } }) => {
     createPage({
-      path: `/ReadMore/${slug}`,
+      path: `/readMore/${slug}`,
       component: path.resolve('./src/templates/ReadMorePage.js'),
-      // context: {
-      //   id
-      // }
+      context: {
+        slug: node.slug,
+      },
     })
   })
 }
