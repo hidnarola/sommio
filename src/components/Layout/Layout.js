@@ -40,7 +40,6 @@ export default function Layout({ children }) {
         />
       </Helmet>
       <Header siteTitle={site.siteMetadata.title} collections={collections} />
-      <Link to="/quiz">Start</Link>
       <main>{children}</main>
       {/* <Banner /> */}
       {/* <Footer categories={categories} /> */}

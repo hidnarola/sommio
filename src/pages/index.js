@@ -13,6 +13,7 @@ function IndexPage({
         <div className="container relative">
           <div className="w-full md:w-2/3 lg:w-1/2 py-12 px-8 md:px-0">
             <div className="text-center md:text-left md:my-auto">
+            <Link to="/quiz">Start</Link>
               <h1 className="text-3xl md:text-4xl lg:text-5xl text-black font-normal " data-scroll data-scroll-speed="1">
                 The Moltin demo store
               </h1>
