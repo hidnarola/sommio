@@ -346,9 +346,12 @@
         }
 
         .price-boxs {
-            width: 50%;
+            width: 100%;
             background: $bluezodiac;
             padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
             @media (max-width:$desktop18) {
                 padding: 10px;
@@ -379,12 +382,9 @@
         }
 
         .btn.btn-success {
-            width: 50%;
-            background-image: url(/shopping-icon.png);
-            background-repeat: no-repeat;
-            background-position: right 0.5em center;
-            text-align: left;
-            padding: 0 1em;
+            width: 100%;
+            text-align: center;
+            padding:  0.5em;
 
             @media (max-width:$desktop18) {
                 padding: 0 0.5em;

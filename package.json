@@ -56,6 +56,7 @@
     "format": "prettier --write \"src/**/*.js\""
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-pro": "^5.11.2",
     "autoprefixer": "9.6.1",
     "prettier": "1.18.2",
     "rimraf": "3.0.0"
