@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import classnames from 'classnames'
 import { CartContext } from '../../context/CartContext'
 import PlushImages from '../../images/plush.png'
-
+import SommioModal from '../modal.js'
 
 import Select from '../Select'
 import {
@@ -127,9 +127,10 @@ const AddToCart = ({ disabled, productId, variationData }) => {
                     data.options &&
                     data.options.map(size => <p>{size.name}</p>)}
                 </div>
-                <Link to="#" className="btn btn-link ml-auto">
-                  are other sizes available?
-                </Link>
+                <SommioModal text={"are other sizes available?"} >
+                <h3>Is this a good size for me?</h3>
+                <p>auctor nulla arcu dolor enim netus pharetra eget in feugiat et nibh malesuada sed malesuada fermentum 👮 in sollicitudin 🔔 lectus ullamcorper augue consequat ut eu gravida tempor, diam sit in etiam tellus dignissim rhoncus, mattis 📆 justo, vulputate ut 🏢 imperdiet egestas 📩 volutpat, tempus velit risus sit elit hac sit leo 🌀 porttitor nascetur quam 👯 orci, et adipiscing amet, tortor, nullam orci lacus ultrices neque, congue faucibus. Molestie 📥 et etiam justo, faucibus a 🍪</p>
+                </SommioModal>
               </div>
             )
           } else if (data.name === 'Weight') {
@@ -138,9 +139,10 @@ const AddToCart = ({ disabled, productId, variationData }) => {
                 <div className="size-boxs">
                   <h4>Blanket {data.name}</h4>
                 </div>
-                <Link to="#" className="btn btn-link ml-auto">
-                  help me choose
-                </Link>
+                <SommioModal text={"help me choose"} >
+                <h3>Choose your weight</h3>
+                <p>Amet molestie rhoncus semper augue placerat arcu, nascetur interdum 🎪 faucibus nisi metus enim, 📵 tortor velit laoreet 🎤 vel adipiscing sodales in aliquam ac ultrices nunc egestas. Id ipsum, magna donec tincidunt enim, proin auctor libero fringilla venenatis pharetra, enim 🔎 nunc sagittis mauris bibendum cursus imperdiet tempus magnis id tempus sed vel, arcu mollis pellentesque risus congue faucibus blandit 🎴 nibh posuere tellus eget. Pulvinar ligula eget tincidunt fames turpis velit mollis a ut condimentum viverra convallis enim tellus velit blandit fermentum 🐽 curabitur pulvinar cursus consequat, adipiscing egestas auctor augue porttitor proin in tortor, nec id platea habitant imperdiet diam volutpat, neque mauris risus faucibus 🍐 </p>
+                </SommioModal>
 
                 <div className="radio-group">
                   {data &&
@@ -179,9 +181,10 @@ const AddToCart = ({ disabled, productId, variationData }) => {
                 <div className="size-boxs">
                   <h4>Blanket {data.name}</h4>
                 </div>
-                <Link to="#" className="btn btn-link ml-auto">
-                  help me choose
-                </Link>
+                <SommioModal text={"help me choose"} >
+                <h3>Choose your cover</h3>
+                <p>Amet molestie rhoncus semper augue placerat arcu, nascetur interdum 🎪 faucibus nisi metus enim, 📵 tortor velit laoreet 🎤 vel adipiscing sodales in aliquam ac ultrices nunc egestas. Id ipsum, magna donec tincidunt enim, proin auctor libero fringilla venenatis pharetra, enim 🔎 nunc sagittis mauris bibendum cursus imperdiet tempus magnis id tempus sed vel, arcu mollis pellentesque risus congue faucibus blandit 🎴 nibh posuere tellus eget. Pulvinar ligula eget tincidunt fames turpis velit mollis a ut condimentum viverra convallis enim tellus velit blandit fermentum 🐽 curabitur pulvinar cursus consequat, adipiscing egestas auctor augue porttitor proin in tortor, nec id platea habitant imperdiet diam volutpat, neque mauris risus faucibus 🍐 </p>
+                </SommioModal>
                 <Dropdown
                   defaultValue={blancketCover}
                   isOpen={dropdownOpen}

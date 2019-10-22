@@ -3,7 +3,7 @@ require('dotenv').config()
 
 module.exports = {
   siteMetadata: {
-    title: 'I Love Lamp',
+    title: 'Sommio',
     description:
       'I love carpet. I love desk. I love lamp. I Love Lamp is the official Moltin demo store.',
     author: '@moltin',
@@ -39,6 +39,7 @@ module.exports = {
         client_id: process.env.GATSBY_MOLTIN_CLIENT_ID
       }
     },
+    `gatsby-plugin-styled-components`,
     'gatsby-plugin-postcss',
     {
       resolve: 'gatsby-plugin-purgecss',
