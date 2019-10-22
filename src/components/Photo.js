@@ -5,7 +5,7 @@ import Noimage from "../images/no_img.jpg"
 export default function Photo({ src, cartImg, transparent, ...props }) {
 
   const imageClass = cx(
-    'product-image cursor-pointer flex items-center justify-center w-full overflow-hidden relative',
+    'product-image',
     {
       'bg-grey-light': !transparent
     }
@@ -16,22 +16,20 @@ export default function Photo({ src, cartImg, transparent, ...props }) {
 
     return cartImg ? (
       <img
-        className="block m-auto object-cover w-full"
         src={src}
         alt=""
         {...props}
       />
     ) : (
       <Img
-        className="block m-auto object-cover w-full"
         fluid={src.childImageSharp ? src.childImageSharp.fluid: Noimage}
         {...props}
       />
     )
   }
   return (
-          <div className={imageClass}>
-              {renderImage()}
-          </div>
-          )
+  <div className={imageClass}>
+      {renderImage()}
+  </div>
+  )
 }

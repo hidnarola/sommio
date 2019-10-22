@@ -8,8 +8,7 @@ function ShippingSelectOption() {
     let shipperData = JSON.parse(value);
     let shipping_provider = shipperData.service_name;
 
-    let convertedRates = parseInt((shipperData.total_charge.amount * 91) / 100);
-    console.log('value para => ', shipperData, convertedRates);
+    let convertedRates = parseInt((shipperData && shipperData.total_charge && shipperData.total_charge.amount * 91) / 100);
     shippingCost(convertedRates ,shipping_provider)
   }
     return (
@@ -18,7 +17,7 @@ function ShippingSelectOption() {
                   disabled={shippingRates && shippingRates.length > 0 ? false: true}
                   onChange={e => updateValue(e)}
                 >
-                <option value={0}>None</option>
+                <option value={0}>Select Shipping Method</option>
                   {
                     shippingRates && shippingRates.map(shippingRatesType => (
                         <option value={JSON.stringify(shippingRatesType)}>

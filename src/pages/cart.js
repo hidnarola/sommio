@@ -7,7 +7,6 @@ import CartItemList from '../components/CartItemList'
 
 export default function CartPage() {
   const { isEmpty } = useContext(CartContext)
-
   return (
     <React.Fragment>
       <PageTitle title="Shopping Cart" />

@@ -1,8 +1,8 @@
-import React, {useState} from "react";
-import classNames from "classnames";
-import QuantityStepper from "./QuantityStepper";
+import React, { useState } from 'react'
+import classNames from 'classnames'
+import QuantityStepper from './QuantityStepper'
 
-import Photo from "./Photo";
+import Photo from './Photo'
 
 function CartItem({
   id,
@@ -10,87 +10,88 @@ function CartItem({
   sku,
   quantity,
   meta,
-  image: {
-    href
-  },
+  image: { href },
   removeFromCart,
   locked
 }) {
-
   const {
     display_price: {
       without_tax: {
-        unit: {
-          formatted: unit
-        },
-        value: {
-          formatted: value
-        }
+        unit: { formatted: unit },
+        value: { formatted: value }
       }
     }
-  } = meta;
+  } = meta
 
-  const [removing, setRemoving] = useState(false);
+  const [removing, setRemoving] = useState(false)
 
-  const klass = classNames("border-t border-grey-light flex items-center cstm_item_info", {
-    "opacity-50": removing,
-    "py-2 md:py-4 lg:py-6": !locked,
-    "py-4": locked
-  });
+  const klass = classNames(
+    'border-t border-grey-light flex items-center cstm_item_info',
+    {
+      'opacity-50': removing,
+      'py-2 md:py-4 lg:py-6': !locked,
+      'py-4': locked
+    }
+  )
 
   async function onRemove() {
-    await setRemoving(true);
-    await removeFromCart(id);
+    await setRemoving(true)
+    await removeFromCart(id)
   }
 
-  return (<div className={klass}>
-    <div className={classNames("mr-3 md:mr-6", {
-        "w-16 md:w-32": !locked,
-        "w-8 md:w-16": locked
-      })}>
-      <Photo cartImg="cartImg" src={href} alt={name}/>
-    </div>
+  return (
+    <div className={klass}>
+      <table className="table">
+        <tr>
+          <th>Product</th>
+          <th>Name</th>
+          <th>Qty</th>
+          <th>Price</th>
+          {!locked && (
+          <th>Remove</th>
+          )}
+        </tr>
 
-    <div className="w-full flex justify-between items-center">
-      <div>
-        <div className="text-black">{name}</div>
-
-        <div className="text-grey text-sm">{sku}</div>
-      </div>
-
-      <div className="flex items-center justify-end md:w-1/2">
-        {
-          !locked && (<div className="hidden md:block">
-            <QuantityStepper itemId={id} quantity={quantity} />
-          </div>)
-        }
-
-        <div className="md:w-1/2 text-right">
-          <div className="text-black">
-            {value}
-            </div>
-          {
-            quantity > 1 && (<div className="text-grey text-sm">
-              <span className="md:hidden">
-                {quantity}
-                x
+        <tr>
+          <td>
+            <Photo cartImg="cartImg" src={href} alt={name} />
+          </td>
+          <td>
+            {name} <span className="d-block text-sm">{sku}</span>
+          </td>
+          <td>
+            {!locked && (
+              <QuantityStepper itemId={id} quantity={quantity} />
+            )}
+            {locked && quantity > 1 && (
+              <span className="text-grey text-sm d-block">
+                <span className="md:hidden">{quantity}x</span>
+                {unit}
+                <span className="hidden md:inline-block">each</span>
               </span>
-              {unit}
-              <span className="hidden md:inline-block">each</span>
-            </div>)
-          }
-        </div>
+            )}
+          </td>
+          <td>
+            {value}
+          </td>
+            {!locked && (
+          <td>
+              <button className="btn btn-danger btn-delete" onClick={onRemove}>
+                <svg height="20pt" viewBox="-40 0 427 427.00131" width="20pt" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m232.398438 154.703125c-5.523438 0-10 4.476563-10 10v189c0 5.519531 4.476562 10 10 10 5.523437 0 10-4.480469 10-10v-189c0-5.523437-4.476563-10-10-10zm0 0"/><path d="m114.398438 154.703125c-5.523438 0-10 4.476563-10 10v189c0 5.519531 4.476562 10 10 10 5.523437 0 10-4.480469 10-10v-189c0-5.523437-4.476563-10-10-10zm0 0"/><path d="m28.398438 127.121094v246.378906c0 14.5625 5.339843 28.238281 14.667968 38.050781 9.285156 9.839844 22.207032 15.425781 35.730469 15.449219h189.203125c13.527344-.023438 26.449219-5.609375 35.730469-15.449219 9.328125-9.8125 14.667969-23.488281 14.667969-38.050781v-246.378906c18.542968-4.921875 30.558593-22.835938 28.078124-41.863282-2.484374-19.023437-18.691406-33.253906-37.878906-33.257812h-51.199218v-12.5c.058593-10.511719-4.097657-20.605469-11.539063-28.03125-7.441406-7.421875-17.550781-11.5546875-28.0625-11.46875h-88.796875c-10.511719-.0859375-20.621094 4.046875-28.0625 11.46875-7.441406 7.425781-11.597656 17.519531-11.539062 28.03125v12.5h-51.199219c-19.1875.003906-35.394531 14.234375-37.878907 33.257812-2.480468 19.027344 9.535157 36.941407 28.078126 41.863282zm239.601562 279.878906h-189.203125c-17.097656 0-30.398437-14.6875-30.398437-33.5v-245.5h250v245.5c0 18.8125-13.300782 33.5-30.398438 33.5zm-158.601562-367.5c-.066407-5.207031 1.980468-10.21875 5.675781-13.894531 3.691406-3.675781 8.714843-5.695313 13.925781-5.605469h88.796875c5.210937-.089844 10.234375 1.929688 13.925781 5.605469 3.695313 3.671875 5.742188 8.6875 5.675782 13.894531v12.5h-128zm-71.199219 32.5h270.398437c9.941406 0 18 8.058594 18 18s-8.058594 18-18 18h-270.398437c-9.941407 0-18-8.058594-18-18s8.058593-18 18-18zm0 0"/><path d="m173.398438 154.703125c-5.523438 0-10 4.476563-10 10v189c0 5.519531 4.476562 10 10 10 5.523437 0 10-4.480469 10-10v-189c0-5.523437-4.476563-10-10-10zm0 0"/></svg>
+              </button>
+          </td>
+            )}
+        </tr>
+      </table>
 
-        {
-          !locked && (<button className="text-black ml-4 md:ml-6" onClick={onRemove}>
-            <svg className="fill-current w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
-              <path d="M8.54538034,10 L4.3012616,5.75588126 C3.89957947,5.35419913 3.89957947,4.70294373 4.3012616,4.3012616 C4.70294373,3.89957947 5.35419913,3.89957947 5.75588126,4.3012616 L10,8.54538034 L14.2441187,4.3012616 C14.6458009,3.89957947 15.2970563,3.89957947 15.6987384,4.3012616 C16.1004205,4.70294373 16.1004205,5.35419913 15.6987384,5.75588126 L11.4546197,10 L15.6987384,14.2441187 C16.1004205,14.6458009 16.1004205,15.2970563 15.6987384,15.6987384 C15.2970563,16.1004205 14.6458009,16.1004205 14.2441187,15.6987384 L10,11.4546197 L5.75588126,15.6987384 C5.35419913,16.1004205 4.70294373,16.1004205 4.3012616,15.6987384 C3.89957947,15.2970563 3.89957947,14.6458009 4.3012616,14.2441187 L8.54538034,10 Z" transform="translate(-4 -4)"/>
-            </svg>
-          </button>)
-        }
+      <div className="w-full flex justify-between items-center">
+        <div>
+          <div className="text-black"></div>
+          <div className="text-grey text-sm"></div>
+        </div>
       </div>
     </div>
-  </div>);
+  )
 }
 
-export default CartItem;
+export default CartItem

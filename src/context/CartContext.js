@@ -3,7 +3,6 @@ import { createCartIdentifier } from '@moltin/request'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { MoltinContext } from '.'
-// import FormData from "form-data"
 import useLocalStorage from './useLocalStorage'
 
 export const SET_CART = 'SET_CART'
@@ -32,9 +31,6 @@ export default function reducer(state, action) {
   switch (action.type) {
     case SET_CART:
       const { data: items, meta } = action.payload
-
-      console.log('FROM reducer=>', action)
-
       const cartItems = items.filter(({ type }) => type === 'cart_item')
       const promotionItems = items.filter(
         ({ type }) => type === 'promotion_item'
@@ -47,13 +43,6 @@ export default function reducer(state, action) {
       // const subTotal = meta ? meta.display_price.without_tax.amount : '00'
       const total = meta ? meta.display_price.without_tax.formatted : '00'
       const subTotal = total && parseInt(total.slice(1))
-      console.log(
-        'subTotal in cartContext ==> ',
-        subTotal,
-        meta.display_price.without_tax.formatted,
-        meta.display_price.without_tax.amount
-      )
-      console.log('subTotal type==>', typeof subTotal)
 
       return {
         ...state,
@@ -68,7 +57,6 @@ export default function reducer(state, action) {
       }
 
     case SET_RATES:
-      console.log('action.payload', action.payload)
       const shippingRates = action.payload && action.payload.data.data.rates
       let loadingAfterRate = false
       let test = {
@@ -76,7 +64,6 @@ export default function reducer(state, action) {
         shippingRates,
         loading: loadingAfterRate
       }
-      console.log('test =>', test)
 
       return test
 
@@ -84,7 +71,6 @@ export default function reducer(state, action) {
       const shipping_address = action.formData.shipping_address
       const customerDetails = action.formData.customer
       const paymentButton = true
-      console.log('action.payload SET_ADDRESS =====>>>', action)
 
       var test1 = {
         ...state,
@@ -92,11 +78,9 @@ export default function reducer(state, action) {
         customerDetails,
         paymentButton: paymentButton
       }
-      console.log('test1 => ', test1)
       return test1
 
     case SET_SELCETED_RATES:
-      console.log('SET_SELCETED_RATES==>', action)
       return {
         ...state,
         rate: action.payload.convertedRates,
@@ -162,10 +146,7 @@ function CartProvider({
       quantity,
       variations: { size, weight, cover }
     })
-    console.log('HERE is cartcontext-getCart in ADD_toCart==>', payload)
-
     dispatch({ type: SET_CART, payload })
-
     toast.success(
       `Added ${quantity} ${quantity > 1 ? 'items' : 'item'} to cart`
     )
@@ -228,7 +209,6 @@ function CartProvider({
         sku: item.sku
       })
     }
-    console.log('items => ', items)
 
     let data = {
       async: false,
@@ -260,7 +240,7 @@ function CartProvider({
           street1: 'Unit 17 Harnham Trading Estate',
           city: 'Salisbury',
           state: 'Maryland',
-          country: 'UK',
+          country: 'GBR',
           postal_code: 'SP2 8NW',
           phone: '96679797',
           email: 'test@test.test',
@@ -281,7 +261,6 @@ function CartProvider({
     }
 
     const apiKey = process.env.GATSBY_POSTMEN_API_KEY
-    console.log('headers', apiKey)
 
     let payload = await axios.post(
       'https://sandbox-api.postmen.com/v3/rates',
@@ -290,15 +269,9 @@ function CartProvider({
     )
 
     dispatch({ type: SET_RATES, payload })
-    console.log('shipping res==>', payload)
   }
 
   async function shippingCost(convertedRates, shipping_provider) {
-    console.log(
-      ' convertedRates, shipping_provider=> ',
-      convertedRates,
-      shipping_provider
-    )
     dispatch({
       type: SET_SELCETED_RATES,
       payload: { convertedRates, shipping_provider }

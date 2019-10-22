@@ -3,8 +3,30 @@ import Slider from 'react-slick'
 import { Link } from 'gatsby'
 import HelpImg from '../../images/help-img.png'
 import HelpImg2 from '../../images/help-img2.png'
+import { useStaticQuery } from 'gatsby'
 
 const HelpSlider = () => {
+  const { allContentfulCondition } = useStaticQuery(graphql`
+    query {
+      allContentfulCondition {
+        nodes {
+          slug
+          id
+          conditionName
+          description {
+            description
+          }
+          cardImage {
+            file {
+              url
+            }
+          }
+        }
+      }
+    }
+  `)
+console.log(' allContentfulCondition => ',allContentfulCondition );
+
   const settings = {
     dots: false,
     infinite: false,
@@ -17,33 +39,22 @@ const HelpSlider = () => {
       <div className="container-fluid">
         <h3>Helps you with</h3>
         <Slider {...settings}>
-          <div className="help-boxs">
-            <img src={HelpImg} />
-            <div className="help-content">
-              <h2>Stress</h2>
-              <Link to="#" className="btn btn-link">
-                Read More
-              </Link>
-            </div>
-          </div>
-          <div className="help-boxs">
-            <img src={HelpImg2} />
-            <div className="help-content">
-              <h2>Anxiety</h2>
-              <Link to="#" className="btn btn-link">
-                Read More
-              </Link>
-            </div>
-          </div>
-          <div className="help-boxs">
-            <img src={HelpImg} />
-            <div className="help-content">
-              <h2>Demo</h2>
-              <Link to="#" className="btn btn-link">
-                Read More
-              </Link>
-            </div>
-          </div>
+          {allContentfulCondition &&
+            allContentfulCondition.nodes &&
+            allContentfulCondition.nodes.map(condition => (
+              <div className="help-boxs">
+                <img
+                  src={condition.cardImage.file.url}
+                  alt={condition.cardImage.file.fileName}
+                />
+                <div className="help-content">
+                  <h2>{condition.conditionName}</h2>
+                  <Link to={`/ReadMore/${condition.slug}`} className="btn btn-link">
+                    Read More
+                  </Link>
+                </div>
+              </div>
+            ))}
         </Slider>
       </div>
     </div>

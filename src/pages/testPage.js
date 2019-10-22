@@ -7,10 +7,8 @@ import Meditate from '../images/svgImages/meditate.svg'
 
 function TestPage(){
 
-
   const scrollRef = React.createRef();
   disableBodyScroll();
-
 
   useEffect(() => {
     const scroll = new LocomotiveScroll({
@@ -21,8 +19,6 @@ function TestPage(){
 
   return (
     <>
-
-
 
     <div  ref={scrollRef}>
 
@@ -49,11 +45,6 @@ function TestPage(){
     //    <h1 className="text-6xl">Hello</h1>
     //  </div>
     //</div>*/}
-
-
-
-
-
 
     <div className="container">
 

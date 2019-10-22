@@ -1,10 +1,29 @@
 body {
     background: $midnight;
     font-family: $tksofiapro;
+
+    &.so-checkout-page {
+        background: $white;
+    }
+
 }
 
 h1, h2, h3, h4, h5, h6, p {
     font-family: $tksofiapro;
     font-weight: normal;
     margin: 0px;
+}
+
+
+.table {
+
+    .product-image {
+        width:100px;
+
+        img {
+            max-width:100%;
+        }
+
+    }
+
 }

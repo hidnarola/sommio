@@ -47,7 +47,6 @@ export default function reducer(state, action) {
         defaultPayment: defaultPayment
       }
     case PAYMENT:
-      console.log('PAYMENT  actionssssssssss=> ', action)
       const paymentDetails = action.payload
       return {
         paymentDetails: paymentDetails
@@ -86,16 +85,6 @@ function CheckoutProvider({ cartId: initialCartId, children, ...props }) {
   ) {
     const createCustomer = customer && customer.password
     let customerId
-    console.log(
-      'customer , createCustomer ==> ',
-      customerDetails,
-      createCustomer,
-      shipping_address,
-      billing_address,
-      paymentDetails,
-      shipping_cost,
-      shipping_provider_name
-    )
 
     const customItemShipping = await moltin.post(`carts/${cartId}/items`, {
       type: 'custom_item',
@@ -128,7 +117,6 @@ function CheckoutProvider({ cartId: initialCartId, children, ...props }) {
       shipping_cost,
       shipping_provider_name
     })
-    console.log('order in Checkout => ', order)
     dispatch({ type: SET_ORDER_DATA, payload: order })
     return order
   }
@@ -152,7 +140,6 @@ function CheckoutProvider({ cartId: initialCartId, children, ...props }) {
     dispatch({ type: RESET_PAYMENT })
   }
   function paymentData(paymentDetail) {
-    console.log('paymentDetails,data => ', paymentDetail)
     dispatch({ type: PAYMENT, payload: paymentDetail })
   }
 
