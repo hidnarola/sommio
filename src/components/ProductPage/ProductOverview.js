@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import ProductDetails from '../ProductPage/ProductDetails'
 import {
   TabContent,
   TabPane,
@@ -73,6 +74,9 @@ const ProductOverview = () => {
         <TabContent activeTab={activeTab}>
           <TabPane tabId="1">
             <Row>
+            <section className="reinvented-bg">
+              <ProductDetails />
+            </section>
               <Col xs="12" md="8">
                 <h3>What is it?</h3>
                 <p>
@@ -97,6 +101,7 @@ const ProductOverview = () => {
                   <li>Hypoallergenic</li>
                 </ul>
               </Col>
+
             </Row>
           </TabPane>
           <TabPane tabId="2">

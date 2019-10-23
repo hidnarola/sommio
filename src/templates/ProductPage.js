@@ -59,9 +59,7 @@ function ProductPage({ data: { product } }) {
         </div>
       </div>
 
-      <section className="reinvented-bg">
-        <ProductDetails />
-      </section>
+
 
       <section className="overviewhelp-bg">
         <ProductOverview />

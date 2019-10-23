@@ -1,5 +1,5 @@
 import React from 'react'
-import IntroducingImg from '../../images/introducing-img.png'
+import IntroducingImg from '../../images/BlanketDOFCircle.png'
 
 const ProductDetails = () => {
   return (
@@ -8,7 +8,12 @@ const ProductDetails = () => {
       <h2>Reinvented</h2>
       <div className="container-fluid">
         <div className="row no-gutters">
-          <div className="col-12 col-lg-5 d-flex flex-wrap align-items-center">
+        <div className="col-12 col-lg-12">
+          <div className="img">
+            <img src={IntroducingImg} />
+          </div>
+        </div>
+          <div className="col-12 col-lg-12 d-flex flex-wrap align-items-center">
             <div className="introducing-boxs">
               <h5>Introducing Weightex™</h5>
               <p>
@@ -17,11 +22,6 @@ const ProductDetails = () => {
                 exceptional weighted experience.
               </p>
               <button className="btn btn-primary">Discover more</button>
-            </div>
-          </div>
-          <div className="col-12 col-lg-7">
-            <div className="img">
-              <img src={IntroducingImg} />
             </div>
           </div>
         </div>
