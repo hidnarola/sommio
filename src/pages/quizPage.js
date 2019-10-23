@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Quiz = () => {
+const QuizPage = () => {
   const [steps, setSteps] = useState(0)
   const [quiz, setQuiz] = useState([
     {
@@ -142,4 +142,4 @@ const Quiz = () => {
     </div>
   )
 }
-export default Quiz
+export default QuizPage
