@@ -57,6 +57,12 @@ module.exports = {
       }
     },
     {
+      resolve: "gatsby-transformer-remark",
+      options: {
+        plugins: ["gatsby-remark-component"]
+      }
+    },
+    {
       resolve: `gatsby-source-contentful`,
       options: {
         spaceId: `1eaguqndmewd`,

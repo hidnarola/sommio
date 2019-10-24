@@ -30,7 +30,8 @@
         color: #ACC7F0;
         font-weight:900;
         margin: 0;
-        line-height: 0.75;
+        line-height: 1;
+        margin-top:-0.15em;
 
         @media (max-width:$desktop18) {
             font-size: 250px;
@@ -71,8 +72,6 @@
     }
 
     .img {
-        margin-left: 14px;
-        margin-top: -40px;
 
         @media (max-width:$desktop18) {
             margin-right: -30px;

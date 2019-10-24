@@ -13,10 +13,12 @@ import FreeDelivery from '../components/ProductPage/FreeDelivery'
 import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
 
-function ProductPage({ data: { product } }) {
+function ProductPage({ data: { product, contentful } }) {
   const [inventory, inventoryLoading, inventoryError] = useMoltinInventory(
     product
   )
+  const ContentfulProduct = contentful.edges[0].node
+  console.log(ContentfulProduct)
   return (
     <React.Fragment>
       <SEO
@@ -102,6 +104,25 @@ export const query = graphql`
         }
       }
       manage_stock
+    }
+    contentful: allContentfulProduct{
+      edges{
+        node{
+          name
+          featureSlide{
+            title
+            blanketImage {
+              fluid(maxWidth: 1800) {
+                  ...GatsbyContentfulFluid_withWebp_noBase64
+              }
+            }
+            description {
+              description
+            }
+          }
+        }
+      }
+
     }
   }
 `
