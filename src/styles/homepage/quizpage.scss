@@ -1,0 +1,32 @@
+.quiz-boxs {
+    display: flex;
+    flex-wrap: wrap;
+    border-left: solid 1px rgba($white, 0.3);
+    padding: 92px 0 105px 65px;
+    background: url(/marginalia-page-not-found.png) center center no-repeat;
+    background-size: cover;
+
+    h2 {
+        font-size: 60px;
+        color: $linkwater;
+        font-weight: 900;
+        margin: 0 0 35px;
+
+        @media (max-width:$desktop18) {
+            font-size: 40px;
+        }
+
+        span {
+            color: $madang;
+        }
+
+    }
+
+    p {
+        font-size: $FontSize24;
+        color: $linkwater;
+        line-height: 1.3;
+        margin: 0 0 50px;
+    }
+
+}

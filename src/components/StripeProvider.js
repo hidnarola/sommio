@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { StripeProvider as Stripe } from 'react-stripe-elements'
 
-function StripeProvider({ children }) {
+const StripeProvider = ({ children }) => {
   const [stripe, setStripe] = useState(null)
 
   useEffect(() => {

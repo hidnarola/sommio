@@ -1,7 +1,7 @@
 import React, { useContext , useEffect} from 'react'
 import { Link } from 'gatsby'
-import { CheckoutContext ,CartContext} from '../context'
-import OrderItems from "../components/OrderItems";
+import { CheckoutContext ,CartContext} from '../../context'
+import OrderItems from "../OrderItems";
 
 export default function OrderConfirmation(props) {
   const { orderCartItems,cleanCart,removeFromCart } = useContext(CartContext)

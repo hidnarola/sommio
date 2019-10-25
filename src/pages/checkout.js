@@ -1,34 +1,17 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
 // import { Link } from 'gatsby'
 import { CartContext, CheckoutContext } from '../context'
-import PageTitle from '../components/PageTitle'
-import CartItemList from '../components/CartItemList'
-import ShippingAddress from '../components/shippingAddress'
-import PaymentPage from '../components/paymentPage'
-import ReviewOrder from '../components/RiviewOrder'
-import OrderConfirmation from '../components/OrderConfirmation'
-function CheckoutPage() {
-  const {
-    cartId,
-    isEmpty,
-    shipping_address,
-    rate,
-    deleteCart,
-    customerDetails
-  } = useContext(CartContext)
+import ShippingAddress from '../components/Checkout/shippingAddress'
+import PaymentPage from '../components/Checkout/paymentPage'
+import ReviewOrder from '../components/Checkout/RiviewOrder'
+import OrderConfirmation from '../components/Checkout/OrderConfirmation'
+const CheckoutPage = () => {
+  const { isEmpty } = useContext(CartContext)
 
-  const {
-    defaultPayment,
-    orderId,
-    checkoutClear,
-    checkout,
-    pay,
-    paymentDetails
-  } = useContext(CheckoutContext)
+  const { defaultPayment, checkoutClear } = useContext(CheckoutContext)
   const [formEnable, setFormEnable] = useState(false)
   const [isEditable, setIsEditable] = useState(false)
   const isMounted = useRef(true)
-  const [checkoutError, setCheckoutError] = useState(null)
 
   useEffect(() => {
     let element = document.getElementsByTagName('body')[0]

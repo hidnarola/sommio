@@ -1,5 +1,5 @@
 import React ,{useContext}from 'react'
-import { CartContext } from "../context/CartContext";
+import { CartContext } from "../../context/CartContext";
 
 function ShippingSelectOption() {
   const {shippingRates,rate,shippingCost} = useContext(CartContext)

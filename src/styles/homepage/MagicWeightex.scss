@@ -1,0 +1,33 @@
+.magicweightex-main {
+    display: block;
+    text-align: center;
+
+    h2 {
+        font-size: 130px;
+        color: $bridalheath;
+        font-weight: 900;
+        margin: 0 0 30px 0;
+
+        @media (max-width:$desktop18) {
+            font-size: 80px;
+        }
+
+        span {
+            color: $madang;
+        }
+    }
+
+    p {
+        font-size: 34px;
+        color: $white;
+        font-weight: 300;
+        line-height: 37px;
+        margin: 0 0 70px;
+
+        @media (max-width:$desktop18) {
+            font-size: 28px;
+            line-height: 1.5;
+        }
+    }
+
+}

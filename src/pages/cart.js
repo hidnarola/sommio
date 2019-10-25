@@ -4,14 +4,14 @@ import { Link } from 'gatsby'
 import { CartContext } from '../context'
 import PageTitle from '../components/PageTitle'
 import CartItemList from '../components/CartItemList'
+// import CartDrawer from '../components/CartDrawer'
 
-export default function CartPage() {
+const CartPage = () => {
   const { isEmpty } = useContext(CartContext)
   return (
     <React.Fragment>
       <PageTitle title="Shopping Cart" />
       <CartItemList />
-
       {!isEmpty && (
         <div className="flex justify-end">
           <Link
@@ -25,3 +25,4 @@ export default function CartPage() {
     </React.Fragment>
   )
 }
+export default CartPage

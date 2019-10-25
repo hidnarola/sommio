@@ -1,0 +1,39 @@
+.home-service {
+    background: #ACC7F0;
+    display: flex;
+    flex-wrap: wrap;
+
+    .service-boxs {
+        width: 33.33%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 35px 70px;
+
+        @media (max-width:$desktop18) {
+            padding: 25px 30px;
+        }
+
+        img {
+            height: 90px;
+
+            @media (max-width:$desktop18) {
+                height: 70px;
+            }
+        }
+
+        p {
+            padding: 0 0 0 30px;
+            font-size: 36px;
+            color: $midnight;
+            line-height: 1;
+            font-weight: 900;
+
+            @media (max-width:$desktop18) {
+                font-size: 28px;
+            }
+        }
+
+    }
+
+}

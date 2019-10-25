@@ -1,10 +1,19 @@
 import React, { useState } from 'react'
-
+import {
+  Param1,
+  Param2,
+  Param3,
+  Param4,
+  Param5,
+  Param6,
+  Param7,
+  Param8
+} from '../components/HomePage/QuizParam'
 const QuizPage = () => {
   const [steps, setSteps] = useState(0)
   const [quiz, setQuiz] = useState([
     {
-      No: 1,
+      id: 1,
       Q: 'How easy do you find it to fall asleep at night ?',
       A: [
         'I fall asleep straight away',
@@ -13,9 +22,9 @@ const QuizPage = () => {
       ],
       S: ''
     },
-    { No: 2, Q: 'Do you have a bedtime routine?', A: ['Yes', 'No'], S: '' },
+    { id: 2, Q: 'Do you have a bedtime routine?', A: ['Yes', 'No'], S: '' },
     {
-      No: 3,
+      id: 3,
       Q: 'How do you feel when you wake up in the morning?',
       A: [
         'I feel great, full of beans and ready to face the day',
@@ -25,15 +34,69 @@ const QuizPage = () => {
       S: ''
     },
     {
-      No: 4,
+      id: 4,
       Q: 'Do you feel like you need a nap in the day?',
       A: ['Never', 'Sometimes', 'Always'],
       S: ''
     },
     {
-      No: 5,
+      id: 5,
       Q: 'Do you have trouble controlling your temperature at night?',
       A: ['Yes, all the time', 'Sometimes', 'Never'],
+      S: ''
+    },
+    {
+      id: 6,
+      Q: 'How do you feel in the day?',
+      A: [
+        'Generally pretty good',
+        'Ok, but I can get annoyed easily',
+        'Mostly grumpy and irritable'
+      ],
+      S: ''
+    },
+    {
+      id: 7,
+      Q: 'How many times do you wake in the night?',
+      A: ['Never', 'Sometimes', 'All the time'],
+      S: ''
+    },
+    {
+      id: 8,
+      Q:
+        'If you wake in the night, how long does it take to get back to sleep?',
+      A: ['Straight away', 'About 15 minutes', 'More than 15 minutes'],
+      S: ''
+    },
+    {
+      id: 9,
+      Q: 'How much time do you spend awake in the night in total?',
+      A: ['I don’t wake in the night', 'About an hour', 'More than an hour'],
+      S: ''
+    },
+    {
+      id: 10,
+      Q: 'Do you find you’re always tense and find it hard to relax?',
+      A: [
+        'No, I’m pretty chilled most of the time',
+        'Yes, sometimes I find things stressful',
+        'Yes, I’m always on edge'
+      ],
+      S: ''
+    },
+    {
+      id: 11,
+      Q: 'Do you have trouble coping with your emotions?',
+      A: [
+        'No, I’m emotionally stable',
+        'Yes, my emotions are all over the place'
+      ],
+      S: ''
+    },
+    {
+      id: 12,
+      Q: 'Do you work shifts?',
+      A: ['Yes', 'No'],
       S: ''
     }
   ])
@@ -48,93 +111,34 @@ const QuizPage = () => {
   return (
     <div>
       {quiz[steps] !== undefined ? (
-        <>
+        <div>
           <h1>Quiz</h1>
           <h4>{quiz[steps].Q}</h4>
           {quiz[steps].A.map((ans, i) => (
             <p onClick={_ => selectAnswer(steps, ans, i)}>
-              {i + 1}.{ans}
+              {i + 1}. {ans}
             </p>
           ))}
-        </>
+        </div>
       ) : (
         <div>
           <h2>Suggestions</h2>
           {quiz.map(q => {
-            if (q.No === 1 && (q.S === 1 || q.S === 2)) {
-              return (
-                <p>
-                  You could benefit from using a weighted blanket as part of
-                  your night-time routine. Using a weighted blanket during the
-                  hour before going to bed can promote the production of the
-                  sleep hormone – melatonin, preparing you for the night ahead.
-                </p>
-              )
+            if (q.id === 1 && (q.S === 1 || q.S === 2)) {
+              return <Param1 />
             } else if (q.No === 2 && q.S === 1) {
               return (
-                <>
-                  <p>
-                    If you are having trouble sleeping, it’s a good idea to get
-                    yourself into a bedtime routine. This should involve
-                    relaxing and unwinding, particularly turning off technology
-                    and maybe reading a book instead. A warm caffeine free drink
-                    or warm bath can also help.
-                  </p>
-                  <p>
-                    You could benefit from using a weighted blanket as part of
-                    your night-time routine. Using a weighted blanket during the
-                    hour before going to bed can promote the production of the
-                    sleep hormone – melatonin, preparing you for the night
-                    ahead.
-                  </p>
-                </>
+                <div>
+                  <Param2 />
+                  <Param1 />
+                </div>
               )
-            } else if (q.No === 3 && q.S === 2) {
-              return (
-                <p>
-                  It sounds like you’re not getting the quality of sleep your
-                  body needs. With the help of a weighted cover, sleep can be
-                  improved. It’s been proven that a weighted cover can lower
-                  cortisol levels (the stress hormone) due to the applied low
-                  pressure, creating a feeling of relaxation and well-being. It
-                  also promotes production of the happiness hormone - serotonin
-                  and the sleep hormone - melatonin. The reduction in cortisol
-                  and increase in serotonin and melatonin combine to make your
-                  muscles and nervous system relax making you feel comforted and
-                  cosseted which can help send you to sleep and keep you asleep.
-                </p>
-              )
-            } else if (q.No === 4 && (q.S === 1 || q.S === 2)) {
-              return (
-                <p>
-                  It sounds like you’re not getting the quality of sleep your
-                  body needs. With the help of a weighted cover, sleep can be
-                  improved. It’s been proven that a weighted cover can lower
-                  cortisol levels (the stress hormone) due to the applied low
-                  pressure, creating a feeling of relaxation and well-being. It
-                  also promotes production of the happiness hormone - serotonin
-                  and the sleep hormone - melatonin. The reduction in cortisol
-                  and increase in serotonin and melatonin combine to make your
-                  muscles and nervous system relax making you feel comforted and
-                  cosseted which can help send you to sleep and keep you asleep.
-                </p>
-              )
-            } else if (q.No === 5 && (q.S === 1 || q.S === 2)) {
-              return (
-                <p>
-                  Many of us have trouble controlling our temperature a night.
-                  This could be down to a physiological condition, such as the
-                  menopause or could simply be down to your bedroom being too
-                  hot or cold. The ideal temperature for the bedroom is about 16
-                  – 18 °C. It’s also a good idea to have an open window so that
-                  the air can circulate. Some weighted blankets on the market
-                  are very warm because they are padded, like a duvet and the
-                  weight is produced by plastic beads. Our weighted blankets are
-                  not padded, and the weight is produced by chromium alloy
-                  micro-beads which have a low specific heat capacity which
-                  means they do not retain heat.
-                </p>
-              )
+            } else if (q.id === 3 && q.S === 2) {
+              return <Param3 />
+            } else if (q.id === 4 && (q.S === 1 || q.S === 2)) {
+              return <Param3 />
+            } else if (q.id === 5 && (q.S === 1 || q.S === 2)) {
+              return <Param4 />
             }
           })}
         </div>

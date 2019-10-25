@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function Select({ options, defaultValue, ...props }) {
-  console.log("defaultValue",defaultValue);
+  console.log('defaultValue', defaultValue)
 
   return (
     <div className="inline-flex relative">
@@ -10,7 +10,7 @@ export default function Select({ options, defaultValue, ...props }) {
         {...props}
         defaultValue={defaultValue}
       >
-      {<option value="none">None</option>}
+        {<option value="none">None</option>}
         {options.map(opt => (
           <option key={opt.id} value={opt.id}>
             {opt.name}

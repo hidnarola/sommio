@@ -32,6 +32,22 @@
         padding: 0;
     }
 
+    &.btn-info {
+        background: $madang;
+        font-size: $FontSize30;
+        color: $midnight;
+        font-weight: 700;
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+
+        img {
+            height: 35px;
+            margin-left: 80px;
+        }
+
+    }
+
     &.btn-delete {
         font-size:20px;
     }
