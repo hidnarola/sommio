@@ -12,13 +12,30 @@ import HelpSlider from '../components/ProductPage/HelpSlider'
 import FreeDelivery from '../components/ProductPage/FreeDelivery'
 import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
+import TabBlock from '../components/ProductPage/TabBlock'
+import {
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Row,
+  Col
+} from 'reactstrap'
 
 function ProductPage({ data: { product, contentful } }) {
   const [inventory, inventoryLoading, inventoryError] = useMoltinInventory(
     product
   )
-  const ContentfulProduct = contentful.edges[0].node
-  console.log(ContentfulProduct)
+  let CurrentProduct
+  const ContentfulProduct = contentful.edges
+  ContentfulProduct.slice(0).map(({ node: prod }) => (
+          prod.id = product.id ? CurrentProduct = prod : console.log('not found')
+  ))
+  const Overview = CurrentProduct.overview
+  const Titles = ["Overview", "Materials","Learn","Usage","FAQ"]
+
+
   return (
     <React.Fragment>
       <SEO
@@ -64,7 +81,12 @@ function ProductPage({ data: { product, contentful } }) {
 
 
       <section className="overviewhelp-bg">
-        <ProductOverview />
+
+      <ProductOverview />
+
+
+
+
         <HelpSlider />
       </section>
 
@@ -109,6 +131,26 @@ export const query = graphql`
       edges{
         node{
           name
+          overview{
+            childMarkdownRemark {
+            html
+            }
+          }
+          feature{
+            title
+            description {
+              childMarkdownRemark {
+              html
+              excerpt(pruneLength: 80)
+              }
+            }
+            mainImage {
+              fluid(maxWidth: 1800) {
+                  ...GatsbyContentfulFluid_withWebp_noBase64
+              }
+            }
+            slug
+          }
           featureSlide{
             title
             blanketImage {
@@ -117,7 +159,10 @@ export const query = graphql`
               }
             }
             description {
-              description
+              childMarkdownRemark {
+              html
+              excerpt(pruneLength: 80)
+              }
             }
           }
         }

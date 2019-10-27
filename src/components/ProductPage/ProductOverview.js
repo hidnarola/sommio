@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import ProductDetails from '../ProductPage/ProductDetails'
+
 import {
   TabContent,
   TabPane,
@@ -10,12 +10,19 @@ import {
   Col
 } from 'reactstrap'
 import classnames from 'classnames'
-const ProductOverview = () => {
+console.log('hello')
+const ProductOverview = ({
+  overview,
+  name,
+
+  ...props
+}) => {
   const [activeTab, setActiveTab] = useState('1')
 
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab)
   }
+
   return (
     <div className="product-tabs">
       <div className="container-fluid">
@@ -74,9 +81,9 @@ const ProductOverview = () => {
         <TabContent activeTab={activeTab}>
           <TabPane tabId="1">
             <Row>
-            <section className="reinvented-bg">
-              <ProductDetails />
-            </section>
+              <Col sm="12">
+                <h4>Tab 1 Contents</h4>
+              </Col>
 
 
             </Row>
