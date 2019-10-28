@@ -13,6 +13,7 @@ import FreeDelivery from '../components/ProductPage/FreeDelivery'
 import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
 import TabBlock from '../components/ProductPage/TabBlock'
+
 import {
   TabContent,
   TabPane,
@@ -81,8 +82,13 @@ function ProductPage({ data: { product, contentful } }) {
 
 
       <section className="overviewhelp-bg">
+      <div className="product-tabs">
+        <div className="container-fluid">
+          <TabBlock>
 
-      <ProductOverview />
+          </TabBlock>
+          </div>
+        </div>
 
 
 

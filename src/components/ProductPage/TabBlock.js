@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Component, useState } from 'react'
 import ProductDetails from '../ProductPage/ProductDetails'
 import {
   TabContent,
@@ -11,46 +11,92 @@ import {
 } from 'reactstrap'
 import classnames from 'classnames'
 
-const TabBlock = ({
-  titles,
-  ...props
-}) => {
-  const [activeTab, setActiveTab] = useState('1')
+const navItem = ({ children, tabId, toggle, activeTabId, ...props }) => {
+  const wrappedChildren =
+    typeof children === "string" ? (
+      <NavLink className={classnames({ active: activeTabId === tabId })}>
+        <div className="d-flex align-content-center flex-wrap">
+          <div className="m-1"> {children}</div>
+        </div>
+      </NavLink>
+    ) : typeof children === "function" ? (
+      children({ tabId, activeTabId, toggle })
+    ) : null;
+  const NavItemChild = React.cloneElement(wrappedChildren, {
+    ...props,
 
-  const toggle = tab => {
-    if (activeTab !== tab) setActiveTab(tab)
+    onClick: function() {
+      toggle(tabId);
+      wrappedChildren.props &&
+        wrappedChildren.props.onClick &&
+        wrappedChildren.props.onClick(tabId);
+    }
+  });
+  return <NavItem {...props}>{NavItemChild}</NavItem>;
+};
+
+
+
+
+
+
+class TabBlock extends Component {
+  static defaultProps = { defaultActiveTab: 1 };
+  state = {
+    currentTabCount: 0,
+    tabs: [],
+    activeTab: this.props.defaultActiveTab
+  }
+  static NavItem = navItem;
+  addTab = (tabTitle, tabContent) => {
+    this.setState(
+      state => {
+        const { tabs, currentTabCount, activeTab } = state;
+        const wrappedTitle = <TabBlock.NavItem>{tabTitle}</TabBlock.NavItem>;
+
+        const tabId = currentTabCount + 1;
+
+        const newActiveTab = this.props.openTabImmediately ? tabId : activeTab;
+
+        return {
+          tabs: [...tabs, { tabTitle: wrappedTitle, tabContent, tabId }],
+          currentTabCount: tabId,
+          activeTab: newActiveTab
+        };
+    });
+  };
+  static Tab = ({ title, children, ...props }) => {
+    return (
+      ({ addTab }) => {
+        if (!children.props.added) {
+          children = React.cloneElement(children, {
+            added: true
+          });
+          addTab(title, children, false);
+        }
+        return null;
+      }
+    );
+  };
+  toggle = tab => {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab,
+        reRender: !this.state.reRender
+      });
+    }
+  };
+  componentDidMount() {
+    this.setState({ activeTab: this.props.defaultActiveTab });
   }
 
-  console.log(titles)
 
-
-
-  return(
-    <div className="product-tabs">
-      <div className="container-fluid">
-        <Nav tabs>
-          {titles.map((title, key) => (
-            <NavItem>
-              <NavLink
-                className={classnames({ active: activeTab === key + 1 })}
-                onClick={() => {
-                  toggle(key + 1)
-                }}
-              >
-                {title}
-              </NavLink>
-            </NavItem>
-          ))}
-        </Nav>
-        <TabContent activeTab={activeTab}>
-            {props.children}
-
-
-        </TabContent>
-      </div>
-    </div>
-
-  )
+  render(){
+    const { tabs } = this.state;
+    return(
+      <h1>Hello There</h1>
+    )
+  }
 }
 
 export default TabBlock
