@@ -8,11 +8,50 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01122c', endColorstr='#01122c',GradientType=0 );
     background-size: auto 200%;
 }
+.nav-tabs{
+
+   .nav-link{
+     text-align: center;
+      padding: 30px 0;
+      font-size: 30px;
+      color:
+      #fff;
+      font-weight: 700;
+      border: 0;
+          border-bottom-color: currentcolor;
+          border-bottom-style: none;
+          border-bottom-width: 0px;
+      border-bottom: solid 2px
+      transparent;
+      border-radius: 0;
+      line-height: 1;
+      cursor: pointer;
+      flex:1;
+      border-right:2px solid rgba(255,255,255,0.3);
+
+      &:last-child{
+        border-right:none;
+      }
+
+
+      &.active{
+        border-bottom-color: #ACF0B5;
+        background:none;
+        color:#ACF0B5;
+      }
+   }
+   .nav-item.show{
+     .nav-link{}
+   }
+
+
+ }
 
 .product-tabs {
     display: block;
     position: relative;
     margin: 0px 0;
+    padding-bottom:40px;
 
     .nav.nav-tabs {
         border: solid 2px rgba($white, 0.3);

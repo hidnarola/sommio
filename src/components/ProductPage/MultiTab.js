@@ -1,21 +1,19 @@
 import React from "react";
-import { TabContent, TabPane, Nav, NavItem, NavLink, Button } from "reactstrap";
+import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
 
-const navItem = ({
-  children,
-  tabId,
-  toggle,
-  activeTabId,
-  ...props }) => {
-  const wrappedChildren = typeof children === "string" ? (
+const MultiTabContext = React.createContext();
+
+const navItem = ({ children, tabId, toggle, activeTabId, ...props }) => {
+  const wrappedChildren =
+    typeof children === "string" ? (
       <NavLink className={classnames({ active: activeTabId === tabId })}>
         <div className="d-flex align-content-center flex-wrap">
           <div className="m-1"> {children}</div>
         </div>
       </NavLink>
     ) : typeof children === "function" ? (
-      children({ tabId, activeTabId, toggle })
+      children({ tabId, activeTabId,  toggle })
     ) : null;
   const NavItemChild = React.cloneElement(wrappedChildren, {
     ...props,
@@ -32,20 +30,21 @@ const navItem = ({
 
 
 class MultiTabs extends React.Component {
-  static defaultProps = { defaultActiveTab: 1 };
+  static defaultProps = { openTabImmediately: false, defaultActiveTab: 1 };
   state = {
     currentTabCount: 0,
     tabs: [],
     activeTab: this.props.defaultActiveTab
   };
-
   static NavItem = navItem;
-
   addTab = (tabTitle, tabContent) => {
     this.setState(state => {
       const { tabs, currentTabCount, activeTab } = state;
       const wrappedTitle = <MultiTabs.NavItem>{tabTitle}</MultiTabs.NavItem>;
+
       const tabId = currentTabCount + 1;
+
+      const newActiveTab = this.props.openTabImmediately ? tabId : activeTab;
 
       return {
         tabs: [...tabs, { tabTitle: wrappedTitle, tabContent, tabId }],
@@ -54,7 +53,6 @@ class MultiTabs extends React.Component {
       };
     });
   };
-
   static Tab = ({ title, children, ...props }) => {
     return (
       <MultiTabContext.Consumer>
@@ -70,7 +68,6 @@ class MultiTabs extends React.Component {
       </MultiTabContext.Consumer>
     );
   };
-
   toggle = tab => {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -107,7 +104,6 @@ class MultiTabs extends React.Component {
                   React.cloneElement(tabTitle, {
                     key: tabId,
                     tabId,
-                    close: this.close,
                     toggle: this.toggle,
                     activeTabId: this.state.activeTab
                   })
@@ -130,3 +126,4 @@ class MultiTabs extends React.Component {
   }
 }
 export default MultiTabs;
+export { MultiTabContext };

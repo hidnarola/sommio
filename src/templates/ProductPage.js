@@ -12,17 +12,38 @@ import HelpSlider from '../components/ProductPage/HelpSlider'
 import FreeDelivery from '../components/ProductPage/FreeDelivery'
 import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
-import TabBlock from '../components/ProductPage/TabBlock'
+import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
 
-import {
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-  Col
-} from 'reactstrap'
+import Button from 'react-bootstrap/Button'
+
+
+
+import Tab from 'react-bootstrap/Tab'
+import Tabs from 'react-bootstrap/Tabs'
+
+import styled from "styled-components"
+const OverviewContain = styled.section`
+  display:grid;
+`
+const TitleContain = styled.div`
+  margin:0 15px;
+  padding-bottom:20px;
+
+  h2{
+    font-size:5em;
+    color:
+    #ACC7F0;
+    font-weight: 900;
+    margin: 0;
+    line-height: 1;
+
+    &:first-child{
+      color:#ffffff
+    }
+
+  }
+`
 
 function ProductPage({ data: { product, contentful } }) {
   const [inventory, inventoryLoading, inventoryError] = useMoltinInventory(
@@ -31,12 +52,13 @@ function ProductPage({ data: { product, contentful } }) {
   let CurrentProduct
   const ContentfulProduct = contentful.edges
   ContentfulProduct.slice(0).map(({ node: prod }) => (
-          prod.id = product.id ? CurrentProduct = prod : console.log('not found')
+          prod.moltinId === product.id ? CurrentProduct = prod : console.log("no match")
   ))
-  const Overview = CurrentProduct.overview
   const Titles = ["Overview", "Materials","Learn","Usage","FAQ"]
-
-
+  const Overview = CurrentProduct.overview
+  const Faq = CurrentProduct.faqQuestions
+  const Features = CurrentProduct.feature
+  console.log(Overview)
   return (
     <React.Fragment>
       <SEO
@@ -84,16 +106,56 @@ function ProductPage({ data: { product, contentful } }) {
       <section className="overviewhelp-bg">
       <div className="product-tabs">
         <div className="container-fluid">
-          <TabBlock>
+        <Tabs defaultActiveKey="overview" id="uncontrolled-tab-example">
+          <Tab eventKey="overview" title="Overview">
+          <OverviewContain>
+            <TitleContain dangerouslySetInnerHTML={{
+                  __html: Overview.childMarkdownRemark.html,
+                }}
+            />
+            <ul>
+            {Features.map((element, index) => (
+              <li>{element.title}</li>
+            ))}
+            </ul>
+            </OverviewContain>
+          </Tab>
+          <Tab eventKey="materials" title="Materials">
+            <p>two</p>
+          </Tab>
+          <Tab eventKey="learn" title="Learn" >
 
-          </TabBlock>
+              <HelpSlider />
+
+          </Tab>
+          <Tab eventKey="usage" title="Usage" >
+            <HelpSlider />
+          </Tab>
+          <Tab eventKey="faq" title="Quick Help" >
+            <h3>Quick Help</h3>
+            <Accordion defaultActiveKey="0">
+              {Faq.map((element, index) => (
+                <Card>
+                  <Accordion.Toggle as={Card.Header} eventKey={index}>
+                    {element.question}
+                  </Accordion.Toggle>
+                  <Accordion.Collapse eventKey={index}>
+                    <Card.Body dangerouslySetInnerHTML={{
+                          __html: element.answer.childMarkdownRemark.html,
+                        }}
+                    />
+                  </Accordion.Collapse>
+                </Card>
+              ))}
+            </Accordion>
+          </Tab>
+        </Tabs>
           </div>
         </div>
 
 
 
 
-        <HelpSlider />
       </section>
 
       <FreeDelivery />
@@ -137,6 +199,7 @@ export const query = graphql`
       edges{
         node{
           name
+          moltinId
           overview{
             childMarkdownRemark {
             html
@@ -156,6 +219,27 @@ export const query = graphql`
               }
             }
             slug
+          }
+          feature{
+            title
+            description{
+              childMarkdownRemark {
+              html
+              }
+            }
+            mainImage{
+              fluid(maxWidth: 1800) {
+                  ...GatsbyContentfulFluid_withWebp_noBase64
+              }
+            }
+          }
+          faqQuestions{
+            question
+            answer{
+              childMarkdownRemark {
+              html
+              }
+            }
           }
           featureSlide{
             title

@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet'
 import Header from './Header'
 import Banner from './Banner'
 import Footer from './Footer'
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css'
 import '../../styles/main.scss'
 
