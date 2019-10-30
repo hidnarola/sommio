@@ -1,4 +1,5 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import { graphql, withPrefix } from 'gatsby'
 import useMoltinInventory from '../hooks/useMoltinInventory'
 import SEO from '../components/SEO'
@@ -12,20 +13,24 @@ import HelpSlider from '../components/ProductPage/HelpSlider'
 import FreeDelivery from '../components/ProductPage/FreeDelivery'
 import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
+import FeatureSlider from '../components/ProductPage/FeatureSlider'
+import FeatureSlide from '../components/ProductPage/FeatureSlide'
+
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
-
 import Button from 'react-bootstrap/Button'
-
-
-
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+
+
 
 import styled from "styled-components"
-const OverviewContain = styled.section`
-  display:grid;
-`
+
+
+
 const TitleContain = styled.div`
   margin:0 15px;
   padding-bottom:20px;
@@ -45,7 +50,20 @@ const TitleContain = styled.div`
   }
 `
 
+const DarkRow = styled(Row)`
+background:#040c24;
+padding: 40px 20px;
+margin-top: 20px;
+border: solid 2px rgba(255,255,255,0.3);
+
+h3{
+  width:100%;
+  padding-left:15px;
+}
+`
 function ProductPage({ data: { product, contentful } }) {
+
+
   const [inventory, inventoryLoading, inventoryError] = useMoltinInventory(
     product
   )
@@ -58,9 +76,14 @@ function ProductPage({ data: { product, contentful } }) {
   const Overview = CurrentProduct.overview
   const Faq = CurrentProduct.faqQuestions
   const Features = CurrentProduct.feature
-  console.log(Overview)
+  const FeatureSlides = CurrentProduct.featureSlide[0]
+  let Headings = CurrentProduct.overviewHeading.split(" ")
+  const LastWord = Headings.pop()
+  Headings = Headings.join(" ")
+  console.log(FeatureSlides);
   return (
-    <React.Fragment>
+
+    <React.Fragment >
       <SEO
         type="product"
         title={product.meta_title || product.name}
@@ -71,7 +94,6 @@ function ProductPage({ data: { product, contentful } }) {
             : Noimage
         )}
       />
-
       <div className="container-fluid">
         <div className="row no-gutters">
           <div className="col-12 col-lg-8">
@@ -108,17 +130,33 @@ function ProductPage({ data: { product, contentful } }) {
         <div className="container-fluid">
         <Tabs defaultActiveKey="overview" id="uncontrolled-tab-example">
           <Tab eventKey="overview" title="Overview">
-          <OverviewContain>
-            <TitleContain dangerouslySetInnerHTML={{
-                  __html: Overview.childMarkdownRemark.html,
-                }}
-            />
-            <ul>
-            {Features.map((element, index) => (
-              <li>{element.title}</li>
-            ))}
-            </ul>
-            </OverviewContain>
+          <Container fluid>
+            <Row>
+              <TitleContain><h2 >{Headings}</h2><h2>{LastWord}</h2></TitleContain>
+            </Row>
+            <DarkRow>
+              <h3>What is it?</h3>
+              <Col md={8}>
+                <div dangerouslySetInnerHTML={{
+                      __html: Overview.childMarkdownRemark.html,
+                    }}
+                />
+              </Col>
+              <Col md={4} className="justify-content-md-center d-flex">
+                <ul>
+                {Features.map((element, index) => (
+                  <li >{element.title}</li>
+                ))}
+                </ul>
+              </Col>
+            </DarkRow>
+            </Container>
+              <FeatureSlider >
+                <FeatureSlide {...FeatureSlides} / >
+                <FeatureSlide {...FeatureSlides} / >
+              </FeatureSlider>
+
+
           </Tab>
           <Tab eventKey="materials" title="Materials">
             <p>two</p>
@@ -160,6 +198,7 @@ function ProductPage({ data: { product, contentful } }) {
 
       <FreeDelivery />
     </React.Fragment>
+
   )
 }
 
@@ -200,25 +239,11 @@ export const query = graphql`
         node{
           name
           moltinId
+          overviewHeading
           overview{
             childMarkdownRemark {
             html
             }
-          }
-          feature{
-            title
-            description {
-              childMarkdownRemark {
-              html
-              excerpt(pruneLength: 80)
-              }
-            }
-            mainImage {
-              fluid(maxWidth: 1800) {
-                  ...GatsbyContentfulFluid_withWebp_noBase64
-              }
-            }
-            slug
           }
           feature{
             title

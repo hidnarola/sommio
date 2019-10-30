@@ -1,0 +1,101 @@
+.featureSlider{
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 80px;
+    margin-top:40px;
+
+    h2 {
+        display: block;
+        font-size: 50px;
+        color: $white;
+        font-weight: 700;
+        margin: 0 0 40px 0;
+        padding:10px 0
+    }
+
+    h3 {
+        display: block;
+        font-size: 45px;
+        color: $white;
+        font-weight: 700;
+        padding:20px
+    }
+
+
+    .slick-slider {
+        position: relative;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-radius: 3px;
+
+        .row{
+          margin-left:0;
+        }
+
+        .header{
+          background: $bluezodiac;
+
+          h3{margin-bottom:0px}
+        }
+
+
+        .slick-arrow {
+            position: absolute;
+            left: auto;
+            right: 25px;
+            top: 55px;
+            width: 70px;
+            height: 70px;
+            z-index:99;
+
+            @media (max-width:$desktop18) {
+                left: 35%;
+                width: 50px;
+                height: 50px;
+            }
+
+            &.slick-prev {
+                left:auto;
+                right: 120px;
+
+                @media (max-width:$desktop18) {
+                    left: 30%;
+                }
+
+                &:before {
+                    content: '';
+                    background-image: url(/slick-prev.svg);
+                }
+
+            }
+
+            &.slick-next {
+
+                &:before {
+                    content: '';
+                    background-image: url(/slick-next.svg);
+                }
+
+            }
+
+            &:before {
+                font-size: 45px;
+                background-color: rgba(129, 213, 244, 0.4);
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: auto 50%;
+                border-radius: 50%;
+                width: 70px;
+                height: 70px;
+                display: block;
+
+                @media (max-width:$desktop18) {
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+
+        }
+
+    }
+
+}

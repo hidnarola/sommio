@@ -20,6 +20,7 @@ const toastOptions = {
 }
 
 export default function Layout({ children }) {
+
   const { site, categories, collections } = useStaticQuery(categoriesQuery)
 
   return (
@@ -39,8 +40,9 @@ export default function Layout({ children }) {
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
       </Helmet>
+
       <Header siteTitle={site.siteMetadata.title} collections={collections} />
-      <main>{children}</main>
+      <main >{children}</main>
       {/* <Banner /> */}
       {/* <Footer categories={categories} /> */}
       <ToastContainer {...toastOptions} />
