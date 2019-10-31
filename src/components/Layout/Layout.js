@@ -21,6 +21,7 @@ const toastOptions = {
 
 export default function Layout({ children }) {
 
+
   const { site, categories, collections } = useStaticQuery(categoriesQuery)
 
   return (
@@ -45,6 +46,7 @@ export default function Layout({ children }) {
       <main >{children}</main>
       {/* <Banner /> */}
       {/* <Footer categories={categories} /> */}
+
       <ToastContainer {...toastOptions} />
     </>
   )

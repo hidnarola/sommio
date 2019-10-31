@@ -51,16 +51,33 @@ const TitleContain = styled.div`
 `
 
 const DarkRow = styled(Row)`
-background:#040c24;
-padding: 40px 20px;
-margin-top: 20px;
-border: solid 2px rgba(255,255,255,0.3);
+margin: 20px 0 40px 0;
+
 
 h3{
   width:100%;
-  padding-left:15px;
 }
 `
+const ImageGrid = styled.div`
+  display:grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  width:100%;
+  height:70vh;
+
+  div{
+    width:100%;
+    display:flex;
+    align-items:end;
+    overflow:hidden;
+    &:first-child{
+      grid-row-start: 1;
+      grid-row-end: 3;
+    }
+    img{width:100%}
+  }
+`
+
 function ProductPage({ data: { product, contentful } }) {
 
 
@@ -135,14 +152,16 @@ function ProductPage({ data: { product, contentful } }) {
               <TitleContain><h2 >{Headings}</h2><h2>{LastWord}</h2></TitleContain>
             </Row>
             <DarkRow>
+              <Col md={12}>
               <h3>What is it?</h3>
-              <Col md={8}>
+              </Col>
+              <Col md={9}>
                 <div dangerouslySetInnerHTML={{
                       __html: Overview.childMarkdownRemark.html,
                     }}
                 />
               </Col>
-              <Col md={4} className="justify-content-md-center d-flex">
+              <Col md={3} className="justify-content-md-center d-flex">
                 <ul>
                 {Features.map((element, index) => (
                   <li >{element.title}</li>
@@ -150,7 +169,13 @@ function ProductPage({ data: { product, contentful } }) {
                 </ul>
               </Col>
             </DarkRow>
+
             </Container>
+            <ImageGrid>
+            <div><img src="https://cdn.shopify.com/s/files/1/0064/3262/0633/t/35/assets/sleepings.png?128218" /></div>
+            <div><img src="https://cdn.shopify.com/s/files/1/0064/3262/0633/t/35/assets/sleeping-sheets-2.png?128218" /></div>
+            <div><img src="https://cdn.shopify.com/s/files/1/0064/3262/0633/t/35/assets/pillow.png?128218" /></div>
+            </ImageGrid>
               <FeatureSlider >
                 <FeatureSlide {...FeatureSlides} / >
                 <FeatureSlide {...FeatureSlides} / >
