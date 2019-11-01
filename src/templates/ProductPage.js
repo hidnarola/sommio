@@ -11,7 +11,6 @@ import ProductTitle from '../components/ProductPage/ProductTitle'
 import ProductDetails from '../components/ProductPage/ProductDetails'
 import HelpSlider from '../components/ProductPage/HelpSlider'
 import FreeDelivery from '../components/ProductPage/FreeDelivery'
-import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
 import FeatureSlider from '../components/ProductPage/FeatureSlider'
 import FeatureSlide from '../components/ProductPage/FeatureSlide'
@@ -176,10 +175,7 @@ function ProductPage({ data: { product, contentful } }) {
             <div><img src="https://cdn.shopify.com/s/files/1/0064/3262/0633/t/35/assets/sleeping-sheets-2.png?128218" /></div>
             <div><img src="https://cdn.shopify.com/s/files/1/0064/3262/0633/t/35/assets/pillow.png?128218" /></div>
             </ImageGrid>
-              <FeatureSlider >
-                <FeatureSlide {...FeatureSlides} / >
-                <FeatureSlide {...FeatureSlides} / >
-              </FeatureSlider>
+
 
 
           </Tab>
