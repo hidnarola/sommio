@@ -17,13 +17,13 @@ const CartButton = () => {
 
   const handleToggle = () => {
     setToggle()
-    let element = document.getElementsByTagName('body')[0]
-    if (toggle === false) {
-      element.classList.add('so-checkout-page')
-      // isMounted.current = false
-    } else {
-      element.classList.remove('so-checkout-page')
-    }
+    // let element = document.getElementsByTagName('body')[0]
+    // if (toggle === false) {
+    //   element.classList.add('so-checkout-page')
+    //   // isMounted.current = false
+    // } else {
+    //   element.classList.remove('so-checkout-page')
+    // }
   }
   return (
     <div>
