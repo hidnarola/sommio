@@ -54,33 +54,6 @@ const CartButton = () => {
             </button>
           </div>
           <CartItemList cartButton={true} />
-          {!isEmpty && (
-            <div className="cartsliderbar-footer">
-              <div className="total-list">
-                <ul>
-                  <li>
-                    Subtotal(tax inc){' '}
-                    <span className="ml-auto">£{subTotal}</span>
-                  </li>
-                  <li>
-                    Shipping{' '}
-                    <span className="ml-auto">
-                      {rate ? `£ ${rate}` : 'Free'}
-                    </span>
-                  </li>
-                  <li>
-                    Total <span className="ml-auto">£{subTotal + rate}</span>
-                  </li>
-                </ul>
-              </div>
-              <Link
-                to="/checkout"
-                className="btn btn-info rounded-0 justify-content-center py-4 mx-2"
-              >
-                Checkout
-              </Link>
-            </div>
-          )}
           {/* <Link to="/products">Shop Products</Link> */}
         </div>
       </div>
