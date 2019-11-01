@@ -1,22 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'gatsby'
-
 import { CartContext, CheckoutContext } from '../../context'
-// import {  CustomerContext } from '../../context'
-
+import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
+import CartItemList from '../CartItemList'
 import Logo from '../../images/logo.png'
 import CartIcon from '../../images/shopping-basket-duotone.svg'
+import CartButton from '../CartButton'
 
-const Header = ({ siteTitle, collections }) => {
+const Header = ({ siteTitle, collections }, props) => {
+  // const { buttonLabel, className } = props
   const { count, isEmpty } = useContext(CartContext)
   const { orderId } = useContext(CheckoutContext)
+  const [modal, setModal] = useState(false)
 
+  const toggle = () => setModal(!modal)
   return (
     <div>
       {window.location.pathname === '/checkout' ? (
         <header className="header-checkout">
           {!orderId ? (
-            <Link to="/cart" className="backcart-btn">
+            <Link className="backcart-btn">
               <svg
                 class="StyledBackArrow-amagyn-6 fIdZUy"
                 width="6px"
@@ -60,9 +63,9 @@ const Header = ({ siteTitle, collections }) => {
         <header>
           <div className="container-fluid">
             <div className="navbar navbar-expand-lg">
-              <a className="navbar-brand" href="#">
+              <Link className="navbar-brand" to="/">
                 <img src={Logo} />
-              </a>
+              </Link>
               <button
                 className="navbar-toggler"
                 type="button"
@@ -92,12 +95,7 @@ const Header = ({ siteTitle, collections }) => {
                 </ul>
                 <ul className="navbar-nav cart-boxs">
                   <li className="nav-item">
-                    <Link to="/cart">
-                      <img src={CartIcon} />
-                      <span className="count-number">
-                        {isEmpty && count === 0 ? 0 : count}
-                      </span>
-                    </Link>
+                    <CartButton />
                   </li>
                 </ul>
               </div>

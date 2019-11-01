@@ -12,8 +12,13 @@ export const SET_ADDRESS = 'SET_ADDRESS'
 export const SET_SELCETED_RATES = 'SET_SELCETED_RATES'
 export const SET_LOADING = 'SET_LOADING'
 export const CLEAN_CART = 'CLEAN_CART'
+export const SET_TOGGLE = 'SET_TOGGLE'
+export const SET_VARIATION = 'SET_VARIATION'
 
 export const initialState = {
+  Size: 'single',
+  Weight: 6,
+  Cover: 'Plush',
   count: 0,
   items: [],
   cartItems: [],
@@ -24,7 +29,8 @@ export const initialState = {
   rate: 0,
   paymentButton: false,
   shippingProvider: null,
-  orderCartItems: []
+  orderCartItems: [],
+  toggle: false
 }
 
 export default function reducer(state, action) {
@@ -107,7 +113,19 @@ export default function reducer(state, action) {
         paymentButton: false,
         shippingProvider: null
       }
-
+    case SET_VARIATION:
+      console.log('My Log', action)
+      var obj = {}
+      obj[action.payload.name] = action.payload.value
+      return {
+        ...state,
+        ...obj
+      }
+    case SET_TOGGLE:
+      return {
+        ...state,
+        toggle: !state.toggle
+      }
     default:
       return state
   }
@@ -118,7 +136,7 @@ let CartContext
 const { Provider, Consumer } = (CartContext = createContext())
 
 function CartProvider({
-  productImage,
+  porductImage,
   clientId,
   cartId: initialCartId = createCartIdentifier(),
   children,
@@ -277,6 +295,14 @@ function CartProvider({
       payload: { convertedRates, shipping_provider }
     })
   }
+  function setToggle() {
+    dispatch({ type: SET_TOGGLE })
+  }
+  function setVariation(name, value) {
+    console.log('e Hiiii=> ', value)
+
+    dispatch({ type: SET_VARIATION, payload: { name, value } })
+  }
   function cleanCart() {
     dispatch({ type: CLEAN_CART })
   }
@@ -295,7 +321,9 @@ function CartProvider({
         deleteCart,
         shippingCostCalculate,
         shippingCost,
-        cleanCart
+        cleanCart,
+        setToggle,
+        setVariation
       }}
     >
       {children}

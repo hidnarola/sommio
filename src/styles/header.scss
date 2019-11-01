@@ -56,11 +56,14 @@
             .nav-item {
                 display: block;
 
-                a {
+                button {
                     display: flex;
                     // flex-wrap: wrap;
                     align-content: center;
                     text-decoration: none;
+                    background: none;
+                    border: 0;
+                    outline: 0;
 
                     span.count-number {
                         display: flex;
@@ -75,6 +78,317 @@
                         background: $apricotpeach;
                         border-radius: 50%;
                         margin-left: 10px;
+                    }
+
+                }
+
+                .cartsliderbar-main {
+                    position: fixed;
+                    right: 0px;
+                    top: 0;
+                    bottom: 0;
+                    width: 100%;
+                    // background: rgba($bluezodiac, 0.5);
+                    display: flex;
+                    flex-wrap: wrap;
+                    z-index: 9;
+                    transition: all 0.5s;
+
+                    &.hide {
+                        right: -100%;
+
+                        .overlay {
+                            display: none;
+                        }
+                    }
+
+                    &.show {
+                        right: 0;
+
+                        .overlay {
+                            display: block;
+                        }
+                    }
+
+                    .overlay {
+                        position: fixed;
+                        right: 0;
+                        top: 0;
+                        bottom: 0;
+                        left: 0;
+                        background: rgba($bluezodiac, 0.5);
+                        z-index: 1;
+                        display: none;
+                    }
+
+                    .cartsliderbar-boxs {
+                        width: 650px;
+                        background: $bluezodiac;
+                        margin-left: auto;
+                        height: 100%;
+                        overflow: auto;
+                        z-index: 9;
+                        position: relative;
+
+                        @media (max-width:$desktop18) {
+                            width: 450px;
+                        }
+
+                        .cartsliderbar-header {
+                            display: flex;
+                            flex-wrap: wrap;
+                            border-bottom: solid 2px rgba($white, 0.3);
+                            padding: 25px;
+                            align-items: center;
+
+                            @media (max-width:$desktop18) {
+                                padding: 20px;
+                            }
+
+                            h3 {
+                                font-size: 60px;
+                                color: $white;
+                                line-height: 1;
+                                font-weight: 900;
+
+                                @media (max-width:$desktop18) {
+                                    font-size: 45px;
+                                }
+                            }
+
+                            .close {
+                                margin-left: auto;
+                                opacity: 1;
+
+                                svg {
+                                    fill: $apricotpeach;
+                                }
+
+                            }
+
+                        }
+
+                        .cartsliderbar-boby {
+                            display: block;
+                            height: calc(100vh - 252px - 112px);
+                            overflow: auto;
+
+                            .cartsliderbar-item {
+                                display: flex;
+                                flex-wrap: wrap;
+                                align-items: center;
+                                padding: 25px 38px 25px 25px;
+
+                                @media (max-width:$desktop18) {
+                                    padding: 15px;
+                                }
+
+                                .product-image {
+                                    width: 150px;
+                                    display: block;
+
+                                    @media (max-width:$desktop18) {
+                                        width: 100px;
+                                    }
+
+                                    img {
+                                        max-width: 100%;
+                                        display: block;
+                                        height: 150px;
+
+                                        @media (max-width:$desktop18) {
+                                            height: 100px;
+                                        }
+
+                                    }
+                                }
+
+                                .content {
+                                    display: block;
+                                    width: calc(100% - 150px - 70px);
+                                    padding: 0 0 0 25px;
+
+                                    @media (max-width:$desktop18) {
+                                        width: calc(100% - 100px - 50px);
+                                        padding: 0 0 0 15px;
+                                    }
+
+                                    h4 {
+                                        font-size: $FontSize29;
+                                        font-weight: 900;
+                                        color: $white;
+                                        line-height: 1;
+                                        margin: 0 0 10px 0;
+
+                                        @media (max-width:$desktop18) {
+                                            font-size: $FontSize20;
+                                        }
+                                    }
+
+                                    ul {
+                                        padding: 0;
+                                        margin: 0 0 15px;
+                                        list-style: none;
+
+                                        li {
+                                            padding: 0;
+                                            margin: 0;
+                                            font-size: $FontSize18;
+                                            color: $bridalheath;
+                                            line-height: 1.4;
+                                            font-weight: 400;
+
+                                            @media (max-width:$desktop18) {
+                                                font-size: $FontSize16;
+                                            }
+                                        }
+
+                                    }
+
+                                    .price {
+                                        display: block;
+                                        font-size: $FontSize20;
+                                        font-weight: 900;
+                                        color: $white;
+                                        margin: 0;
+                                        line-height: 1;
+
+                                        @media (max-width:$desktop18) {
+                                            font-size: $FontSize18;
+                                        }
+                                    }
+
+                                }
+
+                                .qty-remove {
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    justify-content: flex-end;
+                                    width: 70px;
+
+                                    @media (max-width:$desktop18) {
+                                        width: 50px;
+                                    }
+
+                                    .qty-boxs {
+                                        width: 20px;
+
+                                        button {
+                                            padding: 0;
+                                            margin: 0;
+                                            width: 20px;
+                                            height: 20px;
+                                            font-size: 19px;
+                                            color: $white;
+                                            font-weight: 500;
+                                            justify-content: center;
+                                            display: flex;
+                                            flex-wrap: wrap;
+                                            align-content: center;
+                                            line-height: 1;
+                                            position: relative;
+
+                                            &.minus-icon::before {
+                                                content: '';
+                                                position: absolute;
+                                                left: 50%;
+                                                top: 50%;
+                                                transform: translate(-50%, -50%);
+                                                border: solid 12px transparent;
+                                                border-bottom: solid 15px #58677A;
+                                                border-top-width: 0;
+                                            }
+
+                                            &.minus-icon:hover::before {
+                                                border-bottom-color: $madang;
+                                            }
+
+                                            &.plus-icon::before {
+                                                content: '';
+                                                position: absolute;
+                                                left: 50%;
+                                                top: 50%;
+                                                transform: translate(-50%, -50%);
+                                                border: solid 12px transparent;
+                                                border-top: solid 15px #58677A;
+                                                border-bottom-width: 0;
+                                            }
+
+                                            &.plus-icon:hover::before {
+                                                border-top-color: $madang;
+                                            }
+
+                                        }
+
+                                        .quantity-text {
+                                            display: block;
+                                            width: 100%;
+                                            font-size: $FontSize25;
+                                            color: $white;
+                                            font-weight: 900;
+                                            line-height: 1;
+                                            margin: 0;
+                                            padding: 20px 0;
+                                            text-align: center;
+
+                                            @media (max-width:$desktop18) {
+                                                font-size: $FontSize20;
+                                            }
+                                        }
+
+                                    }
+
+                                    .remove-link {
+                                        display: block;
+                                        font-size: 18px;
+                                        color: $apricotpeach;
+                                        font-weight: 500;
+                                        margin: 10px 0 0 0;
+                                        line-height: 1;
+                                        cursor: pointer;
+                                    }
+
+                                }
+
+                            }
+                        }
+
+                        .cartsliderbar-footer {
+                            position: absolute;
+                            left: 0;
+                            right: 0;
+                            bottom: 0.5em;
+
+                            .total-list {
+                                padding: 0;
+                                margin: 0;
+                                display: block;
+
+                                ul {
+                                    padding: 0;
+                                    margin: 0;
+                                    list-style: none;
+
+                                    li {
+                                        display: flex;
+                                        flex-wrap: wrap;
+                                        font-size: 20px;
+                                        color: $white;
+                                        margin: 0;
+                                        padding: 0.85em 0.5em;
+                                        line-height: 1;
+
+                                        &:last-child {
+                                            border-top:solid 2px rgba($white, 0.3);
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
                     }
 
                 }

@@ -1,25 +1,27 @@
-import React, {useContext} from "react";
+import React, { useContext } from 'react'
 
-import {CartContext} from "../context";
+import { CartContext } from '../context'
 
-export default function QuantityStepper({itemId, quantity}) {
+export default function QuantityStepper({ itemId, quantity }) {
+  const { updateQuantity } = useContext(CartContext)
 
-  const {updateQuantity} = useContext(CartContext);
+  const decrease = () => updateQuantity(itemId, quantity - 1)
+  const increase = () => updateQuantity(itemId, quantity + 1)
 
-  const increase = () => updateQuantity(itemId, quantity + 1);
-  const decrease = () => updateQuantity(itemId, quantity - 1);
+  return (
+    <span className="flex justify-between items-center qty-boxs">
+      <button
+        onClick={increase}
+        className="appearance-none focus:outline-none minus-icon"
+      ></button>
 
-  return (<div className="flex justify-between items-center mr-5">
-    {
-      quantity !== 1 && (<button onClick={decrease} className="inline-block appearance-none text-lg text-black px-4 py-3 leading-tight rounded-none focus:outline-none my-2">
-        -
-      </button>)
-    }
-
-    <span className="inline-block px-4">{quantity}</span>
-    <button onClick={increase} className="inline-block appearance-none text-lg text-black px-4 py-3 leading-tight rounded-none focus:outline-none my-2">
-      +
-    </button>
-
-  </div>);
+      <span className="quantity-text">{quantity}</span>
+      {quantity !== 1 && (
+        <button
+          onClick={decrease}
+          className="appearance-none focus:outline-none plus-icon"
+        ></button>
+      )}
+    </span>
+  )
 }

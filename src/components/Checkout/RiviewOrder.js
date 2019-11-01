@@ -45,7 +45,6 @@ const RiviewOrder = ({ stripe, formEnable }) => {
 
       await deleteCart()
     } catch (errors) {
-      console.info('errors ====>', errors)
       console.info('errors ====>', JSON.stringify(errors))
       setCheckoutError(errors)
     }

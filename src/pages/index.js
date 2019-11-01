@@ -17,7 +17,6 @@ function IndexPage({
   }
 }) {
   console.log('categories =>', categories)
-
   return (
     <div className="homepage-bg">
       <div className="goodquiz-bg">
