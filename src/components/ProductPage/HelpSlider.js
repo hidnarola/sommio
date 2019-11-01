@@ -1,9 +1,9 @@
 import React from 'react'
 import Slider from 'react-slick'
+import { useStaticQuery } from 'gatsby'
 import { Link } from 'gatsby'
 import HelpImg from '../../images/help-img.png'
 import HelpImg2 from '../../images/help-img2.png'
-import { useStaticQuery } from 'gatsby'
 
 const HelpSlider = () => {
   const { allContentfulCondition } = useStaticQuery(graphql`
@@ -25,7 +25,6 @@ const HelpSlider = () => {
       }
     }
   `)
-console.log(' allContentfulCondition => ',allContentfulCondition );
 
   const settings = {
     dots: false,
@@ -49,7 +48,7 @@ console.log(' allContentfulCondition => ',allContentfulCondition );
                 />
                 <div className="help-content">
                   <h2>{condition.conditionName}</h2>
-                  <Link to={`/ReadMore/${condition.slug}`} className="btn btn-link">
+                  <Link to={`/readMore/${condition.slug}`} className="btn btn-link">
                     Read More
                   </Link>
                 </div>
@@ -60,4 +59,4 @@ console.log(' allContentfulCondition => ',allContentfulCondition );
     </div>
   )
 }
-export default HelpSlider
+export default HelpSlider;

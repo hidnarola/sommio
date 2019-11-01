@@ -46,11 +46,20 @@ const AddToCart = ({ disabled, productId, variationData }) => {
       }
     }
   `)
-  const { addToCart, subTotal, rate } = useContext(CartContext)
+  const {
+    addToCart,
+    subTotal,
+    rate,
+    setVariation,
+    Weight,
+    Size,
+    Cover
+  } = useContext(CartContext)
+
   const [quantity, setQuantity] = useState(1)
-  const [weight, setWeight] = useState('6')
-  const [size, setSize] = useState('single')
-  const [cover, setCover] = useState('Plush')
+  // const [weight, setWeight] = useState('6')
+  // const [size, setSize] = useState('single')
+  // const [cover, setCover] = useState('Plush')
   const [blancketCover, setBlancketCover] = useState('Plush')
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const weightInfo = {
@@ -62,6 +71,8 @@ const AddToCart = ({ disabled, productId, variationData }) => {
   let i = 0
   let childData = []
   let parentData = []
+  console.log('Weight,Size,Cover => ', Weight, Size, Cover)
+
   allMoltinProduct.nodes.map(data => {
     if (
       data.relationships.parent !== null &&
@@ -76,22 +87,19 @@ const AddToCart = ({ disabled, productId, variationData }) => {
   const toggle = () => {
     setDropdownOpen(!dropdownOpen)
   }
-  // const updateQuantity = ({ target: { value } }) => {
-  //   setQuantity(value)
-  // }
 
   const updateVariations = (e, name) => {
     if (name === 'Weight') {
-      setWeight(e.target.value)
+      setVariation(name, e.target.value)
     } else if (name === 'Cover') {
-      setCover(e)
+      setVariation(name, e)
     } else {
-      setSize('single')
+      setVariation(name, 'Single')
     }
   }
 
   const comparision = () => {
-    const comboVariations = `${size}-${weight}-${cover}`
+    const comboVariations = `${Size}-${Weight}-${Cover}`
     const id_obj = childData.filter(item => comboVariations === item.slug)
 
     return (id_obj && id_obj.length > 0 && id_obj[0].id) || false
@@ -104,7 +112,7 @@ const AddToCart = ({ disabled, productId, variationData }) => {
 
   const handleAddToCart = () => {
     const id = comparision()
-    addToCart(id, parseInt(quantity, 10), size, weight, cover, subTotal, rate)
+    addToCart(id, parseInt(quantity, 10), Size, Weight, Cover, subTotal, rate)
   }
   function returnWeightInfo(x){
     if(weightInfo.hasOwnProperty(x)){
@@ -197,7 +205,6 @@ const AddToCart = ({ disabled, productId, variationData }) => {
                       <p>A luxuriously soft faux fur cover</p>
                     </div>
                   </DropdownToggle>
-
                   <DropdownMenu>
                     {data &&
                       data.options &&
@@ -225,7 +232,7 @@ const AddToCart = ({ disabled, productId, variationData }) => {
         })}
       <div className="price-main">
         <h4>
-          <span>{weight} kg</span> blanket with <span>{cover}</span> cover
+          <span>{Weight} kg</span> blanket with <span>{Cover}</span> cover
         </h4>
         <div className="price-boxs">
           <span className="price">
@@ -236,11 +243,7 @@ const AddToCart = ({ disabled, productId, variationData }) => {
           </span>
           <p>Or 6 weekly Interest free payments from £ 21.12</p>
         </div>
-        <button
-          className="btn btn-success"
-          onClick={handleAddToCart}
-          disabled={disabled || !weight || !cover}
-        >
+        <button className="btn btn-success" onClick={handleAddToCart}>
           Add to Basket
         </button>
         <p className="delivery-text">

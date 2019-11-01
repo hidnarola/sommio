@@ -1,52 +1,73 @@
-import React from "react"
-import { graphql, Link } from 'gatsby'
-import Category from '../components/Category'
-import LocomotiveScroll from 'locomotive-scroll';
+import React from 'react'
+import { graphql } from 'gatsby'
+// import LocomotiveScroll from 'locomotive-scroll'
+import Goodbye from '../components/HomePage/Goodbye'
+import Quiz from '../components/HomePage/Quiz'
+import HomeService from '../components/HomePage/HomeService'
+import SecretIngredient from '../components/HomePage/SecretIngredient'
+import HelpSlider from '../components/ProductPage/HelpSlider'
+import BlanketImages from '../components/HomePage/BlanketImages'
+import MagicWeightex from '../components/HomePage/MagicWeightex'
+import BlanketDifference from '../components/HomePage/BlanketDifference'
+import CustomerReview from '../components/HomePage/CustomerReview'
+
 function IndexPage({
   data: {
     categories: { edges: categories }
   }
 }) {
+  console.log('categories =>', categories)
   return (
-    <>
-      <div className="hero overflow-y-hidden" id="js-scroll">
-        <div className="container relative">
-          <div className="w-full md:w-2/3 lg:w-1/2 py-12 px-8 md:px-0">
-            <div className="text-center md:text-left md:my-auto">
-            <Link to="/quiz">Start</Link>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl text-black font-normal " data-scroll data-scroll-speed="1">
-                The Moltin demo store
-              </h1>
-              <p className="mt-2" data-scroll data-scroll-speed="2">
-                This is a Gatsby demo store, built using the source plugin to
-                fetch products. Hello there
-              </p>
+    <div className="homepage-bg">
+      <div className="goodquiz-bg">
+        <div className="container-fluid">
+          <div className="row no-gutters">
+            <div className="col-12 col-lg-7">
+              <Goodbye />
+            </div>
+            <div className="col-12 col-lg-5">
+              <Quiz />
+            </div>
+          </div>
+        </div>
 
-              <p className="mt-2" data-scroll data-scroll-speed="3">
-                Product, category and collection pages are statically generated,
-                and all dynamic cart/checkout functionality happens dynamically
-                with our JS SDKs.
-              </p>
+        <div className="row no-gutters">
+          <div className="ml-auto col-12 col-lg-10">
+            <HomeService />
+          </div>
+        </div>
 
-              <Link
-                to={`/products`}
-                className="inline-block appearance-none border border-b-3 border-black text-black mt-8 px-4 py-3 leading-tight rounded-none focus:outline-none my-2 no-underline"
-              >
-                Shop Now
-              </Link>
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-12 col-lg-5">
+              <SecretIngredient />
             </div>
           </div>
         </div>
       </div>
 
-      {categories && (
-        <div className="flex flex-wrap -mx-6">
-          {categories.map(({ node }) => (
-            <Category key={node.id} {...node} />
-          ))}
+      <HelpSlider />
+
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-12">
+            <BlanketImages />
+          </div>
+
+          <div className="col-12 col-lg-8 mx-auto">
+            <MagicWeightex />
+          </div>
+
+          <div className="col-12">
+            <BlanketDifference />
+          </div>
+
+          <div className="col-12">
+            <CustomerReview />
+          </div>
         </div>
-      )}
-    </>
+      </div>
+    </div>
   )
 }
 

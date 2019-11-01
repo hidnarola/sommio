@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { injectStripe } from 'react-stripe-elements'
-import { CartContext, CheckoutContext } from '../context'
-import CartItemList from './CartItemList'
+import { CartContext, CheckoutContext } from '../../context'
+import CartItemList from '../CartItemList'
 
-let RiviewOrder = ({ stripe, formEnable }) => {
+const RiviewOrder = ({ stripe, formEnable }) => {
   const {
     cartId,
     shipping_address,
@@ -11,13 +11,11 @@ let RiviewOrder = ({ stripe, formEnable }) => {
     customerDetails,
     rate
   } = useContext(CartContext)
-  const {  checkout, pay, paymentDetails } = useContext(
-    CheckoutContext
-  )
+  const { checkout, pay, paymentDetails } = useContext(CheckoutContext)
   const [checkoutError, setCheckoutError] = useState(null)
 
-  async function handleOrder() {
-    let billing_address = shipping_address
+  const handleOrder = async () => {
+    const billing_address = shipping_address
     try {
       const order = await checkout(
         cartId,
@@ -28,7 +26,6 @@ let RiviewOrder = ({ stripe, formEnable }) => {
         rate
       )
 
-      console.log('shipping_address before token => ',shipping_address);
       const token = await stripe.createToken({
         name: `${shipping_address.first_name} ${shipping_address.last_name}`,
         address_line1: shipping_address.line_1,
@@ -38,7 +35,6 @@ let RiviewOrder = ({ stripe, formEnable }) => {
         address_zip: shipping_address.postcode,
         address_country: shipping_address.country
       })
-      console.log('shipping_address after token => ',shipping_address);
 
       await pay({
         gateway: 'stripe',
@@ -49,8 +45,7 @@ let RiviewOrder = ({ stripe, formEnable }) => {
 
       await deleteCart()
     } catch (errors) {
-      console.info("errors ====>", errors)
-      console.info("errors ====>", JSON.stringify(errors))
+      console.info('errors ====>', JSON.stringify(errors))
       setCheckoutError(errors)
     }
   }
@@ -67,4 +62,4 @@ let RiviewOrder = ({ stripe, formEnable }) => {
   )
 }
 
-export default injectStripe(RiviewOrder);
+export default injectStripe(RiviewOrder)

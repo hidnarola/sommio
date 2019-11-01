@@ -1,0 +1,51 @@
+.homepage-bg {
+    display: block;
+    position: relative;
+}
+
+.goodquiz-bg {
+    display: block;
+    background: transparent linear-gradient(180deg, #01122C 0%, #1B0E41 46%, #01122C 100%) 0% 0% no-repeat padding-box;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        background: url(/marginalia-come-back-later.png) right bottom -10px no-repeat;
+        background-size: 100% auto;
+    }
+
+    .goodquiz-boxs {
+        display: block;
+        padding: 52px 0 75px 0;
+
+        h1 {
+            font-size: 130px;
+            color: $perano;
+            font-weight: 900;
+            line-height: 1.2;
+            margin: 0 0 15px 0;
+
+            @media (max-width:$desktop18) {
+                font-size: 100px;
+            }
+
+            span {
+                color: $azalea;
+            }
+
+        }
+
+        p {
+            font-size: 34px;
+            color: $linkwater;
+            line-height: 1.2;
+        }
+
+    }
+
+}

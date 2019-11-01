@@ -1,9 +1,9 @@
 import React from 'react'
 import { Field } from 'react-final-form'
-import Input from './Input'
-import country from '../../countryWithThree.json'
+import Input from '../../components/Input';
+import country from '../../../countryWithThree.json'
 import { log } from 'util'
-export default function AddressFields({ type }) {
+const AddressFields = ({ type }) => {
   return (
     <React.Fragment>
       <div className="frm_grp">
@@ -37,7 +37,6 @@ export default function AddressFields({ type }) {
       </div>
 
       <div className="frm_grp">
-        {/* <Input name={`${type}.country`} label="Country" required /> */}
         <label>Country : </label>
         <Field name={`${type}.country`} component="select">
           <option>Select Country</option>
@@ -45,16 +44,8 @@ export default function AddressFields({ type }) {
             <option value={cntry.alpha3}>{cntry.name}</option>
           ))}
         </Field>
-
-        {/* <select>
-            <option>None</option>
-            {
-              country.map(cntry =>
-              <option value={cntry.alpha3}>{cntry.name}</option>
-              )
-            }
-          </select> */}
       </div>
     </React.Fragment>
   )
 }
+export default AddressFields

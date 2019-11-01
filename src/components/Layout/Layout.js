@@ -5,8 +5,6 @@ import { Link } from 'gatsby'
 import { Helmet } from 'react-helmet'
 
 import Header from './Header'
-import Banner from './Banner'
-import Footer from './Footer'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css'
 import '../../styles/main.scss'
@@ -19,9 +17,7 @@ const toastOptions = {
   closeButton: false
 }
 
-export default function Layout({ children }) {
-
-
+const Layout = ({ children }) => {
   const { site, categories, collections } = useStaticQuery(categoriesQuery)
 
   return (
@@ -77,3 +73,4 @@ const categoriesQuery = graphql`
     }
   }
 `
+export default Layout

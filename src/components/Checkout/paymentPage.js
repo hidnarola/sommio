@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Form } from 'react-final-form'
 import { CardElement, injectStripe } from 'react-stripe-elements'
-import { CheckoutContext, CartContext } from '../context'
-import ShippingSelectOption from '../components/shippingSelectOption'
-import stripeValidation from '../validation/stripe'
+import { CheckoutContext, CartContext } from '../../context'
+import ShippingSelectOption from './shippingSelectOption'
+import stripeValidation from '../../validation/stripe'
 
-function PaymentPage({ changeFormEnable, isEditable }) {
+const PaymentPage = ({ changeFormEnable, isEditable }) => {
   const {
     paymentButton,
     shipping_address,
@@ -30,7 +30,7 @@ function PaymentPage({ changeFormEnable, isEditable }) {
     enableForm
   )
 
-  async function handlePayment(values) {
+  const handlePayment = async values => {
     setMakeEnable(false)
     paymentData(values)
   }

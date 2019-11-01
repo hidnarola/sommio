@@ -44,7 +44,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
           }
         }
       }
-      contentfulCondition : allContentfulCondition {
+      contentfulCondition: allContentfulCondition {
         edges {
           node {
             slug
@@ -88,8 +88,8 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       path: `/readMore/${slug}`,
       component: path.resolve('./src/templates/ReadMorePage.js'),
       context: {
-        slug: node && node.slug,
-      },
+        slug: slug
+      }
     })
   })
 }
