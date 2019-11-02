@@ -165,9 +165,9 @@ function CartProvider({
       variations: { size, weight, cover }
     })
     dispatch({ type: SET_CART, payload })
-    toast.success(
-      `Added ${quantity} ${quantity > 1 ? 'items' : 'item'} to cart`
-    )
+    // toast.success(
+    //   `Added ${quantity} ${quantity > 1 ? 'items' : 'item'} to cart`
+    // )
   }
 
   async function updateQuantity(id, quantity) {

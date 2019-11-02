@@ -51,7 +51,8 @@ const AddToCart = ({ disabled, productId, variationData }) => {
     setVariation,
     Weight,
     Size,
-    Cover
+    Cover,
+    setToggle
   } = useContext(CartContext)
 
   const [quantity, setQuantity] = useState(1)
@@ -106,10 +107,11 @@ const AddToCart = ({ disabled, productId, variationData }) => {
   const handleAddToCart = () => {
     const id = comparision()
     addToCart(id, parseInt(quantity, 10), Size, Weight, Cover, subTotal, rate)
+    setToggle()
   }
 
   return (
-    <div className="product-variation">
+    <div className="product-variation" >
       {variationData &&
         variationData.map(data => {
           if (data.name === 'Size') {

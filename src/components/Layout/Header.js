@@ -8,7 +8,6 @@ import CartIcon from '../../images/shopping-basket-duotone.svg'
 import CartButton from '../CartButton'
 
 const Header = ({ siteTitle, collections }, props) => {
-  // const { buttonLabel, className } = props
   const { count, isEmpty } = useContext(CartContext)
   const { orderId } = useContext(CheckoutContext)
   const [modal, setModal] = useState(false)
