@@ -37,21 +37,18 @@ function IndexPage({
             >
               <Goodbye />
             </div>
-            <div
-              className="col-12 col-lg-5"
-              data-scroll
-              data-scroll-speed="3"
-            >
+            <div className="col-12 col-lg-5" data-scroll data-scroll-speed="3">
               <Quiz />
             </div>
           </div>
         </div>
 
-        <div
-          className="row no-gutters"
-          data-scroll-direction="horizontal"
-        >
-          <div className="ml-auto col-12 col-lg-10"  data-scroll data-scroll-speed="0.5">
+        <div className="row no-gutters" data-scroll-direction="horizontal">
+          <div
+            className="ml-auto col-12 col-lg-10"
+            data-scroll
+            data-scroll-speed="0.5"
+          >
             <HomeService />
           </div>
         </div>
@@ -74,9 +71,7 @@ function IndexPage({
 
       <div className="container-fluid">
         <div className="row">
-          <div
-            className="col-12"
-          >
+          <div className="col-12">
             <BlanketImages />
           </div>
 
@@ -84,7 +79,6 @@ function IndexPage({
             className="col-12 col-lg-8 mx-auto"
             data-scroll
             data-scroll-speed="1"
-            data-scroll-direction="horizontal"
           >
             <MagicWeightex />
           </div>
