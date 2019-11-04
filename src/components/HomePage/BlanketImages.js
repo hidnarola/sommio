@@ -9,7 +9,7 @@ const BlanketImages = () => {
   return (
     <div className="github-main">
       <div className="row">
-        <div className="col-12 col-lg-6">
+        <div className="col-12 col-lg-6" data-scroll data-scroll-speed="1">
           <img src={GridImg1} className="img-fluid w-100" />
         </div>
         <div className="col-12 col-lg-6">

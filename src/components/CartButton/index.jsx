@@ -1,10 +1,32 @@
 import React, { useState, useContext } from 'react'
 import { CartContext } from '../../context/CartContext'
-import { Link } from 'gatsby'
+import { Link, useStaticQuery } from 'gatsby'
 import CartItemList from '../../components/CartItemList'
 import CartIcon from '../../images/shopping-basket-duotone.svg'
 
 const CartButton = () => {
+  const { allMoltinProduct } = useStaticQuery(graphql`
+    query {
+      allMoltinProduct {
+        nodes {
+          slug
+          id
+          relationships {
+            parent {
+              data {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  const product = allMoltinProduct.nodes.find(element => {
+    return element.relationships.parent === null
+  })
+
   const {
     isEmpty,
     count,
@@ -74,9 +96,15 @@ const CartButton = () => {
                 </svg>
               </button>
             </div>
-            <div>
-              <h4>is currently empty</h4>
-              <Link to="/products">Shop Products</Link>
+            <div className="cartsliderbar-boby no-product">
+              <h4>Your cart is currently empty !!!</h4>
+              <Link
+                onClick={handleToggle}
+                to={`/products/${product.slug}`}
+                className="btn btn-primary"
+              >
+                Shop Products
+              </Link>
             </div>
           </div>
         )}

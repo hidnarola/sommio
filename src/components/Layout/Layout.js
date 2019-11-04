@@ -18,7 +18,13 @@ const toastOptions = {
 }
 
 const Layout = ({ children }) => {
-  const { site, categories, collections } = useStaticQuery(categoriesQuery)
+  const { site, categories, collections, allMoltin } = useStaticQuery(
+    categoriesQuery
+  )
+
+  const product = allMoltin.nodes.find(element => {
+    return element.relationships.parent === null
+  })
 
   return (
     <>
@@ -37,7 +43,11 @@ const Layout = ({ children }) => {
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
       </Helmet>
-      <Header siteTitle={site.siteMetadata.title} collections={collections} />
+      <Header
+        siteTitle={site.siteMetadata.title}
+        collections={collections}
+        slug={product.slug}
+      />
       <main>{children}</main>
       {/* <Banner /> */}
       {/* <Footer categories={categories} /> */}
@@ -67,6 +77,19 @@ const categoriesQuery = graphql`
         id
         name
         slug
+      }
+    }
+    allMoltin: allMoltinProduct {
+      nodes {
+        slug
+        id
+        relationships {
+          parent {
+            data {
+              id
+            }
+          }
+        }
       }
     }
   }
