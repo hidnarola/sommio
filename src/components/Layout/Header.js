@@ -7,7 +7,7 @@ import Logo from '../../images/logo.png'
 import CartIcon from '../../images/shopping-basket-duotone.svg'
 import CartButton from '../CartButton'
 
-const Header = ({ siteTitle, collections }, props) => {
+const Header = ({ siteTitle, collections, slug }, props) => {
   const { count, isEmpty } = useContext(CartContext)
   const { orderId } = useContext(CheckoutContext)
   const [modal, setModal] = useState(false)
@@ -18,7 +18,7 @@ const Header = ({ siteTitle, collections }, props) => {
       {window.location.pathname === '/checkout' ? (
         <header className="header-checkout">
           {!orderId ? (
-            <Link className="backcart-btn">
+            <Link className="backcart-btn" to={`/products/${slug}`}>
               <svg
                 class="StyledBackArrow-amagyn-6 fIdZUy"
                 width="6px"
@@ -83,7 +83,7 @@ const Header = ({ siteTitle, collections }, props) => {
               >
                 <ul className="navbar-nav ml-auto menu-list">
                   <li className="nav-item">
-                    <Link to="/products">Shop</Link>
+                    <Link to={`/products/${slug}`}>Shop</Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/about">About us</Link>

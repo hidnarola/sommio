@@ -6,7 +6,10 @@ import DeliveryIcon from '../../images/truck-duotone-home.svg'
 
 const HomeService = () => {
   return (
-    <div className="home-service">
+    <div
+      className="home-service"
+
+    >
       <div className="service-boxs">
         <img src={NightIcon} />
         <p> 100 Night Trial</p>

@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react'
-import classNames from 'classnames'
 import QuantityStepper from './QuantityStepper'
 import { CartContext } from '../context/CartContext'
 import Photo from './Photo'
@@ -25,7 +24,7 @@ function CartItem({
   } = meta
 
   const [removing, setRemoving] = useState(false)
-  const { Weight, Size, Cover, cartItems } = useContext(CartContext)
+  const { Weight, Size, Cover } = useContext(CartContext)
 
   async function onRemove() {
     await setRemoving(true)

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { graphql } from 'gatsby'
-// import LocomotiveScroll from 'locomotive-scroll'
+import locomotiveScroll from 'locomotive-scroll'
 import Goodbye from '../components/HomePage/Goodbye'
 import Quiz from '../components/HomePage/Quiz'
 import HomeService from '../components/HomePage/HomeService'
@@ -16,13 +16,25 @@ function IndexPage({
     categories: { edges: categories }
   }
 }) {
-  console.log('categories =>', categories)
+  const scrollRef = React.createRef()
+
+  useEffect(() => {
+    const scroll = new locomotiveScroll({
+      el: scrollRef.current,
+      smooth: true
+    })
+  })
   return (
-    <div className="homepage-bg">
+    <div className="homepage-bg" ref={scrollRef}>
       <div className="goodquiz-bg">
         <div className="container-fluid">
           <div className="row no-gutters">
-            <div className="col-12 col-lg-7">
+            <div
+              className="col-12 col-lg-7"
+              data-scroll
+              data-scroll-speed="3"
+              data-scroll-position="top"
+            >
               <Goodbye />
             </div>
             <div className="col-12 col-lg-5">
@@ -31,15 +43,27 @@ function IndexPage({
           </div>
         </div>
 
-        <div className="row no-gutters">
-          <div className="ml-auto col-12 col-lg-10">
+        <div className="row no-gutters" id="service">
+          <div
+            className="ml-auto col-12 col-lg-10"
+            data-scroll
+            data-scroll-direction="horizontal"
+            data-scroll-speed="2"
+            data-scroll-position="top"
+            data-scroll-target="#service"
+          >
             <HomeService />
           </div>
         </div>
 
         <div className="container-fluid">
           <div className="row">
-            <div className="col-12 col-lg-5">
+            <div
+              className="col-12 col-lg-5"
+              data-scroll
+              data-scroll-speed="0.5"
+              data-scroll-direction="horizontal"
+            >
               <SecretIngredient />
             </div>
           </div>
@@ -48,17 +72,21 @@ function IndexPage({
 
       <HelpSlider />
 
-      <div className="container-fluid">
+      <div className="container-fluid" data-scroll>
         <div className="row">
           <div className="col-12">
             <BlanketImages />
           </div>
 
-          <div className="col-12 col-lg-8 mx-auto">
+          <div
+            className="col-12 col-lg-8 mx-auto"
+            data-scroll
+            data-scroll-speed="2"
+          >
             <MagicWeightex />
           </div>
 
-          <div className="col-12">
+          <div className="col-12" data-scroll data-scroll-speed="1">
             <BlanketDifference />
           </div>
 
