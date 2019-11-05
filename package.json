@@ -23,7 +23,7 @@
     "gatsby-source-contentful": "^2.1.47",
     "gatsby-source-filesystem": "2.1.4",
     "gatsby-transformer-sharp": "^2.2.2",
-    "locomotive-scroll": "^3.0.6",
+    "locomotive-scroll": "^3.2.4",
     "modularscroll": "^1.0.7",
     "node-sass": "^4.12.0",
     "react": "16.9.0",
