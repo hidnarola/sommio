@@ -1,4 +1,10 @@
 import React, { useState } from 'react'
+import styled from "styled-components"
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+import {useSpring, animated} from 'react-spring'
+
 import {
   Param1,
   Param2,
@@ -9,7 +15,86 @@ import {
   Param7,
   Param8
 } from '../components/HomePage/QuizParam'
+
+const QuizContain = styled(Container)`
+  height:80vh;
+  color:#ffffff;
+
+  .row{
+    height:100%
+  }
+`
+const QuestionContain = styled(Col)`
+  display:flex;
+  align-items:center;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  margin-left:15px
+`
+const QuestionText = styled(animated.h4)`
+  font-size:6em;
+  font-weight:900;
+  color:#a6daf0;
+`
+const AnswerContain = styled(Col)`
+  display:flex;
+  flex-direction:column;
+  border-left: 2px solid rgba(255, 255, 255, 0.3);
+  border-right: 2px solid rgba(255, 255, 255, 0.3);
+  padding-left:0;
+  padding-right:0;
+  margin-right:15px
+`
+
+
+
+
+const AnswerBlock = styled.div`
+  display:flex;
+  flex:1;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  align-items:center;
+  padding-left:40px;
+  transition:all 0.3s;
+  cursor:pointer;
+  transition:all 0.3s;
+
+
+  &:hover{
+    background:#010813;
+  }
+  h5{
+    font-weight: 900;
+    line-height: 1em;
+    font-size:5em;
+    height: 1.3em;
+    padding-right:30px;
+    color:#F9BEBD;
+  }
+  p{
+    font-size:2em;
+
+  }
+
+  ${props => {
+      if (props.toggle){
+        return `
+          background:#ACF0B5
+          &:hover{background:#ACF0B5}
+          h5{color:#010813}
+          p{color:#010813 }
+
+
+
+        `
+      }
+  }};
+`
+
+
+
+
 const QuizPage = () => {
+  const spring = useSpring({opacity: 1, from: {opacity: 0}})
   const [steps, setSteps] = useState(0)
   const [quiz, setQuiz] = useState([
     {
@@ -101,25 +186,42 @@ const QuizPage = () => {
     }
   ])
 
+  const letters = {
+    '1':'a',
+    '2':'b',
+    '3':'c',
+    '4':'d',
+    }
+  const [active, setActive] = useState(null)
+
   const selectAnswer = (id, answer, i) => {
     let newQuiz = [...quiz]
+    setActive(answer)
+    setTimeout(function(){
+      newQuiz[id].S = i
+      setQuiz(newQuiz)
+      setSteps(steps + 1);
+    }, 300);
+
     // newQuiz[id].S = answer
-    newQuiz[id].S = i
-    setQuiz(newQuiz)
-    setSteps(steps + 1)
+
   }
   return (
-    <div>
+    <QuizContain  fluid>
+
       {quiz[steps] !== undefined ? (
-        <div>
-          <h1>Quiz</h1>
-          <h4>{quiz[steps].Q}</h4>
-          {quiz[steps].A.map((ans, i) => (
-            <p onClick={_ => selectAnswer(steps, ans, i)}>
-              {i + 1}. {ans}
-            </p>
-          ))}
-        </div>
+        <Row>
+          <QuestionContain>
+            <QuestionText style={spring}>{quiz[steps].Q}</QuestionText>
+          </QuestionContain>
+          <AnswerContain>
+            {quiz[steps].A.map((ans, i) => (
+              <AnswerBlock key={ans}  onClick={() => selectAnswer(steps, ans, i) }  toggle={active === ans ? 1 : 0}>
+                <h5>{letters[i + 1]}.</h5><p>{ans}</p>
+              </AnswerBlock>
+              ))}
+          </AnswerContain>
+        </Row>
       ) : (
         <div>
           <h2>Suggestions</h2>
@@ -143,7 +245,8 @@ const QuizPage = () => {
           })}
         </div>
       )}
-    </div>
+
+    </QuizContain>
   )
 }
 export default QuizPage

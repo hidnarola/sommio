@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import { ToastContainer } from 'react-toastify'
 import { Link } from 'gatsby'
@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css'
 import '../../styles/main.scss'
 
+
+
 const toastOptions = {
   position: 'bottom-center',
   draggable: false,
@@ -18,6 +20,8 @@ const toastOptions = {
 }
 
 const Layout = ({ children }) => {
+
+
   const { site, categories, collections, allMoltin } = useStaticQuery(
     categoriesQuery
   )
@@ -48,9 +52,11 @@ const Layout = ({ children }) => {
         collections={collections}
         slug={product.slug}
       />
+
       <main>{children}</main>
       {/* <Banner /> */}
       {/* <Footer categories={categories} /> */}
+
 
       <ToastContainer {...toastOptions} />
     </>

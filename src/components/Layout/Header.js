@@ -59,7 +59,7 @@ const Header = ({ siteTitle, collections, slug }, props) => {
           </Link>
         </header>
       ) : (
-        <header>
+        <header data-scroll data-scroll-speed="1">
           <div className="container-fluid">
             <div className="navbar navbar-expand-lg">
               <Link className="navbar-brand" to="/">

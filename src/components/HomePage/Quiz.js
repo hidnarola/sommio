@@ -12,15 +12,7 @@ const Quiz = () => {
         Take our short quiz to discover whether a sommio weighted blanket could
         help you sleep better and enjoy lower stress
       </p>
-      <Link
-        to="/quizPage"
-        className="btn btn-info ml-auto"
-        data-scroll
-        data-scroll-direction="horizontal"
-        data-scroll-speed="3"
-        data-scroll-position="top"
-        data-scroll-target="#start"
-      >
+      <Link to="/quizPage" className="btn btn-info ml-auto">
         Start
         <img src={PlayIcon} />
       </Link>

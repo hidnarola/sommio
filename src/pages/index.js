@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { graphql } from 'gatsby'
-import locomotiveScroll from 'locomotive-scroll'
+
 import Goodbye from '../components/HomePage/Goodbye'
 import Quiz from '../components/HomePage/Quiz'
 import HomeService from '../components/HomePage/HomeService'
@@ -16,24 +16,16 @@ function IndexPage({
     categories: { edges: categories }
   }
 }) {
-  const scrollRef = React.createRef()
 
-  useEffect(() => {
-    const scroll = new locomotiveScroll({
-      el: scrollRef.current,
-      smooth: true
-    })
-  })
+
+
   return (
-    <div className="homepage-bg" ref={scrollRef}>
+    <div className="homepage-bg" >
       <div className="goodquiz-bg">
         <div className="container-fluid">
           <div className="row no-gutters">
             <div
               className="col-12 col-lg-7"
-              data-scroll
-              data-scroll-speed="3"
-              data-scroll-position="top"
             >
               <Goodbye />
             </div>
@@ -44,14 +36,7 @@ function IndexPage({
         </div>
 
         <div className="row no-gutters" id="service">
-          <div
-            className="ml-auto col-12 col-lg-10"
-            data-scroll
-            data-scroll-direction="horizontal"
-            data-scroll-speed="2"
-            data-scroll-position="top"
-            data-scroll-target="#service"
-          >
+          <div className="ml-auto col-12 col-lg-10">
             <HomeService />
           </div>
         </div>
@@ -60,9 +45,7 @@ function IndexPage({
           <div className="row">
             <div
               className="col-12 col-lg-5"
-              data-scroll
-              data-scroll-speed="0.5"
-              data-scroll-direction="horizontal"
+
             >
               <SecretIngredient />
             </div>
@@ -86,11 +69,11 @@ function IndexPage({
             <MagicWeightex />
           </div>
 
-          <div className="col-12" data-scroll data-scroll-speed="1">
+          <div className="col-12" >
             <BlanketDifference />
           </div>
 
-          <div className="col-12">
+          <div className="col-12" >
             <CustomerReview />
           </div>
         </div>
