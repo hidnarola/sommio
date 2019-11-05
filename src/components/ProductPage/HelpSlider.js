@@ -34,7 +34,13 @@ const HelpSlider = () => {
     centerMode: false
   }
   return (
-    <div className="helpslider-bg">
+    <div
+      className="helpslider-bg"
+      data-scroll
+      data-scroll-speed="0.5"
+      data-scroll-direction="vertical"
+      data-scroll-delay="0.05"
+    >
       <div className="container-fluid">
         <h3>Helps you with</h3>
         <Slider {...settings}>
@@ -48,7 +54,10 @@ const HelpSlider = () => {
                 />
                 <div className="help-content">
                   <h2>{condition.conditionName}</h2>
-                  <Link to={`/readMore/${condition.slug}`} className="btn btn-link">
+                  <Link
+                    to={`/readMore/${condition.slug}`}
+                    className="btn btn-link"
+                  >
                     Read More
                   </Link>
                 </div>
@@ -59,4 +68,4 @@ const HelpSlider = () => {
     </div>
   )
 }
-export default HelpSlider;
+export default HelpSlider

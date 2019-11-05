@@ -12,11 +12,26 @@ const CustomerReview = () => {
     centerMode: false
   }
   return (
-    <div className="customerreview-bg">
-      <h3 data-scroll data-scroll-speed="3">
+    <div
+      className="customerreview-bg"
+      data-scroll
+      data-scroll-position="top"
+      data-scroll-speed="-4"
+    >
+      <h3
+        data-scroll
+        data-scroll-speed="-2"
+        data-scroll-direction="horizontal"
+        data-scroll-position="top"
+      >
         Customer Reviews
       </h3>
-      <Slider {...settings}>
+      <Slider
+        {...settings}
+        data-scroll
+        data-scroll-speed="2"
+        data-scroll-direction="vertical"
+      >
         <div className="review-boxs">
           <div className="d-flex flex-wrap">
             <div className="content">
