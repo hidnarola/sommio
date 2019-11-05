@@ -68,6 +68,7 @@
 .custom_cart {width: 100%;background: #eaeaee;box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.12);padding: 0px;display: flex;}
 .custom_cart h2 {font-size: 18px;color: #6e6e6e;text-align: center;text-transform: uppercase;margin: 0;padding: 20px 0;    border: 0;}
 .cart_first, .cart_second, .cart_third {flex: 0 0 33.33%;max-width: 33.33%; padding: 0 50px 25px; height: calc(100vh - 60px); overflow: auto; position: relative;}
+.cart_third {padding: 0 25px 25px;}
 
 .cart_first.purple, .cart_second.purple, .cart_third.purple {background: #5b2761; color: #fff;}
 
@@ -113,14 +114,110 @@
 .cart_third .total-page {
   width: 100%;
 }
-.form-disable {
-  opacity: 0.15;
-  background-color: rgb(255, 255, 248);
+.form-disable {opacity: 0.15;}
+
+.orderconfimatio-main {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+
+  .address-main {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+
+    .boxs {
+      width: 25%;
+      text-align: left;
+      padding: 0 15px;
+
+      &.yourproduct-main {
+        width: 50%;
+      }
+    }
+  }
+
+  .continue-btn {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 30px;
+  }
 }
 
-.orderconfimatio-main {max-width: 1200px; width: 100%; margin: 0 auto;}
-.orderconfimatio-main .address-main {display: flex; flex-wrap: wrap; margin: 0 -15px;}
-.orderconfimatio-main .address-main .boxs {width: 25%; text-align: left; padding: 0 15px;}
-.orderconfimatio-main .address-main .boxs.yourproduct-main {width: 50%;}
+.revieworder-box {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: solid 1px rgb(226, 216, 228);
+  padding: 15px 0;
 
-.orderconfimatio-main .continue-btn {display: flex; flex-wrap: wrap; justify-content: flex-end; width: 100%; margin-top:30px;}
+  .product-image {
+    display: flex;
+    flex-wrap: wrap;
+    width: 70px;
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+  }
+
+  .content {
+    width: calc(100% - 70px - 60px);
+    padding: 0 15px;
+
+    h5 {
+      display: block;
+      font-size: 16px;
+      color:$white;
+      margin: 0 0 5px;
+    }
+
+    .qty-text {
+      display: block;
+      font-size: 14px;
+      color: $white;
+      margin: 0;
+    }
+  }
+
+  .price {
+    width: 60px;
+    font-size: 14px;
+    color: $white;
+    text-align: right;
+  }
+}
+
+.checkout-footer {
+  position: relative;
+
+  .total-list {
+    position: relative;
+    display: block;
+
+    ul {
+      display: block;
+      margin: 10px 0 0 0;
+      padding: 0;
+      list-style: none;
+
+      li {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 14px;
+        color: $white;
+        padding: 10px 0;
+
+        &:last-child {
+          border-top: solid 1px rgb(226, 216, 228);
+        }
+
+      }
+
+    }
+
+  }
+
+}

@@ -12,9 +12,26 @@ const CustomerReview = () => {
     centerMode: false
   }
   return (
-    <div className="customerreview-bg">
-      <h3>Customer Reviews</h3>
-      <Slider {...settings}>
+    <div
+      className="customerreview-bg"
+      data-scroll
+      data-scroll-position="top"
+      data-scroll-speed="-4"
+    >
+      <h3
+        data-scroll
+        data-scroll-speed="-2"
+        data-scroll-direction="horizontal"
+        data-scroll-position="top"
+      >
+        Customer Reviews
+      </h3>
+      <Slider
+        {...settings}
+        data-scroll
+        data-scroll-speed="2"
+        data-scroll-direction="vertical"
+      >
         <div className="review-boxs">
           <div className="d-flex flex-wrap">
             <div className="content">
@@ -41,9 +58,9 @@ const CustomerReview = () => {
           </div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat.
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
           </p>
           <span className="date-text">Jan 21st 2019</span>
         </div>
@@ -73,9 +90,9 @@ const CustomerReview = () => {
           </div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat.
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
           </p>
           <span className="date-text">Jan 21st 2019</span>
         </div>
@@ -105,9 +122,9 @@ const CustomerReview = () => {
           </div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat.
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
           </p>
           <span className="date-text">Jan 21st 2019</span>
         </div>
@@ -137,9 +154,9 @@ const CustomerReview = () => {
           </div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat.
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
           </p>
           <span className="date-text">Jan 21st 2019</span>
         </div>
@@ -169,9 +186,9 @@ const CustomerReview = () => {
           </div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat.
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
           </p>
           <span className="date-text">Jan 21st 2019</span>
         </div>
@@ -201,9 +218,9 @@ const CustomerReview = () => {
           </div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat.
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
           </p>
           <span className="date-text">Jan 21st 2019</span>
         </div>

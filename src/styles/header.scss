@@ -173,6 +173,32 @@
                             height: calc(100vh - 252px - 112px);
                             overflow: auto;
 
+                            &.no-product {
+                                height: calc(100vh - 112px);
+                                overflow: hidden;
+                                align-items: center;
+                                display: flex;
+                                flex-wrap: wrap;
+                                padding: 12em 0;
+                                justify-content: center;
+
+                                h4 {
+                                    width: 100%;
+                                    display: block;
+                                    font-size: 26px;
+                                    color: $white;
+                                    margin: 0 0 10px;
+                                    text-align: center;
+                                }
+
+                                .btn-primary {
+                                    width: 90%;
+                                    border-radius: 5px;
+                                    padding: 0.7em 0;
+                                }
+
+                            }
+
                             .cartsliderbar-item {
                                 display: flex;
                                 flex-wrap: wrap;

@@ -26,7 +26,7 @@ export default function CartItemList(props) {
             {...props}
           />
         ))}
-      {!isEmpty && (
+      {!isEmpty && props.cartButton ? (
         <div className="cartsliderbar-footer">
           <div className="total-list">
             <ul>
@@ -42,14 +42,33 @@ export default function CartItemList(props) {
               </li>
             </ul>
           </div>
-          {props.cartButton && <Link
+          <Link
             to="/checkout"
             className="btn btn-info rounded-0 justify-content-center py-4 mx-2"
           >
             Checkout
-          </Link>}
+          </Link>
         </div>
-      )}
+      ):
+      (
+        <div className="checkout-footer">
+          <div className="total-list">
+            <ul>
+              <li>
+                Subtotal(tax inc) <span className="ml-auto">£{subTotal}</span>
+              </li>
+              <li>
+                Shipping{' '}
+                <span className="ml-auto">{rate ? `£ ${rate}` : 'Free'}</span>
+              </li>
+              <li>
+                Total <span className="ml-auto">£{subTotal + rate}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      )
+      }
     </div>
   )
 }

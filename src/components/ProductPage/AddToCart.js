@@ -53,13 +53,13 @@ const AddToCart = ({ disabled, productId, variationData }) => {
     setVariation,
     Weight,
     Size,
-    Cover
+    Cover,
+    setToggle,
+    toggle
   } = useContext(CartContext)
 
   const [quantity, setQuantity] = useState(1)
-  // const [weight, setWeight] = useState('6')
-  // const [size, setSize] = useState('single')
-  // const [cover, setCover] = useState('Plush')
+
   const [blancketCover, setBlancketCover] = useState('Plush')
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const weightInfo = {
@@ -84,7 +84,7 @@ const AddToCart = ({ disabled, productId, variationData }) => {
     }
   })
 
-  const toggle = () => {
+  const toggleHandle = () => {
     setDropdownOpen(!dropdownOpen)
   }
 
@@ -113,6 +113,13 @@ const AddToCart = ({ disabled, productId, variationData }) => {
   const handleAddToCart = () => {
     const id = comparision()
     addToCart(id, parseInt(quantity, 10), Size, Weight, Cover, subTotal, rate)
+    setToggle()
+    let element = document.getElementsByTagName('body')[0]
+    if (toggle === false) {
+      element.classList.add('cartopen')
+    } else {
+      element.classList.remove('cartopen')
+    }
   }
   function returnWeightInfo(x){
     if(weightInfo.hasOwnProperty(x)){
@@ -123,7 +130,7 @@ const AddToCart = ({ disabled, productId, variationData }) => {
 
 
   return (
-    <div className="product-variation">
+    <div className="product-variation" >
       {variationData &&
         variationData.map(data => {
           if (data.name === 'Size') {
@@ -196,7 +203,7 @@ const AddToCart = ({ disabled, productId, variationData }) => {
                 <Dropdown
                   defaultValue={blancketCover}
                   isOpen={dropdownOpen}
-                  toggle={toggle}
+                  toggle={toggleHandle}
                 >
                   <DropdownToggle caret>
                     <img src={PlushImages} />
