@@ -5,13 +5,14 @@ module.exports = {
   siteMetadata: {
     title: 'Sommio',
     description:
-      'I love carpet. I love desk. I love lamp. I Love Lamp is the official Moltin demo store.',
-    author: '@moltin',
+      'Sommio Weighted Blankets',
+    author: 'Sommio',
     url: process.env.DEPLOY_PRIME_URL || process.env.URL || 'localhost:8000'
   },
   plugins: [
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sass',
+    `gatsby-plugin-transition-link`,
     {
       resolve: 'gatsby-source-filesystem',
       options: {

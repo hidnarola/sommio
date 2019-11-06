@@ -7,6 +7,8 @@ import Logo from '../../images/logo.png'
 import logoCheckout from '../../images/logo-checkout.png'
 import CartIcon from '../../images/shopping-basket-duotone.svg'
 import CartButton from '../CartButton'
+import TransitionLink from "gatsby-plugin-transition-link"
+import AniLink from "gatsby-plugin-transition-link/AniLink"
 
 const Header = ({ siteTitle, collections, slug }, props) => {
   const { count, isEmpty } = useContext(CartContext)
@@ -60,7 +62,7 @@ const Header = ({ siteTitle, collections, slug }, props) => {
           </Link>
         </header>
       ) : (
-        <header data-scroll data-scroll-speed="1">
+        <header>
           <div className="container-fluid">
             <div className="navbar navbar-expand-lg">
               <Link className="navbar-brand" to="/">

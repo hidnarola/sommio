@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import PlayIcon from '../../images/play-duotone.png'
+import TransitionLink from "gatsby-plugin-transition-link"
+import AniLink from "gatsby-plugin-transition-link/AniLink"
 
 const Quiz = () => {
   return (
@@ -12,33 +14,11 @@ const Quiz = () => {
         Take our short quiz to discover whether a sommio weighted blanket could
         help you sleep better and enjoy lower stress
       </p>
-      <Link to="/quizPage" className="btn btn-info ml-auto">
+      <AniLink paintDrip top="entry" to="/quizPage" hex="#ACF0B5" className="btn btn-info ml-auto">
         Start
         <img src={PlayIcon} />
-      </Link>
+      </AniLink >
     </div>
   )
 }
 export default Quiz
-
-
-{quiz[steps].A.map((ans, i) => (
-            <p onClick={_ => selectAnswer(steps, ans, i)}>
-              {i + 1}. {ans}
-            </p>
-          ))}
-
-
-const Cities = ({ cities = ["London", "Barcelona", "Los Angeles", "New York", "Wigan"] }) => {
-    const [activeCity, setCity] = useState(null);
-
-    return (
-        <>
-            {cities.map(city =>
-              <p key={city} onClick={() => { setCity(city) }} style={{ color: activeCity === city ? "red" : "green" }}>
-              {city}
-              </p>
-            )}
-        </>
-    );
-};

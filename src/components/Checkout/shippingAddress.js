@@ -25,7 +25,7 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
         <div className="shipping-boxs">
           <h2 className="text-black font-medium leading-loose p-0 mb-3">
             <span>1</span>
-            <span className="text">SHIPPING & BILLING</span>
+            <span className="text">Shipping & Billing</span>
           </h2>
           <div className="mb-10">
             <h4 className="mb-3">Email Address</h4>
@@ -59,19 +59,17 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
                 <div className="shipping-boxs">
                   <h2 className="text-black font-medium leading-loose p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
                     <span>1</span>
-                    <span className="text">CONTACT INFORMATION</span>
+                    <span className="text">Your Information</span>
                   </h2>
                   <div className="frm_grp">
                     <Input type="email" name="customer.email" label="Email" />
                   </div>
-                  <h2 className="text-black font-medium p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
-                    SHIPPING & BILLING
-                  </h2>
+
                   <AddressFields type="shipping_address" />
                 </div>
                 <div className="submit_btn">
                   <button type="submit" disabled={pristine || invalid}>
-                    Submit
+                    Next
                   </button>
                 </div>
               </form>

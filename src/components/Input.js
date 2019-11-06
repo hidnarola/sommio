@@ -38,7 +38,7 @@ export default function Input({
               id={name}
               autoFocus={autoFocus}
               className={inputClass}
-              placeholder={placeholder || label}
+              placeholder={placeholder || label} 
               {...input}
             />
 

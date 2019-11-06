@@ -19,30 +19,53 @@ import {
 const QuizContain = styled(Container)`
   height:80vh;
   color:#ffffff;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
 
   .row{
     height:100%
   }
+
 `
 const QuestionContain = styled(Col)`
   display:flex;
   align-items:center;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-  margin-left:15px
+
+  margin-left:15px;
+  transition:opacity 0.3s;
+  border-right: 2px solid rgba(255, 255, 255, 0.3);
+
 `
 const QuestionText = styled(animated.h4)`
   font-size:6em;
   font-weight:900;
   color:#a6daf0;
+  opacity:1;
+
+  ${props => {
+      if (props.fade){
+        return `
+          opacity:0;
+        `
+      }
+  }};
+
+
 `
-const AnswerContain = styled(Col)`
+const AnswerContain = styled(animated(Col))`
   display:flex;
   flex-direction:column;
-  border-left: 2px solid rgba(255, 255, 255, 0.3);
-  border-right: 2px solid rgba(255, 255, 255, 0.3);
   padding-left:0;
   padding-right:0;
-  margin-right:15px
+  margin-right:15px;
+  transition:opacity 0.3s;
+  opacity:1;
+  ${props => {
+    if (props.fade){
+      return `
+        opacity:0;
+      `
+    }
+  }};
 `
 
 
@@ -54,14 +77,19 @@ const AnswerBlock = styled.div`
   border-bottom: 2px solid rgba(255, 255, 255, 0.3);
   align-items:center;
   padding-left:40px;
-  transition:all 0.3s;
   cursor:pointer;
   transition:all 0.3s;
-
+  opacity:1;
+  background:#01122b;
 
   &:hover{
     background:#010813;
   }
+
+  &:last-child{
+    border-bottom:none;
+  }
+
   h5{
     font-weight: 900;
     line-height: 1em;
@@ -70,24 +98,25 @@ const AnswerBlock = styled.div`
     padding-right:30px;
     color:#F9BEBD;
   }
+
   p{
     font-size:2em;
-
   }
 
   ${props => {
       if (props.toggle){
         return `
-          background:#ACF0B5
-          &:hover{background:#ACF0B5}
-          h5{color:#010813}
-          p{color:#010813 }
-
-
-
+          background:#ACF0B5;
+          h5{color:#010813;}
+          p{color:#010813 ;}
+          &:hover{
+            background:#ACF0B5;
+          }
         `
       }
   }};
+
+
 `
 
 
@@ -193,15 +222,28 @@ const QuizPage = () => {
     '4':'d',
     }
   const [active, setActive] = useState(null)
+  const [show, setShow] = useState(0)
 
   const selectAnswer = (id, answer, i) => {
     let newQuiz = [...quiz]
     setActive(answer)
+
+
+
+
     setTimeout(function(){
+      setShow("Hidden")
+    }, 300);
+    setTimeout(function(){
+
       newQuiz[id].S = i
       setQuiz(newQuiz)
       setSteps(steps + 1);
-    }, 300);
+    }, 600);
+    setTimeout(function(){
+      setShow(null)
+      setActive(null)
+    }, 900);
 
     // newQuiz[id].S = answer
 
@@ -211,12 +253,12 @@ const QuizPage = () => {
 
       {quiz[steps] !== undefined ? (
         <Row>
-          <QuestionContain>
-            <QuestionText style={spring}>{quiz[steps].Q}</QuestionText>
+          <QuestionContain >
+            <QuestionText  fade={show === "Hidden" ? 1 : 0}>{quiz[steps].Q}</QuestionText>
           </QuestionContain>
-          <AnswerContain>
+          <AnswerContain  fade={show === "Hidden" ? 1 : 0}>
             {quiz[steps].A.map((ans, i) => (
-              <AnswerBlock key={ans}  onClick={() => selectAnswer(steps, ans, i) }  toggle={active === ans ? 1 : 0}>
+              <AnswerBlock key={ans }  onClick={() => selectAnswer(steps, ans, i) }  toggle={active === ans ? 1 : 0} >
                 <h5>{letters[i + 1]}.</h5><p>{ans}</p>
               </AnswerBlock>
               ))}

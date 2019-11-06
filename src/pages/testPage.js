@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import LocomotiveScroll from 'locomotive-scroll'
+
 import {
   disableBodyScroll,
   enableBodyScroll,
@@ -9,21 +9,17 @@ import SimpleSlider from '../components/slider'
 import Fade from 'react-reveal/Fade'
 import Meditate from '../images/svgImages/meditate.svg'
 
-function TestPage() {
-  const scrollRef = React.createRef()
-  disableBodyScroll()
 
-  useEffect(() => {
-    const scroll = new LocomotiveScroll({
-      el: scrollRef.current,
-      smooth: true
-    })
-  })
+function TestPage() {
+
+
+
 
   return (
     <>
-      <div ref={scrollRef}>
+      <div >
         <SimpleSlider />
+
         <div className="bannerWide bg-white" data-scroll data-scroll-speed="1">
           <div className="container">
             <h3 className="text-blue p-32 tracking-wide font-normal text-2xl">
