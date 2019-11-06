@@ -23,7 +23,9 @@ const Layout = ({ children }) => {
   )
 
   const product = allMoltin.nodes.find(element => {
-    return element.relationships.parent === null
+    console.log('element => ',element);
+
+    return (element.relationships.parent === null)
   })
 
   return (
@@ -83,6 +85,7 @@ const categoriesQuery = graphql`
       nodes {
         slug
         id
+        name
         relationships {
           parent {
             data {

@@ -4,11 +4,11 @@ import PlayIcon from '../../images/play-duotone.png'
 
 const Quiz = () => {
   return (
-    <div className="quiz-boxs" id="start">
-      <h2 data-scroll data-scroll-speed="3">
+    <div className="quiz-boxs" data-scroll id="start">
+      <h2 data-scroll-section>
         Is a weighted blanket a good fit for <span>you</span>?
       </h2>
-      <p data-scroll data-scroll-speed="3">
+      <p data-scroll-section>
         Take our short quiz to discover whether a sommio weighted blanket could
         help you sleep better and enjoy lower stress
       </p>
@@ -18,7 +18,6 @@ const Quiz = () => {
         data-scroll
         data-scroll-direction="horizontal"
         data-scroll-speed="3"
-        data-scroll-position="top"
         data-scroll-target="#start"
       >
         Start

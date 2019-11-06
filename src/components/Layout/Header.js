@@ -4,6 +4,7 @@ import { CartContext, CheckoutContext } from '../../context'
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import CartItemList from '../CartItemList'
 import Logo from '../../images/logo.png'
+import logoCheckout from '../../images/logo-checkout.png'
 import CartIcon from '../../images/shopping-basket-duotone.svg'
 import CartButton from '../CartButton'
 
@@ -55,7 +56,7 @@ const Header = ({ siteTitle, collections, slug }, props) => {
             ''
           )}
           <Link to="/" className="mx-auto flex items-center logo">
-            <img src={Logo} title={siteTitle} alt={siteTitle} />
+            <img src={logoCheckout} title={siteTitle} alt={siteTitle} />
           </Link>
         </header>
       ) : (

@@ -34,13 +34,7 @@ const HelpSlider = () => {
     centerMode: false
   }
   return (
-    <div
-      className="helpslider-bg"
-      data-scroll
-      data-scroll-speed="0.5"
-      data-scroll-direction="vertical"
-      data-scroll-delay="0.05"
-    >
+    <div className="helpslider-bg">
       <div className="container-fluid">
         <h3>Helps you with</h3>
         <Slider {...settings}>

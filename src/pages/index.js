@@ -19,10 +19,17 @@ function IndexPage({
   const scrollRef = React.createRef()
 
   useEffect(() => {
+    // document.getElementsByTagName('body')[0].setAttribute('id', 'scroll')
+    // let bodyId = document.getElementsByTagName('body')[0].id
+    // alert(bodyId)
     const scroll = new locomotiveScroll({
       el: scrollRef.current,
       smooth: true
     })
+    // const scroll = new locomotiveScroll({
+    //   el: document.querySelector(`#${bodyId}`),
+    //   smooth: true
+    // })
   })
   return (
     <div className="homepage-bg" ref={scrollRef}>
@@ -43,7 +50,7 @@ function IndexPage({
           </div>
         </div>
 
-        <div className="row no-gutters" id="service">
+        <div className="row no-gutters"  id="service">
           <div
             className="ml-auto col-12 col-lg-10"
             data-scroll
@@ -72,9 +79,9 @@ function IndexPage({
 
       <HelpSlider />
 
-      <div className="container-fluid" data-scroll>
+      <div className="container-fluid">
         <div className="row">
-          <div className="col-12">
+          <div className="col-12" data-scroll>
             <BlanketImages />
           </div>
 
@@ -86,11 +93,11 @@ function IndexPage({
             <MagicWeightex />
           </div>
 
-          <div className="col-12" data-scroll data-scroll-speed="1">
+          <div className="col-12" data-scroll data-scroll data-scroll-speed="1">
             <BlanketDifference />
           </div>
 
-          <div className="col-12">
+          <div className="col-12" data-scroll>
             <CustomerReview />
           </div>
         </div>
