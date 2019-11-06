@@ -55,9 +55,9 @@ function IndexPage({
 
       <HelpSlider />
 
-      <div className="container-fluid" data-scroll>
+      <div className="container-fluid">
         <div className="row">
-          <div className="col-12">
+          <div className="col-12" data-scroll>
             <BlanketImages />
           </div>
 

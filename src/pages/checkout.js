@@ -49,7 +49,7 @@ const CheckoutPage = () => {
             }
           >
             <h2 className="text-black font-medium leading-loose p-0 mb-3">
-              <span>2</span>PAYMENT INFORMATION{' '}
+              <span>2</span><span className="text">PAYMENT INFORMATION</span>{' '}
             </h2>
             <PaymentPage
               changeFormEnable={status => setFormEnable(status)}

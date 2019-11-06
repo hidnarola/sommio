@@ -20,3 +20,25 @@ const Quiz = () => {
   )
 }
 export default Quiz
+
+
+{quiz[steps].A.map((ans, i) => (
+            <p onClick={_ => selectAnswer(steps, ans, i)}>
+              {i + 1}. {ans}
+            </p>
+          ))}
+
+
+const Cities = ({ cities = ["London", "Barcelona", "Los Angeles", "New York", "Wigan"] }) => {
+    const [activeCity, setCity] = useState(null);
+
+    return (
+        <>
+            {cities.map(city =>
+              <p key={city} onClick={() => { setCity(city) }} style={{ color: activeCity === city ? "red" : "green" }}>
+              {city}
+              </p>
+            )}
+        </>
+    );
+};

@@ -52,7 +52,8 @@ const RiviewOrder = ({ stripe, formEnable }) => {
   return (
     <div className={`${!formEnable ? 'form-disable' : ''}`}>
       <h2 className="text-black font-medium leading-loose p-0 mb-3">
-        <span>3</span>REVIEW ORDER{' '}
+        <span>3</span>
+        <span className="text">REVIEW ORDER</span>{' '}
       </h2>
       <CartItemList locked />
       <div className="submit_btn">

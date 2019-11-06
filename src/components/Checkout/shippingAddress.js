@@ -24,7 +24,8 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
       <div className={`${isCompleted ? 'visible' : 'hidden'}`}>
         <div className="shipping-boxs">
           <h2 className="text-black font-medium leading-loose p-0 mb-3">
-            <span>1</span>SHIPPING & BILLING
+            <span>1</span>
+            <span className="text">SHIPPING & BILLING</span>
           </h2>
           <div className="mb-10">
             <h4 className="mb-3">Email Address</h4>
@@ -57,12 +58,13 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
               <form onSubmit={handleSubmit} id="shipping_form">
                 <div className="shipping-boxs">
                   <h2 className="text-black font-medium leading-loose p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
-                    <span>1</span>CONTACT INFORMATION
+                    <span>1</span>
+                    <span className="text">CONTACT INFORMATION</span>
                   </h2>
                   <div className="frm_grp">
                     <Input type="email" name="customer.email" label="Email" />
                   </div>
-                  <h2 className="text-black font-medium leading-loose p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
+                  <h2 className="text-black font-medium p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
                     SHIPPING & BILLING
                   </h2>
                   <AddressFields type="shipping_address" />
