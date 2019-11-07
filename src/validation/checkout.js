@@ -1,6 +1,8 @@
 import IsEmail from 'validator/lib/isEmail'
 
 const  checkoutValidation = values => {
+  console.log(' Sejal Singh=> ',values);
+
   const errors = {}
   if (!values.customer || !values.customer.email) {
     if (!errors.customer) {

@@ -16,9 +16,24 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
   } = useContext(CartContext)
 
   const handleShippingCost = values => {
+    console.log('values => ', values);
     toggleEditable(true)
     shippingCostCalculate(values, cartItems)
   }
+
+  const myInitData = {
+    customer : { email: customerDetails && customerDetails.email},
+    shipping_address: {first_name : shipping_address && shipping_address.first_name,
+      last_name: shipping_address && shipping_address.last_name,
+      line_1: shipping_address && shipping_address.line_1,
+      city: shipping_address && shipping_address.city,
+      county: shipping_address && shipping_address.county,
+      postcode: shipping_address && shipping_address.postcode,
+      country: shipping_address && shipping_address.country
+    }
+
+  }
+
   return (
     <>
       <div className={`${isCompleted ? 'visible' : 'hidden'}`}>
@@ -52,7 +67,7 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
         </div>
       </div>
       <div className={`${isCompleted ? 'hidden' : 'visible'}`}>
-        <Form onSubmit={handleShippingCost} validate={validation}>
+        <Form initialValues={myInitData} onSubmit={handleShippingCost} validate={validation}>
           {({ handleSubmit, pristine, invalid }) => {
             return (
               <form onSubmit={handleSubmit} id="shipping_form">
@@ -63,7 +78,6 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
                   </h2>
                   <div className="frm_grp">
                     <Input
-                      defaultValue={customerDetails && customerDetails.email}
                       type="email"
                       name="customer.email"
                       label="Email"
@@ -73,8 +87,13 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
                   <AddressFields type="shipping_address" />
                 </div>
                 <div className="submit_btn">
+<<<<<<< HEAD
                   <button type="submit" disabled={pristine || invalid}>
                     Next
+=======
+                  <button type="submit" >
+                    Submit
+>>>>>>> upstream/master
                   </button>
                 </div>
               </form>
