@@ -9,7 +9,7 @@ import CartIcon from '../../images/shopping-basket-duotone.svg'
 import CartButton from '../CartButton'
 
 const Header = ({ siteTitle, collections, slug }, props) => {
-  const { count, isEmpty } = useContext(CartContext)
+  const { count, isEmpty, setToggle } = useContext(CartContext)
   const { orderId } = useContext(CheckoutContext)
   const [modal, setModal] = useState(false)
 
@@ -19,7 +19,10 @@ const Header = ({ siteTitle, collections, slug }, props) => {
       {window.location.pathname === '/checkout' ? (
         <header className="header-checkout">
           {!orderId ? (
-            <Link className="backcart-btn" to={`/products/${slug}`}>
+            <Link
+              className="backcart-btn"
+              to={`/products/${slug}`}
+            >
               <svg
                 class="StyledBackArrow-amagyn-6 fIdZUy"
                 width="6px"
