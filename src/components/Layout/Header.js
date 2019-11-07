@@ -11,7 +11,7 @@ import TransitionLink from "gatsby-plugin-transition-link"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
 
 const Header = ({ siteTitle, collections, slug }, props) => {
-  const { count, isEmpty } = useContext(CartContext)
+  const { count, isEmpty, setToggle } = useContext(CartContext)
   const { orderId } = useContext(CheckoutContext)
   const [modal, setModal] = useState(false)
 
@@ -21,7 +21,10 @@ const Header = ({ siteTitle, collections, slug }, props) => {
       {window.location.pathname === '/checkout' ? (
         <header className="header-checkout">
           {!orderId ? (
-            <Link className="backcart-btn" to={`/products/${slug}`}>
+            <Link
+              className="backcart-btn"
+              to={`/products/${slug}`}
+            >
               <svg
                 class="StyledBackArrow-amagyn-6 fIdZUy"
                 width="6px"

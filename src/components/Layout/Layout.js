@@ -3,6 +3,7 @@ import { useStaticQuery, graphql } from 'gatsby'
 import { ToastContainer } from 'react-toastify'
 import { Link } from 'gatsby'
 import { Helmet } from 'react-helmet'
+import useMoltinInventory from '../../hooks/useMoltinInventory'
 
 import Header from './Header'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,9 +28,8 @@ const Layout = ({ children }) => {
   )
 
   const product = allMoltin.nodes.find(element => {
-    console.log('element => ',element);
-
-    return (element.relationships.parent === null)
+    console.log('element => ', element)
+    return element.relationships.parent === null
   })
 
   return (
@@ -56,10 +56,6 @@ const Layout = ({ children }) => {
       />
 
       <main>{children}</main>
-      {/* <Banner /> */}
-      {/* <Footer categories={categories} /> */}
-
-
       <ToastContainer {...toastOptions} />
     </>
   )
@@ -104,4 +100,5 @@ const categoriesQuery = graphql`
     }
   }
 `
+
 export default Layout

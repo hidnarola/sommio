@@ -29,7 +29,18 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
     shippingRates,
     enableForm
   )
+  // useEffect(() => {
+  //   let klarnaPayment = document.createElement("script");
+  //   klarnaPayment.src = "https://x.klarnacdn.net/kp/lib/v1/api.js";
+  //   klarnaPayment.type = "text/javascript";
+  //   klarnaPayment.async = true;
+  //   klarnaPayment.onload = () => {
+  //     setLoaded(true);
+  //   };
+  //   document.getElementsByTagName("head")[0].appendChild(klarnaPayment);
 
+  // }, []);
+  const [Loaded, setLoaded] = useState(false)
   const handlePayment = async values => {
     setMakeEnable(false)
     paymentData(values)
@@ -121,6 +132,8 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
                       NEXT
                     </button>
                   </div>
+
+                  {/* {Loaded && <div id="klarna-payments-container"></div>} */}
                 </form>
               )
             }}

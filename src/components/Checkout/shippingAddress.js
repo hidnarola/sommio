@@ -62,7 +62,12 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
                     <span className="text">Your Information</span>
                   </h2>
                   <div className="frm_grp">
-                    <Input type="email" name="customer.email" label="Email" />
+                    <Input
+                      defaultValue={customerDetails && customerDetails.email}
+                      type="email"
+                      name="customer.email"
+                      label="Email"
+                    />
                   </div>
 
                   <AddressFields type="shipping_address" />
