@@ -68,9 +68,9 @@ const Header = ({ siteTitle, collections, slug }, props) => {
         <header>
           <div className="container-fluid">
             <div className="navbar navbar-expand-lg">
-              <Link className="navbar-brand" to="/">
+              <AniLink paintDrip top="entry" to="/" hex="#5B2761" className="navbar-brand" duration={0.8}>
                 <img src={Logo} />
-              </Link>
+              </AniLink>
               <button
                 className="navbar-toggler"
                 type="button"
@@ -89,7 +89,7 @@ const Header = ({ siteTitle, collections, slug }, props) => {
               >
                 <ul className="navbar-nav ml-auto menu-list">
                   <li className="nav-item">
-                    <Link to="/products/weighted-blanket">Shop</Link>
+                    <AniLink paintDrip hex="#5B2761" top="entry" to="/products/weighted-blanket">Shop</AniLink>
                   </li>
                   <li className="nav-item">
                     <Link to="/about">About us</Link>
