@@ -132,7 +132,6 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
                       NEXT
                     </button>
                   </div>
-
                   {/* {Loaded && <div id="klarna-payments-container"></div>} */}
                 </form>
               )
