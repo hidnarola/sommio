@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const AnswerCard = ({ans, i}) => {
+const AnswerCard = ({ans, i, step}) => {
     return (
         <div className="AnswerBlock" key={i} >
           <p>{ans}</p>

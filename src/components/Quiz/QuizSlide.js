@@ -6,7 +6,8 @@ import Col from 'react-bootstrap/Col'
 
 const QuizSlide = ({
   step,
-  quiz
+  quiz,
+  setStep
   }) => {
     return(
         <Row>
@@ -14,8 +15,8 @@ const QuizSlide = ({
             <h4>{quiz[step].Q}</h4>
           </Col>
           <Col className="AnswerContain">
-            {quiz[step].A.map((ans, i) => (
-              <AnswerCard ans={ans} key={i}/>
+            {quiz[step].A.map((ans, i, step) => (
+              <AnswerCard ans={ans} key={i} />
             ))}
           </Col>
         </Row>
