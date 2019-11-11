@@ -1,0 +1,25 @@
+.QuestionContain{
+  display:flex;
+  align-items:center;
+
+  margin-left:15px;
+  transition:opacity 0.3s;
+  border-right: 2px solid rgba(255, 255, 255, 0.3);
+    
+  h4{
+    font-size:6em;
+    font-weight:900;
+    color:#a6daf0;
+    opacity:1;
+    }
+
+}
+.AnswerContain{
+  display:flex;
+  flex-direction:column;
+  padding-left:0;
+  padding-right:0;
+  margin-right:15px;
+  transition:opacity 0.3s;
+  opacity:1;
+}

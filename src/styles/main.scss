@@ -31,6 +31,10 @@
 @import "./Product-Details/featureSlider.scss";
 @import "./modal.scss";
 
+@import "./quiz/main.scss";
+@import "./quiz/questionSlide.scss";
+@import "./quiz/answerCard.scss";
+
 .visible {
   display: block;
 }

@@ -138,7 +138,7 @@ function ProductPage({ data: { product, contentful } }) {
 
 
 
-      <section className="overviewhelp-bg">
+      <section>
       <div className="product-tabs">
         <div className="container-fluid">
         <Tabs defaultActiveKey="overview" id="uncontrolled-tab-example">

@@ -5,9 +5,6 @@ import { Link } from 'gatsby'
 import { Helmet } from 'react-helmet'
 import useMoltinInventory from '../../hooks/useMoltinInventory'
 
-
-library.add(fab, faCheckSquare, faCoffee)
-
 import Header from './Header'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css'

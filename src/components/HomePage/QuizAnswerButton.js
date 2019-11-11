@@ -5,7 +5,6 @@ import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 
 
-
 const AnswerBlock = styled.div`
   display:flex;
   flex:1;
@@ -47,6 +46,10 @@ const AnswerBlock = styled.div`
       }
   }};
 `
+
+const fade = () => {
+  
+}
 
 const QuizAnswerButton = ({
   i,
