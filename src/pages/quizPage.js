@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
-import {useSpring, animated} from 'react-spring'
+
 
 import {
   Param1,
@@ -35,7 +35,7 @@ const QuestionContain = styled(Col)`
   border-right: 2px solid rgba(255, 255, 255, 0.3);
 
 `
-const QuestionText = styled(animated.h4)`
+const QuestionText = styled.h4`
   font-size:6em;
   font-weight:900;
   color:#a6daf0;
@@ -51,7 +51,7 @@ const QuestionText = styled(animated.h4)`
 
 
 `
-const AnswerContain = styled(animated(Col))`
+const AnswerContain = styled(Col)`
   display:flex;
   flex-direction:column;
   padding-left:0;
@@ -123,7 +123,7 @@ const AnswerBlock = styled.div`
 
 
 const QuizPage = () => {
-  const spring = useSpring({opacity: 1, from: {opacity: 0}})
+
   const [steps, setSteps] = useState(0)
   const [quiz, setQuiz] = useState([
     {

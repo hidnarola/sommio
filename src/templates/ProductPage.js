@@ -8,16 +8,13 @@ import Noimage from '../images/no_img.jpg'
 import ProductService from '../components/ProductPage/ProductService'
 import ProductReview from '../components/ProductPage/ProductReview'
 import ProductTitle from '../components/ProductPage/ProductTitle'
-import ProductDetails from '../components/ProductPage/ProductDetails'
 import HelpSlider from '../components/ProductPage/HelpSlider'
 import FreeDelivery from '../components/ProductPage/FreeDelivery'
 import ProductImage from '../components/ProductPage/ProductImage'
-import FeatureSlider from '../components/ProductPage/FeatureSlider'
-import FeatureSlide from '../components/ProductPage/FeatureSlide'
+import ProductVideo from '../components/ProductPage/Video'
 
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
 import Row from 'react-bootstrap/Row'
@@ -86,7 +83,7 @@ function ProductPage({ data: { product, contentful } }) {
   let CurrentProduct
   const ContentfulProduct = contentful.edges
   ContentfulProduct.slice(0).map(({ node: prod }) => (
-          prod.moltinId === product.id ? CurrentProduct = prod : console.log("no match")
+          prod.moltinId === product.id ? CurrentProduct = prod : ''
   ))
   const Titles = ["Overview", "Materials","Learn","Usage","FAQ"]
   const Overview = CurrentProduct.overview
@@ -149,7 +146,9 @@ function ProductPage({ data: { product, contentful } }) {
           <Container fluid>
             <Row>
               <TitleContain><h2 >{Headings}</h2><h2>{LastWord}</h2></TitleContain>
+
             </Row>
+            <ProductVideo />
             <DarkRow>
               <Col md={12}>
               <h3>What is it?</h3>
