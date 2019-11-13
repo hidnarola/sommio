@@ -1,0 +1,75 @@
+.circleContain {
+  position:absolute;
+  top:0%;
+  left:0%;
+  width:100%;
+  height:100%;
+  .plusCircle{
+    position:absolute;
+    background:#ACC7F0;
+    height:50px;
+    width:50px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transition:all 0.3s;
+    cursor:pointer;
+    svg{
+        transform:rotate(0deg);
+        transform:all(0.3s);
+    }
+
+    &.show{opacity:1;}
+
+    &.toggled{
+        svg{transform:rotate(45deg);}
+        background:#AA2F5D;
+    }
+
+    &:first-child{
+        top:18%;
+        left:20%
+    }
+    &:nth-child(2){
+        top:30%;
+        left:35%
+
+    }
+    &:nth-child(3){
+        top:40%;
+        left:50%
+
+    }
+    &:nth-child(4){
+        top:62%;
+        left:65%
+
+    }
+    &:nth-child(5){
+        top:75%;
+        left:80%
+
+    }
+    }
+    .popover{
+        max-width: 40vw;
+        width:40vw
+    }
+    .popover-header{
+        color:#01122B !important;
+        font-size:2em !important;
+    }
+    .popover-body{
+        p{
+            color:#01122B !important;
+            font-size:1.5em !important;
+        }
+        .inner{
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+}
+

@@ -46,6 +46,7 @@
     "react-final-form": "4.1.0",
     "react-gsap": "^1.2.0",
     "react-helmet": "^5.2.1",
+    "react-icons": "^3.8.0",
     "react-load-script": "^0.0.6",
     "react-modal": "^3.10.1",
     "react-motion": "^0.5.2",

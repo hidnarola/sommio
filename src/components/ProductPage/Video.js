@@ -5,61 +5,23 @@ import Explode from "../../video/exploding.mp4"
 import styled from "styled-components"
 import Row from 'react-bootstrap/Row'
 import ReactPlayer from 'react-player'
-
+import VideoPopover from './VideoPopover'
 import Overlay from 'react-bootstrap/Overlay'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
 import Popover from 'react-bootstrap/Popover'
-import PopoverContent from 'react-bootstrap/PopoverContent'
-import PopoverTitle from 'react-bootstrap/PopoverTitle'
+
 
 const VideoWrap = styled(Row)`
   width:80vw;
   margin:auto;
   position:relative;
 `
-const CircleContain = styled.div`
-  position:absolute;
-  top:0%;
-  left:0%;
-  width:100%;
-  height:100%;
-`
-const PlusCircle = styled.div`
-  position:absolute;
-  top:20%;
-  left:20%;
-  background:#ACC7F0;
-  height:50px;
-  width:50px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0;
-  transition:all 0.3s;
-  cursor:pointer;
 
-  ${props => {
-    if (props.open){
-      return `
-        opacity:1;
-      `
-    }
-  }};
 
-  p{color:#000000 !important}
-`
 
 const ProductVideo = () => {
   const [isClosed, setClosed] = useState(true)
-  const [show, setShow] = useState(false);
-  const [target, setTarget] = useState(null);
-  const ref = useRef(null);
-  const handleClick = event => {
-    setShow(!show);
-    setTarget(event.target);
-  };
+
+  
   return(
 
     <VideoWrap>
@@ -77,26 +39,37 @@ const ProductVideo = () => {
       }
 
       </VisibilitySensor>
-      <CircleContain>
-      <PlusCircle open={!isClosed} ref={ref} onClick={handleClick}>
-      +
-      <Overlay
-        show={show}
-        target={target}
-        placement="bottom"
-        container={ref.current}
-        containerPadding={20}
-      >
-      <Popover >
-          <Popover.Title as="h3">Popover bottom</Popover.Title>
-          <Popover.Content>
-            <strong>Holy guacamole!</strong> Check this info.
-          </Popover.Content>
-        </Popover>
-        </Overlay>
+      
+      <div className="circleContain">
+      
+        <VideoPopover title={"Lorem ipsum dolor sit amet, consectetur adipiscing elit"} show={isClosed ? false : true}>
+          <div className="inner">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <img src="https://images.unsplash.com/photo-1573567001730-9eb49e901f40?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60 " />
+          </div>
 
-      </PlusCircle >
-      </CircleContain>
+        </VideoPopover>
+        <VideoPopover  title={"Feature 2"} show={isClosed ? false : true}>
+          <div className="inner">
+            <p>Hello</p>
+          </div>
+        </VideoPopover>
+        <VideoPopover  title={"Feature 3"} show={isClosed ? false : true}>
+          <div className="inner">
+            <p>Hello</p>
+          </div>
+        </VideoPopover>
+        <VideoPopover  title={"Feature 4"} show={isClosed ? false : true}>
+          <div className="inner">
+            <p>Hello</p>
+          </div>
+        </VideoPopover>
+        <VideoPopover  title={"Feature 5"} show={isClosed ? false : true}>
+          <div className="inner">
+            <p>Hello</p>
+          </div>
+        </VideoPopover>
+      </div>
 
 
     </ VideoWrap>
