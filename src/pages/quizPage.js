@@ -4,7 +4,7 @@ import QuizSlide from "../components/Quiz/QuizSlide"
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
-import QuizProvider from ''
+
 
 
 import {
@@ -22,7 +22,7 @@ import {
 
 const QuizPage = () => {
 
-  const [step, setStep] = useState(0)
+    const [step, setStep] = useState(0)
   const [quiz, setQuiz] = useState([
     {
       id: 1,
@@ -127,35 +127,37 @@ const QuizPage = () => {
 
   }
   return (
-    <Container className="QuizContain"  fluid>
 
-      {quiz[step] !== undefined ? (
-         <QuizSlide step={step} quiz={quiz}/> 
-      ) : (
-        <div>
-          <h2>Suggestions</h2>
-          {quiz.map(q => {
-            if (q.id === 1 && (q.S === 1 || q.S === 2)) {
-              return <Param1 />
-            } else if (q.No === 2 && q.S === 1) {
-              return (
-                <div>
-                  <Param2 />
-                  <Param1 />
-                </div>
-              )
-            } else if (q.id === 3 && q.S === 2) {
-              return <Param3 />
-            } else if (q.id === 4 && (q.S === 1 || q.S === 2)) {
-              return <Param3 />
-            } else if (q.id === 5 && (q.S === 1 || q.S === 2)) {
-              return <Param4 />
-            }
-          })}
-        </div>
-      )}
+      <Container className="QuizContain"  fluid>
 
-    </Container>
+        {quiz[step] !== undefined ? (
+          <QuizSlide step={step} quiz={quiz}/> 
+        ) : (
+          <div>
+            <h2>Suggestions</h2>
+            {quiz.map(q => {
+              if (q.id === 1 && (q.S === 1 || q.S === 2)) {
+                return <Param1 />
+              } else if (q.No === 2 && q.S === 1) {
+                return (
+                  <div>
+                    <Param2 />
+                    <Param1 />
+                  </div>
+                )
+              } else if (q.id === 3 && q.S === 2) {
+                return <Param3 />
+              } else if (q.id === 4 && (q.S === 1 || q.S === 2)) {
+                return <Param3 />
+              } else if (q.id === 5 && (q.S === 1 || q.S === 2)) {
+                return <Param4 />
+              }
+            })}
+          </div>
+        )}
+
+      </Container>
+
   )
 }
 export default QuizPage

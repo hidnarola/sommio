@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify'
 import { Link } from 'gatsby'
 import { Helmet } from 'react-helmet'
 import useMoltinInventory from '../../hooks/useMoltinInventory'
+import { StateProvider } from '../../context/SiteContext';
 
 import Header from './Header'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -19,10 +20,26 @@ const toastOptions = {
   progressClassName: 'bg-white opacity-25',
   closeButton: false
 }
+const initialState = {
+  theme: { primary: 'green' }
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'changeTheme':
+      return {
+        ...state,
+        theme: action.newTheme
+      };
+      
+    default:
+      return state;
+  }
+};
 
 const Layout = ({ children }) => {
 
-
+  
   const { site, categories, collections, allMoltin } = useStaticQuery(
     categoriesQuery
   )
@@ -33,7 +50,7 @@ const Layout = ({ children }) => {
   })
 
   return (
-    <>
+    <StateProvider initialState={initialState} reducer={reducer}>
       <Helmet>
         <meta charSet="utf-8" />
         <title>Sommio Gatsby</title>
@@ -57,7 +74,7 @@ const Layout = ({ children }) => {
 
       <main>{children}</main>
       <ToastContainer {...toastOptions} />
-    </>
+    </StateProvider>
   )
 }
 
