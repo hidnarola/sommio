@@ -6,12 +6,11 @@ import PromotionManager from './PromotionManager'
 import CartButton from './CartButton'
 
 export default function CartItemList(props) {
-  console.log('props => ',props);
 
   const { isEmpty, cartItems, subTotal, removeFromCart, rate } = useContext(
     CartContext
   )
-  console.log('subTotal => ', subTotal)
+
 
   if (isEmpty) return <p className="text-center">Your cart is empty</p>
 

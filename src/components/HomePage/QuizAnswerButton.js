@@ -3,6 +3,7 @@ import styled from "styled-components"
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
+import { useStateValue } from '../../context/SiteContext';
 
 
 const AnswerBlock = styled.div`
@@ -58,14 +59,22 @@ const QuizAnswerButton = ({
   letter,
 
   }) => {
+    const [{ step }, dispatch] = useStateValue();
     const [active, setActive] = useState(0)
     const clickFunction = () => {
       setActive(1)
     }
+    console.log("step" + {step})
 
 
     return (
-      <AnswerBlock toggle={active ? 1 : 0}  onClick={() => clickFunction()}>
+      <AnswerBlock 
+        toggle={active ? 1 : 0}  
+        onClick={() => dispatch({
+          type: 'changeQuestion',
+          nextQuestion: {step + 1}
+        })}
+      >
         <h5>{letter}.</h5><p>{ans}</p>
       </AnswerBlock>
 

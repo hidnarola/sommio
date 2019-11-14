@@ -3,8 +3,10 @@ import { Link } from 'gatsby'
 import PlayIcon from '../../images/play-duotone.png'
 import TransitionLink from "gatsby-plugin-transition-link"
 import AniLink from "gatsby-plugin-transition-link/AniLink"
+import { useStateValue } from '../../context/SiteContext'
 
 const Quiz = () => {
+  const [{ quiz }, dispatch] = useStateValue();
   return (
     <div className="quiz-boxs" id="start">
       <h2 data-scroll data-scroll-speed="3">
@@ -15,7 +17,7 @@ const Quiz = () => {
         help you sleep better and enjoy lower stress
       </p>
       <AniLink paintDrip top="entry" to="/quizPage" hex="#ACF0B5" className="btn btn-info ml-auto">
-        Start
+        {quiz.currentQuestion !== 0 ? "Resume" : "Start" }
         <img src={PlayIcon} />
       </AniLink >
     </div>

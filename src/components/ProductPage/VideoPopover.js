@@ -13,7 +13,6 @@ import { FaPlus } from 'react-icons/fa';
 }) => {
     const [target, setTarget] = useState(null);
     const [display, setDisplay] = useState(false)
-    console.log('trigger')
 
     const handleClick = event => {
         setDisplay(!display);

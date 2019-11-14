@@ -1,0 +1,109 @@
+- 1:
+  Question: How easy do you find it to fall asleep at night?
+  Info: >
+    Did you know that on average it should take about 20 - 30 minutes to fall
+    asleep.
+  Options:
+    - I fall asleep straight away
+    - It takes 15 – 20 mins
+    - It takes more than 20 mins
+- 2:
+  Question: Do you have a bedtime routine?
+  Info: |-
+    If you are having trouble sleeping, it’s a good idea to get
+    yourself into a bedtime routine.  This should involve relaxing
+    and unwinding, particularly turning off technology and maybe 
+    reading a book instead. A warm caffeine free drink or warm bath can also help.
+  Options:
+    - Yes
+    - No
+- 3:
+  Question: How do you feel when you wake up in the morning?
+  Info: |-
+    Even if you think you’re getting enough sleep, you may find you’re not getting the quality of sleep your body needs.  This could be psychological e.g. stress, depression, anxiety or your lifestyle e.g. alcohol, lack of exercise, caffeine or physical e.g. anaemia, sleep apnoea, thyroid.
+  Options:
+    - I feel great, full of beans and ready to face the day
+    - I feel ok
+    - I feel tired and lethargic
+- 4:
+  Question: Do you feel like you need a nap in the day?
+  Info: |-
+    Did you know that it’s natural to take a nap during the day? In many 
+    cultures an afternoon siesta is considered normal. However, you should 
+    limit yourself to roughly 20 minutes.
+  Options:
+    - Never
+    - Sometimes
+    - Always
+- 5:
+  Question: Do you have trouble controlling your temperature at night?
+  Info: |-
+    Many of us have trouble controlling our temperature a night.  
+    This could be down to a physiological condition, such as the menopause or 
+    could simply be down to your bedroom being too hot or cold.  
+    The ideal temperature for the bedroom is about 16 – 18 °C. 
+    It’s also a good idea to have an open window so that the air can circulate.
+  Options:
+    - Yes, all the time
+    - Sometimes
+    - Never
+- 6:
+  Question: How do you feel in the day?
+  Info: |-
+    During sleep, your body is hard at work: renewing cells, 
+    healing and processing your day. Not only how long you sleep 
+    but also the quality of sleep is important. Restless sleep and 
+    constant waking interrupts these processes, reducing your 
+    concentration and performance the next day.
+  Options:
+    - Generally pretty good
+    - Ok, but I can get annoyed easily
+    - Mostly grumpy and irritable
+- 7:
+  Question: How many times do you wake in the night?
+  Info: |-
+    Waking in the night is one of the symptoms associated with insomnia 
+    and can be a symptom of a sleep disorder or other 
+    medical or psychological/psychiatric problem.
+
+    If your symptoms occur more than a few times a week and are 
+    impacting your daytime functions, you should discuss this 
+    with a doctor or other health care provider.
+  Options:
+    - Never
+    - Sometimes
+    - All the time
+- 8:
+  Question: Do you travel a lot and suffer jet lag or are you a shift worker?
+  Info: |-
+    Working shifts or changing time disrupts your circadian rhythm, 
+    the 24-hour internal clock running in the background that cycles 
+    between sleepiness and alertness at regular intervals. Your circadian 
+    rhythm works best when you have regular sleep habits, 
+    like going to bed at night and waking up in the morning around the 
+    same times when your circadian rhythm is disrupted it can make 
+    you feel out of sorts and can make it harder to pay attention. 
+  Options:
+    - Never
+    - Sometimes
+    - All the time
+- 10:
+  Question: Do you find you’re always tense and find it hard to relax?
+  Info:
+  Options:
+    - No, I’m pretty chilled most of the time
+    - Yes, sometimes I find things stressful
+    - Yes, I’m always on edge
+- 11:
+  Question: Do you have trouble coping with your emotions?
+  Info:
+  Options:
+    - No, I’m emotionally stable
+    - Yes, my emotions are all over the place
+- 12:
+  Question: Do you work shifts?
+  Info:
+  Options:
+    - No
+    - Yes
+

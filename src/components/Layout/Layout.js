@@ -21,7 +21,8 @@ const toastOptions = {
   closeButton: false
 }
 const initialState = {
-  theme: { primary: 'green' }
+  theme: { primary: 'green' },
+  quiz:{currentQuestion: 0},
 };
 
 const reducer = (state, action) => {
@@ -31,6 +32,13 @@ const reducer = (state, action) => {
         ...state,
         theme: action.newTheme
       };
+    
+    case 'changeQuestion':
+      return{
+        ...state,
+        quiz: action.nextQuestion
+      }
+      
       
     default:
       return state;
@@ -45,7 +53,6 @@ const Layout = ({ children }) => {
   )
 
   const product = allMoltin.nodes.find(element => {
-    console.log('element => ', element)
     return element.relationships.parent === null
   })
 
