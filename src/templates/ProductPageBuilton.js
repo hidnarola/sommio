@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql, withPrefix } from 'gatsby'
-import useMoltinInventory from '../hooks/useMoltinInventory'
+// import useMoltinInventory from '../hooks/useMoltinInventory'
 import SEO from '../components/SEO'
 import AddToCart from '../components/ProductPage/AddToCart'
 import Noimage from '../images/no_img.jpg'
@@ -13,22 +13,17 @@ import FreeDelivery from '../components/ProductPage/FreeDelivery'
 import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
 
-function ProductPage({ data: { product } }) {
-  console.log('product  => ',product );
+const ProductPageBuilton = ({ data: { product } }) => {
+  console.log('product  => ', product)
 
-  const [inventory, inventoryLoading, inventoryError] = useMoltinInventory(
-    product
-  )
   return (
-    <React.Fragment>
-      {/* <SEO
+    <div>
+      <SEO
         type="product"
-        title={product.meta_title || product.name}
+        title={product.short_description || product.name}
         description={product.meta_description || product.description}
         image={withPrefix(
-          product.mainImage && product.mainImage.childImageSharp
-            ? product.mainImage.childImageSharp.fluid.src
-            : Noimage
+          product && product.image_url ? product.image_url : Noimage
         )}
       />
 
@@ -48,8 +43,7 @@ function ProductPage({ data: { product } }) {
                 <div className="col-12 col-lg-4">
                   <AddToCart
                     productId={product.id}
-                    disabled={!inventory.inStock}
-                    variationData={product.meta.variations}
+                    tags={product.tags}
                   />
                 </div>
                 <div className="col-12 col-lg-8">
@@ -70,11 +64,10 @@ function ProductPage({ data: { product } }) {
         <HelpSlider />
       </section>
 
-      <FreeDelivery /> */}
-    </React.Fragment>
+      <FreeDelivery />
+    </div>
   )
 }
-
 export const query = graphql`
   query($id: String!) {
     product: builtonProduct(id: { eq: $id }) {
@@ -82,9 +75,15 @@ export const query = graphql`
       name
       price
       main_product
+      human_id
       description
+      image_url
+      short_description
+      tags
+      media {
+        url
       }
+    }
   }
 `
-
-export default ProductPage
+export default ProductPageBuilton

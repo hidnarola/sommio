@@ -16,14 +16,15 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
   } = useContext(CartContext)
 
   const handleShippingCost = values => {
-    console.log('values => ', values);
+    console.log('values => ', values)
     toggleEditable(true)
     shippingCostCalculate(values, cartItems)
   }
 
   const myInitData = {
-    customer : { email: customerDetails && customerDetails.email},
-    shipping_address: {first_name : shipping_address && shipping_address.first_name,
+    customer: { email: customerDetails && customerDetails.email },
+    shipping_address: {
+      first_name: shipping_address && shipping_address.first_name,
       last_name: shipping_address && shipping_address.last_name,
       line_1: shipping_address && shipping_address.line_1,
       city: shipping_address && shipping_address.city,
@@ -31,7 +32,6 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
       postcode: shipping_address && shipping_address.postcode,
       country: shipping_address && shipping_address.country
     }
-
   }
 
   return (
@@ -67,7 +67,11 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
         </div>
       </div>
       <div className={`${isCompleted ? 'hidden' : 'visible'}`}>
-        <Form initialValues={myInitData} onSubmit={handleShippingCost} validate={validation}>
+        <Form
+          initialValues={myInitData}
+          onSubmit={handleShippingCost}
+          validate={validation}
+        >
           {({ handleSubmit, pristine, invalid }) => {
             return (
               <form onSubmit={handleSubmit} id="shipping_form">
@@ -77,11 +81,7 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
                     <span className="text">CONTACT INFORMATION</span>
                   </h2>
                   <div className="frm_grp">
-                    <Input
-                      type="email"
-                      name="customer.email"
-                      label="Email"
-                    />
+                    <Input type="email" name="customer.email" label="Email" />
                   </div>
                   <h2 className="text-black font-medium p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
                     SHIPPING & BILLING
@@ -89,9 +89,7 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
                   <AddressFields type="shipping_address" />
                 </div>
                 <div className="submit_btn">
-                  <button type="submit" >
-                    Submit
-                  </button>
+                  <button type="submit">Submit</button>
                 </div>
               </form>
             )

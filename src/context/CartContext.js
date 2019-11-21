@@ -16,8 +16,9 @@ export const SET_TOGGLE = 'SET_TOGGLE'
 export const SET_VARIATION = 'SET_VARIATION'
 
 export const initialState = {
+  SubproductPrice: 0,
   Size: 'single',
-  Weight: 6,
+  Weight: '6 kg',
   Cover: 'Plush',
   count: 0,
   items: [],
@@ -116,10 +117,13 @@ export default function reducer(state, action) {
     case SET_VARIATION:
       console.log('My Log', action)
       var obj = {}
-      obj[action.payload.name] = action.payload.value
+
+      const price = action.payload.price
+
       return {
         ...state,
-        ...obj
+        ...obj,
+        SubproductPrice: price
       }
     case SET_TOGGLE:
       return {
@@ -298,10 +302,13 @@ function CartProvider({
   function setToggle() {
     dispatch({ type: SET_TOGGLE })
   }
-  function setVariation(name, value) {
-    console.log('e Hiiii=> ', value)
+  function setVariation(name, value, price) {
+    console.log('e Hiiii=> ', value, price)
 
-    dispatch({ type: SET_VARIATION, payload: { name, value } })
+    dispatch({
+      type: SET_VARIATION,
+      payload: { name, value, price }
+    })
   }
   function cleanCart() {
     dispatch({ type: CLEAN_CART })

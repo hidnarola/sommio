@@ -10,35 +10,27 @@ import {
   DropdownItem
 } from 'reactstrap'
 import { useStaticQuery, Link } from 'gatsby'
-const AddToCart = ({ disabled, productId, variationData }) => {
-  const { allMoltinProduct } = useStaticQuery(graphql`
+const AddToCart = ({ productId, tags }) => {
+  const { allBuiltonProduct } = useStaticQuery(graphql`
     query {
-      allMoltinProduct {
+      allBuiltonProduct {
         nodes {
-          id
+          tags
+          short_description
+          price
+          parents {
+            _oid
+          }
           name
-          slug
-          meta {
-            display_price {
-              without_tax {
-                amount
-                formatted
-              }
-            }
+          parent {
+            id
           }
-          mainImage {
-            childImageSharp {
-              fluid(maxWidth: 560) {
-                ...GatsbyImageSharpFluid
-              }
-            }
-          }
-          relationships {
-            parent {
-              data {
-                id
-              }
-            }
+          main_product
+          id
+          human_id
+          description
+          _sub_products {
+            _oid
           }
         }
       }
@@ -53,8 +45,10 @@ const AddToCart = ({ disabled, productId, variationData }) => {
     Size,
     Cover,
     setToggle,
-    toggle
+    toggle,
+    SubproductPrice
   } = useContext(CartContext)
+  console.log('SubproductPrice => ', SubproductPrice)
 
   const [quantity, setQuantity] = useState(1)
 
@@ -63,48 +57,73 @@ const AddToCart = ({ disabled, productId, variationData }) => {
   let i = 0
   let childData = []
   let parentData = []
-  console.log('Weight,Size,Cover => ', Weight, Size, Cover)
+  console.log(
+    'allBuiltonProduct, productId,tags => ',
+    allBuiltonProduct,
+    productId,
+    tags
+  )
+  console.log(' Weight, Size, Cover, => ', Weight, Size, Cover)
 
-  allMoltinProduct.nodes.map(data => {
-    if (
-      data.relationships.parent !== null &&
-      productId === data.relationships.parent.data.id
-    ) {
+  allBuiltonProduct.nodes.map(data => {
+    console.log('data => ', data)
+    if (productId !== data.id && data.main_product === false) {
       childData.push(data)
     } else {
       parentData.push(data)
     }
   })
 
+  console.log('parentData, childData , => ', parentData, childData)
+
+  let weightSubProduct = []
+  let coverSubProduct = []
+
+  childData.map(sub => {
+    if (sub.tags[0] === 'Weight') {
+      weightSubProduct.push(sub)
+    } else {
+      coverSubProduct.push(sub)
+    }
+  })
+  console.log(
+    'weightSubProduct,coverSubProduct => ',
+    weightSubProduct,
+    coverSubProduct
+  )
+
   const toggleHandle = () => {
     setDropdownOpen(!dropdownOpen)
   }
+  console.log('Size,Weight,Cover => ', Size, Weight, Cover)
 
-  const updateVariations = (e, name) => {
+  const updateVariations = (e, name, price) => {
     if (name === 'Weight') {
-      setVariation(name, e.target.value)
+      setVariation(name, e.target.value, price)
     } else if (name === 'Cover') {
-      setVariation(name, e)
+      setVariation(name, e, price)
     } else {
-      setVariation(name, 'Single')
+      setVariation(name, 'Single', price)
     }
   }
+  // selectedSubProductPrice = childData.filter(sub => {
+  //   sub.tags
+  // })
+  // const comparision = () => {
+  //   const comboVariations = `${Size}-${Weight}-${Cover}`
+  //   const id_obj = childData.filter(item => comboVariations === item.slug)
 
-  const comparision = () => {
-    const comboVariations = `${Size}-${Weight}-${Cover}`
-    const id_obj = childData.filter(item => comboVariations === item.slug)
+  //   return (id_obj && id_obj.length > 0 && id_obj[0].id) || false
+  // }
 
-    return (id_obj && id_obj.length > 0 && id_obj[0].id) || false
-  }
-
-  const selectedProductPrice = childData.filter(i => {
-    const id = comparision()
-    return id === i.id
+  const selectedProductPrice = parentData.filter(i => {
+    return productId === i.id
   })
+  console.log('selectedProductPrice => ', selectedProductPrice)
 
   const handleAddToCart = () => {
-    const id = comparision()
-    addToCart(id, parseInt(quantity, 10), Size, Weight, Cover, subTotal, rate)
+    // const id = comparision()
+    // addToCart(id, parseInt(quantity, 10), Size, Weight, Cover, subTotal, rate)
     setToggle()
     let element = document.getElementsByTagName('body')[0]
     if (toggle === false) {
@@ -114,115 +133,107 @@ const AddToCart = ({ disabled, productId, variationData }) => {
     }
   }
 
-  return (
-    <div className="product-variation" >
-      {variationData &&
-        variationData.map(data => {
-          if (data.name === 'Size') {
-            return (
-              <div className="blanket-boxs">
-                <div className="size-boxs">
-                  <h4>Blanket {data.name}</h4>
-                  {data &&
-                    data.options &&
-                    data.options.map(size => <p>{size.name}</p>)}
-                </div>
-                <Link to="#" className="btn btn-link ml-auto">
-                  are other sizes available?
-                </Link>
-              </div>
-            )
-          } else if (data.name === 'Weight') {
-            return (
-              <div className="blanket-boxs">
-                <div className="size-boxs">
-                  <h4>Blanket {data.name}</h4>
-                </div>
-                <Link to="#" className="btn btn-link ml-auto">
-                  help me choose
-                </Link>
+  // const finalPrice =
+  //   SubproductPrice.objPrice[0]['name'] + SubproductPrice.objPrice[1]['name']
+  // console.log(' SubproductPrice ,finalPrice => ', SubproductPrice)
 
-                <div className="radio-group">
-                  {data &&
-                    data.options &&
-                    data.options.map((w, k) => (
-                      <div className="radio-boxs">
-                        <input
-                          type="radio"
-                          name="weight"
-                          value={w.name}
-                          id={data.name + i}
-                          onChange={e => updateVariations(e, data.name)}
-                          defaultChecked={k === 0 ? true : false}
-                        />
-                        <label for={data.name + i++}>
-                          <div className="title">{w.name}</div>
-                          <div className="content">
-                            <h4>Recommended for users who weigh between:</h4>
-                            <span>{w.description}</span>
-                          </div>
-                        </label>
-                      </div>
-                    ))}
+  // var mainPrice =
+  //   SubproductPrice > 0 ? SubproductPrice : selectedProductPrice[0].price
+
+  return (
+    <div className="product-variation">
+      <div className="blanket-boxs">
+        <div className="size-boxs">
+          <h4>Blanket Size</h4>
+          <p>Single 130*120</p>
+        </div>
+        <Link to="#" className="btn btn-link ml-auto">
+          are other sizes available?
+        </Link>
+      </div>
+      <div className="blanket-boxs">
+        <div className="size-boxs">
+          <h4>Blanket Weight</h4>
+        </div>
+        <Link to="#" className="btn btn-link ml-auto">
+          help me choose
+        </Link>
+
+        <div className="radio-group">
+          {weightSubProduct.map((weight, k) => (
+            <div className="radio-boxs">
+              <input
+                type="radio"
+                name="weight"
+                value={weight.name}
+                id={weight.tags[0] + i}
+                onChange={e =>
+                  updateVariations(e, weight.tags[0], weight.price)
+                }
+                defaultChecked={k === 0 ? true : false}
+              />
+              <label for={weight.tags[0] + i++}>
+                <div className="title">{weight.name}</div>
+                <div className="content">
+                  <h4>Recommended for users who weigh between:</h4>
+                  <span>{weight.short_description}</span>
                 </div>
-              </div>
-            )
-          } else {
-            return (
-              <div className="blanket-boxs">
-                <div className="size-boxs">
-                  <h4>Blanket {data.name}</h4>
-                </div>
-                <Link to="#" className="btn btn-link ml-auto">
-                  help me choose
-                </Link>
-                <Dropdown
-                  defaultValue={blancketCover}
-                  isOpen={dropdownOpen}
-                  toggle={toggleHandle}
+              </label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="blanket-boxs">
+        <div className="size-boxs">
+          <h4>Blanket Cover</h4>
+        </div>
+        <Link to="#" className="btn btn-link ml-auto">
+          help me choose
+        </Link>
+        <Dropdown
+          defaultValue={blancketCover}
+          isOpen={dropdownOpen}
+          toggle={toggleHandle}
+        >
+          <DropdownToggle caret>
+            <img src={PlushImages} />
+            <div className="content ml-auto">
+              <h3>{blancketCover}</h3>
+              <p>A luxuriously soft faux fur cover</p>
+            </div>
+          </DropdownToggle>
+          <DropdownMenu>
+            {coverSubProduct.map(cover => (
+              <div
+                onClick={e =>
+                  updateVariations(cover.name, cover.tags[0], cover.price)
+                }
+              >
+                <DropdownItem
+                  defaultValue={cover.name}
+                  onClick={() => setBlancketCover(cover.name)}
                 >
-                  <DropdownToggle caret>
-                    <img src={PlushImages} />
-                    <div className="content ml-auto">
-                      <h3>{blancketCover}</h3>
-                      <p>A luxuriously soft faux fur cover</p>
-                    </div>
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    {data &&
-                      data.options &&
-                      data.options.map(cover => (
-                        <div
-                          onClick={e => updateVariations(cover.name, data.name)}
-                        >
-                          <DropdownItem
-                            defaultValue={cover.name}
-                            onClick={() => setBlancketCover(cover.name)}
-                          >
-                            <img src={PlushImages} />
-                            <div className="content ml-auto">
-                              <h3>{cover.name}</h3>
-                              <p>A luxuriously soft faux fur cover</p>
-                            </div>
-                          </DropdownItem>
-                        </div>
-                      ))}
-                  </DropdownMenu>
-                </Dropdown>
+                  <img src={PlushImages} />
+                  <div className="content ml-auto">
+                    <h3>{cover.name}</h3>
+                    <p>A luxuriously soft faux fur cover</p>
+                  </div>
+                </DropdownItem>
               </div>
-            )
-          }
-        })}
+            ))}
+          </DropdownMenu>
+        </Dropdown>
+      </div>
       <div className="price-main">
         <h4>
-          <span>{Weight} kg</span> blanket with <span>{Cover}</span> cover
+          <span>{Weight}</span> blanket with <span>{Cover}</span> cover
         </h4>
         <div className="price-boxs">
           <span className="price">
             {selectedProductPrice[0] &&
-              selectedProductPrice[0].meta &&
-              selectedProductPrice[0].meta.display_price.without_tax
-                .formatted}{' '}
+              selectedProductPrice[0].price + SubproductPrice}{' '}
+            £{/* {SubproductPrice} £ */}
           </span>
           <p>Or 6 weekly Interest free payments from £ 21.12</p>
         </div>

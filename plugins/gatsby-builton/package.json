@@ -1,0 +1,17 @@
+{
+  "name": "gatsby-builton",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gatsby-node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@builton/core-sdk": "^4.1.5",
+    "deepmerge": "^4.2.2",
+    "gatsby-source-filesystem": "^2.1.37"
+  }
+}

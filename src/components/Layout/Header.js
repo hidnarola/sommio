@@ -8,7 +8,7 @@ import logoCheckout from '../../images/logo-checkout.png'
 import CartIcon from '../../images/shopping-basket-duotone.svg'
 import CartButton from '../CartButton'
 
-const Header = ({ siteTitle, collections, slug }, props) => {
+const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   const { count, isEmpty, setToggle } = useContext(CartContext)
   const { orderId } = useContext(CheckoutContext)
   const [modal, setModal] = useState(false)
@@ -88,6 +88,9 @@ const Header = ({ siteTitle, collections, slug }, props) => {
                 <ul className="navbar-nav ml-auto menu-list">
                   <li className="nav-item">
                     <Link to={`/products/${slug}`}>Shop</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={`/products/${human_id}`}>Shop Builton</Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/about">About us</Link>

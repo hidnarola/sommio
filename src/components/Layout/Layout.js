@@ -19,9 +19,18 @@ const toastOptions = {
 }
 
 const Layout = ({ children }) => {
-  const { site, categories, collections, allMoltin } = useStaticQuery(
-    categoriesQuery
-  )
+  const {
+    site,
+    categories,
+    collections,
+    allMoltin,
+    allBuitlon
+  } = useStaticQuery(categoriesQuery)
+
+  const builtonProduct = allBuitlon.nodes.find(ele => {
+    return ele.main_product === true
+  })
+  console.log('allBuitlon, builtonProduct => ', allBuitlon, builtonProduct)
 
   const product = allMoltin.nodes.find(element => {
     console.log('element => ', element)
@@ -44,12 +53,15 @@ const Layout = ({ children }) => {
           type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
+        <script src="https://x.klarnacdn.net/kp/lib/v1/api.js"></script>
       </Helmet>
       <Header
         siteTitle={site.siteMetadata.title}
         collections={collections}
         slug={product.slug}
+        human_id={builtonProduct.human_id}
       />
+
       <main>{children}</main>
       <ToastContainer {...toastOptions} />
     </>
@@ -91,6 +103,18 @@ const categoriesQuery = graphql`
             }
           }
         }
+      }
+    }
+
+    allBuitlon: allBuiltonProduct {
+      nodes {
+        id
+        name
+        human_id
+        parents {
+          _oid
+        }
+        main_product
       }
     }
   }
