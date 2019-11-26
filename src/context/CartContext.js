@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useReducer, useEffect } from 'react'
 import { createCartIdentifier } from '@moltin/request'
-import { toast } from 'react-toastify'
+import { toast, ToastType } from 'react-toastify'
 import axios from 'axios'
 import { MoltinContext } from '.'
 import useLocalStorage from './useLocalStorage'
@@ -14,12 +14,20 @@ export const SET_LOADING = 'SET_LOADING'
 export const CLEAN_CART = 'CLEAN_CART'
 export const SET_TOGGLE = 'SET_TOGGLE'
 export const SET_VARIATION = 'SET_VARIATION'
+export const SET_BUILTON_PRODUCT_PRICE = 'SET_BUILTON_PRODUCT_PRICE'
+export const SET_BUILTON_CART_DATA = 'SET_BUILTON_CART_DATA'
 
 export const initialState = {
-  SubproductPrice: 0,
+  subTotalBuilton: 0,
+  mainProductPrice: 0,
+  wiehtPrice: 0,
+  coverPrice: 0,
   Size: 'single',
-  Weight: '6 kg',
+  Weight: '12 kg',
   Cover: 'Plush',
+  quantityBuilton: 0,
+  countBuilton: 0,
+  cartItemsBuilton: [],
   count: 0,
   items: [],
   cartItems: [],
@@ -47,6 +55,7 @@ export default function reducer(state, action) {
         (sum, { type, quantity }) => type === 'cart_item' && sum + quantity,
         0
       )
+
       // const subTotal = meta ? meta.display_price.without_tax.amount : '00'
       const total = meta ? meta.display_price.without_tax.formatted : '00'
       const subTotal = total && parseInt(total.slice(1))
@@ -119,6 +128,7 @@ export default function reducer(state, action) {
       var obj = {}
 
       const price = action.payload.price
+      obj[action.payload.name] = action.payload.value
 
       return {
         ...state,
@@ -130,6 +140,67 @@ export default function reducer(state, action) {
         ...state,
         toggle: !state.toggle
       }
+    case SET_BUILTON_PRODUCT_PRICE:
+      const weightPrice = action.payload.selectWeightPrice
+      const coverPrice = action.payload.selectCoverPrice
+
+      return {
+        ...state,
+        weightPrice: weightPrice,
+        coverPrice: coverPrice
+      }
+    case SET_BUILTON_CART_DATA:
+      const cartItemsBuilton = action.payload
+
+      const wightProduct =
+        cartItemsBuilton[0] && cartItemsBuilton[0].subProduct.selectedWeight
+      const coverProduct =
+        cartItemsBuilton[0] && cartItemsBuilton[0].subProduct.selectedCover
+      const subTotalBuilton =
+        (cartItemsBuilton[0] && cartItemsBuilton[0].price) +
+        state.weightPrice +
+        state.coverPrice
+
+      const countBuilton =
+        state.quantityBuilton + cartItemsBuilton[0] &&
+        cartItemsBuilton[0].quantityBuilton
+
+      const mainProductPrice = cartItemsBuilton[0] && cartItemsBuilton[0].price
+
+      if (action.payload.removeCart === true) {
+        const { data, quantityBuilton, countBuilton, toggle } = action.payload
+        return {
+          ...state,
+          cartItemsBuilton: data,
+          quantityBuilton: quantityBuilton,
+          countBuilton: countBuilton,
+          toggle: toggle
+        }
+        // } else if (action.payload[0].isChangedQuantity) {
+        //   const { price, quantityBuilton } = action.payload[0]
+        //   console.log('price ss=> ', price)
+
+        //   return {
+        //     ...state,
+        //     subTotalBuilton: price,
+        //     quantityBuilton: quantityBuilton,
+        //     countBuilton: countBuilton
+        //   }
+        // } else {
+      } else {
+        // const cartItemsBuilton = action.payload
+        const quantityBuilton = cartItemsBuilton[0].quantityBuilton
+
+        return {
+          ...state,
+          cartItemsBuilton: cartItemsBuilton,
+          countBuilton,
+          subTotalBuilton,
+          quantityBuilton: quantityBuilton,
+          mainProductPrice
+        }
+      }
+
     default:
       return state
   }
@@ -149,7 +220,7 @@ function CartProvider({
   const { moltin } = useContext(MoltinContext)
   const [state, dispatch] = useReducer(reducer, initialState)
   const [cartId, setCartId] = useLocalStorage('mcart', initialCartId)
-  const isEmpty = state.count === 0
+  const isEmpty = state.countBuilton === 0
 
   useEffect(() => {
     getCart(cartId)
@@ -174,18 +245,25 @@ function CartProvider({
     // )
   }
 
-  async function updateQuantity(id, quantity) {
-    const payload = await moltin.put(`carts/${cartId}/items/${id}`, {
-      type: 'cart_item',
-      id,
-      quantity
-    })
+  function updateQuantityBuilton(id, quantity) {
+    let updatePrice = quantity * state.subTotalBuilton
 
-    dispatch({ type: SET_CART, payload })
+    const payload = {
+      description: state.cartItemsBuilton[0].description,
+      human_id: state.cartItemsBuilton[0].human_id,
+      id: state.cartItemsBuilton[0].id,
+      main_product: state.cartItemsBuilton[0].main_product,
+      name: state.cartItemsBuilton[0].name,
+      price: updatePrice,
+      quantityBuilton: quantity,
+      subProduct: state.cartItemsBuilton[0].subProduct,
+      isChangedQuantity: true
+    }
+
+    dispatch({ type: SET_BUILTON_CART_DATA, payload: [payload] })
 
     toast.success(`Quantity updated to ${quantity}`)
   }
-
   async function removeFromCart(id) {
     const payload = await moltin.delete(`carts/${cartId}/items/${id}`)
 
@@ -193,7 +271,22 @@ function CartProvider({
 
     toast.success('Item removed from cart')
   }
+  async function removeFromCartBuilton(id) {
+    const removeCart = true
+    console.log('[initialState.cartItemsBuilton] => ', initialState)
 
+    dispatch({
+      type: SET_BUILTON_CART_DATA,
+      payload: {
+        data: initialState.cartItemsBuilton,
+        removeCart,
+        quantityBuilton: initialState.quantityBuilton,
+        countBuilton: initialState.countBuilton,
+        toggle: state.toggle
+      }
+    })
+    toast.success('Item removed from cart')
+  }
   async function addPromotion(code) {
     const payload = await moltin.post(`carts/${cartId}/items`, {
       type: 'promotion_item',
@@ -303,7 +396,7 @@ function CartProvider({
     dispatch({ type: SET_TOGGLE })
   }
   function setVariation(name, value, price) {
-    console.log('e Hiiii=> ', value, price)
+    console.log('e Hiiii => ', value, price)
 
     dispatch({
       type: SET_VARIATION,
@@ -313,6 +406,20 @@ function CartProvider({
   function cleanCart() {
     dispatch({ type: CLEAN_CART })
   }
+  const setSubProductPrice = (selectedWeight, selectedCover) => {
+    const selectWeightPrice = selectedWeight[0] && selectedWeight[0].price
+    const selectCoverPrice = selectedWeight[0] && selectedCover[0].price
+    dispatch({
+      type: SET_BUILTON_PRODUCT_PRICE,
+      payload: { selectWeightPrice, selectCoverPrice }
+    })
+  }
+  const setCartData = cartItemsBuilton => {
+    dispatch({
+      type: SET_BUILTON_CART_DATA,
+      payload: cartItemsBuilton
+    })
+  }
   return (
     <Provider
       value={{
@@ -321,7 +428,7 @@ function CartProvider({
         cartId,
         isEmpty,
         addToCart,
-        updateQuantity,
+
         removeFromCart,
         addPromotion,
         removePromotion: removeFromCart,
@@ -330,7 +437,11 @@ function CartProvider({
         shippingCost,
         cleanCart,
         setToggle,
-        setVariation
+        setVariation,
+        setSubProductPrice,
+        setCartData,
+        removeFromCartBuilton,
+        updateQuantityBuilton
       }}
     >
       {children}

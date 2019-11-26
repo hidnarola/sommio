@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import classnames from 'classnames'
 import { CartContext } from '../../context/CartContext'
 import PlushImages from '../../images/plush.png'
@@ -18,6 +18,7 @@ const AddToCart = ({ productId, tags }) => {
           tags
           short_description
           price
+          image_url
           parents {
             _oid
           }
@@ -37,6 +38,7 @@ const AddToCart = ({ productId, tags }) => {
     }
   `)
   const {
+    setSubProductPrice,
     addToCart,
     subTotal,
     rate,
@@ -46,39 +48,33 @@ const AddToCart = ({ productId, tags }) => {
     Cover,
     setToggle,
     toggle,
-    SubproductPrice
+    SubproductPrice,
+    weightPrice,
+    coverPrice,
+    setCartData,
+    isEmpty,
+    countBuilton,
+    quantityBuilton
   } = useContext(CartContext)
-  console.log('SubproductPrice => ', SubproductPrice)
-
-  const [quantity, setQuantity] = useState(1)
-
-  const [blancketCover, setBlancketCover] = useState('Plush')
-  const [dropdownOpen, setDropdownOpen] = useState(false)
-  let i = 0
+  let weightSubProduct = []
+  let coverSubProduct = []
   let childData = []
   let parentData = []
   console.log(
-    'allBuiltonProduct, productId,tags => ',
-    allBuiltonProduct,
-    productId,
-    tags
+    'isEmpty , countBuilton , quantityBuilton ,toggle => ',
+    isEmpty,
+    countBuilton,
+    quantityBuilton,
+    toggle
   )
-  console.log(' Weight, Size, Cover, => ', Weight, Size, Cover)
 
   allBuiltonProduct.nodes.map(data => {
-    console.log('data => ', data)
     if (productId !== data.id && data.main_product === false) {
       childData.push(data)
     } else {
       parentData.push(data)
     }
   })
-
-  console.log('parentData, childData , => ', parentData, childData)
-
-  let weightSubProduct = []
-  let coverSubProduct = []
-
   childData.map(sub => {
     if (sub.tags[0] === 'Weight') {
       weightSubProduct.push(sub)
@@ -86,16 +82,25 @@ const AddToCart = ({ productId, tags }) => {
       coverSubProduct.push(sub)
     }
   })
-  console.log(
-    'weightSubProduct,coverSubProduct => ',
-    weightSubProduct,
-    coverSubProduct
-  )
+  const selectedCover = coverSubProduct.filter(sub => {
+    return sub.name === Cover
+  })
+  const selectedWeight = weightSubProduct.filter(sub => {
+    return sub.name === Weight
+  })
+  useEffect(() => {
+    setSubProductPrice(selectedWeight, selectedCover)
+  }, [Weight, Cover])
+
+  const [quantity, setQuantity] = useState(1)
+
+  const [blancketCover, setBlancketCover] = useState('Plush')
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  let i = 0
 
   const toggleHandle = () => {
     setDropdownOpen(!dropdownOpen)
   }
-  console.log('Size,Weight,Cover => ', Size, Weight, Cover)
 
   const updateVariations = (e, name, price) => {
     if (name === 'Weight') {
@@ -106,9 +111,7 @@ const AddToCart = ({ productId, tags }) => {
       setVariation(name, 'Single', price)
     }
   }
-  // selectedSubProductPrice = childData.filter(sub => {
-  //   sub.tags
-  // })
+
   // const comparision = () => {
   //   const comboVariations = `${Size}-${Weight}-${Cover}`
   //   const id_obj = childData.filter(item => comboVariations === item.slug)
@@ -116,14 +119,34 @@ const AddToCart = ({ productId, tags }) => {
   //   return (id_obj && id_obj.length > 0 && id_obj[0].id) || false
   // }
 
-  const selectedProductPrice = parentData.filter(i => {
-    return productId === i.id
+  // const selectedProduct = parentData.filter(i => {
+  //   return productId === i.id
+  // })
+  let selectedProduct
+  parentData.filter(i => {
+    if (productId === i.id) {
+      selectedProduct = i
+    }
   })
-  console.log('selectedProductPrice => ', selectedProductPrice)
 
   const handleAddToCart = () => {
     // const id = comparision()
     // addToCart(id, parseInt(quantity, 10), Size, Weight, Cover, subTotal, rate)
+
+    let cartItemsBuilton = [
+      {
+        id: selectedProduct.id,
+        name: selectedProduct.name,
+        quantityBuilton: 1,
+        human_id: selectedProduct.human_id,
+        type: 'cart_item_builton',
+        description: selectedProduct.description,
+        price: selectedProduct.price,
+        main_product: selectedProduct.main_product,
+        subProduct: { selectedWeight, selectedCover }
+      }
+    ]
+    setCartData(cartItemsBuilton)
     setToggle()
     let element = document.getElementsByTagName('body')[0]
     if (toggle === false) {
@@ -132,13 +155,6 @@ const AddToCart = ({ productId, tags }) => {
       element.classList.remove('cartopen')
     }
   }
-
-  // const finalPrice =
-  //   SubproductPrice.objPrice[0]['name'] + SubproductPrice.objPrice[1]['name']
-  // console.log(' SubproductPrice ,finalPrice => ', SubproductPrice)
-
-  // var mainPrice =
-  //   SubproductPrice > 0 ? SubproductPrice : selectedProductPrice[0].price
 
   return (
     <div className="product-variation">
@@ -231,9 +247,8 @@ const AddToCart = ({ productId, tags }) => {
         </h4>
         <div className="price-boxs">
           <span className="price">
-            {selectedProductPrice[0] &&
-              selectedProductPrice[0].price + SubproductPrice}{' '}
-            £{/* {SubproductPrice} £ */}
+            {selectedProduct &&
+              selectedProduct.price + weightPrice + coverPrice}{' '}
           </span>
           <p>Or 6 weekly Interest free payments from £ 21.12</p>
         </div>

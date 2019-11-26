@@ -19,6 +19,7 @@ const ProductDetails = () => {
               <button className="btn btn-primary">Discover more</button>
             </div>
           </div>
+
           <div className="col-12 col-lg-7">
             <div className="img">
               <img src={IntroducingImg} />
