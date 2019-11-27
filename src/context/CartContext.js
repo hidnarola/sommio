@@ -18,6 +18,8 @@ export const SET_BUILTON_PRODUCT_PRICE = 'SET_BUILTON_PRODUCT_PRICE'
 export const SET_BUILTON_CART_DATA = 'SET_BUILTON_CART_DATA'
 
 export const initialState = {
+  isAddToCart: false,
+  price: 0,
   subTotalBuilton: 0,
   mainProductPrice: 0,
   wiehtPrice: 0,
@@ -88,13 +90,13 @@ export default function reducer(state, action) {
       const customerDetails = action.formData.customer
       const paymentButton = true
 
-      var test1 = {
+      let data = {
         ...state,
         shipping_address,
         customerDetails,
         paymentButton: paymentButton
       }
-      return test1
+      return data
 
     case SET_SELCETED_RATES:
       return {
@@ -151,6 +153,7 @@ export default function reducer(state, action) {
       }
     case SET_BUILTON_CART_DATA:
       const cartItemsBuilton = action.payload
+      console.log('action TEST => ', action, state.subTotalBuilton, state.price)
 
       const wightProduct =
         cartItemsBuilton[0] && cartItemsBuilton[0].subProduct.selectedWeight
@@ -164,9 +167,9 @@ export default function reducer(state, action) {
       const countBuilton =
         state.quantityBuilton + cartItemsBuilton[0] &&
         cartItemsBuilton[0].quantityBuilton
-
+      const quantityBuilton =
+        cartItemsBuilton[0] && cartItemsBuilton[0].quantityBuilton
       const mainProductPrice = cartItemsBuilton[0] && cartItemsBuilton[0].price
-
       if (action.payload.removeCart === true) {
         const { data, quantityBuilton, countBuilton, toggle } = action.payload
         return {
@@ -174,30 +177,32 @@ export default function reducer(state, action) {
           cartItemsBuilton: data,
           quantityBuilton: quantityBuilton,
           countBuilton: countBuilton,
-          toggle: toggle
+          toggle: toggle,
+          subTotalBuilton: initialState.subTotalBuilton,
+          price: initialState.price,
+          isAddToCart: false
         }
-        // } else if (action.payload[0].isChangedQuantity) {
-        //   const { price, quantityBuilton } = action.payload[0]
-        //   console.log('price ss=> ', price)
-
-        //   return {
-        //     ...state,
-        //     subTotalBuilton: price,
-        //     quantityBuilton: quantityBuilton,
-        //     countBuilton: countBuilton
-        //   }
-        // } else {
+      } else if (action.payload[0].isChangedQuantity) {
+        const { price, quantityBuilton } = action.payload[0]
+        // const P = price
+        return {
+          ...state,
+          price: price,
+          quantityBuilton: quantityBuilton,
+          isAddToCart: false
+        }
       } else {
+        // } else {
         // const cartItemsBuilton = action.payload
-        const quantityBuilton = cartItemsBuilton[0].quantityBuilton
-
+        const isActive = cartItemsBuilton[0].isAddToCart
         return {
           ...state,
           cartItemsBuilton: cartItemsBuilton,
           countBuilton,
-          subTotalBuilton,
+          subTotalBuilton: subTotalBuilton,
           quantityBuilton: quantityBuilton,
-          mainProductPrice
+          mainProductPrice,
+          isAddToCart: cartItemsBuilton[0].isAddToCart
         }
       }
 
@@ -246,21 +251,26 @@ function CartProvider({
   }
 
   function updateQuantityBuilton(id, quantity) {
-    let updatePrice = quantity * state.subTotalBuilton
+    console.log('quantity => ', quantity)
+    const testPrice = state.subTotalBuilton
+    let updatePrice = quantity * testPrice
+    console.log('updatedPrice => ', updatePrice)
 
-    const payload = {
-      description: state.cartItemsBuilton[0].description,
-      human_id: state.cartItemsBuilton[0].human_id,
-      id: state.cartItemsBuilton[0].id,
-      main_product: state.cartItemsBuilton[0].main_product,
-      name: state.cartItemsBuilton[0].name,
-      price: updatePrice,
-      quantityBuilton: quantity,
-      subProduct: state.cartItemsBuilton[0].subProduct,
-      isChangedQuantity: true
-    }
-
-    dispatch({ type: SET_BUILTON_CART_DATA, payload: [payload] })
+    // Update cart payload
+    const payload = [
+      {
+        description: state.cartItemsBuilton[0].description,
+        human_id: state.cartItemsBuilton[0].human_id,
+        id: state.cartItemsBuilton[0].id,
+        main_product: state.cartItemsBuilton[0].main_product,
+        name: state.cartItemsBuilton[0].name,
+        price: updatePrice,
+        quantityBuilton: quantity,
+        subProduct: state.cartItemsBuilton[0].subProduct,
+        isChangedQuantity: true
+      }
+    ]
+    dispatch({ type: SET_BUILTON_CART_DATA, payload: payload })
 
     toast.success(`Quantity updated to ${quantity}`)
   }
@@ -272,6 +282,7 @@ function CartProvider({
     toast.success('Item removed from cart')
   }
   async function removeFromCartBuilton(id) {
+    //Remove item from cart
     const removeCart = true
     console.log('[initialState.cartItemsBuilton] => ', initialState)
 
@@ -282,7 +293,9 @@ function CartProvider({
         removeCart,
         quantityBuilton: initialState.quantityBuilton,
         countBuilton: initialState.countBuilton,
-        toggle: state.toggle
+        toggle: state.toggle,
+        subTotalBuilton: initialState.subTotalBuilton,
+        price: initialState.price
       }
     })
     toast.success('Item removed from cart')
@@ -415,6 +428,7 @@ function CartProvider({
     })
   }
   const setCartData = cartItemsBuilton => {
+    //Add cart Data
     dispatch({
       type: SET_BUILTON_CART_DATA,
       payload: cartItemsBuilton
@@ -428,7 +442,6 @@ function CartProvider({
         cartId,
         isEmpty,
         addToCart,
-
         removeFromCart,
         addPromotion,
         removePromotion: removeFromCart,

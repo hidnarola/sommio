@@ -18,7 +18,9 @@ export default function CartItemList(props) {
     coverPrice,
     cartItemsBuilton,
     countBuilton,
-    subTotalBuilton
+    subTotalBuilton,
+    price,
+    isAddToCart
   } = useContext(CartContext)
 
   if (isEmpty) return <p className="text-center">Your cart is empty</p>
@@ -36,21 +38,34 @@ export default function CartItemList(props) {
             {...props}
           />
         ))}
-
+      {/* {cartItems &&
+        cartItems.map(item => (
+          <CartItem
+            key={item.id}
+            removeFromCart={removeFromCart}
+            {...item}
+            {...props}
+          />
+        ))} */}
       {!isEmpty && props.cartButton ? (
         <div className="cartsliderbar-footer">
           <div className="total-list">
             <ul>
               <li>
                 Subtotal(tax inc){' '}
-                <span className="ml-auto">£{subTotalBuilton}</span>
+                <span className="ml-auto">
+                  £{price !== 0 ? price : subTotalBuilton}
+                </span>
               </li>
               <li>
                 Shipping{' '}
                 <span className="ml-auto">{rate ? `£ ${rate}` : 'Free'}</span>
               </li>
               <li>
-                Total <span className="ml-auto">£{subTotalBuilton + rate}</span>
+                Total{' '}
+                <span className="ml-auto">
+                  £{(price !== 0 ? price : subTotalBuilton) + rate}
+                </span>
               </li>
             </ul>
           </div>
@@ -67,14 +82,19 @@ export default function CartItemList(props) {
             <ul>
               <li>
                 Subtotal(tax inc){' '}
-                <span className="ml-auto">£{subTotalBuilton}</span>
+                <span className="ml-auto">
+                  £{isAddToCart === true ? subTotalBuilton : price}
+                </span>
               </li>
               <li>
                 Shipping{' '}
                 <span className="ml-auto">{rate ? `£ ${rate}` : 'Free'}</span>
               </li>
               <li>
-                Total <span className="ml-auto">£{subTotalBuilton + rate}</span>
+                Total{' '}
+                <span className="ml-auto">
+                  £{isAddToCart === true ? subTotalBuilton : price}
+                </span>
               </li>
             </ul>
           </div>

@@ -2,11 +2,11 @@ import React, { useContext, createContext, useReducer } from 'react'
 // import axios from "axios";
 import { CartContext } from './CartContext'
 import { MoltinContext } from '.'
+
 export const SET_PAYMENT_VALUE = 'SET_PAYMENT_VALUE'
 export const PAYMENT = 'PAYMENT'
 export const RESET_PAYMENT = 'RESET_PAYMENT'
 export const SET_ORDER_DATA = 'SET_ORDER_DATA'
-
 export const initialState = {
   defaultPayment: false,
   order_shipping_address: null,

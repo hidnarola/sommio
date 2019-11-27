@@ -65,8 +65,9 @@ module.exports = {
     {
       resolve: `gatsby-builton`,
       options: {
-        apiKey:'W3ZcWLcHbfeHcz8wR_bdH29uzNQMGzZkwDfXt-5Jhcv4SHMyNVAkVoA8I1srMdxCnupv7mQKSKck6dk9SOG1bQ=='
-      },
+        apiKey:
+          'W3ZcWLcHbfeHcz8wR_bdH29uzNQMGzZkwDfXt-5Jhcv4SHMyNVAkVoA8I1srMdxCnupv7mQKSKck6dk9SOG1bQ=='
+      }
     },
     'gatsby-plugin-stripe'
   ]

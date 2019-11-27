@@ -143,7 +143,8 @@ const AddToCart = ({ productId, tags }) => {
         description: selectedProduct.description,
         price: selectedProduct.price,
         main_product: selectedProduct.main_product,
-        subProduct: { selectedWeight, selectedCover }
+        subProduct: { selectedWeight, selectedCover },
+        isAddToCart: true
       }
     ]
     setCartData(cartItemsBuilton)

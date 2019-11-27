@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Form } from 'react-final-form'
+import jwt from 'jsonwebtoken'
 import Input from '../Input'
-
+import Builton from '@builton/core-sdk'
 import { CartContext } from '../../context'
 import validation from '../../validation/checkout'
 
@@ -33,7 +34,18 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
       country: shipping_address && shipping_address.country
     }
   }
+  let token = jwt.sign(
+    { email: `${customerDetails && customerDetails.email}` },
+    'jwtsecretkey'
+  )
+  console.log('token => ', token)
 
+  let builton = new Builton({
+    apiKey: process.env.GATSBY_BUILTON_API_KEY,
+    bearerToken: token
+  })
+  console.log('builton SSI => ', builton)
+  // builton.cart.addProduct({ productId: , quantity:  });
   return (
     <>
       <div className={`${isCompleted ? 'visible' : 'hidden'}`}>

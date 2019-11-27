@@ -6,12 +6,13 @@ import Photo from './Photo'
 function CartItem({
   id,
   name,
-  quantityBuilton,
   image_url,
   locked,
   cartButton,
   removeFromCartBuilton
 }) {
+  // console.log(' quantityBuilton SSI => ', quantityBuilton)
+
   // const {
   //   display_price: {
   //     without_tax: {
@@ -29,14 +30,17 @@ function CartItem({
     selectedProduct,
     selectedWeight,
     selectedCover,
-    subTotalBuilton
+    subTotalBuilton,
+    quantityBuilton,
+    price,
+    isAddToCart
   } = useContext(CartContext)
 
   function onRemove() {
     setRemoving(true)
     removeFromCartBuilton(id)
   }
-  console.log('subTotalBuilton drawer => ', subTotalBuilton)
+  console.log('subTotalBuilton ,price => ', subTotalBuilton, price)
 
   return cartButton ? (
     <div className="cartsliderbar-item">
@@ -48,10 +52,12 @@ function CartItem({
           <li>Weight: {Weight}</li>
           <li>Cover: {Cover}</li>
         </ul>
-        <div className="price">{subTotalBuilton} £</div>
+        <div className="price">
+          {isAddToCart === true ? subTotalBuilton : price} £
+        </div>
       </div>
       <div className="qty-remove ml-auto">
-        {!locked && <QuantityStepper itemId={id} quantity={quantityBuilton} />}
+        {!locked && <QuantityStepper itemId={id} />}
         {!locked && (
           <a className="remove-link" onClick={onRemove}>
             Remove
@@ -64,9 +70,13 @@ function CartItem({
       <Photo cartImg="cartImg" src={image_url} alt={name} />
       <div className="content">
         <h5>{name}</h5>
-        <span className="qty-text">{quantityBuilton}</span>
+        <span className="qty-text">
+          {isAddToCart === true ? subTotalBuilton : price}
+        </span>
       </div>
-      <div className="price ml-auto">{subTotalBuilton}£</div>
+      <div className="price ml-auto">
+        {price === 0 ? subTotalBuilton : price}£
+      </div>
     </div>
   )
 }

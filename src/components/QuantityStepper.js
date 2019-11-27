@@ -2,13 +2,14 @@ import React, { useContext } from 'react'
 
 import { CartContext } from '../context'
 
-export default function QuantityStepper({ itemId, quantity }) {
-  console.log('quantity sr => ', quantity)
+export default function QuantityStepper({ itemId }) {
+  // console.log('quantity sr => ', quantity)
 
   const {
     updateQuantityBuilton,
     subTotalBuilton,
-    mainProductPrice
+    mainProductPrice,
+    quantityBuilton
   } = useContext(CartContext)
   console.log(
     'subTotalBuilton, mainProductPrice => ',
@@ -16,8 +17,8 @@ export default function QuantityStepper({ itemId, quantity }) {
     mainProductPrice
   )
 
-  const decrease = () => updateQuantityBuilton(itemId, quantity - 1)
-  const increase = () => updateQuantityBuilton(itemId, quantity + 1)
+  const decrease = () => updateQuantityBuilton(itemId, quantityBuilton - 1)
+  const increase = () => updateQuantityBuilton(itemId, quantityBuilton + 1)
 
   return (
     <span className="flex justify-between items-center qty-boxs">
@@ -26,8 +27,8 @@ export default function QuantityStepper({ itemId, quantity }) {
         className="appearance-none focus:outline-none minus-icon"
       ></button>
 
-      <span className="quantity-text">{quantity}</span>
-      {quantity !== 1 && (
+      <span className="quantity-text">{quantityBuilton}</span>
+      {quantityBuilton !== 1 && (
         <button
           onClick={decrease}
           className="appearance-none focus:outline-none plus-icon"

@@ -19,10 +19,7 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
       {window.location.pathname === '/checkout' ? (
         <header className="header-checkout">
           {!orderId ? (
-            <Link
-              className="backcart-btn"
-              to={`/products/${slug}`}
-            >
+            <Link className="backcart-btn" to={`/products/${human_id}`}>
               <svg
                 class="StyledBackArrow-amagyn-6 fIdZUy"
                 width="6px"
