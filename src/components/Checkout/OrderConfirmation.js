@@ -14,19 +14,10 @@ export default function OrderConfirmation(props) {
     order_shipping_cost,
     order_meta
   } = useContext(CheckoutContext)
-  console.info(
-    'orderCartItems, order_customer,order_items,order_shipping_provider_name,order_shipping_cost,order_meta ==>',
-    orderCartItems,
-    order_shipping_address,
-    order_customer,
-    order_items,
-    order_shipping_provider_name,
-    order_shipping_cost,
-    order_meta
-  )
+
   useEffect(() => {
     return () => {
-      cleanCart()
+      // cleanCart()
     }
   }, [])
   return (

@@ -39,7 +39,7 @@ function SEO({
         // ...(image && {
         //   property: 'og:image',
         //  content: image
-         //}),
+        //}),
         {
           property: `og:type`,
           content: ogType
@@ -59,7 +59,7 @@ function SEO({
         {
           name: `twitter:description`,
           content: metaDescription
-        },
+        }
         // ...(image && {
         //   property: 'twitter:image',
         //   content: image
@@ -68,9 +68,9 @@ function SEO({
         .concat(
           keywords.length > 0
             ? {
-              name: `keywords`,
-              content: keywords.join(`, `)
-            }
+                name: `keywords`,
+                content: keywords.join(`, `)
+              }
             : []
         )
         .concat(meta)}

@@ -6,7 +6,6 @@ import PageTitle from '../components/PageTitle'
 import ProductGrid from '../components/ProductGrid'
 
 const CollectionIndexPage = ({ data: { collections } }) => (
-
   <>
     <SEO title="All Collections" />
 
@@ -17,7 +16,6 @@ const CollectionIndexPage = ({ data: { collections } }) => (
         </PageTitle>
 
         <ProductGrid products={collection.products} />
-
       </section>
     ))}
   </>

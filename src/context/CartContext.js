@@ -2,7 +2,7 @@ import React, { useContext, createContext, useReducer, useEffect } from 'react'
 import { createCartIdentifier } from '@moltin/request'
 import { toast, ToastType } from 'react-toastify'
 import axios from 'axios'
-import { MoltinContext } from '.'
+// import { MoltinContext } from '.'
 import useLocalStorage from './useLocalStorage'
 
 export const SET_CART = 'SET_CART'
@@ -16,8 +16,12 @@ export const SET_TOGGLE = 'SET_TOGGLE'
 export const SET_VARIATION = 'SET_VARIATION'
 export const SET_BUILTON_PRODUCT_PRICE = 'SET_BUILTON_PRODUCT_PRICE'
 export const SET_BUILTON_CART_DATA = 'SET_BUILTON_CART_DATA'
+export const USER_DETAIL_BUILTON = 'USER_DETAIL_BUILTON'
+export const CART_BUILTON = 'CART_BUILTON'
 
 export const initialState = {
+  builton: '',
+  user: { email: '', password: '' },
   isAddToCart: false,
   price: 0,
   subTotalBuilton: 0,
@@ -86,17 +90,18 @@ export default function reducer(state, action) {
       return test
 
     case SET_ADDRESS:
-      const shipping_address = action.formData.shipping_address
-      const customerDetails = action.formData.customer
+      const shipping_address = action.shippingData.shipping_address
+      const customerDetails = action.user
+      console.log('action SET_ADDRESS => ', action)
+
       const paymentButton = true
 
-      let data = {
+      return {
         ...state,
         shipping_address,
         customerDetails,
         paymentButton: paymentButton
       }
-      return data
 
     case SET_SELCETED_RATES:
       return {
@@ -145,11 +150,15 @@ export default function reducer(state, action) {
     case SET_BUILTON_PRODUCT_PRICE:
       const weightPrice = action.payload.selectWeightPrice
       const coverPrice = action.payload.selectCoverPrice
+      const selectedWeight = action.payload.selectedWeight
+      const selectedCover = action.payload.selectedCover
 
       return {
         ...state,
         weightPrice: weightPrice,
-        coverPrice: coverPrice
+        coverPrice: coverPrice,
+        selectedWeight,
+        selectedCover
       }
     case SET_BUILTON_CART_DATA:
       const cartItemsBuilton = action.payload
@@ -170,6 +179,7 @@ export default function reducer(state, action) {
       const quantityBuilton =
         cartItemsBuilton[0] && cartItemsBuilton[0].quantityBuilton
       const mainProductPrice = cartItemsBuilton[0] && cartItemsBuilton[0].price
+
       if (action.payload.removeCart === true) {
         const { data, quantityBuilton, countBuilton, toggle } = action.payload
         return {
@@ -206,6 +216,23 @@ export default function reducer(state, action) {
         }
       }
 
+    case USER_DETAIL_BUILTON:
+      const builton = action.builton
+      return {
+        ...state,
+        user: action.data,
+        builton: builton
+      }
+    case CART_BUILTON:
+      // const {} = a
+      console.log('action => ', action)
+      const CartBuiltonMethod =
+        state.builton &&
+        state.builton.cart.addProduct({
+          productId: cartItemsBuilton[0] && cartItemsBuilton[0].id,
+          quantity: quantityBuilton
+        })
+      console.log('CartBuiltonMethod => ', CartBuiltonMethod)
     default:
       return state
   }
@@ -222,33 +249,33 @@ function CartProvider({
   children,
   ...props
 }) {
-  const { moltin } = useContext(MoltinContext)
+  // const { moltin } = useContext(MoltinContext)
   const [state, dispatch] = useReducer(reducer, initialState)
   const [cartId, setCartId] = useLocalStorage('mcart', initialCartId)
   const isEmpty = state.countBuilton === 0
 
   useEffect(() => {
-    getCart(cartId)
+    // getCart(cartId)
     setCartId(cartId)
   }, [cartId])
 
-  async function getCart(id) {
-    const payload = await moltin.get(`carts/${id}/items`)
-    dispatch({ type: SET_CART, payload })
-  }
+  // async function getCart(id) {
+  //   const payload = await moltin.get(`carts/${id}/items`)
+  //   dispatch({ type: SET_CART, payload })
+  // }
 
-  async function addToCart(id, quantity, size, weight, cover, subTotal, rate) {
-    const payload = await moltin.post(`carts/${cartId}/items`, {
-      type: 'cart_item',
-      id,
-      quantity,
-      variations: { size, weight, cover }
-    })
-    dispatch({ type: SET_CART, payload })
-    // toast.success(
-    //   `Added ${quantity} ${quantity > 1 ? 'items' : 'item'} to cart`
-    // )
-  }
+  // async function addToCart(id, quantity, size, weight, cover, subTotal, rate) {
+  //   const payload = await moltin.post(`carts/${cartId}/items`, {
+  //     type: 'cart_item',
+  //     id,
+  //     quantity,
+  //     variations: { size, weight, cover }
+  //   })
+  //   dispatch({ type: SET_CART, payload })
+  //   // toast.success(
+  //   //   `Added ${quantity} ${quantity > 1 ? 'items' : 'item'} to cart`
+  //   // )
+  // }
 
   function updateQuantityBuilton(id, quantity) {
     console.log('quantity => ', quantity)
@@ -274,13 +301,13 @@ function CartProvider({
 
     toast.success(`Quantity updated to ${quantity}`)
   }
-  async function removeFromCart(id) {
-    const payload = await moltin.delete(`carts/${cartId}/items/${id}`)
+  // async function removeFromCart(id) {
+  //   const payload = await moltin.delete(`carts/${cartId}/items/${id}`)
 
-    dispatch({ type: SET_CART, payload })
+  //   dispatch({ type: SET_CART, payload })
 
-    toast.success('Item removed from cart')
-  }
+  //   toast.success('Item removed from cart')
+  // }
   async function removeFromCartBuilton(id) {
     //Remove item from cart
     const removeCart = true
@@ -300,41 +327,42 @@ function CartProvider({
     })
     toast.success('Item removed from cart')
   }
-  async function addPromotion(code) {
-    const payload = await moltin.post(`carts/${cartId}/items`, {
-      type: 'promotion_item',
-      code
-    })
+  // async function addPromotion(code) {
+  //   const payload = await moltin.post(`carts/${cartId}/items`, {
+  //     type: 'promotion_item',
+  //     code
+  //   })
 
-    dispatch({ type: SET_CART, payload })
+  //   dispatch({ type: SET_CART, payload })
 
-    toast.success('Promotion applied')
-  }
+  //   toast.success('Promotion applied')
+  // }
 
-  async function deleteCart(id) {
-    await moltin.delete(`carts/${id || cartId}`)
+  // async function deleteCart(id) {
+  //   await moltin.delete(`carts/${id || cartId}`)
 
-    dispatch({ type: RESET_CART })
-  }
+  //   dispatch({ type: RESET_CART })
+  // }
 
-  async function shippingCostCalculate(formData, cartItems) {
-    dispatch({ type: SET_ADDRESS, formData })
+  const shippingCostCalculate = async (
+    user,
+    shippingData,
+    cartItemsBuilton
+  ) => {
+    dispatch({ type: SET_ADDRESS, user, shippingData })
 
     var items = []
-    for (const item of cartItems) {
+    for (const item of cartItemsBuilton) {
       items.push({
         description: item.description,
         origin_country: 'USA',
-        quantity: item.quantity,
-        price: {
-          amount: item.unit_price.amount,
-          currency: item.unit_price.currency
-        },
+        quantity: item.quantityBuilton,
+        price: item.price,
         weight: {
           value: 0.6,
           unit: 'kg'
         },
-        sku: item.sku
+        sku: item.human_id
       })
     }
 
@@ -375,14 +403,14 @@ function CartProvider({
           type: 'residential'
         },
         ship_to: {
-          contact_name: `${formData.customer.name}`,
-          street1: `${formData.shipping_address.line_1}`,
-          city: `${formData.shipping_address.city}`,
-          state: `${formData.shipping_address.county}`,
-          postal_code: `${formData.shipping_address.postcode}`,
-          country: `${formData.shipping_address.country}`,
+          contact_name: `${shippingData.shipping_address.name}`,
+          street1: `${shippingData.shipping_address.line_1}`,
+          city: `${shippingData.shipping_address.city}`,
+          state: `${shippingData.shipping_address.county}`,
+          postal_code: `${shippingData.shipping_address.postcode}`,
+          country: `${shippingData.shipping_address.country}`,
           phone: '7657168649',
-          email: `${formData.customer.country}`,
+          email: `${user.email}`,
           type: 'residential'
         }
       }
@@ -416,15 +444,20 @@ function CartProvider({
       payload: { name, value, price }
     })
   }
-  function cleanCart() {
-    dispatch({ type: CLEAN_CART })
-  }
+  // function cleanCart() {
+  //   dispatch({ type: CLEAN_CART })
+  // }
   const setSubProductPrice = (selectedWeight, selectedCover) => {
     const selectWeightPrice = selectedWeight[0] && selectedWeight[0].price
     const selectCoverPrice = selectedWeight[0] && selectedCover[0].price
     dispatch({
       type: SET_BUILTON_PRODUCT_PRICE,
-      payload: { selectWeightPrice, selectCoverPrice }
+      payload: {
+        selectWeightPrice,
+        selectCoverPrice,
+        selectedWeight,
+        selectedCover
+      }
     })
   }
   const setCartData = cartItemsBuilton => {
@@ -434,27 +467,28 @@ function CartProvider({
       payload: cartItemsBuilton
     })
   }
+  const setUserBuilton = (data, builton) => {
+    dispatch({ type: USER_DETAIL_BUILTON, data, builton })
+  }
+  const cartBuilton = cart => {
+    dispatch({ type: CART_BUILTON, cart })
+  }
   return (
     <Provider
       value={{
         ...state,
         ...props,
-        cartId,
         isEmpty,
-        addToCart,
-        removeFromCart,
-        addPromotion,
-        removePromotion: removeFromCart,
-        deleteCart,
         shippingCostCalculate,
         shippingCost,
-        cleanCart,
         setToggle,
         setVariation,
         setSubProductPrice,
         setCartData,
         removeFromCartBuilton,
-        updateQuantityBuilton
+        updateQuantityBuilton,
+        setUserBuilton,
+        cartBuilton
       }}
     >
       {children}

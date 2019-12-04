@@ -6,7 +6,7 @@ import PageTitle from '../components/PageTitle'
 import ProductGrid from '../components/ProductGrid'
 
 const IndexPage = ({ data: { allBuiltonProduct } }) => {
-  console.log('allBuiltonProduct from product page => ',allBuiltonProduct);
+  console.log('allBuiltonProduct from product page => ', allBuiltonProduct)
 
   const productList = []
   // allBuiltonProduct.edges.map(pro => {
@@ -37,7 +37,7 @@ export const query = graphql`
   query allProductsQuery {
     allBuiltonProduct {
       edges {
-        node{
+        node {
           id
           name
           human_id

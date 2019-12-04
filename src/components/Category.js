@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
-import Noimage from "../images/no_img.jpg"
+import Noimage from '../images/no_img.jpg'
 export default function Category({ name, slug, description, products }) {
   const product = products
     ? products[Math.floor(Math.random() * products.length)]
     : null
-  console.log("product=>category",product );
+  console.log('product=>category', product)
 
   return (
     <article className="px-8 md:px-4 py-2 my-6 w-full lg:w-1/3">
@@ -14,10 +14,13 @@ export default function Category({ name, slug, description, products }) {
         <div className="cursor-pointer flex items-center justify-center w-full overflow-hidden relative">
           <Link to={`/categories/${slug}`}>
             <Img
-              fluid ={product.mainImage.childImageSharp ? product.mainImage.childImageSharp.fluid.src : Noimage}
+              fluid={
+                product.mainImage.childImageSharp
+                  ? product.mainImage.childImageSharp.fluid.src
+                  : Noimage
+              }
               alt={product.name}
             />
-
           </Link>
         </div>
       )}

@@ -28,13 +28,13 @@ export const query = graphql`
       slug
       name
       description
-         relationships {
-      products {
-        data {
-          id
+      relationships {
+        products {
+          data {
+            id
+          }
         }
       }
-    }
       products {
         id
         name

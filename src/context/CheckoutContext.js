@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useReducer } from 'react'
 // import axios from "axios";
 import { CartContext } from './CartContext'
-import { MoltinContext } from '.'
+// import { MoltinContext } from '.'
 
 export const SET_PAYMENT_VALUE = 'SET_PAYMENT_VALUE'
 export const PAYMENT = 'PAYMENT'
@@ -64,7 +64,7 @@ let CheckoutContext
 const { Provider, Consumer } = (CheckoutContext = createContext())
 
 function CheckoutProvider({ cartId: initialCartId, children, ...props }) {
-  const { moltin } = useContext(MoltinContext)
+  // const { moltin } = useContext(MoltinContext)
   const {
     rate,
     shippingProvider,
@@ -86,55 +86,54 @@ function CheckoutProvider({ cartId: initialCartId, children, ...props }) {
     const createCustomer = customer && customer.password
     let customerId
 
-    const customItemShipping = await moltin.post(`carts/${cartId}/items`, {
-      type: 'custom_item',
-      name: 'Shipping',
-      sku: 'ship_calc',
-      description: 'shipping calculation for this order',
-      slug: 'ship_calc',
-      quantity: 1,
-      price: {
-        amount: rate * 100
-      }
-    })
+    // const customItemShipping = await moltin.post(`carts/${cartId}/items`, {
+    //   type: 'custom_item',
+    //   name: 'Shipping',
+    //   sku: 'ship_calc',
+    //   description: 'shipping calculation for this order',
+    //   slug: 'ship_calc',
+    //   quantity: 1,
+    //   price: {
+    //     amount: rate * 100
+    //   }
+    // })
     let customer = {
       email: customerDetails.email,
       name: `${shipping_address.first_name} ${shipping_address.last_name}`
     }
     if (createCustomer) {
-      const { data: newCustomer } = await moltin.post(`customers`, {
-        type: 'customer',
-        ...customer
-      })
-
-      customerId = newCustomer.id
+      // const { data: newCustomer } = await moltin.post(`customers`, {
+      //   type: 'customer',
+      //   ...customer
+      // })
+      // customerId = newCustomer.id
     }
 
-    const { data: order } = await moltin.post(`carts/${cartId}/checkout`, {
-      customer,
-      billing_address,
-      shipping_address,
-      shipping_cost,
-      shipping_provider_name
-    })
-    dispatch({ type: SET_ORDER_DATA, payload: order })
-    return order
+    // const { data: order } = await moltin.post(`carts/${cartId}/checkout`, {
+    //   customer,
+    //   billing_address,
+    //   shipping_address,
+    //   shipping_cost,
+    //   shipping_provider_name
+    // })
+    // dispatch({ type: SET_ORDER_DATA, payload: order })
+    // return order
   }
 
-  async function pay({ gateway, method, orderId, ...rest }) {
-    try {
-      const { payment } = await moltin.post(`orders/${orderId}/payments`, {
-        gateway,
-        method,
-        ...rest
-      })
+  async function pay() {
+    // try {
+    // const { payment } = await moltin.post(`orders/${orderId}/payments`, {
+    //   gateway,
+    //   method,
+    //   ...rest
+    // })
 
-      dispatch({ type: SET_PAYMENT_VALUE })
+    dispatch({ type: SET_PAYMENT_VALUE })
 
-      return payment
-    } catch (err) {
-      throw new Error(err.message || 'Payment failed')
-    }
+    // return payment
+    // } catch (err) {
+    //   throw new Error(err.message || 'Payment failed')
+    // }
   }
   function checkoutClear() {
     dispatch({ type: RESET_PAYMENT })

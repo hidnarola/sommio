@@ -14,7 +14,7 @@ import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
 
 function ProductPage({ data: { product } }) {
-  console.log('product  => ',product );
+  console.log('product  => ', product)
 
   const [inventory, inventoryLoading, inventoryError] = useMoltinInventory(
     product
@@ -83,7 +83,7 @@ export const query = graphql`
       price
       main_product
       description
-      }
+    }
   }
 `
 

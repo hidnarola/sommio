@@ -83,9 +83,14 @@ const AddToCart = ({ productId, tags }) => {
     }
   })
   const selectedCover = coverSubProduct.filter(sub => {
+    console.log('sub => ', sub)
+
     return sub.name === Cover
   })
+  console.log('selectedCover => ', selectedCover)
+
   const selectedWeight = weightSubProduct.filter(sub => {
+    console.log('sub => ', sub)
     return sub.name === Weight
   })
   useEffect(() => {
@@ -147,6 +152,8 @@ const AddToCart = ({ productId, tags }) => {
         isAddToCart: true
       }
     ]
+    console.log('cartItemsBuilton => ', cartItemsBuilton)
+
     setCartData(cartItemsBuilton)
     setToggle()
     let element = document.getElementsByTagName('body')[0]

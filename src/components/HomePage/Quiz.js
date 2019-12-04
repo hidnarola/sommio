@@ -9,7 +9,6 @@ const Quiz = () => {
         Is a weighted blanket a good fit for <span>you</span>?
       </h2>
       <p data-scroll-section>
-
         Take our short quiz to discover whether a sommio weighted blanket could
         help you sleep better and enjoy lower stress
       </p>

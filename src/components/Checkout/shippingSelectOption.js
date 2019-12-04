@@ -43,4 +43,4 @@ function ShippingSelectOption() {
     </div>
   )
 }
-export default ShippingSelectOption;
+export default ShippingSelectOption

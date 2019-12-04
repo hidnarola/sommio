@@ -7,25 +7,21 @@ const RiviewOrder = ({ stripe, formEnable }) => {
   const {
     cartId,
     shipping_address,
-    deleteCart,
     customerDetails,
-    rate
+    rate,
+    builton,
+    cartItemsBuilton,
+    selectedCover,
+    selectedWeight,
+    quantityBuilton
   } = useContext(CartContext)
   const { checkout, pay, paymentDetails } = useContext(CheckoutContext)
   const [checkoutError, setCheckoutError] = useState(null)
 
   const handleOrder = async () => {
-    const billing_address = shipping_address
+    // const billing_address = shipping_address
     try {
-      const order = await checkout(
-        cartId,
-        customerDetails,
-        shipping_address,
-        billing_address,
-        paymentDetails,
-        rate
-      )
-
+      //Stripe token
       const token = await stripe.createToken({
         name: `${shipping_address.first_name} ${shipping_address.last_name}`,
         address_line1: shipping_address.line_1,
@@ -35,15 +31,44 @@ const RiviewOrder = ({ stripe, formEnable }) => {
         address_zip: shipping_address.postcode,
         address_country: shipping_address.country
       })
+      console.log('token, token.id => ', token, token.token.id)
 
-      await pay({
-        gateway: 'stripe',
-        method: 'purchase',
-        orderId: order.id,
-        payment: token.token.id
+      //creating payment_method
+      const paymentMethod = await builton.paymentMethods.create({
+        payment_method: 'stripe',
+        token: token.token.id
       })
+      console.log('paymentMethod => ', paymentMethod)
+      const paymentMethods = await builton.paymentMethods.get()
+      console.log('paymentMethods => ', paymentMethods)
 
-      await deleteCart()
+      //creating orders
+      const createdOrder = await builton.orders.create({
+        items: [
+          {
+            product: cartItemsBuilton[0].id,
+            quantity: quantityBuilton,
+            sub_products: [selectedWeight[0].id, selectedCover[0].id]
+          }
+        ],
+        delivery_address: {
+          street_name: shipping_address.line_1,
+          state: shipping_address.county,
+          city: shipping_address.city,
+          country: shipping_address.country,
+          zip_code: shipping_address.postcode
+        },
+        payment_method: paymentMethod.id
+      })
+      console.log('createdOrder => ', createdOrder)
+
+      // pay for the order
+      const payBuilton = await builton.payments.pay(
+        createdOrder.payments[0].$oid
+      )
+      console.log('payBuilton  => ', payBuilton)
+      pay()
+      // await deleteCart()
     } catch (errors) {
       console.info('errors ====>', JSON.stringify(errors))
       setCheckoutError(errors)

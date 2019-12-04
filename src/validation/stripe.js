@@ -1,6 +1,5 @@
-
-const  stripeValidation = (values) => {
-  console.log('values stripeValidation paymentButton => ',values);
+const stripeValidation = values => {
+  console.log('values stripeValidation paymentButton => ', values)
 
   const errors = {}
 
@@ -14,4 +13,4 @@ const  stripeValidation = (values) => {
   return errors
 }
 
-export default stripeValidation;
+export default stripeValidation

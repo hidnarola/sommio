@@ -1,0 +1,9 @@
+{
+  "endpoint": "https://api.builton.dev/",
+  "apiKey": "PoxBoe7dB3h8cKr_ZC1s0R3Xu-vaIRH8hJH25SOJ2ZwVUgxYJbpkoK5V-H_sWop-FMJmziI2GPy_aeYFAkAa0w==",
+  "stripeKey": "pk_test_OMZZBUdSNLooBVYfSXLuBKcc00tOVakJkI",
+  "firebase": {
+    "apiKey": "AIzaSyDgGT5hFomtsStWFZdYblv6k8d9Bx-5xC0",
+    "authDomain": "builton-61902.firebaseapp.com"
+  }
+}

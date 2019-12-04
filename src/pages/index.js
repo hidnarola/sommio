@@ -50,7 +50,7 @@ function IndexPage({
           </div>
         </div>
 
-        <div className="row no-gutters"  id="service">
+        <div className="row no-gutters" id="service">
           <div
             className="ml-auto col-12 col-lg-10"
             data-scroll
