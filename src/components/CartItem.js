@@ -11,17 +11,6 @@ function CartItem({
   cartButton,
   removeFromCartBuilton
 }) {
-  // console.log(' quantityBuilton SSI => ', quantityBuilton)
-
-  // const {
-  //   display_price: {
-  //     without_tax: {
-  //       unit: { formatted: unit },
-  //       value: { formatted: value }
-  //     }
-  //   }
-  // } = meta
-
   const [removing, setRemoving] = useState(false)
   const {
     Weight,

@@ -4,25 +4,25 @@ import Img from 'gatsby-image'
 import Slider from 'react-slick'
 
 function ProductImage() {
-  const { allMoltinProduct } = useStaticQuery(
-    graphql`
-      query {
-        allMoltinProduct {
-          edges {
-            node {
-              mainImage {
-                childImageSharp {
-                  fluid {
-                    src
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `
-  )
+  // const { allMoltinProduct } = useStaticQuery(
+  //   graphql`
+  //     query {
+  //       allMoltinProduct {
+  //         edges {
+  //           node {
+  //             mainImage {
+  //               childImageSharp {
+  //                 fluid {
+  //                   src
+  //                 }
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   `
+  // )
   // const length = allMoltinProduct.edges.length - 1
   // const handleNext = () =>
   //   index === length ? setIndex(0) : setIndex(index + 1)
@@ -42,7 +42,7 @@ function ProductImage() {
   return (
     <div className="product-gallery">
       <Slider {...settings}>
-        {allMoltinProduct.edges.map(product => (
+        {/* {allMoltinProduct.edges.map(product => (
           <Img
             fluid={
               product.node &&
@@ -52,7 +52,7 @@ function ProductImage() {
             }
             alt="product-image"
           />
-        ))}
+        ))} */}
       </Slider>
     </div>
   )

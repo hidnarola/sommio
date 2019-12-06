@@ -30,12 +30,6 @@ const CheckoutPage = () => {
     return () => {
       element.classList.remove('so-checkout-page')
       checkoutClear()
-      // builton.cart.removeProduct({
-      //   productId: cartItemsBuilton[0] && cartItemsBuilton[0].id,
-      //   quantity: quantityBuilton
-      // })
-
-      // console.log('removeCart => ', removeCart)
     }
   }, [])
 

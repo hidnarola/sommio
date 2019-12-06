@@ -3,7 +3,6 @@ import { useStaticQuery, graphql } from 'gatsby'
 import { ToastContainer } from 'react-toastify'
 import { Link } from 'gatsby'
 import { Helmet } from 'react-helmet'
-import useMoltinInventory from '../../hooks/useMoltinInventory'
 
 import Header from './Header'
 
@@ -19,22 +18,10 @@ const toastOptions = {
 }
 
 const Layout = ({ children }) => {
-  const {
-    site,
-    categories,
-    collections,
-    allMoltin,
-    allBuitlon
-  } = useStaticQuery(categoriesQuery)
+  const { site, allBuitlon } = useStaticQuery(categoriesQuery)
 
   const builtonProduct = allBuitlon.nodes.find(ele => {
     return ele.main_product === true
-  })
-  console.log('allBuitlon, builtonProduct => ', allBuitlon, builtonProduct)
-
-  const product = allMoltin.nodes.find(element => {
-    console.log('element => ', element)
-    return element.relationships.parent === null
   })
 
   return (
@@ -67,8 +54,6 @@ const Layout = ({ children }) => {
       </Helmet>
       <Header
         siteTitle={site.siteMetadata.title}
-        collections={collections}
-        slug={product.slug}
         human_id={builtonProduct.human_id}
       />
 
@@ -83,36 +68,6 @@ const categoriesQuery = graphql`
     site {
       siteMetadata {
         title
-      }
-    }
-
-    categories: allMoltinCategory {
-      nodes {
-        id
-        name
-        slug
-      }
-    }
-
-    collections: allMoltinCollection {
-      nodes {
-        id
-        name
-        slug
-      }
-    }
-    allMoltin: allMoltinProduct {
-      nodes {
-        slug
-        id
-        name
-        relationships {
-          parent {
-            data {
-              id
-            }
-          }
-        }
       }
     }
 

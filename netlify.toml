@@ -4,5 +4,3 @@
   command = "yarn build"
 
 [template.environment]
-  GATSBY_MOLTIN_CLIENT_ID = "Your Moltin client ID"
-  GATSBY_STRIPE_PUBLISHABLE_KEY = "Your Stripe publishable key"

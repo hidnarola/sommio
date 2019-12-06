@@ -12,9 +12,8 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
     shipping_address,
     customerDetails,
     shippingProvider,
-    rate,
-    shippingRates,
-    loading,
+    shippingRate,
+    shippingRatesArray,
     cartItemsBuilton,
     builton,
     quantityBuilton,
@@ -25,29 +24,19 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
   const [checkoutError, setCheckoutError] = useState(null)
   const [makeEnable, setMakeEnable] = useState(true)
   const enableForm =
-    shippingRates &&
-    shippingRates.map(
+    shippingRatesArray &&
+    shippingRatesArray.map(
       charge => charge && charge.total_charge && charge.total_charge.amount
     )
-  console.log(
-    'builton, selectedWeight , selectedWeight =>',
-    builton,
-    selectedWeight,
-    selectedCover
-  )
-  // const stripe = Stripe('pk_test_OMZZBUdSNLooBVYfSXLuBKcc00tOVakJkI') // From Builton Dashboard
-  // const elements = stripe.elements()
-  console.log('builton => ', builton)
 
   const handlePayment = async values => {
-    setMakeEnable(false)
-    paymentData(values)
-    //creating USER
     await builton.users.authenticate({
       first_name: shipping_address && shipping_address.first_name,
       last_name: shipping_address && shipping_address.last_name,
       email: customerDetails && customerDetails.email
     })
+    setMakeEnable(false)
+    paymentData(values)
   }
   const enable = () => {
     setMakeEnable(true)
@@ -147,7 +136,7 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
         <div className="mb-10">
           <h4 className="mb-3">Shipping Method</h4>
           <p className="mb-1">Shipping Provider : {shippingProvider}</p>
-          <p>Shipping cost :{rate}</p>
+          <p>Shipping cost :{shippingRate}</p>
         </div>
         <div className="mb-10">
           <h4 className="mb-3">Payment</h4>

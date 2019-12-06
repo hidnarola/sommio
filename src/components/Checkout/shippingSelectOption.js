@@ -2,13 +2,19 @@ import React, { useContext } from 'react'
 import { CartContext } from '../../context/CartContext'
 
 function ShippingSelectOption() {
-  const { shippingRates, rate, shippingCost, shipping_address } = useContext(
+  const { shippingRatesArray, shippingCost, shipping_address } = useContext(
     CartContext
   )
 
   const updateValue = ({ target: { value } }) => {
     let shipperData = JSON.parse(value)
+
     let shipping_provider = shipperData.service_name
+    console.log(
+      ' shipperData ,shipping_provider => ',
+      shipperData,
+      shipping_provider
+    )
 
     let convertedRates = parseInt(
       (shipperData &&
@@ -20,7 +26,9 @@ function ShippingSelectOption() {
   return (
     <div className="cost_option">
       <select
-        disabled={shippingRates && shippingRates.length > 0 ? false : true}
+        disabled={
+          shippingRatesArray && shippingRatesArray.length > 0 ? false : true
+        }
         onChange={e => updateValue(e)}
       >
         {shipping_address &&
@@ -33,8 +41,8 @@ function ShippingSelectOption() {
         {shipping_address &&
           shipping_address.country &&
           shipping_address.country !== 'GBR' &&
-          shippingRates &&
-          shippingRates.map(shippingRatesType => (
+          shippingRatesArray &&
+          shippingRatesArray.map(shippingRatesType => (
             <option value={JSON.stringify(shippingRatesType)}>
               {shippingRatesType.service_name}
             </option>

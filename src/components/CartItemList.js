@@ -10,12 +10,8 @@ export default function CartItemList(props) {
 
   const {
     isEmpty,
-    cartItems,
-    subTotal,
     removeFromCartBuilton,
-    rate,
-    weightPrice,
-    coverPrice,
+    shippingRate,
     cartItemsBuilton,
     countBuilton,
     subTotalBuilton,
@@ -24,7 +20,6 @@ export default function CartItemList(props) {
   } = useContext(CartContext)
 
   if (isEmpty) return <p className="text-center">Your cart is empty</p>
-  console.log('cartItemsBuilton => ', cartItemsBuilton)
 
   return (
     <div className="cartsliderbar-boby">
@@ -38,15 +33,6 @@ export default function CartItemList(props) {
             {...props}
           />
         ))}
-      {/* {cartItems &&
-        cartItems.map(item => (
-          <CartItem
-            key={item.id}
-            removeFromCart={removeFromCart}
-            {...item}
-            {...props}
-          />
-        ))} */}
       {!isEmpty && props.cartButton ? (
         <div className="cartsliderbar-footer">
           <div className="total-list">
@@ -59,12 +45,14 @@ export default function CartItemList(props) {
               </li>
               <li>
                 Shipping{' '}
-                <span className="ml-auto">{rate ? `£ ${rate}` : 'Free'}</span>
+                <span className="ml-auto">
+                  {shippingRate ? `£ ${shippingRate}` : 'Free'}
+                </span>
               </li>
               <li>
                 Total{' '}
                 <span className="ml-auto">
-                  £{(price !== 0 ? price : subTotalBuilton) + rate}
+                  £{(price !== 0 ? price : subTotalBuilton) + shippingRate}
                 </span>
               </li>
             </ul>
@@ -88,7 +76,9 @@ export default function CartItemList(props) {
               </li>
               <li>
                 Shipping{' '}
-                <span className="ml-auto">{rate ? `£ ${rate}` : 'Free'}</span>
+                <span className="ml-auto">
+                  {shippingRate ? `£ ${shippingRate}` : 'Free'}
+                </span>
               </li>
               <li>
                 Total{' '}

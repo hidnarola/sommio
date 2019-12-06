@@ -1,6 +1,5 @@
 import React from 'react'
 import { graphql, withPrefix } from 'gatsby'
-// import useMoltinInventory from '../hooks/useMoltinInventory'
 import SEO from '../components/SEO'
 import AddToCart from '../components/ProductPage/AddToCart'
 import Noimage from '../images/no_img.jpg'
@@ -14,8 +13,6 @@ import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
 
 const ProductPageBuilton = ({ data: { product } }) => {
-  console.log('product  => ', product)
-
   return (
     <div>
       <SEO

@@ -1,11 +1,7 @@
 import React, { useContext, createContext, useReducer, useEffect } from 'react'
-import { createCartIdentifier } from '@moltin/request'
 import { toast, ToastType } from 'react-toastify'
 import axios from 'axios'
-// import { MoltinContext } from '.'
-import useLocalStorage from './useLocalStorage'
 
-export const SET_CART = 'SET_CART'
 export const RESET_CART = 'RESET_CART'
 export const SET_RATES = 'SET_RATES'
 export const SET_ADDRESS = 'SET_ADDRESS'
@@ -20,13 +16,14 @@ export const USER_DETAIL_BUILTON = 'USER_DETAIL_BUILTON'
 export const CART_BUILTON = 'CART_BUILTON'
 
 export const initialState = {
+  errorMessage: '',
   builton: '',
   user: { email: '', password: '' },
   isAddToCart: false,
   price: 0,
   subTotalBuilton: 0,
   mainProductPrice: 0,
-  wiehtPrice: 0,
+  weihtPrice: 0,
   coverPrice: 0,
   Size: 'single',
   Weight: '12 kg',
@@ -34,13 +31,7 @@ export const initialState = {
   quantityBuilton: 0,
   countBuilton: 0,
   cartItemsBuilton: [],
-  count: 0,
-  items: [],
-  cartItems: [],
-  promotionItems: [],
-  taxItems: [],
   loading: false,
-  meta: null,
   rate: 0,
   paymentButton: false,
   shippingProvider: null,
@@ -50,40 +41,14 @@ export const initialState = {
 
 export default function reducer(state, action) {
   switch (action.type) {
-    case SET_CART:
-      const { data: items, meta } = action.payload
-      const cartItems = items.filter(({ type }) => type === 'cart_item')
-      const promotionItems = items.filter(
-        ({ type }) => type === 'promotion_item'
-      )
-      const taxItems = items.filter(({ type }) => type === 'tax_item')
-      const count = cartItems.reduce(
-        (sum, { type, quantity }) => type === 'cart_item' && sum + quantity,
-        0
-      )
-
-      // const subTotal = meta ? meta.display_price.without_tax.amount : '00'
-      const total = meta ? meta.display_price.without_tax.formatted : '00'
-      const subTotal = total && parseInt(total.slice(1))
-
-      return {
-        ...state,
-        items,
-        cartItems: cartItems,
-        promotionItems,
-        taxItems,
-        count,
-        meta,
-        subTotal,
-        orderCartItems: cartItems
-      }
-
     case SET_RATES:
-      const shippingRates = action.payload && action.payload.data.data.rates
+      const shippingRatesArray =
+        action.payload && action.payload.data.data.rates
       let loadingAfterRate = false
+
       let test = {
         ...state,
-        shippingRates,
+        shippingRatesArray,
         loading: loadingAfterRate
       }
 
@@ -106,14 +71,17 @@ export default function reducer(state, action) {
     case SET_SELCETED_RATES:
       return {
         ...state,
-        rate: action.payload.convertedRates,
+        shippingRate: action.payload.convertedRates,
         shippingProvider: action.payload.shipping_provider
       }
     case SET_LOADING:
       const loading = true
 
       return { loading: loading }
+
     case CLEAN_CART:
+      console.log('initialState => ', initialState)
+
       return initialState
 
     case RESET_CART:
@@ -130,6 +98,7 @@ export default function reducer(state, action) {
         paymentButton: false,
         shippingProvider: null
       }
+
     case SET_VARIATION:
       console.log('My Log', action)
       var obj = {}
@@ -202,8 +171,6 @@ export default function reducer(state, action) {
           isAddToCart: false
         }
       } else {
-        // } else {
-        // const cartItemsBuilton = action.payload
         const isActive = cartItemsBuilton[0].isAddToCart
         return {
           ...state,
@@ -212,27 +179,19 @@ export default function reducer(state, action) {
           subTotalBuilton: subTotalBuilton,
           quantityBuilton: quantityBuilton,
           mainProductPrice,
-          isAddToCart: cartItemsBuilton[0].isAddToCart
+          isAddToCart: cartItemsBuilton[0].isAddToCart,
+          orderCartItems: cartItemsBuilton
         }
       }
 
     case USER_DETAIL_BUILTON:
       const builton = action.builton
+
       return {
         ...state,
         user: action.data,
         builton: builton
       }
-    case CART_BUILTON:
-      // const {} = a
-      console.log('action => ', action)
-      const CartBuiltonMethod =
-        state.builton &&
-        state.builton.cart.addProduct({
-          productId: cartItemsBuilton[0] && cartItemsBuilton[0].id,
-          quantity: quantityBuilton
-        })
-      console.log('CartBuiltonMethod => ', CartBuiltonMethod)
     default:
       return state
   }
@@ -242,40 +201,9 @@ let CartContext
 
 const { Provider, Consumer } = (CartContext = createContext())
 
-function CartProvider({
-  porductImage,
-  clientId,
-  cartId: initialCartId = createCartIdentifier(),
-  children,
-  ...props
-}) {
-  // const { moltin } = useContext(MoltinContext)
+function CartProvider({ children, ...props }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const [cartId, setCartId] = useLocalStorage('mcart', initialCartId)
   const isEmpty = state.countBuilton === 0
-
-  useEffect(() => {
-    // getCart(cartId)
-    setCartId(cartId)
-  }, [cartId])
-
-  // async function getCart(id) {
-  //   const payload = await moltin.get(`carts/${id}/items`)
-  //   dispatch({ type: SET_CART, payload })
-  // }
-
-  // async function addToCart(id, quantity, size, weight, cover, subTotal, rate) {
-  //   const payload = await moltin.post(`carts/${cartId}/items`, {
-  //     type: 'cart_item',
-  //     id,
-  //     quantity,
-  //     variations: { size, weight, cover }
-  //   })
-  //   dispatch({ type: SET_CART, payload })
-  //   // toast.success(
-  //   //   `Added ${quantity} ${quantity > 1 ? 'items' : 'item'} to cart`
-  //   // )
-  // }
 
   function updateQuantityBuilton(id, quantity) {
     console.log('quantity => ', quantity)
@@ -301,13 +229,7 @@ function CartProvider({
 
     toast.success(`Quantity updated to ${quantity}`)
   }
-  // async function removeFromCart(id) {
-  //   const payload = await moltin.delete(`carts/${cartId}/items/${id}`)
 
-  //   dispatch({ type: SET_CART, payload })
-
-  //   toast.success('Item removed from cart')
-  // }
   async function removeFromCartBuilton(id) {
     //Remove item from cart
     const removeCart = true
@@ -327,22 +249,6 @@ function CartProvider({
     })
     toast.success('Item removed from cart')
   }
-  // async function addPromotion(code) {
-  //   const payload = await moltin.post(`carts/${cartId}/items`, {
-  //     type: 'promotion_item',
-  //     code
-  //   })
-
-  //   dispatch({ type: SET_CART, payload })
-
-  //   toast.success('Promotion applied')
-  // }
-
-  // async function deleteCart(id) {
-  //   await moltin.delete(`carts/${id || cartId}`)
-
-  //   dispatch({ type: RESET_CART })
-  // }
 
   const shippingCostCalculate = async (
     user,
@@ -352,12 +258,18 @@ function CartProvider({
     dispatch({ type: SET_ADDRESS, user, shippingData })
 
     var items = []
+    // const final_price = cartItemsBuilton[0].price +
     for (const item of cartItemsBuilton) {
+      console.log('item before => ', item)
+      const finalPrice = item.price + state.coverPrice + state.weightPrice
       items.push({
         description: item.description,
         origin_country: 'USA',
         quantity: item.quantityBuilton,
-        price: item.price,
+        price: {
+          amount: finalPrice,
+          currency: item.currency
+        },
         weight: {
           value: 0.6,
           unit: 'kg'
@@ -365,7 +277,7 @@ function CartProvider({
         sku: item.human_id
       })
     }
-
+    console.log('item after => ', items)
     let data = {
       async: false,
       shipper_accounts: [
@@ -423,6 +335,7 @@ function CartProvider({
       data,
       { headers: { 'postmen-api-key': apiKey } }
     )
+    console.log('payload rates => ', payload)
 
     dispatch({ type: SET_RATES, payload })
   }
@@ -444,9 +357,9 @@ function CartProvider({
       payload: { name, value, price }
     })
   }
-  // function cleanCart() {
-  //   dispatch({ type: CLEAN_CART })
-  // }
+  const deleteCart = () => {
+    dispatch({ type: CLEAN_CART })
+  }
   const setSubProductPrice = (selectedWeight, selectedCover) => {
     const selectWeightPrice = selectedWeight[0] && selectedWeight[0].price
     const selectCoverPrice = selectedWeight[0] && selectedCover[0].price
@@ -473,6 +386,7 @@ function CartProvider({
   const cartBuilton = cart => {
     dispatch({ type: CART_BUILTON, cart })
   }
+
   return (
     <Provider
       value={{
@@ -488,7 +402,8 @@ function CartProvider({
         removeFromCartBuilton,
         updateQuantityBuilton,
         setUserBuilton,
-        cartBuilton
+        cartBuilton,
+        deleteCart
       }}
     >
       {children}

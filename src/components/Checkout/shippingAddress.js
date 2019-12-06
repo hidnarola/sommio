@@ -2,11 +2,6 @@ import React, { useContext, useState } from 'react'
 import { Form } from 'react-final-form'
 import jwt from 'jsonwebtoken'
 import Builton from '@builton/core-sdk'
-import firebase from 'firebase'
-
-// import * as admin from 'firebase-admin'
-// import config from ""
-// import 'firebase/auth'
 import Input from '../Input'
 import { CartContext } from '../../context'
 import validation from '../../validation/checkout'

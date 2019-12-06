@@ -23,6 +23,7 @@ const AddToCart = ({ productId, tags }) => {
             _oid
           }
           name
+          currency
           parent {
             id
           }
@@ -39,16 +40,12 @@ const AddToCart = ({ productId, tags }) => {
   `)
   const {
     setSubProductPrice,
-    addToCart,
-    subTotal,
-    rate,
     setVariation,
     Weight,
     Size,
     Cover,
     setToggle,
     toggle,
-    SubproductPrice,
     weightPrice,
     coverPrice,
     setCartData,
@@ -56,17 +53,12 @@ const AddToCart = ({ productId, tags }) => {
     countBuilton,
     quantityBuilton
   } = useContext(CartContext)
+
   let weightSubProduct = []
   let coverSubProduct = []
   let childData = []
   let parentData = []
-  console.log(
-    'isEmpty , countBuilton , quantityBuilton ,toggle => ',
-    isEmpty,
-    countBuilton,
-    quantityBuilton,
-    toggle
-  )
+  console.log('coverPrice, weightPrice =>', coverPrice, weightPrice)
 
   allBuiltonProduct.nodes.map(data => {
     if (productId !== data.id && data.main_product === false) {
@@ -83,14 +75,10 @@ const AddToCart = ({ productId, tags }) => {
     }
   })
   const selectedCover = coverSubProduct.filter(sub => {
-    console.log('sub => ', sub)
-
     return sub.name === Cover
   })
-  console.log('selectedCover => ', selectedCover)
 
   const selectedWeight = weightSubProduct.filter(sub => {
-    console.log('sub => ', sub)
     return sub.name === Weight
   })
   useEffect(() => {
@@ -117,16 +105,6 @@ const AddToCart = ({ productId, tags }) => {
     }
   }
 
-  // const comparision = () => {
-  //   const comboVariations = `${Size}-${Weight}-${Cover}`
-  //   const id_obj = childData.filter(item => comboVariations === item.slug)
-
-  //   return (id_obj && id_obj.length > 0 && id_obj[0].id) || false
-  // }
-
-  // const selectedProduct = parentData.filter(i => {
-  //   return productId === i.id
-  // })
   let selectedProduct
   parentData.filter(i => {
     if (productId === i.id) {
@@ -135,9 +113,6 @@ const AddToCart = ({ productId, tags }) => {
   })
 
   const handleAddToCart = () => {
-    // const id = comparision()
-    // addToCart(id, parseInt(quantity, 10), Size, Weight, Cover, subTotal, rate)
-
     let cartItemsBuilton = [
       {
         id: selectedProduct.id,
@@ -149,7 +124,8 @@ const AddToCart = ({ productId, tags }) => {
         price: selectedProduct.price,
         main_product: selectedProduct.main_product,
         subProduct: { selectedWeight, selectedCover },
-        isAddToCart: true
+        isAddToCart: true,
+        currency: selectedProduct.currency
       }
     ]
     console.log('cartItemsBuilton => ', cartItemsBuilton)

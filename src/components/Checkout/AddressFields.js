@@ -14,12 +14,6 @@ const AddressFields = ({ type, toggleEditable }) => {
     cartItemsBuilton,
     builton
   } = useContext(CartContext)
-  console.log(
-    'builton ,shipping_address,customerDetails => ',
-    builton,
-    shipping_address,
-    customerDetails
-  )
 
   const handleShippingCost = async values => {
     toggleEditable(true)

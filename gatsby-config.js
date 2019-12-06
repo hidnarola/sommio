@@ -4,9 +4,8 @@ require('dotenv').config()
 module.exports = {
   siteMetadata: {
     title: 'I Love Lamp',
-    description:
-      'I love carpet. I love desk. I love lamp. I Love Lamp is the official Moltin demo store.',
-    author: '@moltin',
+    description: 'I love carpet. I love desk. I love lamp. ',
+    author: '',
     url: process.env.DEPLOY_PRIME_URL || process.env.URL || 'localhost:8000'
   },
   plugins: [
@@ -31,12 +30,6 @@ module.exports = {
         theme_color: '#131313',
         display: 'minimal-ui',
         icon: 'src/images/i-love-lamp-icon.png'
-      }
-    },
-    {
-      resolve: '@moltin/gatsby-source-moltin',
-      options: {
-        client_id: process.env.GATSBY_MOLTIN_CLIENT_ID
       }
     },
     'gatsby-plugin-postcss',

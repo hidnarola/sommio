@@ -11,25 +11,14 @@ import MagicWeightex from '../components/HomePage/MagicWeightex'
 import BlanketDifference from '../components/HomePage/BlanketDifference'
 import CustomerReview from '../components/HomePage/CustomerReview'
 
-function IndexPage({
-  data: {
-    categories: { edges: categories }
-  }
-}) {
+function IndexPage() {
   const scrollRef = React.createRef()
 
   useEffect(() => {
-    // document.getElementsByTagName('body')[0].setAttribute('id', 'scroll')
-    // let bodyId = document.getElementsByTagName('body')[0].id
-    // alert(bodyId)
     const scroll = new locomotiveScroll({
       el: scrollRef.current,
       smooth: true
     })
-    // const scroll = new locomotiveScroll({
-    //   el: document.querySelector(`#${bodyId}`),
-    //   smooth: true
-    // })
   })
   return (
     <div className="homepage-bg" ref={scrollRef}>
@@ -105,30 +94,5 @@ function IndexPage({
     </div>
   )
 }
-
-export const query = graphql`
-  query IndexPageQuery {
-    categories: allMoltinCategory {
-      edges {
-        node {
-          id
-          name
-          slug
-          description
-          products {
-            name
-            mainImage {
-              childImageSharp {
-                fluid(maxWidth: 560) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`
 
 export default IndexPage

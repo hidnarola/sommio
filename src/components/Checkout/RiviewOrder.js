@@ -2,24 +2,29 @@ import React, { useContext, useState, useEffect } from 'react'
 import { injectStripe } from 'react-stripe-elements'
 import { CartContext, CheckoutContext } from '../../context'
 import CartItemList from '../CartItemList'
-
+import firebase from '../../firebse/index'
 const RiviewOrder = ({ stripe, formEnable }) => {
   const {
     cartId,
     shipping_address,
     customerDetails,
-    rate,
     builton,
     cartItemsBuilton,
     selectedCover,
     selectedWeight,
-    quantityBuilton
+    quantityBuilton,
+    deleteCart,
+    setToggle
   } = useContext(CartContext)
-  const { checkout, pay, paymentDetails } = useContext(CheckoutContext)
+  const {
+    checkout,
+    paymentDetails,
+    createOrderBuilton,
+    paymentBuilton
+  } = useContext(CheckoutContext)
   const [checkoutError, setCheckoutError] = useState(null)
 
   const handleOrder = async () => {
-    // const billing_address = shipping_address
     try {
       //Stripe token
       const token = await stripe.createToken({
@@ -31,16 +36,11 @@ const RiviewOrder = ({ stripe, formEnable }) => {
         address_zip: shipping_address.postcode,
         address_country: shipping_address.country
       })
-      console.log('token, token.id => ', token, token.token.id)
-
-      //creating payment_method
+      //creating payment
       const paymentMethod = await builton.paymentMethods.create({
         payment_method: 'stripe',
         token: token.token.id
       })
-      console.log('paymentMethod => ', paymentMethod)
-      const paymentMethods = await builton.paymentMethods.get()
-      console.log('paymentMethods => ', paymentMethods)
 
       //creating orders
       const createdOrder = await builton.orders.create({
@@ -60,6 +60,9 @@ const RiviewOrder = ({ stripe, formEnable }) => {
         },
         payment_method: paymentMethod.id
       })
+
+      // dispatch method
+      await createOrderBuilton(createdOrder)
       console.log('createdOrder => ', createdOrder)
 
       // pay for the order
@@ -67,8 +70,13 @@ const RiviewOrder = ({ stripe, formEnable }) => {
         createdOrder.payments[0].$oid
       )
       console.log('payBuilton  => ', payBuilton)
-      pay()
-      // await deleteCart()
+      //dispatch method
+      await paymentBuilton(payBuilton)
+
+      //user logout
+      firebase.auth().signOut()
+
+      console.log('initialState HIIIIIIII => ')
     } catch (errors) {
       console.info('errors ====>', JSON.stringify(errors))
       setCheckoutError(errors)
