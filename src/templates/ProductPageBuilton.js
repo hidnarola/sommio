@@ -41,7 +41,7 @@ const ProductPageBuilton = ({ data: { product } }) => {
                   <AddToCart productId={product.id} tags={product.tags} />
                 </div>
                 <div className="col-12 col-lg-8">
-                  <ProductImage />
+                  <ProductImage productId={product.id} />
                 </div>
               </div>
             </div>

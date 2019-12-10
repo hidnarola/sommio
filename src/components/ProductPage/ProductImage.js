@@ -3,35 +3,31 @@ import { useStaticQuery, graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import Slider from 'react-slick'
 
-function ProductImage() {
-  // const { allMoltinProduct } = useStaticQuery(
-  //   graphql`
-  //     query {
-  //       allMoltinProduct {
-  //         edges {
-  //           node {
-  //             mainImage {
-  //               childImageSharp {
-  //                 fluid {
-  //                   src
-  //                 }
-  //               }
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   `
-  // )
-  // const length = allMoltinProduct.edges.length - 1
-  // const handleNext = () =>
-  //   index === length ? setIndex(0) : setIndex(index + 1)
-  // const handlePrevious = () =>
-  //   index === 0 ? setIndex(length) : setIndex(index - 1)
-  // const { node } = allMoltinProduct.edges[index]
-
-  // console.log('node ==>', node)
-  // console.log('length', length)
+function ProductImage({ productId }) {
+  const { allBuiltonProduct } = useStaticQuery(
+    graphql`
+      query {
+        allBuiltonProduct {
+          nodes {
+            parent {
+              id
+            }
+            name
+            media {
+              human_id
+              url
+            }
+            main_product
+            id
+          }
+        }
+      }
+    `
+  )
+  console.log('allBuiltonProduct => ', allBuiltonProduct)
+  const mainProduct = allBuiltonProduct.nodes.filter(product => {
+    console.log('product => ', product)
+  })
   const settings = {
     dots: true,
     infinite: true,
@@ -39,10 +35,11 @@ function ProductImage() {
     slidesToShow: 1,
     slidesToScroll: 1
   }
+
   return (
     <div className="product-gallery">
       <Slider {...settings}>
-        {/* {allMoltinProduct.edges.map(product => (
+        {/* {allBuiltonProduct.edges.map(product => (
           <Img
             fluid={
               product.node &&
