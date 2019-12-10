@@ -4,29 +4,20 @@ import { CheckoutContext, CartContext } from '../../context'
 import OrderItems from '../OrderItems'
 
 export default function OrderConfirmation(props) {
-  const { orderCartItems, cleanCart, removeFromCart } = useContext(CartContext)
+  const { deleteCart, shipping_address, customerDetails } = useContext(
+    CartContext
+  )
   const {
     orderId,
-    order_shipping_address,
-    order_customer,
-    order_items,
+    orderedItems,
     order_shipping_provider_name,
     order_shipping_cost,
-    order_meta
+    orderPrice
   } = useContext(CheckoutContext)
-  console.info(
-    'orderCartItems, order_customer,order_items,order_shipping_provider_name,order_shipping_cost,order_meta ==>',
-    orderCartItems,
-    order_shipping_address,
-    order_customer,
-    order_items,
-    order_shipping_provider_name,
-    order_shipping_cost,
-    order_meta
-  )
+
   useEffect(() => {
     return () => {
-      cleanCart()
+      deleteCart()
     }
   }, [])
   return (
@@ -67,32 +58,17 @@ export default function OrderConfirmation(props) {
           <div className="boxs">
             <h4 className="mb-6">Your Information</h4>
             <p className="mb-2">
-              Name - {order_customer && order_customer.name}
+              Name - {shipping_address.first_name} {shipping_address.last_name}
             </p>
-            <p className="mb-2">
-              Email - {order_customer && order_customer.email}
-            </p>
+            <p className="mb-2">Email - {customerDetails.email}</p>
           </div>
           <div className="boxs">
             <h4 className="mb-6">Shipping Address</h4>
-            <p className="mb-2">
-              Address -{' '}
-              {order_shipping_address && order_shipping_address.line_1}
-            </p>
-            <p className="mb-2">
-              City - {order_shipping_address && order_shipping_address.city}
-            </p>
-            <p className="mb-2">
-              Postcode -{' '}
-              {order_shipping_address && order_shipping_address.postcode}
-            </p>
-            <p className="mb-2">
-              County - {order_shipping_address && order_shipping_address.county}
-            </p>
-            <p className="mb-2">
-              Country -{' '}
-              {order_shipping_address && order_shipping_address.country}
-            </p>
+            <p className="mb-2">Address - {shipping_address.line_1}</p>
+            <p className="mb-2">City - {shipping_address.city}</p>
+            <p className="mb-2">Postcode - {shipping_address.postcode}</p>
+            <p className="mb-2">County - {shipping_address.county}</p>
+            <p className="mb-2">Country - {shipping_address.country}</p>
           </div>
           <div className="boxs yourproduct-main">
             <h4>Your Product</h4>

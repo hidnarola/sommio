@@ -1,12 +1,20 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
 // import { Link } from 'gatsby'
+import jwt from 'jsonwebtoken'
+import Builton from '@builton/core-sdk'
 import { CartContext, CheckoutContext } from '../context'
 import ShippingAddress from '../components/Checkout/shippingAddress'
 import PaymentPage from '../components/Checkout/paymentPage'
 import ReviewOrder from '../components/Checkout/RiviewOrder'
 import OrderConfirmation from '../components/Checkout/OrderConfirmation'
 const CheckoutPage = () => {
-  const { isEmpty } = useContext(CartContext)
+  const {
+    isEmpty,
+    customerDetails,
+    cartItemsBuilton,
+    quantityBuilton,
+    builton
+  } = useContext(CartContext)
 
   const { defaultPayment, checkoutClear } = useContext(CheckoutContext)
   const [formEnable, setFormEnable] = useState(false)
@@ -49,7 +57,8 @@ const CheckoutPage = () => {
             }
           >
             <h2 className="text-black font-medium leading-loose p-0 mb-3">
-              <span>2</span><span className="text">PAYMENT INFORMATION</span>{' '}
+              <span>2</span>
+              <span className="text">PAYMENT INFORMATION</span>{' '}
             </h2>
             <PaymentPage
               changeFormEnable={status => setFormEnable(status)}

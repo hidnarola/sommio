@@ -1,10 +1,10 @@
 import React from 'react'
-import SommioImg1 from '../../images/sommio-img.png';
-import SommioImg2 from '../../images/sommio-img2.png';
-import SommioImg3 from '../../images/sommio-img3.png';
-import BeadImg1 from '../../images/bead-img1.png';
-import BeadImg2 from '../../images/bead-img2.png';
-import BeadImg3 from '../../images/bead-img3.png';
+import SommioImg1 from '../../images/sommio-img.png'
+import SommioImg2 from '../../images/sommio-img2.png'
+import SommioImg3 from '../../images/sommio-img3.png'
+import BeadImg1 from '../../images/bead-img1.png'
+import BeadImg2 from '../../images/bead-img2.png'
+import BeadImg3 from '../../images/bead-img3.png'
 
 const BlanketDifference = () => {
   return (

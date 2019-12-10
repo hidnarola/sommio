@@ -4,44 +4,63 @@ import { CardElement, injectStripe } from 'react-stripe-elements'
 import { CheckoutContext, CartContext } from '../../context'
 import ShippingSelectOption from './shippingSelectOption'
 import stripeValidation from '../../validation/stripe'
-
+import axios from 'axios'
+// import { Stripe } from 'stripe'
 const PaymentPage = ({ changeFormEnable, isEditable }) => {
   const {
     paymentButton,
     shipping_address,
     customerDetails,
     shippingProvider,
-    rate,
-    shippingRates,
-    loading
+    shippingRate,
+    shippingRatesArray,
+    cartItemsBuilton,
+    builton,
+    quantityBuilton,
+    selectedWeight,
+    selectedCover,
+    shippingCost,
+    shippingSubProductId
   } = useContext(CartContext)
   const { paymentData, paymentDetails } = useContext(CheckoutContext)
   const [checkoutError, setCheckoutError] = useState(null)
   const [makeEnable, setMakeEnable] = useState(true)
   const enableForm =
-    shippingRates &&
-    shippingRates.map(
+    shippingRatesArray &&
+    shippingRatesArray.map(
       charge => charge && charge.total_charge && charge.total_charge.amount
     )
-  console.log(
-    'rate ,shippingRates,enableForm ==> ',
-    rate,
-    shippingRates,
-    enableForm
-  )
-  // useEffect(() => {
-  //   let klarnaPayment = document.createElement("script");
-  //   klarnaPayment.src = "https://x.klarnacdn.net/kp/lib/v1/api.js";
-  //   klarnaPayment.type = "text/javascript";
-  //   klarnaPayment.async = true;
-  //   klarnaPayment.onload = () => {
-  //     setLoaded(true);
-  //   };
-  //   document.getElementsByTagName("head")[0].appendChild(klarnaPayment);
+  const url = `https://api.builton.dev/products/${shippingSubProductId}`
 
-  // }, []);
-  const [Loaded, setLoaded] = useState(false)
   const handlePayment = async values => {
+    shippingCost(shippingRate, shippingProvider)
+
+    //user authenticate
+    await builton.users.authenticate({
+      first_name: shipping_address && shipping_address.first_name,
+      last_name: shipping_address && shipping_address.last_name,
+      email: customerDetails && customerDetails.email
+    })
+
+    // update shipping price in builton
+    try {
+      const response = await axios.put(
+        url,
+        {
+          price: shippingRate
+        },
+        {
+          headers: {
+            Authorization: 'Bearer sa_b42dacef115c06749041d93bea4037',
+            'X-Builton-Api-Key': process.env.GATSBY_BUILTON_API_KEY,
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      console.log('response ==>', response)
+    } catch (error) {
+      console.error(error)
+    }
     setMakeEnable(false)
     paymentData(values)
   }
@@ -79,6 +98,7 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
             Shipping Method
           </p>
           <ShippingSelectOption />
+
           <Form onSubmit={handlePayment} validate={stripeValidation}>
             {({
               handleSubmit,
@@ -132,7 +152,6 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
                       NEXT
                     </button>
                   </div>
-                  {/* {Loaded && <div id="klarna-payments-container"></div>} */}
                 </form>
               )
             }}
@@ -143,7 +162,7 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
         <div className="mb-10">
           <h4 className="mb-3">Shipping Method</h4>
           <p className="mb-1">Shipping Provider : {shippingProvider}</p>
-          <p>Shipping cost :{rate}</p>
+          <p>Shipping cost :{shippingRate}</p>
         </div>
         <div className="mb-10">
           <h4 className="mb-3">Payment</h4>

@@ -5,26 +5,26 @@ import CartItemList from '../../components/CartItemList'
 import CartIcon from '../../images/shopping-basket-duotone.svg'
 
 const CartButton = () => {
-  const { allMoltinProduct } = useStaticQuery(graphql`
+  const { allBuiltonProduct } = useStaticQuery(graphql`
     query {
-      allMoltinProduct {
+      allBuiltonProduct {
         nodes {
-          slug
+          name
+          main_product
           id
-          relationships {
-            parent {
-              data {
-                id
-              }
-            }
+          human_id
+          description
+          currency
+          parents {
+            _oid
           }
         }
       }
     }
   `)
 
-  const product = allMoltinProduct.nodes.find(element => {
-    return element.relationships.parent === null
+  const product = allBuiltonProduct.nodes.find(element => {
+    return element.main_product === true
   })
 
   const {
@@ -34,8 +34,10 @@ const CartButton = () => {
     subTotal,
     setToggle,
     rate,
-    cartItems
+    countBuilton,
+    subTotalBuilton
   } = useContext(CartContext)
+  console.log('countBuilton, isEmpty => ', countBuilton, isEmpty)
 
   const handleToggle = () => {
     setToggle()
@@ -51,11 +53,12 @@ const CartButton = () => {
       <button onClick={handleToggle}>
         <img src={CartIcon} />
         <span className="count-number">
-          {isEmpty && count === 0 ? 0 : count}
+          {isEmpty && countBuilton === 0 ? 0 : countBuilton}
         </span>
       </button>
       <div className={`${toggle ? 'show' : 'hide'} cartsliderbar-main`}>
         <div onClick={handleToggle} className="overlay"></div>
+        {console.log('inside isEmpty===>', isEmpty)}
         {!isEmpty ? (
           <div className="cartsliderbar-boxs">
             <div className="cartsliderbar-header">
@@ -68,7 +71,7 @@ const CartButton = () => {
                   viewBox="0 0 31 31"
                 >
                   <path
-                    class="a"
+                    className="a"
                     d="M21.376,95.5l8.813-8.813a2.77,2.77,0,0,0,0-3.917L28.23,80.811a2.77,2.77,0,0,0-3.917,0L15.5,89.624,6.687,80.811a2.77,2.77,0,0,0-3.917,0L.811,82.77a2.77,2.77,0,0,0,0,3.917L9.624,95.5.811,104.313a2.77,2.77,0,0,0,0,3.917l1.959,1.959a2.77,2.77,0,0,0,3.917,0l8.813-8.813,8.813,8.813a2.77,2.77,0,0,0,3.917,0l1.959-1.959a2.77,2.77,0,0,0,0-3.917Z"
                     transform="translate(0 -80)"
                   />
@@ -89,7 +92,7 @@ const CartButton = () => {
                   viewBox="0 0 31 31"
                 >
                   <path
-                    class="a"
+                    className="a"
                     d="M21.376,95.5l8.813-8.813a2.77,2.77,0,0,0,0-3.917L28.23,80.811a2.77,2.77,0,0,0-3.917,0L15.5,89.624,6.687,80.811a2.77,2.77,0,0,0-3.917,0L.811,82.77a2.77,2.77,0,0,0,0,3.917L9.624,95.5.811,104.313a2.77,2.77,0,0,0,0,3.917l1.959,1.959a2.77,2.77,0,0,0,3.917,0l8.813-8.813,8.813,8.813a2.77,2.77,0,0,0,3.917,0l1.959-1.959a2.77,2.77,0,0,0,0-3.917Z"
                     transform="translate(0 -80)"
                   />
@@ -100,7 +103,7 @@ const CartButton = () => {
               <h4>Your cart is currently empty !!!</h4>
               <Link
                 onClick={handleToggle}
-                to={`/products/${product.slug}`}
+                to={`/products/${product.human_id}`}
                 className="btn btn-primary"
               >
                 Shop Products

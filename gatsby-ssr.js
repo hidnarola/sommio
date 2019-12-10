@@ -1,16 +1,16 @@
 import React from 'react'
 import { Elements } from 'react-stripe-elements'
 
-import { MoltinProvider } from './src/context'
-import StripeProvider from './src/components/StripeProvider'
+import { BuiltonProvider } from './src/context'
 import Layout from './src/components/Layout'
+import { StripeProvider } from 'react-stripe-elements'
 
 export const wrapRootElement = ({ element }) => {
   return (
-    <StripeProvider>
-      <MoltinProvider clientId={process.env.GATSBY_MOLTIN_CLIENT_ID}>
+    <StripeProvider apiKey={process.env.GATSBY_BUILTON_STRIPE_KEY}>
+      <BuiltonProvider>
         <Elements>{element}</Elements>
-      </MoltinProvider>
+      </BuiltonProvider>
     </StripeProvider>
   )
 }

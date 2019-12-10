@@ -1,38 +1,26 @@
 import React, { useContext, useState } from 'react'
 import { Form } from 'react-final-form'
+import jwt from 'jsonwebtoken'
+import Builton from '@builton/core-sdk'
 import Input from '../Input'
-
 import { CartContext } from '../../context'
 import validation from '../../validation/checkout'
-
 import AddressFields from './AddressFields'
+import { LoginTicket } from 'google-auth-library/build/src/auth/loginticket'
+import RegisterOrLogin from './RegisterOrLogin'
 
 const ShippingAddress = ({ isCompleted, toggleEditable }) => {
   const {
     cartItems,
     shippingCostCalculate,
     shipping_address,
-    customerDetails
+    customerDetails,
+    cartItemsBuilton,
+    quantityBuilton,
+    user,
+    builton
   } = useContext(CartContext)
-
-  const handleShippingCost = values => {
-    console.log('values => ', values);
-    toggleEditable(true)
-    shippingCostCalculate(values, cartItems)
-  }
-
-  const myInitData = {
-    customer : { email: customerDetails && customerDetails.email},
-    shipping_address: {first_name : shipping_address && shipping_address.first_name,
-      last_name: shipping_address && shipping_address.last_name,
-      line_1: shipping_address && shipping_address.line_1,
-      city: shipping_address && shipping_address.city,
-      county: shipping_address && shipping_address.county,
-      postcode: shipping_address && shipping_address.postcode,
-      country: shipping_address && shipping_address.country
-    }
-
-  }
+  console.log('builton => ', builton)
 
   return (
     <>
@@ -67,36 +55,16 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
         </div>
       </div>
       <div className={`${isCompleted ? 'hidden' : 'visible'}`}>
-        <Form initialValues={myInitData} onSubmit={handleShippingCost} validate={validation}>
-          {({ handleSubmit, pristine, invalid }) => {
-            return (
-              <form onSubmit={handleSubmit} id="shipping_form">
-                <div className="shipping-boxs">
-                  <h2 className="text-black font-medium leading-loose p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
-                    <span>1</span>
-                    <span className="text">CONTACT INFORMATION</span>
-                  </h2>
-                  <div className="frm_grp">
-                    <Input
-                      type="email"
-                      name="customer.email"
-                      label="Email"
-                    />
-                  </div>
-                  <h2 className="text-black font-medium p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
-                    SHIPPING & BILLING
-                  </h2>
-                  <AddressFields type="shipping_address" />
-                </div>
-                <div className="submit_btn">
-                  <button type="submit" >
-                    Submit
-                  </button>
-                </div>
-              </form>
-            )
-          }}
-        </Form>
+        <div className="shipping-boxs">
+          <RegisterOrLogin />
+          <h2 className="text-black font-medium p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
+            SHIPPING & BILLING
+          </h2>
+          <AddressFields
+            type="shipping_address"
+            toggleEditable={toggleEditable}
+          />
+        </div>
       </div>
     </>
   )

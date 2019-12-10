@@ -3,7 +3,6 @@ import { useStaticQuery, graphql } from 'gatsby'
 import { ToastContainer } from 'react-toastify'
 import { Link } from 'gatsby'
 import { Helmet } from 'react-helmet'
-import useMoltinInventory from '../../hooks/useMoltinInventory'
 
 import Header from './Header'
 
@@ -19,13 +18,10 @@ const toastOptions = {
 }
 
 const Layout = ({ children }) => {
-  const { site, categories, collections, allMoltin } = useStaticQuery(
-    categoriesQuery
-  )
+  const { site, allBuitlon } = useStaticQuery(categoriesQuery)
 
-  const product = allMoltin.nodes.find(element => {
-    console.log('element => ', element)
-    return element.relationships.parent === null
+  const builtonProduct = allBuitlon.nodes.find(ele => {
+    return ele.main_product === true
   })
 
   return (
@@ -44,12 +40,23 @@ const Layout = ({ children }) => {
           type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
+        <script src="https://x.klarnacdn.net/kp/lib/v1/api.js"></script>
+        <script src="https://unpkg.com/@builton/core-sdk@latest/dist/main.bundle.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase-auth.js"></script>
+        <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+        <script src="https://js.stripe.com/v3/"></script>
+        <link
+          type="text/css"
+          rel="stylesheet"
+          href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css"
+        />
       </Helmet>
       <Header
         siteTitle={site.siteMetadata.title}
-        collections={collections}
-        slug={product.slug}
+        human_id={builtonProduct.human_id}
       />
+
       <main>{children}</main>
       <ToastContainer {...toastOptions} />
     </>
@@ -64,33 +71,15 @@ const categoriesQuery = graphql`
       }
     }
 
-    categories: allMoltinCategory {
+    allBuitlon: allBuiltonProduct {
       nodes {
         id
         name
-        slug
-      }
-    }
-
-    collections: allMoltinCollection {
-      nodes {
-        id
-        name
-        slug
-      }
-    }
-    allMoltin: allMoltinProduct {
-      nodes {
-        slug
-        id
-        name
-        relationships {
-          parent {
-            data {
-              id
-            }
-          }
+        human_id
+        parents {
+          _oid
         }
+        main_product
       }
     }
   }

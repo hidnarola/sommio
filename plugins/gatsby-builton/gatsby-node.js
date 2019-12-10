@@ -38,7 +38,6 @@
 //     )
 
 //   }
-
 const Builton = require("@builton/core-sdk")
 const { createRemoteFileNode } = require("gatsby-source-filesystem")
 const merge = require("deepmerge")

@@ -1,62 +1,33 @@
 import React, { createContext } from 'react'
-import { MoltinClient } from '@moltin/request'
 
 import { CartProvider, CartContext } from './CartContext'
-import { CustomerProvider, CustomerContext } from './CustomerContext'
+// import { CustomerProvider, CustomerContext } from './CustomerContext'
 import { CheckoutProvider, CheckoutContext } from './CheckoutContext'
 
-class MoltinLocalStorageAdapter {
-  set(key, value) {
-    return window.localStorage.setItem(key, value)
-  }
+let BuiltonContext
 
-  get(key) {
-    return window.localStorage.getItem(key)
-  }
+const { Provider, Consumer } = (BuiltonContext = createContext())
 
-  delete(key) {
-    return window.localStorage.removeItem(key)
-  }
-}
-
-let MoltinContext
-
-const { Provider, Consumer } = (MoltinContext = createContext())
-
-function MoltinProvider({
-  clientId,
-  cartId,
-  customerToken,
-  children,
-  ...props
-}) {
-  const moltin = new MoltinClient({
-    client_id: clientId,
-    application: 'gatsby-demo-store',
-    storage: new MoltinLocalStorageAdapter()
-  })
+function BuiltonProvider({ children, ...props }) {
+  console.log('{...props} => ', { ...props })
 
   return (
     <Provider
       value={{
-        ...props,
-        moltin
+        ...props
       }}
     >
-      <CustomerProvider customerToken={customerToken}>
-        <CartProvider cartId={cartId}>
-          <CheckoutProvider cartId={cartId}>{children}</CheckoutProvider>
-        </CartProvider>
-      </CustomerProvider>
+      <CartProvider>
+        <CheckoutProvider>{children}</CheckoutProvider>
+      </CartProvider>
     </Provider>
   )
 }
 
 export {
-  MoltinProvider,
-  Consumer as MoltinConsumer,
-  MoltinContext,
+  BuiltonProvider,
+  Consumer as BuiltonConsumer,
+  BuiltonContext,
   CartContext,
-  CustomerContext,
   CheckoutContext
 }

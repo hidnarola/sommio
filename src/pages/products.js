@@ -5,18 +5,22 @@ import SEO from '../components/SEO'
 import PageTitle from '../components/PageTitle'
 import ProductGrid from '../components/ProductGrid'
 
-const IndexPage = ({ data: { allMoltinProduct } }) => {
+const IndexPage = ({ data: { allBuiltonProduct } }) => {
+  console.log('allBuiltonProduct from product page => ', allBuiltonProduct)
+
   const productList = []
-  allMoltinProduct.edges.map(pro => {
-    if (pro.node.relationships.parent === null) {
-      productList.push(pro.node)
-    }
-  })
+  // allBuiltonProduct.edges.map(pro => {
+  //   console.log('product from products page => ',pro);
+
+  //   if (pro.node.relationships.parent === null) {
+  //     productList.push(pro.node)
+  //   }
+  // })
 
   return (
     <>
       <SEO title="All Products" />
-      {console.log(
+      {/* {console.log(
         'allMoltinProduct',
         allMoltinProduct,
         'productList==>',
@@ -24,44 +28,26 @@ const IndexPage = ({ data: { allMoltinProduct } }) => {
       )}
       <PageTitle>All Products</PageTitle>
 
-      <ProductGrid products={productList} />
+      <ProductGrid products={productList} /> */}
     </>
   )
 }
 
 export const query = graphql`
   query allProductsQuery {
-    allMoltinProduct {
+    allBuiltonProduct {
       edges {
         node {
-          relationships {
-            parent {
-              data {
-                id
-              }
-            }
-          }
           id
           name
-          slug
-          mainImage {
-            childImageSharp {
-              fluid(maxWidth: 560) {
-                ...GatsbyImageSharpFluid
-              }
-            }
+          human_id
+          parents {
+            _oid
           }
-          meta {
-            display_price {
-              without_tax {
-                formatted
-              }
-            }
-          }
+          main_product
         }
       }
     }
   }
 `
-
 export default IndexPage

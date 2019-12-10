@@ -6,45 +6,47 @@ import Photo from './Photo'
 function CartItem({
   id,
   name,
-  sku,
-  quantity,
-  meta,
-  image: { href },
-  removeFromCart,
+  image_url,
   locked,
-  cartButton
+  cartButton,
+  removeFromCartBuilton
 }) {
-  const {
-    display_price: {
-      without_tax: {
-        unit: { formatted: unit },
-        value: { formatted: value }
-      }
-    }
-  } = meta
-
   const [removing, setRemoving] = useState(false)
-  const { Weight, Size, Cover } = useContext(CartContext)
+  const {
+    Weight,
+    Size,
+    Cover,
+    selectedProduct,
+    selectedWeight,
+    selectedCover,
+    subTotalBuilton,
+    quantityBuilton,
+    price,
+    isAddToCart
+  } = useContext(CartContext)
 
-  async function onRemove() {
-    await setRemoving(true)
-    await removeFromCart(id)
+  function onRemove() {
+    setRemoving(true)
+    removeFromCartBuilton(id)
   }
+  console.log('subTotalBuilton ,price => ', subTotalBuilton, price)
 
   return cartButton ? (
     <div className="cartsliderbar-item">
-      <Photo cartImg="cartImg" src={href} alt={name} />
+      <Photo cartImg="cartImg" src={image_url} alt={name} />
       <div className="content">
         <h4>{name}</h4>
         <ul>
           <li>Size: {Size}</li>
-          <li>Weight: {Weight} kg</li>
+          <li>Weight: {Weight}</li>
           <li>Cover: {Cover}</li>
         </ul>
-        <div className="price">{value}</div>
+        <div className="price">
+          {isAddToCart === true ? subTotalBuilton : price} £
+        </div>
       </div>
       <div className="qty-remove ml-auto">
-        {!locked && <QuantityStepper itemId={id} quantity={quantity} />}
+        {!locked && <QuantityStepper itemId={id} />}
         {!locked && (
           <a className="remove-link" onClick={onRemove}>
             Remove
@@ -54,14 +56,16 @@ function CartItem({
     </div>
   ) : (
     <div className="revieworder-box">
-      <Photo cartImg="cartImg" src={href} alt={name} />
+      <Photo cartImg="cartImg" src={image_url} alt={name} />
       <div className="content">
         <h5>{name}</h5>
         <span className="qty-text">
-          {quantity}x{unit}
+          {isAddToCart === true ? subTotalBuilton : price}
         </span>
       </div>
-      <div className="price ml-auto">{value}</div>
+      <div className="price ml-auto">
+        {price === 0 ? subTotalBuilton : price}£
+      </div>
     </div>
   )
 }

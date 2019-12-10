@@ -6,10 +6,10 @@ const StripeProvider = ({ children }) => {
 
   useEffect(() => {
     if (window.Stripe) {
-      setStripe(window.Stripe(process.env.GATSBY_STRIPE_PUBLISHABLE_KEY))
+      setStripe(window.Stripe(process.env.GATSBY_BUILTON_STRIPE_KEY))
     } else {
       document.querySelector('#stripe-js').addEventListener('load', () => {
-        setStripe(window.Stripe(process.env.GATSBY_STRIPE_PUBLISHABLE_KEY))
+        setStripe(window.Stripe(process.env.GATSBY_BUILTON_STRIPE_KEY))
       })
     }
   }, [])

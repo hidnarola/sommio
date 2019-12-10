@@ -1,6 +1,5 @@
 import React from 'react'
 import { graphql, withPrefix } from 'gatsby'
-import useMoltinInventory from '../hooks/useMoltinInventory'
 import SEO from '../components/SEO'
 import AddToCart from '../components/ProductPage/AddToCart'
 import Noimage from '../images/no_img.jpg'
@@ -13,20 +12,15 @@ import FreeDelivery from '../components/ProductPage/FreeDelivery'
 import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
 
-function ProductPage({ data: { product } }) {
-  const [inventory, inventoryLoading, inventoryError] = useMoltinInventory(
-    product
-  )
+const ProductPageBuilton = ({ data: { product } }) => {
   return (
-    <React.Fragment>
+    <div>
       <SEO
         type="product"
-        title={product.meta_title || product.name}
+        title={product.short_description || product.name}
         description={product.meta_description || product.description}
         image={withPrefix(
-          product.mainImage && product.mainImage.childImageSharp
-            ? product.mainImage.childImageSharp.fluid.src
-            : Noimage
+          product && product.image_url ? product.image_url : Noimage
         )}
       />
 
@@ -44,11 +38,7 @@ function ProductPage({ data: { product } }) {
             <div className="blanket-bg">
               <div className="row">
                 <div className="col-12 col-lg-4">
-                  <AddToCart
-                    productId={product.id}
-                    disabled={!inventory.inStock}
-                    variationData={product.meta.variations}
-                  />
+                  <AddToCart productId={product.id} tags={product.tags} />
                 </div>
                 <div className="col-12 col-lg-8">
                   <ProductImage />
@@ -69,43 +59,25 @@ function ProductPage({ data: { product } }) {
       </section>
 
       <FreeDelivery />
-    </React.Fragment>
+    </div>
   )
 }
-
 export const query = graphql`
   query($id: String!) {
-    product: moltinProduct(id: { eq: $id }) {
+    product: builtonProduct(id: { eq: $id }) {
       id
       name
+      price
+      main_product
+      human_id
       description
-      sku
-      mainImage {
-        childImageSharp {
-          fluid(maxWidth: 560) {
-            ...GatsbyImageSharpFluid
-          }
-        }
+      image_url
+      short_description
+      tags
+      media {
+        url
       }
-      meta {
-        variations {
-          id
-          name
-          options {
-            description
-            id
-            name
-          }
-        }
-        display_price {
-          without_tax {
-            formatted
-          }
-        }
-      }
-      manage_stock
     }
   }
 `
-
-export default ProductPage
+export default ProductPageBuilton
