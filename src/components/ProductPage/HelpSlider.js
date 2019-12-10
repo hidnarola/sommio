@@ -1,30 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Slider from 'react-slick'
 import { useStaticQuery } from 'gatsby'
 import { Link } from 'gatsby'
 import HelpImg from '../../images/help-img.png'
 import HelpImg2 from '../../images/help-img2.png'
 
-const HelpSlider = () => {
-  const { allContentfulCondition } = useStaticQuery(graphql`
-    query {
-      allContentfulCondition {
-        nodes {
-          slug
-          id
-          conditionName
-          description {
-            description
-          }
-          cardImage {
-            file {
-              url
-            }
-          }
-        }
-      }
-    }
-  `)
+const HelpSlider = (props) => {
+  const [Active, setActive] = useState(false)
 
   const settings = {
     dots: false,
@@ -38,25 +20,7 @@ const HelpSlider = () => {
       <div className="container-fluid">
         <h3>Helps you with</h3>
         <Slider {...settings}>
-          {allContentfulCondition &&
-            allContentfulCondition.nodes &&
-            allContentfulCondition.nodes.map(condition => (
-              <div className="help-boxs">
-                <img
-                  src={condition.cardImage.file.url}
-                  alt={condition.cardImage.file.fileName}
-                />
-                <div className="help-content">
-                  <h2>{condition.conditionName}</h2>
-                  <Link
-                    to={`/readMore/${condition.slug}`}
-                    className="btn btn-link"
-                  >
-                    Read More
-                  </Link>
-                </div>
-              </div>
-            ))}
+          {props.children}
         </Slider>
       </div>
     </div>

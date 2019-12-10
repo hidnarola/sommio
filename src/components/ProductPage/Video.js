@@ -26,7 +26,7 @@ const ProductVideo = () => {
 
     <VideoWrap>
       <VisibilitySensor>
-      {({isVisible}) =>
+      {({isVisible, partialVisibility }) =>
         <ReactPlayer url={Explode}
         playing={(isVisible && isClosed) ? true : false}
         muted

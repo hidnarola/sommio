@@ -5,6 +5,9 @@ import SommioImg3 from '../../images/sommio-img3.png';
 import BeadImg1 from '../../images/bead-img1.png';
 import BeadImg2 from '../../images/bead-img2.png';
 import BeadImg3 from '../../images/bead-img3.png';
+import PocketVideo from "../../video/pocketBeadsSmall.mp4"
+import WeightexVideo from "../../video/WeightexNew.mp4"
+import ReactPlayer from 'react-player'
 
 const BlanketDifference = () => {
   return (
@@ -13,7 +16,13 @@ const BlanketDifference = () => {
         <div className="col-12 col-lg-6 bor-right">
           <h2>Sommio Weightex™ </h2>
           <div className="sommio-box">
-            <img alt="perfect-weight" src={SommioImg1} />
+            <ReactPlayer url={WeightexVideo}
+            playing={true}
+            muted
+            width={'100%'}
+            height={'100%'}
+            loop={true}
+            />
             <h4>Perfect Weight Distribution</h4>
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -43,7 +52,13 @@ const BlanketDifference = () => {
         <div className="col-12 col-lg-6">
           <h2>Bead-filled Pockets</h2>
           <div className="sommio-box">
-            <img alt="weight-moving" src={BeadImg1} />
+            <ReactPlayer url={PocketVideo}
+            playing={true}
+            muted
+            width={'100%'}
+            height={'100%'}
+            loop={true}
+            />
             <h4>Weight moving and bunching</h4>
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting

@@ -6,6 +6,7 @@ import Quiz from '../components/HomePage/Quiz'
 import HomeService from '../components/HomePage/HomeService'
 import SecretIngredient from '../components/HomePage/SecretIngredient'
 import HelpSlider from '../components/ProductPage/HelpSlider'
+import SlideCard from '../components/ConditionSlider/SlideCard'
 import BlanketImages from '../components/HomePage/BlanketImages'
 import MagicWeightex from '../components/HomePage/MagicWeightex'
 import BlanketDifference from '../components/HomePage/BlanketDifference'
@@ -13,11 +14,10 @@ import CustomerReview from '../components/HomePage/CustomerReview'
 
 
 function IndexPage({
-  data: {
-    categories: { edges: categories }
-  }
+  data
 }) {
-
+  const conditions = data.allContentfulCondition.edges
+  console.log(conditions)
 
 
   return (
@@ -53,8 +53,13 @@ function IndexPage({
           </div>
         </div>
       </div>
+      <HelpSlider>
+        {conditions.slice( 0 ).map(({ node: condition }) => (
+          <SlideCard key={condition.id} {...condition} />
+        ))}
+      </HelpSlider>
 
-      <HelpSlider />
+
 
       <div className="container-fluid">
         <div className="row">
@@ -101,6 +106,25 @@ export const query = graphql`
                 }
               }
             }
+          }
+        }
+      }
+    }
+    allContentfulCondition {
+      edges {
+        node {
+          slug
+          id
+          conditionName
+          cardColour
+          description {
+            description
+          }
+          cardImage {
+            fluid(maxWidth: 1800) {
+              ...GatsbyContentfulFluid_withWebp_noBase64
+            }
+            
           }
         }
       }
