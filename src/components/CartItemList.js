@@ -40,7 +40,7 @@ export default function CartItemList(props) {
               <li>
                 Subtotal(tax inc){' '}
                 <span className="ml-auto">
-                  £{price !== 0 ? price : subTotalBuilton}
+                  £ {isAddToCart === true ? subTotalBuilton : price}
                 </span>
               </li>
               <li>
@@ -52,7 +52,7 @@ export default function CartItemList(props) {
               <li>
                 Total{' '}
                 <span className="ml-auto">
-                  £{(price !== 0 ? price : subTotalBuilton) + shippingRate}
+                  £ {isAddToCart === true ? subTotalBuilton : price}
                 </span>
               </li>
             </ul>
@@ -83,7 +83,10 @@ export default function CartItemList(props) {
               <li>
                 Total{' '}
                 <span className="ml-auto">
-                  £{isAddToCart === true ? subTotalBuilton : price}
+                  £
+                  {isAddToCart === true
+                    ? subTotalBuilton + shippingRate
+                    : price + shippingRate}
                 </span>
               </li>
             </ul>

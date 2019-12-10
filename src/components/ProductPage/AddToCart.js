@@ -56,6 +56,7 @@ const AddToCart = ({ productId, tags }) => {
 
   let weightSubProduct = []
   let coverSubProduct = []
+  let shippingSubProduct = []
   let childData = []
   let parentData = []
   console.log('coverPrice, weightPrice =>', coverPrice, weightPrice)
@@ -70,10 +71,13 @@ const AddToCart = ({ productId, tags }) => {
   childData.map(sub => {
     if (sub.tags[0] === 'Weight') {
       weightSubProduct.push(sub)
-    } else {
+    } else if (sub.tags[0] === 'Cover') {
       coverSubProduct.push(sub)
+    } else {
+      shippingSubProduct.push(sub)
     }
   })
+
   const selectedCover = coverSubProduct.filter(sub => {
     return sub.name === Cover
   })
@@ -82,7 +86,7 @@ const AddToCart = ({ productId, tags }) => {
     return sub.name === Weight
   })
   useEffect(() => {
-    setSubProductPrice(selectedWeight, selectedCover)
+    setSubProductPrice(selectedWeight, selectedCover, shippingSubProduct)
   }, [Weight, Cover])
 
   const [quantity, setQuantity] = useState(1)
@@ -128,6 +132,7 @@ const AddToCart = ({ productId, tags }) => {
         currency: selectedProduct.currency
       }
     ]
+
     console.log('cartItemsBuilton => ', cartItemsBuilton)
 
     setCartData(cartItemsBuilton)

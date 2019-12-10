@@ -36,7 +36,8 @@ export const initialState = {
   paymentButton: false,
   shippingProvider: null,
   orderCartItems: [],
-  toggle: false
+  toggle: false,
+  shippingRate: 0
 }
 
 export default function reducer(state, action) {
@@ -69,9 +70,14 @@ export default function reducer(state, action) {
       }
 
     case SET_SELCETED_RATES:
+      console.log('convertedRates[action] => ', action.payload.convertedRates)
+      const shippingRate = action.payload.convertedRates
+        ? action.payload.convertedRates
+        : initialState.shippingRate
+
       return {
         ...state,
-        shippingRate: action.payload.convertedRates,
+        shippingRate: shippingRate,
         shippingProvider: action.payload.shipping_provider
       }
     case SET_LOADING:
@@ -102,6 +108,7 @@ export default function reducer(state, action) {
     case SET_VARIATION:
       console.log('My Log', action)
       var obj = {}
+      console.log('action price => ', action)
 
       const price = action.payload.price
       obj[action.payload.name] = action.payload.value
@@ -121,14 +128,17 @@ export default function reducer(state, action) {
       const coverPrice = action.payload.selectCoverPrice
       const selectedWeight = action.payload.selectedWeight
       const selectedCover = action.payload.selectedCover
-
+      const shippingSubProductId = action.payload.shippingSubProduct[0].id
       return {
         ...state,
         weightPrice: weightPrice,
         coverPrice: coverPrice,
         selectedWeight,
-        selectedCover
+        selectedCover,
+        shippingSubProduct: action.payload.shippingSubProduct,
+        shippingSubProductId
       }
+
     case SET_BUILTON_CART_DATA:
       const cartItemsBuilton = action.payload
       console.log('action TEST => ', action, state.subTotalBuilton, state.price)
@@ -282,7 +292,7 @@ function CartProvider({ children, ...props }) {
       async: false,
       shipper_accounts: [
         {
-          id: '6f43fe77-b056-45c3-bce4-9fec4040da0c'
+          id: '07b55d06-48af-4b02-a6b0-1e311e22b1e6'
         }
       ],
       shipment: {
@@ -360,7 +370,11 @@ function CartProvider({ children, ...props }) {
   const deleteCart = () => {
     dispatch({ type: CLEAN_CART })
   }
-  const setSubProductPrice = (selectedWeight, selectedCover) => {
+  const setSubProductPrice = (
+    selectedWeight,
+    selectedCover,
+    shippingSubProduct
+  ) => {
     const selectWeightPrice = selectedWeight[0] && selectedWeight[0].price
     const selectCoverPrice = selectedWeight[0] && selectedCover[0].price
     dispatch({
@@ -369,7 +383,8 @@ function CartProvider({ children, ...props }) {
         selectWeightPrice,
         selectCoverPrice,
         selectedWeight,
-        selectedCover
+        selectedCover,
+        shippingSubProduct
       }
     })
   }

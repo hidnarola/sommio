@@ -1,28 +1,34 @@
 import React, { useContext } from 'react'
 import { CartContext } from '../../context/CartContext'
-
+import axios from 'axios'
 function ShippingSelectOption() {
-  const { shippingRatesArray, shippingCost, shipping_address } = useContext(
-    CartContext
-  )
+  const {
+    shippingRatesArray,
+    shippingCost,
+    shipping_address,
+    shippingRate
+  } = useContext(CartContext)
 
-  const updateValue = ({ target: { value } }) => {
+  const updateValue = async ({ target: { value } }) => {
     let shipperData = JSON.parse(value)
 
     let shipping_provider = shipperData.service_name
-    console.log(
-      ' shipperData ,shipping_provider => ',
-      shipperData,
-      shipping_provider
-    )
 
     let convertedRates = parseInt(
       (shipperData &&
         shipperData.total_charge &&
         shipperData.total_charge.amount * 91) / 100
     )
+
     shippingCost(convertedRates, shipping_provider)
+    console.log(
+      'convertedRates,shippingRate ,shipperData => ',
+      convertedRates,
+      shippingRate,
+      shipperData
+    )
   }
+
   return (
     <div className="cost_option">
       <select

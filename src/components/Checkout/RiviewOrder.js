@@ -14,7 +14,8 @@ const RiviewOrder = ({ stripe, formEnable }) => {
     selectedWeight,
     quantityBuilton,
     deleteCart,
-    setToggle
+    setToggle,
+    shippingRate
   } = useContext(CartContext)
   const {
     checkout,
@@ -48,7 +49,11 @@ const RiviewOrder = ({ stripe, formEnable }) => {
           {
             product: cartItemsBuilton[0].id,
             quantity: quantityBuilton,
-            sub_products: [selectedWeight[0].id, selectedCover[0].id]
+            sub_products: [
+              selectedWeight[0].id,
+              selectedCover[0].id,
+              '5dede72c53865b000a93d0bb'
+            ]
           }
         ],
         delivery_address: {
@@ -75,8 +80,6 @@ const RiviewOrder = ({ stripe, formEnable }) => {
 
       //user logout
       firebase.auth().signOut()
-
-      console.log('initialState HIIIIIIII => ')
     } catch (errors) {
       console.info('errors ====>', JSON.stringify(errors))
       setCheckoutError(errors)

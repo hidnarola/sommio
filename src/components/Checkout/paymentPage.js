@@ -18,7 +18,9 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
     builton,
     quantityBuilton,
     selectedWeight,
-    selectedCover
+    selectedCover,
+    shippingCost,
+    shippingSubProductId
   } = useContext(CartContext)
   const { paymentData, paymentDetails } = useContext(CheckoutContext)
   const [checkoutError, setCheckoutError] = useState(null)
@@ -28,13 +30,37 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
     shippingRatesArray.map(
       charge => charge && charge.total_charge && charge.total_charge.amount
     )
+  const url = `https://api.builton.dev/products/${shippingSubProductId}`
 
   const handlePayment = async values => {
+    shippingCost(shippingRate, shippingProvider)
+
+    //user authenticate
     await builton.users.authenticate({
       first_name: shipping_address && shipping_address.first_name,
       last_name: shipping_address && shipping_address.last_name,
       email: customerDetails && customerDetails.email
     })
+
+    // update shipping price in builton
+    try {
+      const response = await axios.put(
+        url,
+        {
+          price: shippingRate
+        },
+        {
+          headers: {
+            Authorization: 'Bearer sa_b42dacef115c06749041d93bea4037',
+            'X-Builton-Api-Key': process.env.GATSBY_BUILTON_API_KEY,
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      console.log('response ==>', response)
+    } catch (error) {
+      console.error(error)
+    }
     setMakeEnable(false)
     paymentData(values)
   }
