@@ -8,15 +8,8 @@ export default function QuantityStepper({ itemId }) {
   const {
     updateQuantityBuilton,
     subTotalBuilton,
-    mainProductPrice,
     quantityBuilton
   } = useContext(CartContext)
-  console.log(
-    'subTotalBuilton, mainProductPrice => ',
-    subTotalBuilton,
-    mainProductPrice
-  )
-
   const decrease = () => updateQuantityBuilton(itemId, quantityBuilton - 1)
   const increase = () => updateQuantityBuilton(itemId, quantityBuilton + 1)
 

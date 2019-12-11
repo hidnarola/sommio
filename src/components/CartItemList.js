@@ -6,8 +6,6 @@ import PromotionManager from './PromotionManager'
 import CartButton from './CartButton'
 
 export default function CartItemList(props) {
-  console.log('props => ', props)
-
   const {
     isEmpty,
     removeFromCartBuilton,
@@ -24,15 +22,19 @@ export default function CartItemList(props) {
   return (
     <div className="cartsliderbar-boby">
       {cartItemsBuilton &&
-        cartItemsBuilton.map(item => (
-          <CartItem
-            key={item.id}
-            removeFromCartBuilton={removeFromCartBuilton}
-            id={item.id}
-            {...item}
-            {...props}
-          />
-        ))}
+        cartItemsBuilton.map(item => {
+          console.log('item => ', item)
+
+          return (
+            <CartItem
+              key={item.id}
+              removeFromCartBuilton={removeFromCartBuilton}
+              id={item.id}
+              {...item}
+              {...props}
+            />
+          )
+        })}
       {!isEmpty && props.cartButton ? (
         <div className="cartsliderbar-footer">
           <div className="total-list">

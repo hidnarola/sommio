@@ -7,6 +7,7 @@ function CartItem({
   id,
   name,
   image_url,
+  media,
   locked,
   cartButton,
   removeFromCartBuilton
@@ -29,11 +30,10 @@ function CartItem({
     setRemoving(true)
     removeFromCartBuilton(id)
   }
-  console.log('subTotalBuilton ,price => ', subTotalBuilton, price)
 
   return cartButton ? (
     <div className="cartsliderbar-item">
-      <Photo cartImg="cartImg" src={image_url} alt={name} />
+      <Photo cartImg="cartImg" src={media[0] && media[0].url} alt={name} />
       <div className="content">
         <h4>{name}</h4>
         <ul>
@@ -56,11 +56,11 @@ function CartItem({
     </div>
   ) : (
     <div className="revieworder-box">
-      <Photo cartImg="cartImg" src={image_url} alt={name} />
+      <Photo cartImg="cartImg" src={media[0] && media[0].url} alt={name} />
       <div className="content">
         <h5>{name}</h5>
         <span className="qty-text">
-          {isAddToCart === true ? subTotalBuilton : price}
+          {isAddToCart === true ? subTotalBuilton : price} £
         </span>
       </div>
       <div className="price ml-auto">

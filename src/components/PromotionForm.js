@@ -3,11 +3,11 @@ import { Form } from 'react-final-form'
 
 import Input from './Input'
 
-import validation from '../validation/promotion'
+// import validation from '../validation/promotion'
 
 export default function PromotionForm({ addPromotion }) {
   return (
-    <Form validate={validation} onSubmit={({ code }) => addPromotion(code)}>
+    <Form onSubmit={({ code }) => addPromotion(code)}>
       {({ handleSubmit, submitting, invalid }) => (
         <form onSubmit={handleSubmit}>
           <div className="inline-flex">

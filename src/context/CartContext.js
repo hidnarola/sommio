@@ -22,7 +22,6 @@ export const initialState = {
   isAddToCart: false,
   price: 0,
   subTotalBuilton: 0,
-  mainProductPrice: 0,
   weihtPrice: 0,
   coverPrice: 0,
   Size: 'single',
@@ -157,7 +156,6 @@ export default function reducer(state, action) {
         cartItemsBuilton[0].quantityBuilton
       const quantityBuilton =
         cartItemsBuilton[0] && cartItemsBuilton[0].quantityBuilton
-      const mainProductPrice = cartItemsBuilton[0] && cartItemsBuilton[0].price
 
       if (action.payload.removeCart === true) {
         const { data, quantityBuilton, countBuilton, toggle } = action.payload
@@ -188,7 +186,6 @@ export default function reducer(state, action) {
           countBuilton,
           subTotalBuilton: subTotalBuilton,
           quantityBuilton: quantityBuilton,
-          mainProductPrice,
           isAddToCart: cartItemsBuilton[0].isAddToCart,
           orderCartItems: cartItemsBuilton
         }

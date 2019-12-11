@@ -18,16 +18,17 @@ const AddToCart = ({ productId, tags }) => {
           tags
           short_description
           price
-          image_url
-          parents {
-            _oid
-          }
           name
           currency
           parent {
             id
           }
+          media {
+            human_id
+            url
+          }
           main_product
+          image_url
           id
           human_id
           description
@@ -127,6 +128,8 @@ const AddToCart = ({ productId, tags }) => {
         description: selectedProduct.description,
         price: selectedProduct.price,
         main_product: selectedProduct.main_product,
+        image_url: selectedProduct.image_url,
+        media: selectedProduct.media,
         subProduct: { selectedWeight, selectedCover },
         isAddToCart: true,
         currency: selectedProduct.currency

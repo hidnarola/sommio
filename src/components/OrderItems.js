@@ -11,7 +11,6 @@ const OrderItems = props => {
     price
   } = useContext(CartContext)
   const { orderPrice } = useContext(CheckoutContext)
-  console.log('orderCartItems => ', orderCartItems)
 
   return (
     <div>

@@ -6,18 +6,11 @@ export default function Photo({ src, cartImg, transparent, ...props }) {
   const imageClass = cx('product-image', {
     'bg-grey-light': !transparent
   })
+  if (!src) return <span>No photo</span>
 
-  function renderImage() {
-    if (!src) return <span>No photo</span>
-
-    return cartImg ? (
+  return (
+    <div className={imageClass}>
       <img src={src} alt="" {...props} />
-    ) : (
-      <Img
-        fluid={src.childImageSharp ? src.childImageSharp.fluid : Noimage}
-        {...props}
-      />
-    )
-  }
-  return <div className={imageClass}>{renderImage()}</div>
+    </div>
+  )
 }

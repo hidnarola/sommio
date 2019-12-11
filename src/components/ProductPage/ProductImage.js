@@ -9,25 +9,20 @@ function ProductImage({ productId }) {
       query {
         allBuiltonProduct {
           nodes {
-            parent {
-              id
-            }
-            name
+            id
             media {
               human_id
               url
             }
-            main_product
-            id
           }
         }
       }
     `
   )
-  console.log('allBuiltonProduct => ', allBuiltonProduct)
   const mainProduct = allBuiltonProduct.nodes.filter(product => {
-    console.log('product => ', product)
+    return product.id === productId
   })
+
   const settings = {
     dots: true,
     infinite: true,
@@ -39,17 +34,10 @@ function ProductImage({ productId }) {
   return (
     <div className="product-gallery">
       <Slider {...settings}>
-        {/* {allBuiltonProduct.edges.map(product => (
-          <Img
-            fluid={
-              product.node &&
-              product.node.mainImage &&
-              product.node.mainImage.childImageSharp &&
-              product.node.mainImage.childImageSharp.fluid
-            }
-            alt="product-image"
-          />
-        ))} */}
+        {mainProduct[0] &&
+          mainProduct[0].media.map(img => (
+            <img src={img.url} alt="product-image" />
+          ))}
       </Slider>
     </div>
   )
