@@ -15,19 +15,20 @@ const RegisterOrLogin = () => {
     setUserBuilton
   } = useContext(CartContext)
 
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   const [isCurrentUser, SetCurrentUser] = useState(firebase.auth().currentUser)
   const [error, setRegisterError] = useState({
-    email: '',
-    password: ''
+    email: 'Required',
+    password: 'Required'
   })
   const [errorMessage, setErrorMessage] = useState('')
 
   const handleRegister = async () => {
     setErrorMessage('')
-    if (checkValidation()) {
+    setRegisterError({})
+    if (checkValidation().status) {
       firebase
         .auth()
         .createUserWithEmailAndPassword(email.trim(), password)
@@ -46,14 +47,19 @@ const RegisterOrLogin = () => {
           SetCurrentUser(false)
         })
     } else {
-      // setRegisterError('Invalid Form')
-      setErrorMessage('Invalid Form')
+      setRegisterError(checkValidation().msg)
     }
   }
 
   const handleLogin = () => {
-    setErrorMessage('')
-    if (checkValidation()) {
+    // setRegisterError({})
+    console.log('checkValidation() => ', checkValidation())
+
+    if (checkValidation().status) {
+      setRegisterError({
+        email: '',
+        password: ''
+      })
       var user = firebase.auth().currentUser
       console.log('user => ', user)
 
@@ -75,7 +81,10 @@ const RegisterOrLogin = () => {
             setErrorMessage(err.message)
           })
       } else {
-        console.log(' SignIn  ===========> ')
+        setRegisterError({
+          email: '',
+          password: ''
+        })
         firebase
           .auth()
           .signInWithEmailAndPassword(email, password)
@@ -98,7 +107,7 @@ const RegisterOrLogin = () => {
           })
       }
     } else {
-      setErrorMessage('Invalid Form')
+      setRegisterError(checkValidation().msg)
     }
   }
 
@@ -110,6 +119,7 @@ const RegisterOrLogin = () => {
         setEmail('')
         setPassword('')
         SetCurrentUser(false)
+        setErrorMessage('')
       })
       .catch(function(error) {
         SetCurrentUser(true)
@@ -119,8 +129,9 @@ const RegisterOrLogin = () => {
   const checkValidation = () => {
     // setErrorMessage('')
     var _errors = {}
+
     var isValid = true
-    if (email === '') {
+    if (!email || email === '') {
       _errors.email = 'Required'
       isValid = false
     } else {
@@ -140,8 +151,11 @@ const RegisterOrLogin = () => {
     } else {
       _errors.password = ''
     }
-    // setRegisterError(_errors)
-    return isValid
+    setRegisterError(_errors)
+    return {
+      status: isValid,
+      msg: _errors
+    }
   }
 
   const handleChange = e => {
@@ -193,7 +207,7 @@ const RegisterOrLogin = () => {
               placeholder="Email"
               onChange={e => handleChange(e)}
             />
-            {error.email && <span>{error.email}</span>}
+            <span>{error.email}</span>
           </div>
           <div className="frm_grp">
             <input
@@ -202,7 +216,7 @@ const RegisterOrLogin = () => {
               placeholder="Password"
               onChange={e => handleChange(e)}
             />
-            {error.password && <span>{error.password}</span>}
+            <span>{error.password}</span>
 
             <span>{errorMessage}</span>
           </div>

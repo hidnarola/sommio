@@ -6,6 +6,8 @@ import { CartContext } from '../../context'
 import validation from '../../validation/shippingFormValidation'
 import { log } from 'util'
 import shippingFormValidation from '../../validation/shippingFormValidation'
+import firebase from '../../firebse/index'
+
 const AddressFields = ({ type, toggleEditable }) => {
   console.log('type validation => ', type)
 
@@ -138,7 +140,12 @@ const AddressFields = ({ type, toggleEditable }) => {
             </div>
 
             <div className="submit_btn">
-              <button type="submit">Submit</button>
+              <button
+                type="submit"
+                disabled={firebase.auth().currentUser ? false : true}
+              >
+                Submit
+              </button>
             </div>
           </div>
         </form>
