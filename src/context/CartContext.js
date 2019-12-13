@@ -55,7 +55,7 @@ export default function reducer(state, action) {
       return test
 
     case SET_ADDRESS:
-      const shipping_address = action.shippingData.shipping_address
+      const shipping_address = action.shippingData
       const customerDetails = action.user
       console.log('action SET_ADDRESS => ', action)
 
@@ -263,6 +263,7 @@ function CartProvider({ children, ...props }) {
     cartItemsBuilton
   ) => {
     dispatch({ type: SET_ADDRESS, user, shippingData })
+    console.log('shippingData => ', shippingData)
 
     var items = []
     // const final_price = cartItemsBuilton[0].price +
@@ -322,12 +323,12 @@ function CartProvider({ children, ...props }) {
           type: 'residential'
         },
         ship_to: {
-          contact_name: `${shippingData.shipping_address.name}`,
-          street1: `${shippingData.shipping_address.line_1}`,
-          city: `${shippingData.shipping_address.city}`,
-          state: `${shippingData.shipping_address.county}`,
-          postal_code: `${shippingData.shipping_address.postcode}`,
-          country: `${shippingData.shipping_address.country}`,
+          contact_name: `${shippingData.first_name}`,
+          street1: `${shippingData.line_1}`,
+          city: `${shippingData.city}`,
+          state: `${shippingData.county}`,
+          postal_code: `${shippingData.postcode}`,
+          country: `${shippingData.country}`,
           phone: '7657168649',
           email: `${user.email}`,
           type: 'residential'

@@ -5,6 +5,9 @@ import Builton from '@builton/core-sdk'
 // import validtion from '../../validation/checkout'
 
 const RegisterOrLogin = () => {
+  var currentUser = firebase.auth().currentUser
+  console.log('currentUser => ', currentUser)
+
   const {
     shipping_address,
     customerDetails,
@@ -15,90 +18,159 @@ const RegisterOrLogin = () => {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
 
-  const [isCurrentUser, SetCurrentUser] = useState(false)
+  const [isCurrentUser, SetCurrentUser] = useState(firebase.auth().currentUser)
+  const [error, setRegisterError] = useState({
+    email: '',
+    password: ''
+  })
   const [errorMessage, setErrorMessage] = useState('')
-  console.log('errorMessage => ', errorMessage)
+
   const handleRegister = async () => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email.trim(), password)
-      .then(resp => {
-        let accessToken = JSON.parse(JSON.stringify(resp.user)).stsTokenManager
-          .accessToken
-        const builton = new Builton({
-          apiKey: process.env.GATSBY_BUILTON_API_KEY,
-          bearerToken: accessToken
-        })
-        setErrorMessage('')
-        setUserBuilton({ email, password }, builton)
-      })
-      .catch(error => {
-        console.log('Fb Errro =>', error)
-        setErrorMessage(error.message)
-        SetCurrentUser(false)
-        // alert(error.message)
-      })
-    SetCurrentUser(true)
-  }
-
-  const handleLogin = () => {
-    var user = firebase.auth().currentUser
-
-    if (user) {
-      user
-        .getIdToken()
-        .then(idToken => {
-          console.log('idToken => ', idToken)
-          var builton = new Builton({
-            apiKey: process.env.GATSBY_BUILTON_API_KEY,
-            bearerToken: idToken
-          })
-
-          setUserBuilton({ email, password }, builton)
-        })
-        .catch(err => {
-          setErrorMessage(err.message)
-          SetCurrentUser(false)
-          console.log('err => ', err)
-        })
-      SetCurrentUser(true)
-      setErrorMessage('')
-    } else {
+    setErrorMessage('')
+    if (checkValidation()) {
       firebase
         .auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(res => {
-          console.log(
-            'res IN => ',
-            JSON.parse(JSON.stringify(res)),
-            JSON.parse(JSON.stringify(res.user)).stsTokenManager.accessToken
-          )
-          var accessToken = JSON.parse(JSON.stringify(res.user)).stsTokenManager
-            .accessToken
-
+        .createUserWithEmailAndPassword(email.trim(), password)
+        .then(resp => {
+          let accessToken = JSON.parse(JSON.stringify(resp.user))
+            .stsTokenManager.accessToken
           const builton = new Builton({
             apiKey: process.env.GATSBY_BUILTON_API_KEY,
             bearerToken: accessToken
           })
-
+          SetCurrentUser(resp.user)
           setUserBuilton({ email, password }, builton)
         })
         .catch(error => {
-          SetCurrentUser(false)
           setErrorMessage(error.message)
+          SetCurrentUser(false)
         })
-      SetCurrentUser(true)
-      setErrorMessage('')
+    } else {
+      // setRegisterError('Invalid Form')
+      setErrorMessage('Invalid Form')
     }
+  }
 
-    return false
+  const handleLogin = () => {
+    setErrorMessage('')
+    if (checkValidation()) {
+      var user = firebase.auth().currentUser
+      console.log('user => ', user)
+
+      if (user !== null) {
+        user
+          .getIdToken()
+          .then(idToken => {
+            console.log('idToken => ', idToken)
+            var builton = new Builton({
+              apiKey: process.env.GATSBY_BUILTON_API_KEY,
+              bearerToken: idToken
+            })
+            SetCurrentUser(user)
+            setUserBuilton({ email, password }, builton)
+            setErrorMessage('')
+          })
+          .catch(err => {
+            SetCurrentUser(false)
+            setErrorMessage(err.message)
+          })
+      } else {
+        console.log(' SignIn  ===========> ')
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password)
+          .then(res => {
+            var accessToken = JSON.parse(JSON.stringify(res.user))
+              .stsTokenManager.accessToken
+
+            const builton = new Builton({
+              apiKey: process.env.GATSBY_BUILTON_API_KEY,
+              bearerToken: accessToken
+            })
+
+            setUserBuilton({ email, password }, builton)
+            SetCurrentUser(res.user)
+            setErrorMessage('')
+          })
+          .catch(error => {
+            SetCurrentUser(false)
+            setErrorMessage(error.message)
+          })
+      }
+    } else {
+      setErrorMessage('Invalid Form')
+    }
   }
 
   const handleLogout = () => {
-    firebase.auth().signOut()
-    SetCurrentUser(false)
+    firebase
+      .auth()
+      .signOut()
+      .then(function() {
+        setEmail('')
+        setPassword('')
+        SetCurrentUser(false)
+      })
+      .catch(function(error) {
+        SetCurrentUser(true)
+      })
   }
-  console.log('isCurrentUser => ', isCurrentUser)
+
+  const checkValidation = () => {
+    // setErrorMessage('')
+    var _errors = {}
+    var isValid = true
+    if (email === '') {
+      _errors.email = 'Required'
+      isValid = false
+    } else {
+      if (
+        /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(email)
+      ) {
+        _errors.email = ''
+      } else {
+        _errors.email = 'Invalid Email'
+        isValid = false
+      }
+    }
+
+    if (password === '') {
+      _errors.password = 'Required'
+      isValid = false
+    } else {
+      _errors.password = ''
+    }
+    // setRegisterError(_errors)
+    return isValid
+  }
+
+  const handleChange = e => {
+    let _errors = error
+    if (e.target.name === 'email') {
+      setEmail(e.target.value)
+      if (e.target.value === '') {
+        _errors.email = 'Required'
+      } else {
+        if (
+          /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(
+            e.target.value
+          )
+        ) {
+          _errors.email = ''
+        } else {
+          _errors.email = 'Invalid Email'
+        }
+      }
+    } else {
+      setPassword(e.target.value)
+      if (e.target.value === '') {
+        _errors.password = 'Required'
+      } else {
+        _errors.password = ''
+      }
+    }
+    setRegisterError(_errors)
+  }
 
   return (
     <div>
@@ -107,37 +179,40 @@ const RegisterOrLogin = () => {
         <span className="text">CONTACT INFORMATION</span>
       </h2>
 
-      {!isCurrentUser || errorMessage ? (
-        <div>
-          <div className="frm_grp">
-            <input
-              required
-              type="email"
-              name="email"
-              placeholder="Email"
-              onChange={e => {
-                setEmail(e.target.value)
-              }}
-            />
-          </div>
-          <div className="frm_grp">
-            <input
-              required
-              type="password"
-              name="password"
-              placeholder="Password"
-              onChange={e => setPassword(e.target.value)}
-            />
-            <span>{errorMessage}</span>
-          </div>
-          <button onClick={handleRegister}>Register</button>
-          <button onClick={handleLogin}>Login</button>
-        </div>
-      ) : (
+      {isCurrentUser ? (
         <div>
           <p>You are Logged In Go for next steps</p>
           <button onClick={handleLogout}>Logout</button>
         </div>
+      ) : (
+        <>
+          <div className="frm_grp">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              onChange={e => handleChange(e)}
+            />
+            {error.email && <span>{error.email}</span>}
+          </div>
+          <div className="frm_grp">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={e => handleChange(e)}
+            />
+            {error.password && <span>{error.password}</span>}
+
+            <span>{errorMessage}</span>
+          </div>
+          <button onClick={handleRegister} type="button">
+            Register
+          </button>
+          <button type="button" onClick={handleLogin}>
+            Login
+          </button>
+        </>
       )}
     </div>
   )

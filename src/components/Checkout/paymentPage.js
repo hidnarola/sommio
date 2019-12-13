@@ -99,8 +99,10 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
           </p>
           <ShippingSelectOption />
 
-          <Form onSubmit={handlePayment} validate={stripeValidation}>
-            {({
+          <Form
+            onSubmit={handlePayment}
+            validate={stripeValidation}
+            render={({
               handleSubmit,
               submitting,
               pristine,
@@ -155,7 +157,7 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
                 </form>
               )
             }}
-          </Form>
+          />
         </div>
       </div>
       <div className={`${makeEnable ? 'hidden' : 'visible'}`}>
