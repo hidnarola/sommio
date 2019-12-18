@@ -1,19 +1,72 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'gatsby'
-import { CartContext, CheckoutContext } from '../../context'
+import { CartContext, CheckoutContext, UserContext } from '../../context'
 import CartItemList from '../CartItemList'
 import Logo from '../../images/logo.png'
 import logoCheckout from '../../images/logo-checkout.png'
 import CartIcon from '../../images/shopping-basket-duotone.svg'
 import CartButton from '../CartButton'
+import firebase from '../../firebase'
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap'
+// import { useFirebase } from 'gatsby-plugin-firebase'
 
 const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   const { count, isEmpty, setToggle } = useContext(CartContext)
+  const { currentUserCheck, firebaseObj, userDetail } = useContext(UserContext)
   const { orderId } = useContext(CheckoutContext)
   const [modal, setModal] = useState(false)
-
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [currentUser, setCurrentUser] = useState(false)
+  const toggleDropdown = () => setDropdownOpen(prevState => !prevState)
   const toggle = () => setModal(!modal)
-  console.log('modal, Header => ', modal)
+  console.log(
+    'currentUserCheck header ,firebaseObj,=> ',
+    currentUserCheck,
+    firebaseObj
+  )
+  console.log(
+    ' firebase.auth().currentUser,currentUser => ',
+    firebase.auth().currentUser,
+    currentUser
+  )
+
+  // useEffect(() => {
+  //   if (firebase.auth().currentUser !== null) {
+  //     setCurrentUser(firebase.auth().currentUser)
+  //   } else {
+  //     setCurrentUser(false)
+  //   }
+  // }, [])
+  // const tryFirebase = () => {
+  //   useFirebase(firebase => {
+  //     firebase
+  //       .database()
+  //       .ref('/user')
+  //       .once('value')
+  //       .then(snapshot => {
+  //         setUser(snapshot.val())
+  //       })
+  //   }, [])
+  // }
+  const handleLogout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(res => {
+        // setCurrentUser(false)
+        console.log('sis res Logout => ', res)
+        alert('Logout')
+      })
+      .catch(err => {
+        console.log('sis err Logout => ', err)
+        alert('not Logout')
+      })
+  }
 
   return (
     <div>
@@ -92,6 +145,25 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
                   </li>
                   <li className="nav-item">
                     <Link to="/about">Contact us</Link>
+                  </li>
+                  <li>
+                    {firebase && firebase.auth().currentUser ? (
+                      <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+                        <DropdownToggle caret>
+                          {userDetail.email}
+                        </DropdownToggle>
+                        <DropdownMenu>
+                          <DropdownItem>My Account</DropdownItem>
+                          <DropdownItem>
+                            <button onClick={handleLogout}>Logout</button>
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    ) : (
+                      <div>
+                        <button>Do Login/Register</button>
+                      </div>
+                    )}
                   </li>
                 </ul>
                 <ul className="navbar-nav cart-boxs">

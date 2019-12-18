@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { injectStripe } from 'react-stripe-elements'
 import { CartContext, CheckoutContext } from '../../context'
 import CartItemList from '../CartItemList'
-import firebase from '../../firebse/index'
+import firebase from '../../firebase/index'
 const RiviewOrder = ({ stripe, formEnable }) => {
   const {
     cartId,
@@ -15,7 +15,8 @@ const RiviewOrder = ({ stripe, formEnable }) => {
     quantityBuilton,
     deleteCart,
     setToggle,
-    shippingRate
+    shippingRate,
+    toggle
   } = useContext(CartContext)
   const {
     checkout,
@@ -80,6 +81,7 @@ const RiviewOrder = ({ stripe, formEnable }) => {
 
       //user logout
       firebase.auth().signOut()
+      // setToggle()
     } catch (errors) {
       console.info('errors ====>', JSON.stringify(errors))
       setCheckoutError(errors)

@@ -7,6 +7,8 @@ import ShippingAddress from '../components/Checkout/shippingAddress'
 import PaymentPage from '../components/Checkout/paymentPage'
 import ReviewOrder from '../components/Checkout/RiviewOrder'
 import OrderConfirmation from '../components/Checkout/OrderConfirmation'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import RegiserOrLogin from '../components/Checkout/RegisterOrLogin'
 const CheckoutPage = () => {
   const {
     isEmpty,
@@ -20,11 +22,16 @@ const CheckoutPage = () => {
   const [formEnable, setFormEnable] = useState(false)
   const [isEditable, setIsEditable] = useState(false)
   const isMounted = useRef(true)
+  const [modal, setModal] = useState(false)
+  console.log('modal USERACC => ', modal)
+
+  const toggle = () => setModal(!modal)
 
   useEffect(() => {
     let element = document.getElementsByTagName('body')[0]
     if (isMounted) {
       element.classList.add('so-checkout-page')
+      toggle()
       isMounted.current = false
     }
     return () => {
@@ -50,6 +57,14 @@ const CheckoutPage = () => {
               isCompleted={isEditable}
               toggleEditable={status => setIsEditable(status)}
             />
+          </div>
+          <div>
+            <Modal isOpen={modal} toggle={toggle}>
+              <ModalHeader toggle={toggle}>User Account</ModalHeader>
+              <ModalBody>
+                <RegiserOrLogin isModal={true} toggle={toggle} />
+              </ModalBody>
+            </Modal>
           </div>
           <div
             className={

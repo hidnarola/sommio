@@ -59,9 +59,23 @@ module.exports = {
       resolve: `gatsby-builton`,
       options: {
         apiKey:
-          'W3ZcWLcHbfeHcz8wR_bdH29uzNQMGzZkwDfXt-5Jhcv4SHMyNVAkVoA8I1srMdxCnupv7mQKSKck6dk9SOG1bQ=='
+          'Rqd56FLNq539fNET8PGvIsA9kNkr12dkyHwk8SLyLtKISlMgEJ-cyQ3aTKtQapYxXNwx-u18dByEnViH59QBBQ=='
       }
     },
+    // {
+    //   resolve: 'gatsby-plugin-firebase',
+    //   options: {
+    //     features: {
+    //       auth: true,
+    //       database: true,
+    //       firestore: false,
+    //       storage: false,
+    //       messaging: false,
+    //       functions: true,
+    //       performance: false
+    //     }
+    //   }
+    // },
     'gatsby-plugin-stripe'
   ]
 }

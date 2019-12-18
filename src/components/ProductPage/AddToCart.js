@@ -136,8 +136,6 @@ const AddToCart = ({ productId, tags }) => {
       }
     ]
 
-    console.log('cartItemsBuilton => ', cartItemsBuilton)
-
     setCartData(cartItemsBuilton)
     setToggle()
     let element = document.getElementsByTagName('body')[0]

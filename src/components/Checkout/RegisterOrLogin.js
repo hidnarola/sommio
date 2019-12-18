@@ -1,20 +1,17 @@
 import React, { useContext, useState } from 'react'
-import firebase from '../../firebse/index'
-import { CartContext } from '../../context'
+import firebase from '../../firebase/index'
+import { CartContext, UserContext } from '../../context'
 import Builton from '@builton/core-sdk'
 // import validtion from '../../validation/checkout'
 
-const RegisterOrLogin = () => {
-  var currentUser = firebase.auth().currentUser
-  console.log('currentUser => ', currentUser)
-
+const RegisterOrLogin = ({ isModal, toggle }) => {
   const {
     shipping_address,
     customerDetails,
     cartItemsBuilton,
     setUserBuilton
   } = useContext(CartContext)
-
+  const { setCurrentUser } = useContext(UserContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -24,8 +21,10 @@ const RegisterOrLogin = () => {
     password: 'Required'
   })
   const [errorMessage, setErrorMessage] = useState('')
+  console.log('isCurrentUser => ', isCurrentUser)
 
   const handleRegister = async () => {
+    // toggle()
     setErrorMessage('')
     setRegisterError({})
     if (checkValidation().status) {
@@ -41,6 +40,7 @@ const RegisterOrLogin = () => {
           })
           SetCurrentUser(resp.user)
           setUserBuilton({ email, password }, builton)
+          setCurrentUser(isCurrentUser, { email, password }, firebase)
         })
         .catch(error => {
           setErrorMessage(error.message)
@@ -52,7 +52,6 @@ const RegisterOrLogin = () => {
   }
 
   const handleLogin = () => {
-    // setRegisterError({})
     console.log('checkValidation() => ', checkValidation())
 
     if (checkValidation().status) {
@@ -61,7 +60,9 @@ const RegisterOrLogin = () => {
         password: ''
       })
       var user = firebase.auth().currentUser
-      console.log('user => ', user)
+      console.log('user, isCurrentUser => ', isCurrentUser, isCurrentUser)
+
+      console.log('user ,isCurrentUser => ', user, isCurrentUser)
 
       if (user !== null) {
         user
@@ -74,6 +75,7 @@ const RegisterOrLogin = () => {
             })
             SetCurrentUser(user)
             setUserBuilton({ email, password }, builton)
+            setCurrentUser(isCurrentUser, { email, password }, firebase)
             setErrorMessage('')
           })
           .catch(err => {
@@ -99,6 +101,7 @@ const RegisterOrLogin = () => {
 
             setUserBuilton({ email, password }, builton)
             SetCurrentUser(res.user)
+            setCurrentUser(isCurrentUser, { email, password }, firebase)
             setErrorMessage('')
           })
           .catch(error => {
@@ -127,7 +130,6 @@ const RegisterOrLogin = () => {
   }
 
   const checkValidation = () => {
-    // setErrorMessage('')
     var _errors = {}
 
     var isValid = true
@@ -209,23 +211,28 @@ const RegisterOrLogin = () => {
             />
             <span>{error.email}</span>
           </div>
-          <div className="frm_grp">
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              onChange={e => handleChange(e)}
-            />
-            <span>{error.password}</span>
+          {isModal && isModal === true && (
+            <div>
+              <div className="frm_grp">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  onChange={e => handleChange(e)}
+                />
+                <span>{error.password}</span>
 
-            <span>{errorMessage}</span>
-          </div>
-          <button onClick={handleRegister} type="button">
-            Register
-          </button>
-          <button type="button" onClick={handleLogin}>
-            Login
-          </button>
+                <span>{errorMessage}</span>
+              </div>
+
+              <button onClick={handleRegister} type="button">
+                Register
+              </button>
+              <button type="button" onClick={handleLogin}>
+                Login
+              </button>
+            </div>
+          )}
         </>
       )}
     </div>

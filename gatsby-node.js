@@ -23,15 +23,6 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
     }
   `)
 
-  // pages.data.allProducts.edges.forEach(({ node: { id, slug } }) => {
-  //   createPage({
-  //     path: `/products/${slug}`,
-  //     component: path.resolve('./src/templates/ProductPage.js'),
-  //     context: {
-  //       id
-  //     }
-  //   })
-  // })
   pages.data.allProducts.edges.forEach(({ node: { id, human_id } }) => {
     createPage({
       path: `/products/${human_id}`,
@@ -52,23 +43,17 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   })
 }
 
-// exports.createPages = async ({ actions: { createPage } }) => {
-//   // `getPokemonData` is a function that fetches our data
-//   const allPokemon = await getPokemonData(["pikachu", "charizard", "squirtle"])
-
-//   // Create a page that lists all Pokémon.
-//   createPage({
-//     path: `/`,
-//     component: require.resolve("./src/templates/all-pokemon.js"),
-//     context: { allPokemon },
-//   })
-
-//   // Create a page for each Pokémon.
-//   allPokemon.forEach(pokemon => {
-//     createPage({
-//       path: `/pokemon/${pokemon.name}/`,
-//       component: require.resolve("./src/templates/pokemon.js"),
-//       context: { pokemon },
+// exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+//   if (stage === 'build-html') {
+//     actions.setWebpackConfig({
+//       module: {
+//         rules: [
+//           {
+//             test: /@firebase/,
+//             use: loaders.null()
+//           }
+//         ]
+//       }
 //     })
-//   })
+//   }
 // }

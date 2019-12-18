@@ -358,8 +358,6 @@ function CartProvider({ children, ...props }) {
     dispatch({ type: SET_TOGGLE })
   }
   function setVariation(name, value, price) {
-    console.log('e Hiiii => ', value, price)
-
     dispatch({
       type: SET_VARIATION,
       payload: { name, value, price }
