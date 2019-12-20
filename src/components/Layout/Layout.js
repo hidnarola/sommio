@@ -42,15 +42,6 @@ const Layout = ({ children }) => {
         />
         <script src="https://x.klarnacdn.net/kp/lib/v1/api.js"></script>
         <script src="https://unpkg.com/@builton/core-sdk@latest/dist/main.bundle.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase-auth.js"></script>
-        <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
-        <script src="https://js.stripe.com/v3/"></script>
-        <link
-          type="text/css"
-          rel="stylesheet"
-          href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css"
-        />
       </Helmet>
       <Header
         siteTitle={site.siteMetadata.title}

@@ -1,17 +1,18 @@
 import React, { useContext, useState } from 'react'
-import firebase from '../../firebase/index'
-import { CartContext, UserContext } from '../../context'
-import Builton from '@builton/core-sdk'
-// import validtion from '../../validation/checkout'
 
-const RegisterOrLogin = ({ isModal, toggle }) => {
+import { CartContext, UserContext, FirebaseContext } from '../../context'
+import Builton from '@builton/core-sdk'
+
+const RegisterOrLogin = ({ isModal, toggleModal, toggleDropDown }, props) => {
   const {
     shipping_address,
     customerDetails,
     cartItemsBuilton,
     setUserBuilton
   } = useContext(CartContext)
-  const { setCurrentUser } = useContext(UserContext)
+  // const { setCurrentUser } = useContext(UserContext)
+  const { firebase } = useContext(FirebaseContext)
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -21,7 +22,6 @@ const RegisterOrLogin = ({ isModal, toggle }) => {
     password: 'Required'
   })
   const [errorMessage, setErrorMessage] = useState('')
-  console.log('isCurrentUser => ', isCurrentUser)
 
   const handleRegister = async () => {
     // toggle()
@@ -40,7 +40,7 @@ const RegisterOrLogin = ({ isModal, toggle }) => {
           })
           SetCurrentUser(resp.user)
           setUserBuilton({ email, password }, builton)
-          setCurrentUser(isCurrentUser, { email, password }, firebase)
+          // setCurrentUser(isCurrentUser)
         })
         .catch(error => {
           setErrorMessage(error.message)
@@ -60,9 +60,6 @@ const RegisterOrLogin = ({ isModal, toggle }) => {
         password: ''
       })
       var user = firebase.auth().currentUser
-      console.log('user, isCurrentUser => ', isCurrentUser, isCurrentUser)
-
-      console.log('user ,isCurrentUser => ', user, isCurrentUser)
 
       if (user !== null) {
         user
@@ -74,8 +71,9 @@ const RegisterOrLogin = ({ isModal, toggle }) => {
               bearerToken: idToken
             })
             SetCurrentUser(user)
+
             setUserBuilton({ email, password }, builton)
-            setCurrentUser(isCurrentUser, { email, password }, firebase)
+            // setCurrentUser(isCurrentUser)
             setErrorMessage('')
           })
           .catch(err => {
@@ -101,7 +99,7 @@ const RegisterOrLogin = ({ isModal, toggle }) => {
 
             setUserBuilton({ email, password }, builton)
             SetCurrentUser(res.user)
-            setCurrentUser(isCurrentUser, { email, password }, firebase)
+            // setCurrentUser(isCurrentUser)
             setErrorMessage('')
           })
           .catch(error => {

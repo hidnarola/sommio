@@ -1,73 +1,53 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'gatsby'
-import { CartContext, CheckoutContext, UserContext } from '../../context'
+import {
+  CartContext,
+  CheckoutContext,
+  UserContext,
+  FirebaseContext
+} from '../../context'
 import CartItemList from '../CartItemList'
 import Logo from '../../images/logo.png'
 import logoCheckout from '../../images/logo-checkout.png'
 import CartIcon from '../../images/shopping-basket-duotone.svg'
 import CartButton from '../CartButton'
-import firebase from '../../firebase'
+import RegiserOrLogin from '../../components/Checkout/RegisterOrLogin'
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
-// import { useFirebase } from 'gatsby-plugin-firebase'
+import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
 
 const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   const { count, isEmpty, setToggle } = useContext(CartContext)
-  const { currentUserCheck, firebaseObj, userDetail } = useContext(UserContext)
+  const { currentUserCheck, userDetail } = useContext(UserContext)
   const { orderId } = useContext(CheckoutContext)
-  const [modal, setModal] = useState(false)
+  const { firebase } = useContext(FirebaseContext)
+  const [refresh, setRefresh] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [currentUser, setCurrentUser] = useState(false)
-  const toggleDropdown = () => setDropdownOpen(prevState => !prevState)
-  const toggle = () => setModal(!modal)
-  console.log(
-    'currentUserCheck header ,firebaseObj,=> ',
-    currentUserCheck,
-    firebaseObj
-  )
-  console.log(
-    ' firebase.auth().currentUser,currentUser => ',
-    firebase.auth().currentUser,
-    currentUser
-  )
+  const [modal, setModal] = useState(false)
+  const toggleModal = () => setModal(!modal)
+  const toggleDropDown = () => setDropdownOpen(prevState => !prevState)
+  useEffect(() => {
+    !(firebase && firebase.auth().currentUser)
+      ? setTimeout(() => setRefresh({ refresh: true }), 1000)
+      : setRefresh({ refresh: true })
+  }, [])
 
-  // useEffect(() => {
-  //   if (firebase.auth().currentUser !== null) {
-  //     setCurrentUser(firebase.auth().currentUser)
-  //   } else {
-  //     setCurrentUser(false)
-  //   }
-  // }, [])
-  // const tryFirebase = () => {
-  //   useFirebase(firebase => {
-  //     firebase
-  //       .database()
-  //       .ref('/user')
-  //       .once('value')
-  //       .then(snapshot => {
-  //         setUser(snapshot.val())
-  //       })
-  //   }, [])
-  // }
   const handleLogout = () => {
     firebase
       .auth()
       .signOut()
       .then(res => {
         // setCurrentUser(false)
-        console.log('sis res Logout => ', res)
-        alert('Logout')
+        toggleDropDown()
       })
       .catch(err => {
         console.log('sis err Logout => ', err)
-        alert('not Logout')
       })
   }
-
   return (
     <div>
       {window.location.pathname === '/checkout' ? (
@@ -147,13 +127,13 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
                     <Link to="/about">Contact us</Link>
                   </li>
                   <li>
-                    {firebase && firebase.auth().currentUser ? (
-                      <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}>
+                    {refresh && firebase && firebase.auth().currentUser ? (
+                      <Dropdown isOpen={dropdownOpen} toggle={toggleDropDown}>
                         <DropdownToggle caret>
-                          {userDetail.email}
+                          {firebase.auth().currentUser.email}
                         </DropdownToggle>
                         <DropdownMenu>
-                          <DropdownItem>My Account</DropdownItem>
+                          <DropdownItem>My Account </DropdownItem>
                           <DropdownItem>
                             <button onClick={handleLogout}>Logout</button>
                           </DropdownItem>
@@ -161,7 +141,7 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
                       </Dropdown>
                     ) : (
                       <div>
-                        <button>Do Login/Register</button>
+                        <button onClick={toggleModal}>Login/Register</button>
                       </div>
                     )}
                   </li>
@@ -174,6 +154,16 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
               </div>
             </div>
           </div>
+          <Modal isOpen={modal} toggle={toggleModal}>
+            <ModalHeader toggle={toggleModal}>User Account</ModalHeader>
+            <ModalBody>
+              <RegiserOrLogin
+                isModal={true}
+                toggleModal={toggleModal}
+                toggleDropDown={toggleDropDown}
+              />
+            </ModalBody>
+          </Modal>
         </header>
       )}
     </div>

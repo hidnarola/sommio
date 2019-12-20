@@ -1,5 +1,6 @@
 const path = require('path')
-require('dotenv').config()
+const dotenv = require('dotenv')
+dotenv.config()
 
 module.exports = {
   siteMetadata: {

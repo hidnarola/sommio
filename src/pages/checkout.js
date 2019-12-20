@@ -2,12 +2,12 @@ import React, { useState, useContext, useEffect, useRef } from 'react'
 // import { Link } from 'gatsby'
 import jwt from 'jsonwebtoken'
 import Builton from '@builton/core-sdk'
-import { CartContext, CheckoutContext } from '../context'
+import { CartContext, CheckoutContext, FirebaseContext } from '../context'
 import ShippingAddress from '../components/Checkout/shippingAddress'
 import PaymentPage from '../components/Checkout/paymentPage'
 import ReviewOrder from '../components/Checkout/RiviewOrder'
 import OrderConfirmation from '../components/Checkout/OrderConfirmation'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import RegiserOrLogin from '../components/Checkout/RegisterOrLogin'
 const CheckoutPage = () => {
   const {
@@ -19,8 +19,10 @@ const CheckoutPage = () => {
   } = useContext(CartContext)
 
   const { defaultPayment, checkoutClear } = useContext(CheckoutContext)
+  const { firebase } = useContext(FirebaseContext)
   const [formEnable, setFormEnable] = useState(false)
   const [isEditable, setIsEditable] = useState(false)
+
   const isMounted = useRef(true)
   const [modal, setModal] = useState(false)
   console.log('modal USERACC => ', modal)
@@ -28,12 +30,18 @@ const CheckoutPage = () => {
   const toggle = () => setModal(!modal)
 
   useEffect(() => {
+    console.log(' firebase Checkout => ', firebase)
+
     let element = document.getElementsByTagName('body')[0]
     if (isMounted) {
       element.classList.add('so-checkout-page')
       toggle()
       isMounted.current = false
+      // if (!firebase.auth().currentUser) {
+      //   setModal(false)
+      // }
     }
+
     return () => {
       element.classList.remove('so-checkout-page')
       checkoutClear()
