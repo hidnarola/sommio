@@ -22,7 +22,6 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
     password: 'Required'
   })
   const [errorMessage, setErrorMessage] = useState('')
-
   const handleRegister = async () => {
     setErrorMessage('')
     setRegisterError({})
@@ -33,6 +32,8 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
         .then(resp => {
           let accessToken = JSON.parse(JSON.stringify(resp.user))
             .stsTokenManager.accessToken
+          localStorage.setItem('firebaseToken', accessToken)
+
           const builton = new Builton({
             apiKey: process.env.GATSBY_BUILTON_API_KEY,
             bearerToken: accessToken
@@ -51,7 +52,7 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
     }
   }
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (checkValidation().status) {
       setRegisterError({
         email: '',
@@ -68,6 +69,8 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
               apiKey: process.env.GATSBY_BUILTON_API_KEY,
               bearerToken: idToken
             })
+            localStorage.setItem('firebaseToken', idToken)
+
             SetCurrentUser(user)
             setUserBuilton({ email, password }, builton)
             toggleModal()
@@ -90,6 +93,7 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
           .then(res => {
             var accessToken = JSON.parse(JSON.stringify(res.user))
               .stsTokenManager.accessToken
+            localStorage.setItem('firebaseToken', accessToken)
 
             const builton = new Builton({
               apiKey: process.env.GATSBY_BUILTON_API_KEY,
