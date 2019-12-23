@@ -5,7 +5,7 @@ import Builton from '@builton/core-sdk'
 import { CartContext, CheckoutContext, FirebaseContext } from '../context'
 import ShippingAddress from '../components/Checkout/shippingAddress'
 import PaymentPage from '../components/Checkout/paymentPage'
-import ReviewOrder from '../components/Checkout/RiviewOrder'
+import ReviewOrder from '../components/Checkout/ReviewOrder'
 import OrderConfirmation from '../components/Checkout/OrderConfirmation'
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import RegiserOrLogin from '../components/Checkout/RegisterOrLogin'
@@ -27,19 +27,16 @@ const CheckoutPage = () => {
   const [modal, setModal] = useState(false)
   console.log('modal USERACC => ', modal)
 
-  const toggle = () => setModal(!modal)
+  const toggleModal = () => setModal(!modal)
 
   useEffect(() => {
-    console.log(' firebase Checkout => ', firebase)
-
     let element = document.getElementsByTagName('body')[0]
     if (isMounted) {
       element.classList.add('so-checkout-page')
-      toggle()
       isMounted.current = false
-      // if (!firebase.auth().currentUser) {
-      //   setModal(false)
-      // }
+      if (!(firebase && firebase.auth().currentUser)) {
+        toggleModal()
+      }
     }
 
     return () => {
@@ -67,10 +64,10 @@ const CheckoutPage = () => {
             />
           </div>
           <div>
-            <Modal isOpen={modal} toggle={toggle}>
-              <ModalHeader toggle={toggle}>User Account</ModalHeader>
+            <Modal isOpen={modal} toggle={toggleModal}>
+              <ModalHeader toggle={toggleModal}>User Account</ModalHeader>
               <ModalBody>
-                <RegiserOrLogin isModal={true} toggle={toggle} />
+                <RegiserOrLogin isModal={true} toggleModal={toggleModal} />
               </ModalBody>
             </Modal>
           </div>

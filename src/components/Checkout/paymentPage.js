@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { Form } from 'react-final-form'
 import { CardElement, injectStripe } from 'react-stripe-elements'
-import { CheckoutContext, CartContext } from '../../context'
+import { CheckoutContext, CartContext, FirebaseContext } from '../../context'
 import ShippingSelectOption from './shippingSelectOption'
 import stripeValidation from '../../validation/stripe'
 import axios from 'axios'
@@ -23,6 +23,7 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
     shippingSubProductId
   } = useContext(CartContext)
   const { paymentData, paymentDetails } = useContext(CheckoutContext)
+  const { firebase } = useContext(FirebaseContext)
   const [checkoutError, setCheckoutError] = useState(null)
   const [makeEnable, setMakeEnable] = useState(true)
   const enableForm =
@@ -34,12 +35,13 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
 
   const handlePayment = async values => {
     shippingCost(shippingRate, shippingProvider)
+    console.log(' builton payment => ', builton)
 
     //user authenticate
     await builton.users.authenticate({
       first_name: shipping_address && shipping_address.first_name,
       last_name: shipping_address && shipping_address.last_name,
-      email: customerDetails && customerDetails.email
+      email: firebase.auth().currentUser.email
     })
 
     // update shipping price in builton

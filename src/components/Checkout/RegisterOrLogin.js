@@ -3,14 +3,14 @@ import React, { useContext, useState } from 'react'
 import { CartContext, UserContext, FirebaseContext } from '../../context'
 import Builton from '@builton/core-sdk'
 
-const RegisterOrLogin = ({ isModal, toggleModal, toggleDropDown }, props) => {
+const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
   const {
     shipping_address,
     customerDetails,
     cartItemsBuilton,
     setUserBuilton
   } = useContext(CartContext)
-  // const { setCurrentUser } = useContext(UserContext)
+
   const { firebase } = useContext(FirebaseContext)
 
   const [email, setEmail] = useState('')
@@ -24,7 +24,6 @@ const RegisterOrLogin = ({ isModal, toggleModal, toggleDropDown }, props) => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const handleRegister = async () => {
-    // toggle()
     setErrorMessage('')
     setRegisterError({})
     if (checkValidation().status) {
@@ -40,6 +39,7 @@ const RegisterOrLogin = ({ isModal, toggleModal, toggleDropDown }, props) => {
           })
           SetCurrentUser(resp.user)
           setUserBuilton({ email, password }, builton)
+          toggleModal()
           // setCurrentUser(isCurrentUser)
         })
         .catch(error => {
@@ -52,8 +52,6 @@ const RegisterOrLogin = ({ isModal, toggleModal, toggleDropDown }, props) => {
   }
 
   const handleLogin = () => {
-    console.log('checkValidation() => ', checkValidation())
-
     if (checkValidation().status) {
       setRegisterError({
         email: '',
@@ -71,8 +69,9 @@ const RegisterOrLogin = ({ isModal, toggleModal, toggleDropDown }, props) => {
               bearerToken: idToken
             })
             SetCurrentUser(user)
-
             setUserBuilton({ email, password }, builton)
+            toggleModal()
+            setDropdownOpen(false)
             // setCurrentUser(isCurrentUser)
             setErrorMessage('')
           })
@@ -99,7 +98,11 @@ const RegisterOrLogin = ({ isModal, toggleModal, toggleDropDown }, props) => {
 
             setUserBuilton({ email, password }, builton)
             SetCurrentUser(res.user)
+            toggleModal()
+            setDropdownOpen(false)
+
             // setCurrentUser(isCurrentUser)
+
             setErrorMessage('')
           })
           .catch(error => {
@@ -110,21 +113,6 @@ const RegisterOrLogin = ({ isModal, toggleModal, toggleDropDown }, props) => {
     } else {
       setRegisterError(checkValidation().msg)
     }
-  }
-
-  const handleLogout = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(function() {
-        setEmail('')
-        setPassword('')
-        SetCurrentUser(false)
-        setErrorMessage('')
-      })
-      .catch(function(error) {
-        SetCurrentUser(true)
-      })
   }
 
   const checkValidation = () => {
@@ -188,17 +176,7 @@ const RegisterOrLogin = ({ isModal, toggleModal, toggleDropDown }, props) => {
 
   return (
     <div>
-      <h2 className="text-black font-medium leading-loose p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
-        <span>1</span>
-        <span className="text">CONTACT INFORMATION</span>
-      </h2>
-
-      {isCurrentUser ? (
-        <div>
-          <p>You are Logged In Go for next steps</p>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      ) : (
+      {!isCurrentUser && isModal && isModal === true && (
         <>
           <div className="frm_grp">
             <input
@@ -209,28 +187,25 @@ const RegisterOrLogin = ({ isModal, toggleModal, toggleDropDown }, props) => {
             />
             <span>{error.email}</span>
           </div>
-          {isModal && isModal === true && (
-            <div>
-              <div className="frm_grp">
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  onChange={e => handleChange(e)}
-                />
-                <span>{error.password}</span>
 
-                <span>{errorMessage}</span>
-              </div>
+          <div className="frm_grp">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={e => handleChange(e)}
+            />
+            <span>{error.password}</span>
 
-              <button onClick={handleRegister} type="button">
-                Register
-              </button>
-              <button type="button" onClick={handleLogin}>
-                Login
-              </button>
-            </div>
-          )}
+            <span>{errorMessage}</span>
+          </div>
+
+          <button onClick={handleRegister} type="button">
+            Register
+          </button>
+          <button type="button" onClick={handleLogin}>
+            Login
+          </button>
         </>
       )}
     </div>

@@ -34,7 +34,7 @@ export default function reducer(state, action) {
       }
 
     case CREATE_ORDER_BUILTON:
-      console.log('action => ', action)
+      console.log('action CREATE_ORDER_BUILTON => ', action)
       const orderedItems = action.createdOrder.items
       // const order_shipping_provider_name = action.payload.shipping_provider_name
       // const order_shipping_cost = action.payload.shipping_cost

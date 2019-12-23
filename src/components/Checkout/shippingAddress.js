@@ -3,10 +3,9 @@ import { Form } from 'react-final-form'
 import jwt from 'jsonwebtoken'
 import Builton from '@builton/core-sdk'
 import Input from '../Input'
-import { CartContext } from '../../context'
+import { CartContext, FirebaseContext } from '../../context'
 import AddressFields from './AddressFields'
 import { LoginTicket } from 'google-auth-library/build/src/auth/loginticket'
-import RegisterOrLogin from './RegisterOrLogin'
 
 const ShippingAddress = ({ isCompleted, toggleEditable }) => {
   const {
@@ -20,6 +19,8 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
     builton
   } = useContext(CartContext)
   console.log('builton => ', builton)
+  const { firebase } = useContext(FirebaseContext)
+  console.log('user ,firebase => ', user, firebase.auth().curentUser)
 
   return (
     <>
@@ -55,7 +56,19 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
       </div>
       <div className={`${isCompleted ? 'hidden' : 'visible'}`}>
         <div className="shipping-boxs">
-          <RegisterOrLogin />
+          <h2 className="text-black font-medium leading-loose p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
+            <span>1</span>
+            <span className="text">CONTACT INFORMATION</span>
+          </h2>
+          <div className="frm_grp">
+            <input
+              type="email"
+              name="email"
+              defaultValue={user && user.email}
+              readOnly
+            />
+          </div>
+
           <h2 className="text-black font-medium p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
             SHIPPING & BILLING
           </h2>

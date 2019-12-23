@@ -1,14 +1,38 @@
-import React, { createContext } from 'react'
+import React, { createContext, useReducer } from 'react'
+import { StaticQuery } from 'gatsby'
 let FirebaseContext
 const { Provider, Consumer } = (FirebaseContext = createContext())
+export const SET_FIREBASE = 'SET_FIREBASE'
 
-function FirebaseProvider({ children, firebase, ...props }) {
-  console.log('props FirebaseProvider => ', firebase, props)
+export const initialState = {
+  firebase: null
+}
+export default function reducer(state, action) {
+  switch (action.type) {
+    case SET_FIREBASE:
+      const firebase = action.firebase
+      return {
+        ...state,
+        firebase: firebase
+      }
+
+    default:
+      return state
+  }
+}
+
+function FirebaseProvider({ children, ...props }) {
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  const setFirebase = firebase => {
+    dispatch({ type: SET_FIREBASE, firebase })
+  }
   return (
     <Provider
       value={{
+        ...state,
         ...props,
-        firebase
+        setFirebase
       }}
     >
       {children}

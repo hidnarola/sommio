@@ -4,7 +4,7 @@ import { CartProvider, CartContext } from './CartContext'
 import { UserProvider, UserContext } from './UserContext'
 import { CheckoutProvider, CheckoutContext } from './CheckoutContext'
 import { FirebaseProvider, FirebaseContext } from './FirebaseContext'
-import firebase from '../firebase/index'
+
 let BuiltonContext
 
 const { Provider, Consumer } = (BuiltonContext = createContext())
@@ -16,7 +16,7 @@ function BuiltonProvider({ children, ...props }) {
         ...props
       }}
     >
-      <FirebaseProvider firebase={firebase}>
+      <FirebaseProvider>
         <UserProvider>
           <CartProvider>
             <CheckoutProvider>{children}</CheckoutProvider>

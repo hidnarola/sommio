@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useReducer, useEffect } from 'react'
 import { toast, ToastType } from 'react-toastify'
 import axios from 'axios'
-
+import { FirebaseContext } from './FirebaseContext'
 export const RESET_CART = 'RESET_CART'
 export const SET_RATES = 'SET_RATES'
 export const SET_ADDRESS = 'SET_ADDRESS'
@@ -57,7 +57,6 @@ export default function reducer(state, action) {
     case SET_ADDRESS:
       const shipping_address = action.shippingData
       const customerDetails = action.user
-      console.log('action SET_ADDRESS => ', action)
 
       const paymentButton = true
 
@@ -69,7 +68,6 @@ export default function reducer(state, action) {
       }
 
     case SET_SELCETED_RATES:
-      console.log('convertedRates[action] => ', action.payload.convertedRates)
       const shippingRate = action.payload.convertedRates
         ? action.payload.convertedRates
         : initialState.shippingRate
@@ -127,7 +125,7 @@ export default function reducer(state, action) {
       const coverPrice = action.payload.selectCoverPrice
       const selectedWeight = action.payload.selectedWeight
       const selectedCover = action.payload.selectedCover
-      const shippingSubProductId = action.payload.shippingSubProduct[0].id
+      const shippingSubProductId = action.payload.shippingSubProduct[0]._id._oid
       return {
         ...state,
         weightPrice: weightPrice,
@@ -209,6 +207,7 @@ let CartContext
 const { Provider, Consumer } = (CartContext = createContext())
 
 function CartProvider({ children, ...props }) {
+  const { firebase } = useContext(FirebaseContext)
   const [state, dispatch] = useReducer(reducer, initialState)
   const isEmpty = state.countBuilton === 0
 
@@ -330,7 +329,7 @@ function CartProvider({ children, ...props }) {
           postal_code: `${shippingData.postcode}`,
           country: `${shippingData.country}`,
           phone: '7657168649',
-          email: `${user.email}`,
+          email: `${firebase.auth().currentUser.email}`,
           type: 'residential'
         }
       }
@@ -392,6 +391,8 @@ function CartProvider({ children, ...props }) {
     })
   }
   const setUserBuilton = (data, builton) => {
+    console.log('data => ', data)
+
     dispatch({ type: USER_DETAIL_BUILTON, data, builton })
   }
   const cartBuilton = cart => {
