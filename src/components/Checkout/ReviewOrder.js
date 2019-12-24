@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { injectStripe } from 'react-stripe-elements'
 import { CartContext, CheckoutContext } from '../../context'
 import CartItemList from '../CartItemList'

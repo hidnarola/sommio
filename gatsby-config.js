@@ -63,20 +63,6 @@ module.exports = {
           'Rqd56FLNq539fNET8PGvIsA9kNkr12dkyHwk8SLyLtKISlMgEJ-cyQ3aTKtQapYxXNwx-u18dByEnViH59QBBQ=='
       }
     },
-    // {
-    //   resolve: 'gatsby-plugin-firebase',
-    //   options: {
-    //     features: {
-    //       auth: true,
-    //       database: true,
-    //       firestore: false,
-    //       storage: false,
-    //       messaging: false,
-    //       functions: true,
-    //       performance: false
-    //     }
-    //   }
-    // },
     'gatsby-plugin-stripe'
   ]
 }

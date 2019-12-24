@@ -7,6 +7,7 @@ export default function OrderConfirmation(props) {
   const { deleteCart, shipping_address, customerDetails } = useContext(
     CartContext
   )
+
   const {
     orderId,
     orderedItems,
@@ -14,7 +15,6 @@ export default function OrderConfirmation(props) {
     order_shipping_cost,
     orderPrice
   } = useContext(CheckoutContext)
-
   useEffect(() => {
     return () => {
       deleteCart()

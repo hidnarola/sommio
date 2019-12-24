@@ -5,7 +5,6 @@ import Builton from '@builton/core-sdk'
 import Input from '../Input'
 import { CartContext, FirebaseContext } from '../../context'
 import AddressFields from './AddressFields'
-import { LoginTicket } from 'google-auth-library/build/src/auth/loginticket'
 
 const ShippingAddress = ({ isCompleted, toggleEditable }) => {
   const {

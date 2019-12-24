@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form } from 'react-final-form'
 import { CardElement, injectStripe } from 'react-stripe-elements'
 import { CheckoutContext, CartContext, FirebaseContext } from '../../context'
