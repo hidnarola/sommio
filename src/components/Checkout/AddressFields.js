@@ -9,8 +9,6 @@ import shippingFormValidation from '../../validation/shippingFormValidation'
 // import firebase from '../../firebase/index'
 
 const AddressFields = ({ type, toggleEditable }) => {
-  console.log('type validation => ', type)
-
   const {
     shipping_address,
     user,
