@@ -13,26 +13,27 @@ const myOrderDetails = () => {
   } = useContext(CheckoutContext)
   const url = 'https://api.builton.dev/orders'
   const token = localStorage.getItem('firebaseToken')
-  useEffect(() => {
-    console.log(' Component DIdmount  => ')
 
-    try {
-      const response = axios.get(
-        url,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'X-Builton-Api-Key': process.env.GATSBY_BUILTON_API_KEY,
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-      console.log('response ORDERS ==>', response)
-    } catch (error) {
-      console.error(error)
-    }
-  }, [])
+  // useEffect(() => {
+  //   console.log(' Component DIdmount  => ')
+
+  //   try {
+  //     const response = axios.get(
+  //       url,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           'X-Builton-Api-Key': process.env.GATSBY_BUILTON_API_KEY,
+  //           'Content-Type': 'application/json'
+  //         }
+  //       }
+  //     )
+  //     console.log('response ORDERS ==>', response)
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }, [])
 
   return (
     <div className="orderconfimatio-main">
