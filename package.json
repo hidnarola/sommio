@@ -44,8 +44,7 @@
     "reactstrap": "^8.0.1",
     "slick-carousel": "^1.8.1",
     "tailwindcss": "0.7.4",
-    "validator": "10.11.0",
-    "virtual-scroll": "^1.5.1"
+    "validator": "10.11.0"
   },
   "scripts": {
     "build": "rimraf .cache && rimraf public && sudo gatsby develop -H 0.0.0.0 -p 8888",
