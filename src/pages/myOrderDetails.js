@@ -4,15 +4,15 @@ import { CheckoutContext, CartContext } from '../context/index'
 import OrderItems from '../components/OrderItems'
 
 const myOrderDetails = () => {
-  const {
-    orderId,
-    orderedItems,
-    order_shipping_provider_name,
-    order_shipping_cost,
-    orderPrice
-  } = useContext(CheckoutContext)
-  const url = 'https://api.builton.dev/orders'
-  const token = localStorage.getItem('firebaseToken')
+  // const {
+  //   orderId,
+  //   orderedItems,
+  //   order_shipping_provider_name,
+  //   order_shipping_cost,
+  //   orderPrice
+  // } = useContext(CheckoutContext)
+  // const url = 'https://api.builton.dev/orders'
+  // const token = localStorage.getItem('firebaseToken')
 
   // useEffect(() => {
   //   console.log(' Component DIdmount  => ')
