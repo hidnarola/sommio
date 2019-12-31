@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { graphql } from 'gatsby'
-import locomotiveScroll from 'locomotive-scroll'
+import { Router, Link } from '@reach/router'
 import Goodbye from '../components/HomePage/Goodbye'
 import Quiz from '../components/HomePage/Quiz'
 import HomeService from '../components/HomePage/HomeService'
@@ -12,16 +12,8 @@ import BlanketDifference from '../components/HomePage/BlanketDifference'
 import CustomerReview from '../components/HomePage/CustomerReview'
 
 function IndexPage() {
-  const scrollRef = React.createRef()
-
-  useEffect(() => {
-    const scroll = new locomotiveScroll({
-      el: scrollRef.current,
-      smooth: true
-    })
-  })
   return (
-    <div className="homepage-bg" ref={scrollRef}>
+    <div className="homepage-bg">
       <div className="goodquiz-bg">
         <div className="container-fluid">
           <div className="row no-gutters">

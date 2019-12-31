@@ -38,6 +38,7 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
             apiKey: process.env.GATSBY_BUILTON_API_KEY,
             bearerToken: accessToken
           })
+
           SetCurrentUser(resp.user)
           setUserBuilton({ email, password }, builton)
           toggleModal()
@@ -69,6 +70,7 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
               apiKey: process.env.GATSBY_BUILTON_API_KEY,
               bearerToken: idToken
             })
+            console.log(' builton => ', builton)
             localStorage.setItem('firebaseToken', idToken)
 
             SetCurrentUser(user)
@@ -99,6 +101,7 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
               apiKey: process.env.GATSBY_BUILTON_API_KEY,
               bearerToken: accessToken
             })
+            console.log(' builton => ', builton)
 
             setUserBuilton({ email, password }, builton)
             SetCurrentUser(res.user)
@@ -180,7 +183,7 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
 
   return (
     <div>
-      {!isCurrentUser && isModal && isModal === true && (
+      {!isCurrentUser && isModal === true && (
         <>
           <div className="frm_grp">
             <input

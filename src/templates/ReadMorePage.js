@@ -2,14 +2,14 @@ import React from 'react'
 import { graphql } from 'gatsby'
 
 const ReadMorePage = ({ data }) => {
-  console.log('query , data => ', query, data)
+  console.log('query , data => ', data)
   return (
     <div>
       <h1>{data.contentfulCondition.conditionName}</h1>
       <p>
-        {data.contentfulCondition.description.content.map(content =>
+        {/* {data.contentfulCondition.description.content.map(content =>
           content.content.map(cont => <p>{cont.value}</p>)
-        )}
+        )} */}
       </p>
     </div>
   )
@@ -21,13 +21,6 @@ export const query = graphql`
       slug
       id
       conditionName
-      description {
-        content {
-          content {
-            value
-          }
-        }
-      }
     }
   }
 `

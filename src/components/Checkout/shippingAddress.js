@@ -64,7 +64,6 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
               type="email"
               name="email"
               defaultValue={user && user.email}
-              readOnly
             />
           </div>
 

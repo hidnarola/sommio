@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'gatsby'
+import { navigate } from 'gatsby'
 import {
   CartContext,
   CheckoutContext,
@@ -18,8 +19,10 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
-import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import { getFirebase } from '../../firebase/index'
+// import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
+import { Modal, Button } from 'react-bootstrap'
+import Loader from '../Loader'
 
 const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   const { count, isEmpty, setToggle, setUserBuilton } = useContext(CartContext)
@@ -27,29 +30,37 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   const { orderId } = useContext(CheckoutContext)
   const { setFirebase, firebase } = useContext(FirebaseContext)
   const [refresh, setRefresh] = useState(false)
+  const [isLoading, setLoading] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  const [modal, setModal] = useState(false)
-  const toggleModal = () => setModal(!modal)
+  // const [modal, setModal] = useState(false)
+  // const toggleModal = () => setModal(!modal)
   const toggleDropDown = () => setDropdownOpen(!dropdownOpen)
+
+  //-----------------React-bootstrap modal-----------------------------
+  const [show, setShow] = useState(false)
+  const handelModal = () => setShow(!show)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+  //-----------------------------------------------
 
   useEffect(() => {
     const lazyApp = import('firebase')
     lazyApp.then(firebaseObj => {
       const firebase = getFirebase(firebaseObj)
-
       setFirebase(firebase)
-      if (firebase && firebase.auth().currentUser) {
-        setModal(false)
-      }
+
+      // if (firebase && firebase.auth().currentUser) {
+      //   setShow(false)
+      // }
       !(firebase && firebase.auth().currentUser)
         ? setTimeout(() => setRefresh(true), 1000)
         : setRefresh(false)
+      // !(firebase && firebase.auth().currentUser)
+      //   ? setLoading(true)
+      //   : setLoading(false)
     })
   }, [])
-  console.log(
-    'refresh && firebase && firebase.auth().currentUser => ',
-    refresh && firebase && firebase.auth().currentUser
-  )
+  console.log('refresh SS => ', refresh)
 
   const handleLogout = () => {
     firebase &&
@@ -57,8 +68,8 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
         .auth()
         .signOut()
         .then(res => {
-          // setCurrentUser(false)
-          // toggleDropDown()
+          navigate(`/`)
+          localStorage.removeItem('firebaseToken')
         })
         .catch(err => {
           console.log('sis err Logout => ', err)
@@ -142,8 +153,11 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
                   <li className="nav-item">
                     <Link to="/about">Contact us</Link>
                   </li>
+                  {/* {isLoading === true ? (
+                    <Loader />
+                  ) : ( */}
                   <li>
-                    {refresh && firebase && firebase.auth().currentUser ? (
+                    {firebase && firebase.auth().currentUser ? (
                       <Dropdown isOpen={dropdownOpen} toggle={toggleDropDown}>
                         <DropdownToggle>
                           {firebase.auth().currentUser.email}
@@ -151,7 +165,7 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
                         <DropdownMenu>
                           <DropdownItem>
                             <button>
-                              <Link to="/myOrderDetails">My Orders</Link>
+                              <Link to="/userOrdersList">My Orders</Link>
                             </button>
                           </DropdownItem>
                           <DropdownItem>
@@ -161,10 +175,13 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
                       </Dropdown>
                     ) : (
                       <div>
-                        <button onClick={toggleModal}>Login/Register</button>
+                        <Button variant="primary" onClick={handelModal}>
+                          Login/Register
+                        </Button>
                       </div>
                     )}
                   </li>
+                  {/* )} */}
                 </ul>
                 <ul className="navbar-nav cart-boxs">
                   <li className="nav-item">
@@ -174,15 +191,18 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
               </div>
             </div>
           </div>
-          <Modal isOpen={modal} toggle={toggleModal}>
-            <ModalHeader toggle={toggleModal}>User Account</ModalHeader>
-            <ModalBody>
+
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>User Account</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
               <RegiserOrLogin
                 isModal={true}
-                toggleModal={toggleModal}
+                toggleModal={handelModal}
                 setDropdownOpen={setDropdownOpen}
               />
-            </ModalBody>
+            </Modal.Body>
           </Modal>
         </header>
       )}

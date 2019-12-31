@@ -1,6 +1,6 @@
 const path = require('path')
 
-exports.createPages = async ({ graphql, actions: { createPage } }) => {
+exports.createPages = async ({ page, graphql, actions: { createPage } }) => {
   const pages = await graphql(`
     {
       allProducts: allBuiltonProduct {
@@ -41,4 +41,13 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
       }
     })
   })
+}
+
+exports.onCreatePage = ({ page, actions }) => {
+  const { createPage, deletePage } = actions
+  if (page.path.match(/^\/order/)) {
+    page.matchPath = `/order/*`
+
+    createPage(page)
+  }
 }
