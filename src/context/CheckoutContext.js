@@ -7,6 +7,7 @@ export const PAYMENT = 'PAYMENT'
 export const RESET_PAYMENT = 'RESET_PAYMENT'
 export const SET_ORDER_DATA = 'SET_ORDER_DATA'
 export const PAYMENT_BUILTON = 'PAYMENT_BUILTON'
+export const USER_ORDER = 'USER_ORDER'
 
 export const initialState = {
   defaultPayment: false,
@@ -18,7 +19,9 @@ export const initialState = {
   customer: null,
   orderPrice: 0,
   orderedItems: [],
-  orderId: null
+  orderId: null,
+  userOrderData: [],
+  userOrder: []
 }
 
 export default function reducer(state, action) {
@@ -54,7 +57,15 @@ export default function reducer(state, action) {
         ...state,
         defaultPayment: defaultPayment
       }
-
+    case USER_ORDER:
+      console.log('action USER_ORDER => ', action)
+      const userOrder = action.data
+      const userOrderItem = action.data.map(object => object.items)
+      console.log('userOrder,userOrderItem => ', userOrder, userOrderItem)
+      return {
+        userOrder: userOrder,
+        userOrderItem: userOrderItem
+      }
     default:
       return state
   }
@@ -74,6 +85,8 @@ function CheckoutProvider({ children, ...props }) {
   }
 
   const createOrderBuilton = createdOrder => {
+    console.log('CHECKOUT createdOrder => ', createdOrder)
+
     console.log('createdOrder => ', createdOrder)
     dispatch({
       type: CREATE_ORDER_BUILTON,
@@ -81,7 +94,13 @@ function CheckoutProvider({ children, ...props }) {
     })
   }
   const paymentBuilton = payBuilton => {
+    console.log('CHECKOUT payBuilton => ', payBuilton)
+
     dispatch({ type: PAYMENT_BUILTON, payBuilton })
+  }
+  const userOrderData = data => {
+    console.log('CHECKOUT data => ', data)
+    dispatch({ type: USER_ORDER, data })
   }
   return (
     <Provider
@@ -91,7 +110,8 @@ function CheckoutProvider({ children, ...props }) {
         checkoutClear,
         paymentData,
         createOrderBuilton,
-        paymentBuilton
+        paymentBuilton,
+        userOrderData
       }}
     >
       {children}
