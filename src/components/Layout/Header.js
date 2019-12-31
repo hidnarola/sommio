@@ -30,7 +30,6 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   const { orderId } = useContext(CheckoutContext)
   const { setFirebase, firebase } = useContext(FirebaseContext)
   const [refresh, setRefresh] = useState(false)
-  const [isLoading, setLoading] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   // const [modal, setModal] = useState(false)
   // const toggleModal = () => setModal(!modal)
@@ -49,15 +48,12 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
       const firebase = getFirebase(firebaseObj)
       setFirebase(firebase)
 
-      // if (firebase && firebase.auth().currentUser) {
-      //   setShow(false)
-      // }
+      if (firebase && firebase.auth().currentUser) {
+        setShow(false)
+      }
       !(firebase && firebase.auth().currentUser)
         ? setTimeout(() => setRefresh(true), 1000)
         : setRefresh(false)
-      // !(firebase && firebase.auth().currentUser)
-      //   ? setLoading(true)
-      //   : setLoading(false)
     })
   }, [])
   console.log('refresh SS => ', refresh)
@@ -153,11 +149,9 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
                   <li className="nav-item">
                     <Link to="/about">Contact us</Link>
                   </li>
-                  {/* {isLoading === true ? (
-                    <Loader />
-                  ) : ( */}
+
                   <li>
-                    {firebase && firebase.auth().currentUser ? (
+                    {refresh && firebase && firebase.auth().currentUser ? (
                       <Dropdown isOpen={dropdownOpen} toggle={toggleDropDown}>
                         <DropdownToggle>
                           {firebase.auth().currentUser.email}
@@ -181,7 +175,6 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
                       </div>
                     )}
                   </li>
-                  {/* )} */}
                 </ul>
                 <ul className="navbar-nav cart-boxs">
                   <li className="nav-item">
