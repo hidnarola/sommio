@@ -8,7 +8,7 @@ import PrivateRoute from '../components/PrivateRoute'
 import UserOrderDetails from '../components/Checkout/userOrderDetails'
 import Loader from '../components/Loader'
 
-const userOrdersList = () => {
+const UserOrdersList = () => {
   const {
     orderId,
     orderedItems,
@@ -80,4 +80,4 @@ const userOrdersList = () => {
   )
 }
 
-export default userOrdersList
+export default UserOrdersList

@@ -4,7 +4,7 @@ import Photo from '../Photo'
 import { FirebaseContext } from '../../context/FirebaseContext'
 import Loader from '../../components/Loader'
 
-const userOrderDetails = props => {
+const UserOrderDetails = props => {
   const orderId = props.id
   const url = `https://api.builton.dev/orders/${orderId}`
   const token = localStorage.getItem('firebaseToken')
@@ -74,4 +74,4 @@ const userOrderDetails = props => {
     </>
   )
 }
-export default userOrderDetails
+export default UserOrderDetails
