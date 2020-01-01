@@ -49,8 +49,8 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
       setFirebase(firebase)
 
       if (firebase && firebase.auth().currentUser) {
-        setShow(false)
-        // setModal(false)
+        // setShow(false)
+        setModal(false)
       }
       !(firebase && firebase.auth().currentUser)
         ? setTimeout(() => setRefresh(true), 1000)

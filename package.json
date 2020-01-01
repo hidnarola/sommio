@@ -49,10 +49,10 @@
     "validator": "10.11.0"
   },
   "scripts": {
-    "build": "rimraf .cache && rimraf public && gastby build",
-    "deploy": "sudo gatsby develop -H 0.0.0.0 -p 8888",
+    "build": "rimraf .cache && rimraf public && gatsby build",
     "dev": "rimraf .cache && rimraf public && gatsby develop",
     "prod": "rimraf .cache && rimraf public && gatsby build",
+    "deploy": "sudo gatsby build -H 0.0.0.0 -p 8888",
     "format": "prettier --write \"src/**/*.js\""
   },
   "devDependencies": {
