@@ -14,7 +14,6 @@ const RiviewOrder = ({ stripe, formEnable }) => {
     selectedWeight,
     quantityBuilton,
     deleteCart,
-    setToggle,
     shippingRate,
     toggle,
     shippingSubProductId
@@ -87,7 +86,6 @@ const RiviewOrder = ({ stripe, formEnable }) => {
 
       //user logout
       // firebase.auth().signOut()
-      // setToggle()
     } catch (errors) {
       console.info('errors ====>', JSON.stringify(errors))
       setCheckoutError(errors)

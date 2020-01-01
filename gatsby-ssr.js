@@ -6,13 +6,16 @@ import Layout from './src/components/Layout'
 import { StripeProvider } from 'react-stripe-elements'
 
 export const wrapRootElement = ({ element }) => {
-  return (
-    <StripeProvider apiKey={process.env.GATSBY_BUILTON_STRIPE_KEY}>
-      <BuiltonProvider>
-        <Elements>{element}</Elements>
-      </BuiltonProvider>
-    </StripeProvider>
-  )
+  if (typeof window !== 'undefined') {
+    return (
+      <StripeProvider apiKey={process.env.GATSBY_BUILTON_STRIPE_KEY}>
+        <BuiltonProvider>
+          <Elements>{element}</Elements>
+        </BuiltonProvider>
+      </StripeProvider>
+    )
+  }
+  return null
 }
 
 export const wrapPageElement = ({ element, props }) => {

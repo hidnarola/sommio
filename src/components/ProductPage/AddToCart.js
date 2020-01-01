@@ -53,7 +53,6 @@ const AddToCart = ({ productId, tags }) => {
     weightPrice,
     coverPrice,
     setCartData,
-    isEmpty,
     countBuilton,
     quantityBuilton
   } = useContext(CartContext)

@@ -2,7 +2,6 @@ import React, { useContext, createContext, useReducer, useEffect } from 'react'
 import { toast, ToastType } from 'react-toastify'
 import axios from 'axios'
 import { FirebaseContext } from './FirebaseContext'
-export const RESET_CART = 'RESET_CART'
 export const SET_RATES = 'SET_RATES'
 export const SET_ADDRESS = 'SET_ADDRESS'
 export const SET_SELCETED_RATES = 'SET_SELCETED_RATES'
@@ -86,21 +85,6 @@ export default function reducer(state, action) {
       console.log('initialState => ', initialState)
 
       return initialState
-
-    case RESET_CART:
-      return {
-        ...state,
-        count: 0,
-        items: [],
-        cartItems: [],
-        promotionItems: [],
-        taxItems: [],
-        loading: false,
-        meta: null,
-        rate: 0,
-        paymentButton: false,
-        shippingProvider: null
-      }
 
     case SET_VARIATION:
       console.log('My Log', action)
@@ -209,7 +193,7 @@ const { Provider, Consumer } = (CartContext = createContext())
 function CartProvider({ children, ...props }) {
   const { firebase } = useContext(FirebaseContext)
   const [state, dispatch] = useReducer(reducer, initialState)
-  const isEmpty = state.countBuilton === 0
+  let isEmpty = state.countBuilton === 0
 
   function updateQuantityBuilton(id, quantity) {
     console.log('quantity => ', quantity)
@@ -353,7 +337,7 @@ function CartProvider({ children, ...props }) {
       payload: { convertedRates, shipping_provider }
     })
   }
-  function setToggle() {
+  const setToggle = () => {
     dispatch({ type: SET_TOGGLE })
   }
   function setVariation(name, value, price) {

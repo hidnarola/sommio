@@ -29,7 +29,6 @@ const CartButton = () => {
 
   const {
     isEmpty,
-    count,
     toggle,
     subTotal,
     setToggle,
@@ -37,7 +36,6 @@ const CartButton = () => {
     countBuilton,
     subTotalBuilton
   } = useContext(CartContext)
-  console.log('countBuilton, isEmpty => ', countBuilton, isEmpty)
 
   const handleToggle = () => {
     setToggle()
