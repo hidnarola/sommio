@@ -99,7 +99,7 @@ const AddToCart = ({ productId, tags }) => {
     return sub.name === Weight
   })
   useEffect(() => {
-    setSubProductPrice(selectedWeight, selectedCover, shipmentProduct)
+    setSubProductPrice(selectedWeight, selectedCover)
   }, [Weight, Cover])
 
   const [quantity, setQuantity] = useState(1)

@@ -82,7 +82,6 @@ const RiviewOrder = ({ stripe, formEnable }) => {
       )
       //dispatch method
       await paymentBuilton(payBuilton)
-      sessionStorage.clear()
     } catch (errors) {
       console.info('errors ====>', JSON.stringify(errors))
       setCheckoutError(errors)

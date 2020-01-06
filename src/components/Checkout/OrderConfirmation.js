@@ -18,6 +18,7 @@ export default function OrderConfirmation(props) {
   useEffect(() => {
     return () => {
       deleteCart()
+      sessionStorage.clear()
     }
   }, [])
   return (

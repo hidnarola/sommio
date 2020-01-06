@@ -112,15 +112,15 @@ export default function reducer(state, action) {
       const coverPrice = action.payload.selectCoverPrice
       const selectedWeight = action.payload.selectedWeight
       const selectedCover = action.payload.selectedCover
-      const shipmentProductId = action.payload.shipmentProduct[0]._id._oid
+      // const shipmentProductId = action.payload.shipmentProduct[0]._id._oid
       return {
         ...state,
         weightPrice: weightPrice,
         coverPrice: coverPrice,
         selectedWeight,
         selectedCover,
-        shippingSubProduct: action.payload.shippingSubProduct,
-        shipmentProductId: shipmentProductId
+        shippingSubProduct: action.payload.shippingSubProduct
+        // shipmentProductId: shipmentProductId
       }
 
     case SET_BUILTON_CART_DATA:
@@ -271,7 +271,10 @@ function CartProvider({ children, ...props }) {
 
     for (const item of cartItemsBuilton) {
       const finalPrice =
-        cartDetails.price + cartDetails.coverPrice + cartDetails.weightPrice
+        cartDetails &&
+        cartDetails.price + cartDetails &&
+        cartDetails.coverPrice + cartDetails &&
+        cartDetails.weightPrice
       items.push({
         description: item.description,
         origin_country: 'USA',
@@ -368,11 +371,7 @@ function CartProvider({ children, ...props }) {
   const deleteCart = () => {
     dispatch({ type: CLEAN_CART })
   }
-  const setSubProductPrice = (
-    selectedWeight,
-    selectedCover,
-    shipmentProduct
-  ) => {
+  const setSubProductPrice = (selectedWeight, selectedCover) => {
     const selectWeightPrice = selectedWeight[0] && selectedWeight[0].price
     const selectCoverPrice = selectedWeight[0] && selectedCover[0].price
     dispatch({
@@ -381,8 +380,7 @@ function CartProvider({ children, ...props }) {
         selectWeightPrice,
         selectCoverPrice,
         selectedWeight,
-        selectedCover,
-        shipmentProduct
+        selectedCover
       }
     })
   }

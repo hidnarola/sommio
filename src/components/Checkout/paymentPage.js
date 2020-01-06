@@ -41,7 +41,7 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
     await builton.users.authenticate({
       first_name: shipping_address && shipping_address.first_name,
       last_name: shipping_address && shipping_address.last_name,
-      email: firebase.auth().currentUser.email
+      email: firebase && firebase.auth().currentUser.email
     })
 
     // update shipping price in builton
