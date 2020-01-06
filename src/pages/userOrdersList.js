@@ -7,6 +7,7 @@ import OrderItems from '../components/OrderItems'
 import PrivateRoute from '../components/PrivateRoute'
 import UserOrderDetails from '../components/Checkout/userOrderDetails'
 import Loader from '../components/Loader'
+import { newFirebaseToken } from '../utils/newFirebaseToken'
 
 const UserOrdersList = () => {
   const {
@@ -22,13 +23,15 @@ const UserOrdersList = () => {
   const [isLoading, setLoading] = useState(false)
 
   const url = 'https://api.builton.dev/orders'
-  const token = localStorage.getItem('firebaseToken')
+  let token = localStorage.getItem('firebaseToken')
 
   useEffect(() => {
     console.log('ComponentDid mount')
     setLoading(true)
 
     const fetchOrder = async () => {
+      var token = await newFirebaseToken()
+
       let response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -36,6 +39,7 @@ const UserOrdersList = () => {
           'Content-Type': 'application/json'
         }
       })
+
       userOrderData(response.data)
       console.log('response ORDERS ==>', response)
       setLoading(false)

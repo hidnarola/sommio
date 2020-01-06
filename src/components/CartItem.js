@@ -17,9 +17,6 @@ function CartItem({
     Weight,
     Size,
     Cover,
-    selectedProduct,
-    selectedWeight,
-    selectedCover,
     subTotalBuilton,
     quantityBuilton,
     price,
@@ -29,6 +26,7 @@ function CartItem({
   function onRemove() {
     setRemoving(true)
     removeFromCartBuilton(id)
+    sessionStorage.clear()
   }
 
   return cartButton ? (

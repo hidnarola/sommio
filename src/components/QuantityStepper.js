@@ -3,8 +3,6 @@ import React, { useContext } from 'react'
 import { CartContext } from '../context'
 
 export default function QuantityStepper({ itemId }) {
-  // console.log('quantity sr => ', quantity)
-
   const {
     updateQuantityBuilton,
     subTotalBuilton,

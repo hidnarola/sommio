@@ -1,6 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'gatsby'
 import { navigate } from 'gatsby'
+import axios from 'axios'
+import Builton from '@builton/core-sdk'
+
 import {
   CartContext,
   CheckoutContext,
@@ -21,12 +24,14 @@ import {
 } from 'reactstrap'
 import { getFirebase } from '../../firebase/index'
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
-// import { Modal, Button } from 'react-bootstrap'
 import Loader from '../Loader'
 
 const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   const { userDetail } = useContext(UserContext)
   const { orderId } = useContext(CheckoutContext)
+  const { setCartData, cartItemsBuilton, builton, setUserBuilton } = useContext(
+    CartContext
+  )
   const { setFirebase, firebase } = useContext(FirebaseContext)
   const [refresh, setRefresh] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -41,6 +46,8 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   // const handleClose = () => setShow(false)
   // const handleShow = () => setShow(true)
   //-----------------------------------------------
+  let token = localStorage.getItem('firebaseToken')
+  let details = JSON.parse(localStorage.getItem('details'))
 
   useEffect(() => {
     const lazyApp = import('firebase')
@@ -56,8 +63,21 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
         ? setTimeout(() => setRefresh(true), 1000)
         : setRefresh(false)
     })
+
+    let dataFromStorage = sessionStorage.getItem('cartDetails')
+    let cartData = JSON.parse(dataFromStorage)
+    console.log('cartData => ', cartData)
+
+    if (cartData) {
+      setCartData(cartData)
+    }
+
+    var builton = new Builton({
+      apiKey: process.env.GATSBY_BUILTON_API_KEY,
+      bearerToken: token
+    })
+    setUserBuilton(details && details.email, builton)
   }, [])
-  console.log('refresh SS => ', refresh)
 
   const handleLogout = () => {
     firebase &&
@@ -67,11 +87,13 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
         .then(res => {
           navigate(`/`)
           localStorage.removeItem('firebaseToken')
+          localStorage.removeItem('details')
         })
         .catch(err => {
           console.log('sis err Logout => ', err)
         })
   }
+
   return (
     <div>
       {window.location.pathname === '/checkout' ? (

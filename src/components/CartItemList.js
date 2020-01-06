@@ -11,7 +11,6 @@ export default function CartItemList(props) {
     removeFromCartBuilton,
     shippingRate,
     cartItemsBuilton,
-    countBuilton,
     subTotalBuilton,
     price,
     isAddToCart
@@ -23,13 +22,11 @@ export default function CartItemList(props) {
     <div className="cartsliderbar-boby">
       {cartItemsBuilton &&
         cartItemsBuilton.map(item => {
-          console.log('item => ', item)
-
           return (
             <CartItem
               key={item.id}
               removeFromCartBuilton={removeFromCartBuilton}
-              id={item.id}
+              id={item.main_product_id}
               {...item}
               {...props}
             />

@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-// import { Link } from 'gatsby'
 import jwt from 'jsonwebtoken'
 import Builton from '@builton/core-sdk'
 import { CartContext, CheckoutContext, FirebaseContext } from '../context'
@@ -34,7 +33,7 @@ const CheckoutPage = () => {
     if (isMounted) {
       element.classList.add('so-checkout-page')
       isMounted.current = false
-      if (!(firebase && firebase.auth().currentUser)) {
+      if (firebase && !firebase.auth().currentUser) {
         toggleModal()
       }
     }

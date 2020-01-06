@@ -41,4 +41,3 @@ function FirebaseProvider({ children, ...props }) {
 }
 
 export { FirebaseProvider, Consumer as FirebaseConsumer, FirebaseContext }
-// export { FirebaseContext }

@@ -3,6 +3,7 @@ import axios from 'axios'
 import Photo from '../Photo'
 import { FirebaseContext } from '../../context/FirebaseContext'
 import Loader from '../../components/Loader'
+import { newFirebaseToken } from '../../utils/newFirebaseToken'
 
 const UserOrderDetails = props => {
   const orderId = props.id
@@ -16,8 +17,8 @@ const UserOrderDetails = props => {
   useEffect(() => {
     setLoading(true)
     console.log('ComponentDid mount SS')
-
     const fetchUserOrderDetails = async () => {
+      var token = await newFirebaseToken()
       let response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,

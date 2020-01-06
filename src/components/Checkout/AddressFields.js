@@ -6,7 +6,6 @@ import { CartContext } from '../../context'
 import validation from '../../validation/shippingFormValidation'
 import { log } from 'util'
 import shippingFormValidation from '../../validation/shippingFormValidation'
-// import firebase from '../../firebase/index'
 
 const AddressFields = ({ type, toggleEditable }) => {
   const {

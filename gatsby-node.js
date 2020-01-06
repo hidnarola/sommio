@@ -28,7 +28,7 @@ exports.createPages = async ({ page, graphql, actions: { createPage } }) => {
       path: `/products/${human_id}`,
       component: path.resolve('./src/templates/ProductPageBuilton.js'),
       context: {
-        id
+        id: id
       }
     })
   })

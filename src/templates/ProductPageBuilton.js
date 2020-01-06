@@ -13,6 +13,8 @@ import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
 
 const ProductPageBuilton = ({ data: { product } }) => {
+  console.log('product ProductPageBuilton => ', product)
+
   return (
     <div>
       <SEO

@@ -3,8 +3,6 @@ import { Form } from 'react-final-form'
 
 import Input from './Input'
 
-// import validation from '../validation/promotion'
-
 export default function PromotionForm({ addPromotion }) {
   return (
     <Form onSubmit={({ code }) => addPromotion(code)}>

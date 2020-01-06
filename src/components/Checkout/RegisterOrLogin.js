@@ -12,42 +12,48 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
   } = useContext(CartContext)
 
   const { firebase } = useContext(FirebaseContext)
+  console.log('firebase RegisterOrLogin => ', firebase)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const [isCurrentUser, SetCurrentUser] = useState(firebase.auth().currentUser)
+  const [isCurrentUser, SetCurrentUser] = useState(
+    firebase && firebase.auth().currentUser
+  )
   const [error, setRegisterError] = useState({
     email: 'Required',
     password: 'Required'
   })
+
   const [errorMessage, setErrorMessage] = useState('')
   const handleRegister = async () => {
     setErrorMessage('')
     setRegisterError({})
     if (checkValidation().status) {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email.trim(), password)
-        .then(resp => {
-          let accessToken = JSON.parse(JSON.stringify(resp.user))
-            .stsTokenManager.accessToken
-          localStorage.setItem('firebaseToken', accessToken)
+      firebase &&
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email.trim(), password)
+          .then(resp => {
+            let accessToken = JSON.parse(JSON.stringify(resp.user))
+              .stsTokenManager.accessToken
+            localStorage.setItem('firebaseToken', accessToken)
+            localStorage.setItem('details', JSON.stringify(resp.user))
 
-          const builton = new Builton({
-            apiKey: process.env.GATSBY_BUILTON_API_KEY,
-            bearerToken: accessToken
+            const builton = new Builton({
+              apiKey: process.env.GATSBY_BUILTON_API_KEY,
+              bearerToken: accessToken
+            })
+            console.log('builton => ', builton)
+
+            SetCurrentUser(resp.user)
+            setUserBuilton({ email }, builton)
+            toggleModal()
           })
-
-          SetCurrentUser(resp.user)
-          setUserBuilton({ email, password }, builton)
-          toggleModal()
-          // setCurrentUser(isCurrentUser)
-        })
-        .catch(error => {
-          setErrorMessage(error.message)
-          SetCurrentUser(false)
-        })
+          .catch(error => {
+            setErrorMessage(error.message)
+            SetCurrentUser(false)
+          })
     } else {
       setRegisterError(checkValidation().msg)
     }
@@ -59,7 +65,7 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
         email: '',
         password: ''
       })
-      var user = firebase.auth().currentUser
+      var user = firebase && firebase.auth().currentUser
 
       if (user !== null) {
         user
@@ -74,10 +80,9 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
             localStorage.setItem('firebaseToken', idToken)
 
             SetCurrentUser(user)
-            setUserBuilton({ email, password }, builton)
+            setUserBuilton({ email }, builton)
             toggleModal()
             setDropdownOpen(false)
-            // setCurrentUser(isCurrentUser)
             setErrorMessage('')
           })
           .catch(err => {
@@ -89,33 +94,35 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
           email: '',
           password: ''
         })
-        firebase
-          .auth()
-          .signInWithEmailAndPassword(email, password)
-          .then(res => {
-            var accessToken = JSON.parse(JSON.stringify(res.user))
-              .stsTokenManager.accessToken
-            localStorage.setItem('firebaseToken', accessToken)
+        firebase &&
+          firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(res => {
+              var accessToken = JSON.parse(JSON.stringify(res.user))
+                .stsTokenManager.accessToken
 
-            const builton = new Builton({
-              apiKey: process.env.GATSBY_BUILTON_API_KEY,
-              bearerToken: accessToken
+              // set all thing in localstorage
+              localStorage.setItem('firebaseToken', accessToken)
+              localStorage.setItem('details', JSON.stringify(res.user))
+
+              const builton = new Builton({
+                apiKey: process.env.GATSBY_BUILTON_API_KEY,
+                bearerToken: accessToken
+              })
+              console.log(' builton => ', builton)
+
+              setUserBuilton({ email }, builton)
+              SetCurrentUser(res.user)
+              toggleModal()
+              setDropdownOpen(false)
+
+              setErrorMessage('')
             })
-            console.log(' builton => ', builton)
-
-            setUserBuilton({ email, password }, builton)
-            SetCurrentUser(res.user)
-            toggleModal()
-            setDropdownOpen(false)
-
-            // setCurrentUser(isCurrentUser)
-
-            setErrorMessage('')
-          })
-          .catch(error => {
-            SetCurrentUser(false)
-            setErrorMessage(error.message)
-          })
+            .catch(error => {
+              SetCurrentUser(false)
+              setErrorMessage(error.message)
+            })
       }
     } else {
       setRegisterError(checkValidation().msg)

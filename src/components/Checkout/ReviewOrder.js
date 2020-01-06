@@ -16,7 +16,7 @@ const RiviewOrder = ({ stripe, formEnable }) => {
     deleteCart,
     shippingRate,
     toggle,
-    shippingSubProductId
+    shipmentProductId
   } = useContext(CartContext)
   const {
     checkout,
@@ -25,6 +25,7 @@ const RiviewOrder = ({ stripe, formEnable }) => {
     paymentBuilton
   } = useContext(CheckoutContext)
   const [checkoutError, setCheckoutError] = useState(null)
+  console.log('cartItemsBuilton ReviewOrder => ', cartItemsBuilton)
 
   const handleOrder = async () => {
     try {
@@ -43,11 +44,6 @@ const RiviewOrder = ({ stripe, formEnable }) => {
         payment_method: 'stripe',
         token: token.token.id
       })
-      console.log(
-        'cartItemsBuilton,cartItemsBuilton[0].id => ',
-        cartItemsBuilton,
-        cartItemsBuilton[0].id
-      )
 
       //creating orders
       const createdOrder = await builton.orders.create({
@@ -57,9 +53,13 @@ const RiviewOrder = ({ stripe, formEnable }) => {
             quantity: quantityBuilton,
             sub_products: [
               selectedWeight[0]._id._oid,
-              selectedCover[0]._id._oid,
-              shippingSubProductId
+              selectedCover[0]._id._oid
             ]
+          },
+          {
+            //for 1 time calculate the shipping cost
+            product: shipmentProductId,
+            quantity: 1
           }
         ],
         delivery_address: {
@@ -70,22 +70,19 @@ const RiviewOrder = ({ stripe, formEnable }) => {
           zip_code: shipping_address.postcode
         },
         payment_method: paymentMethod.id
+        // payment_method: paymentMethod._id.$oid
       })
 
       // dispatch method
       await createOrderBuilton(createdOrder)
-      console.log('createdOrder => ', createdOrder)
 
       // pay for the order
       const payBuilton = await builton.payments.pay(
         createdOrder.payments[0].$oid
       )
-      console.log('payBuilton  => ', payBuilton)
       //dispatch method
       await paymentBuilton(payBuilton)
-
-      //user logout
-      // firebase.auth().signOut()
+      sessionStorage.clear()
     } catch (errors) {
       console.info('errors ====>', JSON.stringify(errors))
       setCheckoutError(errors)

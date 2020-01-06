@@ -14,12 +14,10 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
     customerDetails,
     cartItemsBuilton,
     quantityBuilton,
-    user,
     builton
   } = useContext(CartContext)
-  console.log('builton => ', builton)
   const { firebase } = useContext(FirebaseContext)
-  console.log('user ,firebase => ', user, firebase.auth().curentUser)
+  let details = JSON.parse(localStorage.getItem('details'))
 
   return (
     <>
@@ -63,7 +61,7 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
             <input
               type="email"
               name="email"
-              defaultValue={user && user.email}
+              defaultValue={details && details.email}
             />
           </div>
 

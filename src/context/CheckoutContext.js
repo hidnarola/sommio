@@ -21,7 +21,8 @@ export const initialState = {
   orderedItems: [],
   orderId: null,
   userOrderData: [],
-  userOrder: []
+  userOrder: [],
+  totalProductQuantity: 1
 }
 
 export default function reducer(state, action) {
@@ -39,16 +40,18 @@ export default function reducer(state, action) {
     case CREATE_ORDER_BUILTON:
       console.log('action CREATE_ORDER_BUILTON => ', action)
       const orderedItems = action.createdOrder.items
-      // const order_shipping_provider_name = action.payload.shipping_provider_name
-      // const order_shipping_cost = action.payload.shipping_cost
+      const totalProductQuantity = action.createdOrder.total_quantity
       const orderPrice = action.createdOrder.total_amount
       const orderId = action.createdOrder.id
+
       return {
         ...state,
         orderId,
         orderPrice,
-        orderedItems
+        orderedItems,
+        totalProductQuantity: totalProductQuantity
       }
+
     case PAYMENT_BUILTON:
       const defaultPayment = true
 
@@ -85,9 +88,6 @@ function CheckoutProvider({ children, ...props }) {
   }
 
   const createOrderBuilton = createdOrder => {
-    console.log('CHECKOUT createdOrder => ', createdOrder)
-
-    console.log('createdOrder => ', createdOrder)
     dispatch({
       type: CREATE_ORDER_BUILTON,
       createdOrder

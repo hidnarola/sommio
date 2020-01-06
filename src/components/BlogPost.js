@@ -37,15 +37,3 @@ export default function BlogPost() {
     </div>
   )
 }
-
-// allContentfulBlogPost {
-//     edges {
-//       node {
-//         title
-//         slug
-//         body {
-//           body
-//         }
-//       }
-//     }
-//   }

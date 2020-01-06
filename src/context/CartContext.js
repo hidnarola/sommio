@@ -35,7 +35,8 @@ export const initialState = {
   shippingProvider: null,
   orderCartItems: [],
   toggle: false,
-  shippingRate: 0
+  shippingRate: 0,
+  shipmentProductId: null
 }
 
 export default function reducer(state, action) {
@@ -105,11 +106,13 @@ export default function reducer(state, action) {
         toggle: !state.toggle
       }
     case SET_BUILTON_PRODUCT_PRICE:
+      console.log('action SET_BUILTON_PRODUCT_PRICE => ', action)
+
       const weightPrice = action.payload.selectWeightPrice
       const coverPrice = action.payload.selectCoverPrice
       const selectedWeight = action.payload.selectedWeight
       const selectedCover = action.payload.selectedCover
-      const shippingSubProductId = action.payload.shippingSubProduct[0]._id._oid
+      const shipmentProductId = action.payload.shipmentProduct[0]._id._oid
       return {
         ...state,
         weightPrice: weightPrice,
@@ -117,21 +120,17 @@ export default function reducer(state, action) {
         selectedWeight,
         selectedCover,
         shippingSubProduct: action.payload.shippingSubProduct,
-        shippingSubProductId
+        shipmentProductId: shipmentProductId
       }
 
     case SET_BUILTON_CART_DATA:
       const cartItemsBuilton = action.payload
-      console.log('action TEST => ', action, state.subTotalBuilton, state.price)
+      console.log(' cartItemsBuilton => ', cartItemsBuilton)
 
       const wightProduct =
         cartItemsBuilton[0] && cartItemsBuilton[0].subProduct.selectedWeight
       const coverProduct =
         cartItemsBuilton[0] && cartItemsBuilton[0].subProduct.selectedCover
-      const subTotalBuilton =
-        (cartItemsBuilton[0] && cartItemsBuilton[0].price) +
-        state.weightPrice +
-        state.coverPrice
 
       const countBuilton =
         state.quantityBuilton + cartItemsBuilton[0] &&
@@ -152,13 +151,16 @@ export default function reducer(state, action) {
           isAddToCart: false
         }
       } else if (action.payload[0].isChangedQuantity) {
-        const { price, quantityBuilton } = action.payload[0]
-        // const P = price
+        const { price, quantityBuilton, final_price } = action.payload[0]
+
         return {
           ...state,
-          price: price,
-          quantityBuilton: quantityBuilton,
-          isAddToCart: false
+          price: final_price,
+          quantityBuilton,
+          countBuilton,
+          cartItemsBuilton,
+          isAddToCart: false,
+          shipmentProductId: cartItemsBuilton[0].shippingProductId
         }
       } else {
         const isActive = cartItemsBuilton[0].isAddToCart
@@ -166,10 +168,11 @@ export default function reducer(state, action) {
           ...state,
           cartItemsBuilton: cartItemsBuilton,
           countBuilton,
-          subTotalBuilton: subTotalBuilton,
+          subTotalBuilton: cartItemsBuilton[0].final_price,
           quantityBuilton: quantityBuilton,
           isAddToCart: cartItemsBuilton[0].isAddToCart,
-          orderCartItems: cartItemsBuilton
+          orderCartItems: cartItemsBuilton,
+          shipmentProductId: cartItemsBuilton[0].shippingProductId
         }
       }
 
@@ -196,25 +199,40 @@ function CartProvider({ children, ...props }) {
   let isEmpty = state.countBuilton === 0
 
   function updateQuantityBuilton(id, quantity) {
-    console.log('quantity => ', quantity)
-    const testPrice = state.subTotalBuilton
+    const testPrice =
+      state.cartItemsBuilton[0].price +
+      state.cartItemsBuilton[0].weightPrice +
+      state.cartItemsBuilton[0].coverPrice
+
     let updatePrice = quantity * testPrice
-    console.log('updatedPrice => ', updatePrice)
 
     // Update cart payload
+
     const payload = [
       {
-        description: state.cartItemsBuilton[0].description,
-        human_id: state.cartItemsBuilton[0].human_id,
+        type: 'cart_item_builton',
+        main_product_id: state.cartItemsBuilton[0].main_product_id,
         id: state.cartItemsBuilton[0].id,
-        main_product: state.cartItemsBuilton[0].main_product,
         name: state.cartItemsBuilton[0].name,
-        price: updatePrice,
         quantityBuilton: quantity,
+        human_id: state.cartItemsBuilton[0].human_id,
+        description: state.cartItemsBuilton[0].description,
+        price: state.cartItemsBuilton[0].price,
+        final_price: updatePrice,
+        weightPrice: state.cartItemsBuilton[0].weightPrice,
+        coverPrice: state.cartItemsBuilton[0].coverPrice,
+        main_product: state.cartItemsBuilton[0].main_product,
+        image_url: state.cartItemsBuilton[0].image_url,
+        media: state.cartItemsBuilton[0].media,
         subProduct: state.cartItemsBuilton[0].subProduct,
-        isChangedQuantity: true
+        isAddToCart: false,
+        currency: state.cartItemsBuilton[0].currency,
+        isChangedQuantity: true,
+        // shippingPrice: state.cartItemsBuilton[0].shippingPrice,
+        shippingProductId: state.cartItemsBuilton[0].shippingProductId
       }
     ]
+    sessionStorage.setItem('cartDetails', JSON.stringify(payload))
     dispatch({ type: SET_BUILTON_CART_DATA, payload: payload })
 
     toast.success(`Quantity updated to ${quantity}`)
@@ -223,7 +241,6 @@ function CartProvider({ children, ...props }) {
   async function removeFromCartBuilton(id) {
     //Remove item from cart
     const removeCart = true
-    console.log('[initialState.cartItemsBuilton] => ', initialState)
 
     dispatch({
       type: SET_BUILTON_CART_DATA,
@@ -237,6 +254,8 @@ function CartProvider({ children, ...props }) {
         price: initialState.price
       }
     })
+    sessionStorage.clear()
+
     toast.success('Item removed from cart')
   }
 
@@ -246,13 +265,13 @@ function CartProvider({ children, ...props }) {
     cartItemsBuilton
   ) => {
     dispatch({ type: SET_ADDRESS, user, shippingData })
-    console.log('shippingData => ', shippingData)
 
     var items = []
-    // const final_price = cartItemsBuilton[0].price +
+    const cartDetails = JSON.parse(sessionStorage.getItem('cartDetails'))[0]
+
     for (const item of cartItemsBuilton) {
-      console.log('item before => ', item)
-      const finalPrice = item.price + state.coverPrice + state.weightPrice
+      const finalPrice =
+        cartDetails.price + cartDetails.coverPrice + cartDetails.weightPrice
       items.push({
         description: item.description,
         origin_country: 'USA',
@@ -282,7 +301,7 @@ function CartProvider({ children, ...props }) {
             description: 'Food XS',
             box_type: 'custom',
             weight: {
-              value: 2,
+              value: 10,
               unit: 'kg'
             },
             dimension: {
@@ -352,7 +371,7 @@ function CartProvider({ children, ...props }) {
   const setSubProductPrice = (
     selectedWeight,
     selectedCover,
-    shippingSubProduct
+    shipmentProduct
   ) => {
     const selectWeightPrice = selectedWeight[0] && selectedWeight[0].price
     const selectCoverPrice = selectedWeight[0] && selectedCover[0].price
@@ -363,7 +382,7 @@ function CartProvider({ children, ...props }) {
         selectCoverPrice,
         selectedWeight,
         selectedCover,
-        shippingSubProduct
+        shipmentProduct
       }
     })
   }
@@ -375,7 +394,7 @@ function CartProvider({ children, ...props }) {
     })
   }
   const setUserBuilton = (data, builton) => {
-    console.log('data => ', data)
+    console.log('data => ', data, builton)
 
     dispatch({ type: USER_DETAIL_BUILTON, data, builton })
   }

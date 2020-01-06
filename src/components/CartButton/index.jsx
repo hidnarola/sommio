@@ -12,6 +12,7 @@ const CartButton = () => {
           name
           main_product
           id
+          tags
           human_id
           description
           currency
@@ -24,7 +25,7 @@ const CartButton = () => {
   `)
 
   const product = allBuiltonProduct.nodes.find(element => {
-    return element.main_product === true
+    return element.main_product === true && element.tags.length > 0
   })
 
   const {
@@ -56,7 +57,6 @@ const CartButton = () => {
       </button>
       <div className={`${toggle ? 'show' : 'hide'} cartsliderbar-main`}>
         <div onClick={handleToggle} className="overlay"></div>
-        {console.log('inside isEmpty===>', isEmpty)}
         {!isEmpty ? (
           <div className="cartsliderbar-boxs">
             <div className="cartsliderbar-header">

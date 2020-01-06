@@ -10,28 +10,27 @@ const OrderItems = props => {
     subTotalBuilton,
     price
   } = useContext(CartContext)
-  const { orderPrice } = useContext(CheckoutContext)
+  const { orderPrice, totalProductQuantity } = useContext(CheckoutContext)
+  console.log('totalProductQuantity => ', totalProductQuantity)
 
   return (
     <div>
       <div>
         {orderCartItems &&
           orderCartItems.map(item => (
-            <div>
-              <CartItem
-                key={item.id}
-                removeFromCart={removeFromCart}
-                {...item}
-                {...props}
-              />
-              <div className="border-grey-light pt-2 md:pt-4 lg:pt-6 w-full ">
-                <div className="total-page">
-                  <h4 className="text-grey">Quanity </h4>
-                  <h4>{item.quantityBuilton}</h4>
-                </div>
-              </div>
-            </div>
+            <CartItem
+              key={item.id}
+              removeFromCart={removeFromCart}
+              {...item}
+              {...props}
+            />
           ))}
+        <div className="border-grey-light pt-2 md:pt-4 lg:pt-6 w-full ">
+          <div className="total-page">
+            <h4 className="text-grey">Quanity </h4>
+            <h4>{totalProductQuantity}</h4>
+          </div>
+        </div>
       </div>
       <div className="border-grey-light pt-2 md:pt-4 lg:pt-6 w-full text-right">
         <div className="total-page">

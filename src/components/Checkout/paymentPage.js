@@ -5,7 +5,6 @@ import { CheckoutContext, CartContext, FirebaseContext } from '../../context'
 import ShippingSelectOption from './shippingSelectOption'
 import stripeValidation from '../../validation/stripe'
 import axios from 'axios'
-// import { Stripe } from 'stripe'
 const PaymentPage = ({ changeFormEnable, isEditable }) => {
   const {
     paymentButton,
@@ -20,7 +19,7 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
     selectedWeight,
     selectedCover,
     shippingCost,
-    shippingSubProductId
+    shipmentProductId
   } = useContext(CartContext)
   const { paymentData, paymentDetails } = useContext(CheckoutContext)
   const { firebase } = useContext(FirebaseContext)
@@ -31,7 +30,8 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
     shippingRatesArray.map(
       charge => charge && charge.total_charge && charge.total_charge.amount
     )
-  const url = `https://api.builton.dev/products/${shippingSubProductId}`
+
+  const url = `https://api.builton.dev/products/${shipmentProductId}`
 
   const handlePayment = async values => {
     shippingCost(shippingRate, shippingProvider)
