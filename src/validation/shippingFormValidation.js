@@ -21,8 +21,6 @@ const shippingFormValidation = values => {
   if (!values.postcode) {
     console.log('values before => ', values.postcode, typeof values.postcode)
     errors.postcode = 'Required'
-  } else if (isNaN(parseInt(values.postcode))) {
-    errors.postcode = 'Must be a number'
   }
   if (!values.country) {
     errors.country = 'Required'
