@@ -1,29 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react'
 import axios from 'axios'
 import { Link } from 'gatsby'
-import { Router } from '@reach/router'
-import { CheckoutContext, CartContext } from '../context/index'
-import OrderItems from '../components/OrderItems'
-import PrivateRoute from '../components/PrivateRoute'
-import UserOrderDetails from '../components/Checkout/userOrderDetails'
+import { CheckoutContext } from '../context/index'
 import Loader from '../components/Loader'
 import { newFirebaseToken } from '../utils/newFirebaseToken'
 
 const UserOrdersList = () => {
-  const {
-    orderId,
-    orderedItems,
-    order_shipping_provider_name,
-    order_shipping_cost,
-    orderPrice,
-    userOrderData,
-    userOrderItem,
-    userOrder
-  } = useContext(CheckoutContext)
+  const { userOrderData, userOrder } = useContext(CheckoutContext)
   const [isLoading, setLoading] = useState(false)
 
   const url = 'https://api.builton.dev/orders'
-  let token = localStorage.getItem('firebaseToken')
 
   useEffect(() => {
     console.log('ComponentDid mount')

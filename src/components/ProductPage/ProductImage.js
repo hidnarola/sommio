@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import Img from 'gatsby-image'
 import Slider from 'react-slick'
 
 function ProductImage({ productId }) {
@@ -35,8 +34,8 @@ function ProductImage({ productId }) {
     <div className="product-gallery">
       <Slider {...settings}>
         {mainProduct[0] &&
-          mainProduct[0].media.map((img, i) => (
-            <img src={img.url} alt="product-image" key={i} />
+          mainProduct[0].media.map(img => (
+            <img src={img.url} alt="product-image" />
           ))}
       </Slider>
     </div>

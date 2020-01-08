@@ -19,6 +19,7 @@ const UserOrderDetails = props => {
     console.log('ComponentDid mount SS')
     const fetchUserOrderDetails = async () => {
       var token = await newFirebaseToken()
+
       let response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${token}`,

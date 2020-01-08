@@ -16,19 +16,19 @@ const ProductReview = () => {
       <div className="review-totals">
         <div className="star-list">
           <div className="star">
-            <img src={StarIconGreen} />
+            <img src={StarIconGreen} alt="greenStarIcon" />
           </div>
           <div className="star">
-            <img src={StarIconGreen} />
+            <img src={StarIconGreen} alt="greenStarIcon" />
           </div>
           <div className="star">
-            <img src={StarIconGreen} />
+            <img src={StarIconGreen} alt="greenStarIcon" />
           </div>
           <div className="star">
-            <img src={StarIconGreen} />
+            <img src={StarIconGreen} alt="greenStarIcon" />
           </div>
           <div className="star">
-            <img src={StarIconGreen} />
+            <img src={StarIconGreen} alt="greenStarIcon" />
           </div>
         </div>
         <span>120 Reviews</span>
@@ -43,50 +43,19 @@ const ProductReview = () => {
             </div>
             <div className="star-list ml-auto">
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
-              </div>
-            </div>
-          </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </div>
-        <div className="review-boxs">
-          <div className="d-flex flex-wrap">
-            <div className="content">
-              <h4>John</h4>
-              <span>Birmingham</span>
-            </div>
-            <div className="star-list ml-auto">
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
             </div>
           </div>
@@ -105,19 +74,50 @@ const ProductReview = () => {
             </div>
             <div className="star-list ml-auto">
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+            </div>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </p>
+        </div>
+        <div className="review-boxs">
+          <div className="d-flex flex-wrap">
+            <div className="content">
+              <h4>John</h4>
+              <span>Birmingham</span>
+            </div>
+            <div className="star-list ml-auto">
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
-import React, { useContext, createContext, useReducer, useEffect } from 'react'
-import { toast, ToastType } from 'react-toastify'
+import React, { useContext, createContext, useReducer } from 'react'
+import { toast } from 'react-toastify'
 import axios from 'axios'
 import { FirebaseContext } from './FirebaseContext'
 export const SET_RATES = 'SET_RATES'
@@ -55,6 +55,8 @@ export default function reducer(state, action) {
       return test
 
     case SET_ADDRESS:
+      console.log('action SET_ADDRESS => ', action)
+
       const shipping_address = action.shippingData
       const customerDetails = action.user
 
@@ -127,10 +129,10 @@ export default function reducer(state, action) {
       const cartItemsBuilton = action.payload
       console.log(' cartItemsBuilton => ', cartItemsBuilton)
 
-      const wightProduct =
-        cartItemsBuilton[0] && cartItemsBuilton[0].subProduct.selectedWeight
-      const coverProduct =
-        cartItemsBuilton[0] && cartItemsBuilton[0].subProduct.selectedCover
+      // const wightProduct =
+      //   cartItemsBuilton[0] && cartItemsBuilton[0].subProduct.selectedWeight
+      // const coverProduct =
+      //   cartItemsBuilton[0] && cartItemsBuilton[0].subProduct.selectedCover
 
       const countBuilton =
         state.quantityBuilton + cartItemsBuilton[0] &&
@@ -151,7 +153,7 @@ export default function reducer(state, action) {
           isAddToCart: false
         }
       } else if (action.payload[0].isChangedQuantity) {
-        const { price, quantityBuilton, final_price } = action.payload[0]
+        const { quantityBuilton, final_price } = action.payload[0]
 
         return {
           ...state,
@@ -163,7 +165,6 @@ export default function reducer(state, action) {
           shipmentProductId: cartItemsBuilton[0].shippingProductId
         }
       } else {
-        const isActive = cartItemsBuilton[0].isAddToCart
         return {
           ...state,
           cartItemsBuilton: cartItemsBuilton,
@@ -264,7 +265,15 @@ function CartProvider({ children, ...props }) {
     shippingData,
     cartItemsBuilton
   ) => {
+    console.log(
+      'user,shippingData,cartItemsBuilton => ',
+      user,
+      shippingData,
+      cartItemsBuilton
+    )
+
     dispatch({ type: SET_ADDRESS, user, shippingData })
+    const details = JSON.parse(localStorage.getItem('details'))
 
     var items = []
     const cartDetails = JSON.parse(sessionStorage.getItem('cartDetails'))[0]
@@ -335,7 +344,7 @@ function CartProvider({ children, ...props }) {
           postal_code: `${shippingData.postcode}`,
           country: `${shippingData.country}`,
           phone: '7657168649',
-          email: `${firebase.auth().currentUser.email}`,
+          email: `${details && details.email}`,
           type: 'residential'
         }
       }

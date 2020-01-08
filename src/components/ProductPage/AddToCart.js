@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
-import classnames from 'classnames'
 import { CartContext } from '../../context/CartContext'
 import PlushImages from '../../images/plush.png'
-import Select from '../Select'
 import {
   Dropdown,
   DropdownToggle,
@@ -47,16 +45,12 @@ const AddToCart = ({ productId, tags }) => {
     setSubProductPrice,
     setVariation,
     Weight,
-    Size,
     Cover,
     setToggle,
     toggle,
     weightPrice,
     coverPrice,
-    setCartData,
-    countBuilton,
-    quantityBuilton,
-    builton
+    setCartData
   } = useContext(CartContext)
   console.log('allBuiltonProduct ,=> ', allBuiltonProduct)
 
@@ -101,8 +95,6 @@ const AddToCart = ({ productId, tags }) => {
   useEffect(() => {
     setSubProductPrice(selectedWeight, selectedCover)
   }, [Weight, Cover])
-
-  const [quantity, setQuantity] = useState(1)
 
   const [blancketCover, setBlancketCover] = useState('Plush')
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -227,7 +219,7 @@ const AddToCart = ({ productId, tags }) => {
           toggle={toggleHandle}
         >
           <DropdownToggle caret>
-            <img src={PlushImages} />
+            <img src={PlushImages} alt="plushImages" />
             <div className="content ml-auto">
               <h3>{blancketCover}</h3>
               <p>A luxuriously soft faux fur cover</p>
@@ -244,7 +236,7 @@ const AddToCart = ({ productId, tags }) => {
                   defaultValue={cover.name}
                   onClick={() => setBlancketCover(cover.name)}
                 >
-                  <img src={PlushImages} />
+                  <img src={PlushImages} alt="plushImages" />
                   <div className="content ml-auto">
                     <h3>{cover.name}</h3>
                     <p>A luxuriously soft faux fur cover</p>

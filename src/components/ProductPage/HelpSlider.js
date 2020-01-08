@@ -38,8 +38,8 @@ const HelpSlider = () => {
         <Slider {...settings}>
           {allContentfulCondition &&
             allContentfulCondition.nodes &&
-            allContentfulCondition.nodes.map(condition => (
-              <div className="help-boxs">
+            allContentfulCondition.nodes.map((condition, i) => (
+              <div className="help-boxs" key={i}>
                 <img
                   src={condition.cardImage.file.url}
                   alt={condition.cardImage.file.fileName}

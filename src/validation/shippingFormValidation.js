@@ -1,8 +1,9 @@
-const shippingFormValidation = values => {
-  console.log('values => ', values)
+const shippingFormValidation = (values, currentUser) => {
+  console.log('shippingFormValidation values => ', values)
+  console.log('shippingFormValidation currentUser => ', currentUser)
 
   const errors = {}
-  console.log('values ==>', values.postcode, typeof parseInt(values.postcode))
+
   if (!values.first_name) {
     errors.first_name = 'Required'
   }
@@ -19,12 +20,40 @@ const shippingFormValidation = values => {
     errors.county = 'Required'
   }
   if (!values.postcode) {
-    console.log('values before => ', values.postcode, typeof values.postcode)
     errors.postcode = 'Required'
   }
   if (!values.country) {
     errors.country = 'Required'
   }
+
+  if (!values.phone) {
+    errors.phone = 'Required'
+  } else if (isNaN(parseInt(values.phone))) {
+    errors.phone = 'Must be a number'
+  }
+  if (!values.email) {
+    errors.email = 'Required'
+  } else if (
+    !/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(
+      values.email
+    )
+  ) {
+    errors.email = 'Invalid Email'
+  }
+  if (!currentUser) {
+    if (!values.password) {
+      errors.password = 'Required'
+    }
+
+    if (!values.confirm_password) {
+      errors.confirm_password = 'Required'
+    } else if (values.password !== values.confirm_password) {
+      errors.confirm_password = 'Both password should match'
+    }
+  }
+
+  console.log('shippingFormValidation errors => ', errors)
+
   return errors
 }
 

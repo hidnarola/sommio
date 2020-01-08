@@ -1,19 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'gatsby'
 import { navigate } from 'gatsby'
-import axios from 'axios'
 import Builton from '@builton/core-sdk'
 
-import {
-  CartContext,
-  CheckoutContext,
-  UserContext,
-  FirebaseContext
-} from '../../context'
-import CartItemList from '../CartItemList'
+import { CartContext, CheckoutContext, FirebaseContext } from '../../context'
+
 import Logo from '../../images/logo.png'
 import logoCheckout from '../../images/logo-checkout.png'
-import CartIcon from '../../images/shopping-basket-duotone.svg'
 import CartButton from '../CartButton'
 import RegiserOrLogin from '../../components/Checkout/RegisterOrLogin'
 import {
@@ -24,14 +17,10 @@ import {
 } from 'reactstrap'
 import { getFirebase } from '../../firebase/index'
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
-import Loader from '../Loader'
 
 const Header = ({ siteTitle, collections, slug, human_id }, props) => {
-  const { userDetail } = useContext(UserContext)
   const { orderId } = useContext(CheckoutContext)
-  const { setCartData, cartItemsBuilton, builton, setUserBuilton } = useContext(
-    CartContext
-  )
+  const { setCartData, setUserBuilton } = useContext(CartContext)
   const { setFirebase, firebase } = useContext(FirebaseContext)
   const [refresh, setRefresh] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -66,7 +55,6 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
 
     let dataFromStorage = sessionStorage.getItem('cartDetails')
     let cartData = JSON.parse(dataFromStorage)
-    console.log('cartData => ', cartData)
 
     if (cartData) {
       setCartData(cartData)

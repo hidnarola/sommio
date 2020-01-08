@@ -12,7 +12,6 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
   } = useContext(CartContext)
 
   const { firebase } = useContext(FirebaseContext)
-  console.log('firebase RegisterOrLogin => ', firebase)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -26,38 +25,38 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
   })
 
   const [errorMessage, setErrorMessage] = useState('')
-  const handleRegister = async () => {
-    setErrorMessage('')
-    setRegisterError({})
-    if (checkValidation().status) {
-      firebase &&
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(email.trim(), password)
-          .then(resp => {
-            let accessToken = JSON.parse(JSON.stringify(resp.user))
-              .stsTokenManager.accessToken
-            localStorage.setItem('firebaseToken', accessToken)
-            localStorage.setItem('details', JSON.stringify(resp.user))
 
-            const builton = new Builton({
-              apiKey: process.env.GATSBY_BUILTON_API_KEY,
-              bearerToken: accessToken
-            })
-            console.log('builton => ', builton)
+  // const handleRegister = async () => {
+  //   setErrorMessage('')
+  //   setRegisterError({})
+  //   if (checkValidation().status) {
+  //     firebase &&
+  //       firebase
+  //         .auth()
+  //         .createUserWithEmailAndPassword(email.trim(), password)
+  //         .then(resp => {
+  //           let accessToken = JSON.parse(JSON.stringify(resp.user))
+  //             .stsTokenManager.accessToken
+  //           localStorage.setItem('firebaseToken', accessToken)
+  //           localStorage.setItem('details', JSON.stringify(resp.user))
 
-            SetCurrentUser(resp.user)
-            setUserBuilton({ email }, builton)
-            toggleModal()
-          })
-          .catch(error => {
-            setErrorMessage(error.message)
-            SetCurrentUser(false)
-          })
-    } else {
-      setRegisterError(checkValidation().msg)
-    }
-  }
+  //           const builton = new Builton({
+  //             apiKey: process.env.GATSBY_BUILTON_API_KEY,
+  //             bearerToken: accessToken
+  //           })
+
+  //           SetCurrentUser(resp.user)
+  //           setUserBuilton({ email }, builton)
+  //           toggleModal()
+  //         })
+  //         .catch(error => {
+  //           setErrorMessage(error.message)
+  //           SetCurrentUser(false)
+  //         })
+  //   } else {
+  //     setRegisterError(checkValidation().msg)
+  //   }
+  // }
 
   const handleLogin = async () => {
     if (checkValidation().status) {
@@ -71,12 +70,10 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
         user
           .getIdToken()
           .then(idToken => {
-            console.log('idToken => ', idToken)
             var builton = new Builton({
               apiKey: process.env.GATSBY_BUILTON_API_KEY,
               bearerToken: idToken
             })
-            console.log(' builton => ', builton)
             localStorage.setItem('firebaseToken', idToken)
 
             SetCurrentUser(user)
@@ -110,7 +107,6 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
                 apiKey: process.env.GATSBY_BUILTON_API_KEY,
                 bearerToken: accessToken
               })
-              console.log(' builton => ', builton)
 
               setUserBuilton({ email }, builton)
               SetCurrentUser(res.user)
@@ -214,9 +210,9 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
             <span>{errorMessage}</span>
           </div>
 
-          <button onClick={handleRegister} type="button">
+          {/* <button onClick={handleRegister} type="button">
             Register
-          </button>
+          </button> */}
           <button type="button" onClick={handleLogin}>
             Login
           </button>

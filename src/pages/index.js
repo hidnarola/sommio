@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react'
-import { graphql } from 'gatsby'
-import { Router, Link } from '@reach/router'
+import React from 'react'
 import Goodbye from '../components/HomePage/Goodbye'
 import Quiz from '../components/HomePage/Quiz'
 import HomeService from '../components/HomePage/HomeService'

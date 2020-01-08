@@ -1,45 +1,52 @@
 import React, { useContext, useState } from 'react'
-import { Form } from 'react-final-form'
-import jwt from 'jsonwebtoken'
-import Builton from '@builton/core-sdk'
-import Input from '../Input'
 import { CartContext, FirebaseContext } from '../../context'
 import AddressFields from './AddressFields'
+import { Modal, ModalHeader, ModalBody } from 'reactstrap'
+import RegiserOrLogin from '../Checkout/RegisterOrLogin'
 
 const ShippingAddress = ({ isCompleted, toggleEditable }) => {
-  const {
-    cartItems,
-    shippingCostCalculate,
-    shipping_address,
-    customerDetails,
-    cartItemsBuilton,
-    quantityBuilton,
-    builton
-  } = useContext(CartContext)
+  const { shipping_address, customerDetails } = useContext(CartContext)
   const { firebase } = useContext(FirebaseContext)
-  let details = JSON.parse(localStorage.getItem('details'))
+  const [modal, setModal] = useState(false)
 
+  const toggleModal = () => setModal(!modal)
+
+  const handleLogin = () => {
+    if (firebase && firebase.auth().currentUser) {
+      setModal(false)
+    }
+    // setModal(true)
+    toggleModal()
+  }
+  let details = JSON.parse(localStorage.getItem('details'))
   return (
     <>
       <div className={`${isCompleted ? 'visible' : 'hidden'}`}>
         <div className="shipping-boxs">
           <h2 className="text-black font-medium leading-loose p-0 mb-3">
             <span>1</span>
-            <span className="text">SHIPPING & BILLING</span>
+            <span className="text">DELIVERY INFORMATION</span>
           </h2>
           <div className="mb-10">
             <h4 className="mb-3">Email Address</h4>
-            <p>{customerDetails && customerDetails.email}</p>
+            <p>{details && details.email}</p>
           </div>
           <div className="mb-10">
             <h4 className="mb-3">Shipping Address</h4>
             <p className="mb-1">
-              {shipping_address && shipping_address.first_name}{' '}
+              Name: {shipping_address && shipping_address.first_name}{' '}
               {shipping_address && shipping_address.last_name}
             </p>
-            <p className="mb-1">{shipping_address && shipping_address.line1}</p>
+            <p className="mb-1">
+              Address: {shipping_address && shipping_address.line1}
+            </p>
             <p className="mb-1">{shipping_address && shipping_address.city}</p>
-            <p>{shipping_address && shipping_address.county}</p>
+            <p>
+              {shipping_address && shipping_address.county} {''}
+              {shipping_address && shipping_address.postcode}
+            </p>
+            <p>{shipping_address && shipping_address.country}</p>
+            <p>Contact Number: {shipping_address && shipping_address.phone}</p>
           </div>
         </div>
         <div className="submit_btn">
@@ -55,24 +62,27 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
         <div className="shipping-boxs">
           <h2 className="text-black font-medium leading-loose p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
             <span>1</span>
-            <span className="text">CONTACT INFORMATION</span>
+            <span className="text">DELIVERY INFORMATION</span>
           </h2>
-          <div className="frm_grp">
-            <input
-              type="email"
-              name="email"
-              defaultValue={details && details.email}
-            />
-          </div>
-
-          <h2 className="text-black font-medium p-0 mb-3 pt-6 pb-3 border-b border-grey-light">
-            SHIPPING & BILLING
-          </h2>
+          {firebase && !firebase.auth().currentUser && (
+            <div className="frm_grp">
+              <p>Already have an account ?</p>
+              <button onClick={handleLogin}>Login</button>
+            </div>
+          )}
           <AddressFields
             type="shipping_address"
             toggleEditable={toggleEditable}
           />
         </div>
+      </div>
+      <div>
+        <Modal isOpen={modal} toggle={toggleModal}>
+          <ModalHeader toggle={toggleModal}>User Account</ModalHeader>
+          <ModalBody>
+            <RegiserOrLogin isModal={true} toggleModal={toggleModal} />
+          </ModalBody>
+        </Modal>
       </div>
     </>
   )

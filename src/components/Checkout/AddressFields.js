@@ -1,10 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Field, Form } from 'react-final-form'
 import Input from '../../components/Input'
-import country from '../../../countryWithThree.json'
-import { CartContext } from '../../context'
+import country from '../../../countryWithThree'
+import { CartContext, FirebaseContext } from '../../context'
 import validation from '../../validation/shippingFormValidation'
 import { log } from 'util'
+import Builton from '@builton/core-sdk'
 import shippingFormValidation from '../../validation/shippingFormValidation'
 
 const AddressFields = ({ type, toggleEditable }) => {
@@ -14,17 +15,48 @@ const AddressFields = ({ type, toggleEditable }) => {
     customerDetails,
     shippingCostCalculate,
     cartItemsBuilton,
-    builton
+    builton,
+    setUserBuilton
   } = useContext(CartContext)
-  console.log('user => ', user)
+  const { firebase } = useContext(FirebaseContext)
+  const [isCurrentUser, SetCurrentUser] = useState(
+    firebase && firebase.auth().currentUser
+  )
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const handleShippingCost = async values => {
-    console.log(' Hiiii SSI => ', values)
+  const handleShippingCost = values => {
+    if (isCurrentUser) {
+      setErrorMessage('')
+      toggleEditable(true)
+      shippingCostCalculate(user, values, cartItemsBuilton)
+    } else {
+      setErrorMessage('')
+      firebase &&
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(values.email.trim(), values.password)
+          .then(resp => {
+            let accessToken = JSON.parse(JSON.stringify(resp.user))
+              .stsTokenManager.accessToken
+            localStorage.setItem('firebaseToken', accessToken)
+            localStorage.setItem('details', JSON.stringify(resp.user))
 
-    toggleEditable(true)
-    shippingCostCalculate(user, values, cartItemsBuilton)
+            const builton = new Builton({
+              apiKey: process.env.GATSBY_BUILTON_API_KEY,
+              bearerToken: accessToken
+            })
+
+            SetCurrentUser(resp.user)
+            setUserBuilton(values.email, builton)
+            shippingCostCalculate(user, values, cartItemsBuilton)
+            toggleEditable(true)
+          })
+          .catch(error => {
+            setErrorMessage(error.message)
+            SetCurrentUser(false)
+          })
+    }
   }
-  console.log('shipping_address => ', shipping_address)
 
   const myInitData = {
     first_name: shipping_address && shipping_address.first_name,
@@ -33,17 +65,22 @@ const AddressFields = ({ type, toggleEditable }) => {
     city: shipping_address && shipping_address.city,
     county: shipping_address && shipping_address.county,
     postcode: shipping_address && shipping_address.postcode,
-    country: shipping_address && shipping_address.country
+    country: shipping_address && shipping_address.country,
+    phone: shipping_address && shipping_address.phone,
+    email: shipping_address && shipping_address.email
   }
 
   return (
     <Form
       onSubmit={handleShippingCost}
       initialValues={myInitData}
-      validate={shippingFormValidation}
-      render={({ handleSubmit, form, submitting, pristine, values }) => (
-        <form onSubmit={handleSubmit}>
-          <div>
+      validate={fieldValues =>
+        shippingFormValidation(fieldValues, isCurrentUser)
+      }
+    >
+      {({ handleSubmit, form, submitting, pristine, values }) => {
+        return (
+          <form onSubmit={handleSubmit}>
             <div className="frm_grp">
               <Field name="first_name">
                 {({ input, meta }) => (
@@ -60,6 +97,36 @@ const AddressFields = ({ type, toggleEditable }) => {
                 {({ input, meta }) => (
                   <div>
                     <input {...input} type="text" placeholder="Last name" />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
+            </div>
+
+            <div className="frm_grp">
+              <Field name="country" component="select">
+                <option value={'-1'}>Select Country</option>
+                {country.length &&
+                  country.map((cntry, i) => (
+                    <option value={cntry.alpha3} key={i}>
+                      {cntry.name}
+                    </option>
+                  ))}
+              </Field>
+              {values.country && values.country === '-1' && (
+                <span>{'Select Country'}</span>
+              )}
+            </div>
+
+            <div className="my-2 w-full">
+              <Field name="postcode">
+                {({ input, meta }) => (
+                  <div>
+                    <input
+                      {...input}
+                      type="text"
+                      placeholder="ZIP / Postcode"
+                    />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -107,48 +174,74 @@ const AddressFields = ({ type, toggleEditable }) => {
                   )}
                 </Field>
               </div>
-
-              <div className="my-2 w-full">
-                <Field name="postcode">
-                  {({ input, meta }) => (
-                    <div>
-                      <input
-                        {...input}
-                        type="text"
-                        placeholder="ZIP / Postcode"
-                      />
-                      {meta.error && meta.touched && <span>{meta.error}</span>}
-                    </div>
-                  )}
-                </Field>
-              </div>
+            </div>
+            <div className="frm_grp">
+              <Field name="phone">
+                {({ input, meta }) => (
+                  <div>
+                    <input {...input} type="text" placeholder="Phone" />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
             </div>
 
             <div className="frm_grp">
-              <Field name="country" component="select">
-                <option value={'-1'}>Select Country</option>
-                {country.map(cntry => (
-                  <option value={cntry.alpha3}>{cntry.name}</option>
-                ))}
+              <Field name="email">
+                {({ input, meta }) => (
+                  <div>
+                    <input {...input} type="text" placeholder="Email" />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
               </Field>
-              {values.country && values.country === '-1' && (
-                <span>{'Select Country'}</span>
-              )}
             </div>
+            {firebase && !firebase.auth().currentUser && (
+              <>
+                <div className="frm_grp">
+                  <Field name="password">
+                    {({ input, meta }) => (
+                      <div>
+                        <input
+                          {...input}
+                          type="password"
+                          placeholder="Password"
+                        />
+                        {meta.error && meta.touched && (
+                          <span>{meta.error}</span>
+                        )}
+                      </div>
+                    )}
+                  </Field>
+                </div>
+
+                <div className="frm_grp">
+                  <Field name="confirm_password">
+                    {({ input, meta }) => (
+                      <div>
+                        <input
+                          {...input}
+                          type="password"
+                          placeholder="Confirm Password"
+                        />
+                        {meta.error && meta.touched && (
+                          <span>{meta.error}</span>
+                        )}
+                      </div>
+                    )}
+                  </Field>
+                </div>
+              </>
+            )}
 
             <div className="submit_btn">
-              {/* <button
-                type="submit"
-                disabled={firebase.auth().currentUser ? false : true}
-              >
-                Submit
-              </button> */}
-              <button type="submit">Submit</button>
+              <button type="submit">Next Step</button>
             </div>
-          </div>
-        </form>
-      )}
-    />
+          </form>
+        )
+      }}
+    </Form>
   )
 }
 export default AddressFields

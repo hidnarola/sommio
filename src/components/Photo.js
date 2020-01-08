@@ -1,5 +1,4 @@
 import React from 'react'
-import Img from 'gatsby-image'
 import cx from 'classnames'
 import Noimage from '../images/no_img.jpg'
 export default function Photo({ src, cartImg, transparent, ...props }) {

@@ -5,7 +5,8 @@ export const newFirebaseToken = async () => {
 
   let refreshToken = details && JSON.parse(details).stsTokenManager.refreshToken
 
-  let urlForToken = `https://securetoken.googleapis.com/v1/token?key=${process.env.FIREBASE_API_KEY}`
+  let urlForToken =
+    'https://securetoken.googleapis.com/v1/token?key=AIzaSyDgGT5hFomtsStWFZdYblv6k8d9Bx-5xC0'
 
   return axios
     .post(urlForToken, {

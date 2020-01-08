@@ -1,6 +1,5 @@
 import React from 'react'
 import Slider from 'react-slick'
-import { useStaticQuery } from 'gatsby'
 import StarIconRed from '../../images/star-icon-red.svg'
 
 const CustomerReview = () => {
@@ -23,51 +22,19 @@ const CustomerReview = () => {
             </div>
             <div className="star-list ml-auto">
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
-              </div>
-            </div>
-          </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-          <span className="date-text">Jan 21st 2019</span>
-        </div>
-        <div className="review-boxs">
-          <div className="d-flex flex-wrap">
-            <div className="content">
-              <h4>John</h4>
-              <span>Birmingham</span>
-            </div>
-            <div className="star-list ml-auto">
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
             </div>
           </div>
@@ -87,51 +54,19 @@ const CustomerReview = () => {
             </div>
             <div className="star-list ml-auto">
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
-              </div>
-            </div>
-          </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-          <span className="date-text">Jan 21st 2019</span>
-        </div>
-        <div className="review-boxs">
-          <div className="d-flex flex-wrap">
-            <div className="content">
-              <h4>John</h4>
-              <span>Birmingham</span>
-            </div>
-            <div className="star-list ml-auto">
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
-              </div>
-              <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
             </div>
           </div>
@@ -151,19 +86,19 @@ const CustomerReview = () => {
             </div>
             <div className="star-list ml-auto">
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
             </div>
           </div>
@@ -183,19 +118,83 @@ const CustomerReview = () => {
             </div>
             <div className="star-list ml-auto">
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
               <div className="star">
-                <img src={StarIconRed} />
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+            </div>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </p>
+          <span className="date-text">Jan 21st 2019</span>
+        </div>
+        <div className="review-boxs">
+          <div className="d-flex flex-wrap">
+            <div className="content">
+              <h4>John</h4>
+              <span>Birmingham</span>
+            </div>
+            <div className="star-list ml-auto">
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+            </div>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </p>
+          <span className="date-text">Jan 21st 2019</span>
+        </div>
+        <div className="review-boxs">
+          <div className="d-flex flex-wrap">
+            <div className="content">
+              <h4>John</h4>
+              <span>Birmingham</span>
+            </div>
+            <div className="star-list ml-auto">
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
+              </div>
+              <div className="star">
+                <img src={StarIconRed} alt="redStarIcon" />
               </div>
             </div>
           </div>
