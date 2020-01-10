@@ -102,7 +102,7 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
                 <g
                   id="Cart/Checkout/Errors-desktop"
                   stroke="none"
-                  stroke-width="1"
+                  strokeWidth="1"
                   fill="none"
                   fillRule="evenodd"
                 >

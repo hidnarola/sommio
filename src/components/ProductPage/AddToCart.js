@@ -226,11 +226,12 @@ const AddToCart = ({ productId, tags }) => {
             </div>
           </DropdownToggle>
           <DropdownMenu>
-            {coverSubProduct.map(cover => (
+            {coverSubProduct.map((cover, i) => (
               <div
                 onClick={e =>
                   updateVariations(cover.name, cover.tags[0], cover.price)
                 }
+                key={i}
               >
                 <DropdownItem
                   defaultValue={cover.name}

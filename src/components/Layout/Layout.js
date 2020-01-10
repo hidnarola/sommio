@@ -42,6 +42,7 @@ const Layout = ({ children }) => {
         />
         <script src="https://x.klarnacdn.net/kp/lib/v1/api.js"></script>
         <script src="https://unpkg.com/@builton/core-sdk@latest/dist/main.bundle.js"></script>
+        {/* <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLzic4qigzdlIc_OV71Czc6a-5uc8SyKA&libraries=places"></script> */}
       </Helmet>
       <Header
         siteTitle={site.siteMetadata.title}

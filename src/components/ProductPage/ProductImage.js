@@ -34,8 +34,8 @@ function ProductImage({ productId }) {
     <div className="product-gallery">
       <Slider {...settings}>
         {mainProduct[0] &&
-          mainProduct[0].media.map(img => (
-            <img src={img.url} alt="product-image" />
+          mainProduct[0].media.map((img, i) => (
+            <img src={img.url} alt="product-image" key={i} />
           ))}
       </Slider>
     </div>

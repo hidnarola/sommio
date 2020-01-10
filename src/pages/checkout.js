@@ -25,7 +25,6 @@ const CheckoutPage = () => {
       //   toggleModal()
       // }
     }
-
     return () => {
       element.classList.remove('so-checkout-page')
       checkoutClear()

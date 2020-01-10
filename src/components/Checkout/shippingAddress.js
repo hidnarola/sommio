@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react'
 import { CartContext, FirebaseContext } from '../../context'
 import AddressFields from './AddressFields'
 import { Modal, ModalHeader, ModalBody } from 'reactstrap'
-import RegiserOrLogin from '../Checkout/RegisterOrLogin'
+import RegisterOrLogin from '../Checkout/RegisterOrLogin'
+// import PlacesAutocomplete from './GoogleAutocompleted'
 
 const ShippingAddress = ({ isCompleted, toggleEditable }) => {
   const { shipping_address, customerDetails } = useContext(CartContext)
@@ -19,6 +20,7 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
     toggleModal()
   }
   let details = JSON.parse(localStorage.getItem('details'))
+
   return (
     <>
       <div className={`${isCompleted ? 'visible' : 'hidden'}`}>
@@ -70,6 +72,10 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
               <button onClick={handleLogin}>Login</button>
             </div>
           )}
+          {/* {gmapsLoaded && <PlacesAutocomplete />} */}
+          {/* <PlacesAutocomplete /> */}
+          {/* <input id="searchTextField" type="text" size="50" /> */}
+
           <AddressFields
             type="shipping_address"
             toggleEditable={toggleEditable}
@@ -80,7 +86,7 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
         <Modal isOpen={modal} toggle={toggleModal}>
           <ModalHeader toggle={toggleModal}>User Account</ModalHeader>
           <ModalBody>
-            <RegiserOrLogin isModal={true} toggleModal={toggleModal} />
+            <RegisterOrLogin isModal={true} toggleModal={toggleModal} />
           </ModalBody>
         </Modal>
       </div>

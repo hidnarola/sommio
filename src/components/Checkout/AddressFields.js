@@ -1,12 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Field, Form } from 'react-final-form'
 import Input from '../../components/Input'
 import country from '../../../countryWithThree'
-import { CartContext, FirebaseContext } from '../../context'
+import { CartContext, FirebaseContext, CheckoutContext } from '../../context'
 import validation from '../../validation/shippingFormValidation'
 import { log } from 'util'
 import Builton from '@builton/core-sdk'
 import shippingFormValidation from '../../validation/shippingFormValidation'
+import PlacesAutocomplete from './GoogleAutocompleted'
 
 const AddressFields = ({ type, toggleEditable }) => {
   const {
@@ -18,13 +19,44 @@ const AddressFields = ({ type, toggleEditable }) => {
     builton,
     setUserBuilton
   } = useContext(CartContext)
+  const {
+    SelectedCountry,
+    county,
+    postal_code,
+    address_line_1,
+    city,
+    countryCode
+  } = useContext(CheckoutContext)
+
+  // let countryWithThree = country.filter(data => {
+  //   return data.alpha2 === countryCode
+  // })
+  // console.log('countryCode => ', countryCode)
+  // console.log('countryWithThree => ', countryWithThree)
+
   const { firebase } = useContext(FirebaseContext)
   const [isCurrentUser, SetCurrentUser] = useState(
     firebase && firebase.auth().currentUser
   )
   const [errorMessage, setErrorMessage] = useState('')
+  const [gmapsLoaded, setGmapsLoaded] = useState(false)
+
+  const initMap = () => {
+    setGmapsLoaded(true)
+  }
+
+  useEffect(() => {
+    window.initMap = initMap
+    const gmapScriptEl = document.createElement(`script`)
+    gmapScriptEl.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCLzic4qigzdlIc_OV71Czc6a-5uc8SyKA&libraries=places&callback=initMap`
+    document
+      .querySelector(`body`)
+      .insertAdjacentElement(`beforeend`, gmapScriptEl)
+  }, [])
 
   const handleShippingCost = values => {
+    console.log('handleShippingCost values => ', values)
+
     if (isCurrentUser) {
       setErrorMessage('')
       toggleEditable(true)
@@ -61,11 +93,18 @@ const AddressFields = ({ type, toggleEditable }) => {
   const myInitData = {
     first_name: shipping_address && shipping_address.first_name,
     last_name: shipping_address && shipping_address.last_name,
-    line_1: shipping_address && shipping_address.line_1,
-    city: shipping_address && shipping_address.city,
-    county: shipping_address && shipping_address.county,
-    postcode: shipping_address && shipping_address.postcode,
-    country: shipping_address && shipping_address.country,
+    line_1:
+      (shipping_address && shipping_address.line_1) ||
+      (address_line_1 && address_line_1),
+    city: (shipping_address && shipping_address.city) || (city && city),
+    county:
+      (shipping_address && shipping_address.county) ||
+      (SelectedCountry && SelectedCountry),
+    postcode:
+      (shipping_address && shipping_address.postcode) ||
+      (postal_code && postal_code),
+    country:
+      (shipping_address && shipping_address.country) || (country && country),
     phone: shipping_address && shipping_address.phone,
     email: shipping_address && shipping_address.email
   }
@@ -79,6 +118,8 @@ const AddressFields = ({ type, toggleEditable }) => {
       }
     >
       {({ handleSubmit, form, submitting, pristine, values }) => {
+        console.log('values addressField => ', values)
+
         return (
           <form onSubmit={handleSubmit}>
             <div className="frm_grp">
@@ -102,13 +143,21 @@ const AddressFields = ({ type, toggleEditable }) => {
                 )}
               </Field>
             </div>
-
             <div className="frm_grp">
               <Field name="country" component="select">
-                <option value={'-1'}>Select Country</option>
+                <option value={'-1'}>
+                  {SelectedCountry ? SelectedCountry : 'Select Country'}
+                </option>
                 {country.length &&
                   country.map((cntry, i) => (
-                    <option value={cntry.alpha3} key={i}>
+                    <option
+                      value={
+                        countryCode === cntry.alpha2
+                          ? cntry.alpha3
+                          : cntry.alpha3
+                      }
+                      key={i}
+                    >
                       {cntry.name}
                     </option>
                   ))}
@@ -118,19 +167,24 @@ const AddressFields = ({ type, toggleEditable }) => {
               )}
             </div>
 
-            <div className="my-2 w-full">
-              <Field name="postcode">
-                {({ input, meta }) => (
-                  <div>
-                    <input
-                      {...input}
-                      type="text"
-                      placeholder="ZIP / Postcode"
-                    />
-                    {meta.error && meta.touched && <span>{meta.error}</span>}
-                  </div>
-                )}
+            {/* <div className="frm_grp">
+              <Field name="country" component="select">
+                <option value={-1}>{'Select Country'}</option>
+                {country.length &&
+                  country.map((cntry, i) => (
+                    <option
+                      selected={countryCode && countryCode === cntry.alpha2}
+                      value={true ? 'GBR' : cntry.alpha3}
+                      key={i}
+                    >
+                      {cntry.name}
+                    </option>
+                  ))}
               </Field>
+            </div> */}
+
+            <div className="my-2 w-full">
+              {gmapsLoaded && <PlacesAutocomplete />}
             </div>
 
             <div className="frm_grp">

@@ -47,8 +47,8 @@ function ShippingSelectOption() {
           shipping_address.country &&
           shipping_address.country !== 'GBR' &&
           shippingRatesArray &&
-          shippingRatesArray.map(shippingRatesType => (
-            <option value={JSON.stringify(shippingRatesType)}>
+          shippingRatesArray.map((shippingRatesType, i) => (
+            <option value={JSON.stringify(shippingRatesType)} key={i}>
               {shippingRatesType.service_name}
             </option>
           ))}

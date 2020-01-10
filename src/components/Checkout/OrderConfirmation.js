@@ -12,7 +12,6 @@ export default function OrderConfirmation(props) {
     orderId,
     orderedItems,
     order_shipping_provider_name,
-    order_shipping_cost,
     orderPrice
   } = useContext(CheckoutContext)
   useEffect(() => {
