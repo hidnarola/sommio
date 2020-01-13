@@ -26,38 +26,6 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
 
   const [errorMessage, setErrorMessage] = useState('')
 
-  // const handleRegister = async () => {
-  //   setErrorMessage('')
-  //   setRegisterError({})
-  //   if (checkValidation().status) {
-  //     firebase &&
-  //       firebase
-  //         .auth()
-  //         .createUserWithEmailAndPassword(email.trim(), password)
-  //         .then(resp => {
-  //           let accessToken = JSON.parse(JSON.stringify(resp.user))
-  //             .stsTokenManager.accessToken
-  //           localStorage.setItem('firebaseToken', accessToken)
-  //           localStorage.setItem('details', JSON.stringify(resp.user))
-
-  //           const builton = new Builton({
-  //             apiKey: process.env.GATSBY_BUILTON_API_KEY,
-  //             bearerToken: accessToken
-  //           })
-
-  //           SetCurrentUser(resp.user)
-  //           setUserBuilton({ email }, builton)
-  //           toggleModal()
-  //         })
-  //         .catch(error => {
-  //           setErrorMessage(error.message)
-  //           SetCurrentUser(false)
-  //         })
-  //   } else {
-  //     setRegisterError(checkValidation().msg)
-  //   }
-  // }
-
   const handleLogin = async () => {
     if (checkValidation().status) {
       setRegisterError({
@@ -210,9 +178,6 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
             <span>{errorMessage}</span>
           </div>
 
-          {/* <button onClick={handleRegister} type="button">
-            Register
-          </button> */}
           <button type="button" onClick={handleLogin}>
             Login
           </button>

@@ -13,6 +13,8 @@ export const SET_BUILTON_PRODUCT_PRICE = 'SET_BUILTON_PRODUCT_PRICE'
 export const SET_BUILTON_CART_DATA = 'SET_BUILTON_CART_DATA'
 export const USER_DETAIL_BUILTON = 'USER_DETAIL_BUILTON'
 export const CART_BUILTON = 'CART_BUILTON'
+export const AUTOCOMPLETE_ADDRESS = 'AUTOCOMPLETED_ADDRESS'
+export const SET_POSTAL_CODE = 'SET_POSTAL_CODE'
 
 export const initialState = {
   errorMessage: '',
@@ -36,7 +38,14 @@ export const initialState = {
   orderCartItems: [],
   toggle: false,
   shippingRate: 0,
-  shipmentProductId: null
+  shipmentProductId: null,
+  shipping_address: null,
+  postalCode: '',
+  SelectedCountry: '',
+  county: '',
+  city: '',
+  address_line_1: '',
+  countryCode: ''
 }
 
 export default function reducer(state, action) {
@@ -64,7 +73,7 @@ export default function reducer(state, action) {
 
       return {
         ...state,
-        shipping_address,
+        shipping_address: shipping_address,
         customerDetails,
         paymentButton: paymentButton
       }
@@ -128,12 +137,6 @@ export default function reducer(state, action) {
     case SET_BUILTON_CART_DATA:
       const cartItemsBuilton = action.payload
       console.log(' cartItemsBuilton => ', cartItemsBuilton)
-
-      // const wightProduct =
-      //   cartItemsBuilton[0] && cartItemsBuilton[0].subProduct.selectedWeight
-      // const coverProduct =
-      //   cartItemsBuilton[0] && cartItemsBuilton[0].subProduct.selectedCover
-
       const countBuilton =
         state.quantityBuilton + cartItemsBuilton[0] &&
         cartItemsBuilton[0].quantityBuilton
@@ -184,6 +187,69 @@ export default function reducer(state, action) {
         ...state,
         user: action.data,
         builton: builton
+      }
+
+    case AUTOCOMPLETE_ADDRESS:
+      const address = action.address[0]
+      const address_components = action.address[0].address_components
+      let county,
+        city,
+        SelectedCountry,
+        postal_code,
+        street_number,
+        route,
+        area,
+        locality,
+        administrative_area_level_2,
+        neighborhood,
+        political,
+        postal_town,
+        countryCode
+
+      console.log('state.postalCode => ', state.postalCode)
+
+      address_components.map(data => {
+        if (data.types[0] === 'street_number') {
+          street_number = data.long_name
+        } else if (data.types[0] === 'route') {
+          route = data.long_name
+        } else if (data.types[0] === 'postal_town') {
+          postal_town = data.long_name
+        } else if (data.types[0] === 'locality') {
+          locality = data.long_name // area/city
+        } else if (data.types[0] === 'political') {
+          political = data.long_name //area
+        } else if (data.types[0] === 'neighborhood') {
+          neighborhood = data.long_name
+        } else if (data.types[0] === 'administrative_area_level_2') {
+          administrative_area_level_2 = data.long_name //city
+        } else if (data.types[0] === 'administrative_area_level_1') {
+          county = data.long_name
+        } else if (data.types[0] === 'country') {
+          SelectedCountry = data.long_name
+          countryCode = data.short_name
+        } else if (data.types[0] === 'postal_code') {
+          postal_code = data.long_name
+        }
+      })
+
+      return {
+        ...state,
+        SelectedCountry,
+        county,
+        postalCode: postal_code,
+        countryCode,
+        city: postal_town ? postal_town : locality,
+        address_line_1: `${street_number ? street_number + ',' : ''}${
+          neighborhood ? neighborhood + ',' : ''
+        }${political ? political + ',' : ''}${route ? route : ''}`
+      }
+    case SET_POSTAL_CODE:
+      console.log('SET_POSTAL_CODE action  => ', action)
+
+      return {
+        ...state,
+        postalCode: action.postalCode
       }
     default:
       return state
@@ -304,7 +370,7 @@ function CartProvider({ children, ...props }) {
       async: false,
       shipper_accounts: [
         {
-          id: '07b55d06-48af-4b02-a6b0-1e311e22b1e6'
+          id: 'a2b8a970-6fe5-4491-b9e2-8e3a6d17cd08'
         }
       ],
       shipment: {
@@ -408,7 +474,14 @@ function CartProvider({ children, ...props }) {
   const cartBuilton = cart => {
     dispatch({ type: CART_BUILTON, cart })
   }
+  const setAddressFromAutoComplete = address => {
+    dispatch({ type: AUTOCOMPLETE_ADDRESS, address })
+  }
+  const setPostalCode = postalCode => {
+    console.log('data => ', postalCode)
 
+    dispatch({ type: SET_POSTAL_CODE, postalCode })
+  }
   return (
     <Provider
       value={{
@@ -425,7 +498,9 @@ function CartProvider({ children, ...props }) {
         updateQuantityBuilton,
         setUserBuilton,
         cartBuilton,
-        deleteCart
+        deleteCart,
+        setAddressFromAutoComplete,
+        setPostalCode
       }}
     >
       {children}

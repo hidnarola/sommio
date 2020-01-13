@@ -1,20 +1,25 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
 } from 'react-places-autocomplete'
-import { CheckoutContext } from '../../context/CheckoutContext'
+import { Field } from 'react-final-form'
+import { CartContext } from '../../context/CartContext'
 const LocationSearchInput = () => {
-  const [address, setAddress] = useState('')
-  const { setAddressFromAutoComplete, postal_code } = useContext(
-    CheckoutContext
-  )
+  const {
+    shipping_address,
+    setAddressFromAutoComplete,
+    postalCode,
+    setPostalCode
+  } = useContext(CartContext)
 
-  const handleChange = address => {
-    setAddress(address)
+  const handleChange = zipcode => {
+    console.log('address handleChange => ', zipcode)
+    setPostalCode(zipcode) //update context postal code value
   }
 
   const handleSelect = address => {
+    console.log('address => ', address)
     geocodeByAddress(address)
       .then(results => {
         console.log('GoogleAutoComplete results => ', results)
@@ -26,19 +31,26 @@ const LocationSearchInput = () => {
 
   return (
     <PlacesAutocomplete
-      value={address}
+      value={postalCode}
       onChange={handleChange}
       onSelect={handleSelect}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div>
-          <input
-            {...getInputProps({
-              placeholder: 'Postcode',
-              className: 'location-search-input'
-            })}
-            value={postal_code}
-          />
+          <Field name="postcode">
+            {({ input, meta }) => (
+              <div>
+                <input
+                  type="text"
+                  {...getInputProps({
+                    placeholder: 'Postcode',
+                    className: 'location-search-input'
+                  })}
+                />
+                {meta.error && meta.touched && <span>{meta.error}</span>}
+              </div>
+            )}
+          </Field>
           <div className="autocomplete-dropdown-container">
             {loading && <div>Loading...</div>}
             {suggestions.map(suggestion => {
@@ -67,3 +79,4 @@ const LocationSearchInput = () => {
   )
 }
 export default LocationSearchInput
+// put this code in addressField component

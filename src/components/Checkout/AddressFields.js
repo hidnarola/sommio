@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Field, Form } from 'react-final-form'
+
 import Input from '../../components/Input'
 import country from '../../../countryWithThree'
 import { CartContext, FirebaseContext, CheckoutContext } from '../../context'
@@ -7,7 +8,8 @@ import validation from '../../validation/shippingFormValidation'
 import { log } from 'util'
 import Builton from '@builton/core-sdk'
 import shippingFormValidation from '../../validation/shippingFormValidation'
-import PlacesAutocomplete from './GoogleAutocompleted'
+import PlacesAutocomplete from './GoogleAutocomplete'
+import countryWithThree from '../../../countryWithThree'
 
 const AddressFields = ({ type, toggleEditable }) => {
   const {
@@ -17,22 +19,18 @@ const AddressFields = ({ type, toggleEditable }) => {
     shippingCostCalculate,
     cartItemsBuilton,
     builton,
-    setUserBuilton
-  } = useContext(CartContext)
-  const {
+    setUserBuilton,
     SelectedCountry,
     county,
-    postal_code,
+    postalCode,
     address_line_1,
     city,
     countryCode
-  } = useContext(CheckoutContext)
+  } = useContext(CartContext)
 
-  // let countryWithThree = country.filter(data => {
-  //   return data.alpha2 === countryCode
-  // })
-  // console.log('countryCode => ', countryCode)
-  // console.log('countryWithThree => ', countryWithThree)
+  let countryWithThree = country.filter(data => {
+    return data.alpha2.toUpperCase() === countryCode
+  })
 
   const { firebase } = useContext(FirebaseContext)
   const [isCurrentUser, SetCurrentUser] = useState(
@@ -53,11 +51,17 @@ const AddressFields = ({ type, toggleEditable }) => {
       .querySelector(`body`)
       .insertAdjacentElement(`beforeend`, gmapScriptEl)
   }, [])
+  let details = JSON.parse(localStorage.getItem('details'))
+  console.log(
+    'handleShippingCost isCurrentUser out,details => ',
+    isCurrentUser,
+    details && details.email
+  )
 
   const handleShippingCost = values => {
     console.log('handleShippingCost values => ', values)
 
-    if (isCurrentUser) {
+    if (firebase && firebase.auth().currentUser) {
       setErrorMessage('')
       toggleEditable(true)
       shippingCostCalculate(user, values, cartItemsBuilton)
@@ -102,9 +106,10 @@ const AddressFields = ({ type, toggleEditable }) => {
       (SelectedCountry && SelectedCountry),
     postcode:
       (shipping_address && shipping_address.postcode) ||
-      (postal_code && postal_code),
+      (postalCode && postalCode),
     country:
-      (shipping_address && shipping_address.country) || (country && country),
+      (shipping_address && shipping_address.country) ||
+      (SelectedCountry && SelectedCountry),
     phone: shipping_address && shipping_address.phone,
     email: shipping_address && shipping_address.email
   }
@@ -143,17 +148,22 @@ const AddressFields = ({ type, toggleEditable }) => {
                 )}
               </Field>
             </div>
+
             <div className="frm_grp">
               <Field name="country" component="select">
-                <option value={'-1'}>
+                <option value={-1}>
                   {SelectedCountry ? SelectedCountry : 'Select Country'}
                 </option>
                 {country.length &&
                   country.map((cntry, i) => (
                     <option
+                      selected={
+                        countryCode &&
+                        countryCode === cntry.alpha2.toUpperCase()
+                      }
                       value={
-                        countryCode === cntry.alpha2
-                          ? cntry.alpha3
+                        countryWithThree
+                          ? countryWithThree[0] && countryWithThree[0].alpha3
                           : cntry.alpha3
                       }
                       key={i}
@@ -162,26 +172,7 @@ const AddressFields = ({ type, toggleEditable }) => {
                     </option>
                   ))}
               </Field>
-              {values.country && values.country === '-1' && (
-                <span>{'Select Country'}</span>
-              )}
             </div>
-
-            {/* <div className="frm_grp">
-              <Field name="country" component="select">
-                <option value={-1}>{'Select Country'}</option>
-                {country.length &&
-                  country.map((cntry, i) => (
-                    <option
-                      selected={countryCode && countryCode === cntry.alpha2}
-                      value={true ? 'GBR' : cntry.alpha3}
-                      key={i}
-                    >
-                      {cntry.name}
-                    </option>
-                  ))}
-              </Field>
-            </div> */}
 
             <div className="my-2 w-full">
               {gmapsLoaded && <PlacesAutocomplete />}

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { CartContext, FirebaseContext } from '../../context'
 import AddressFields from './AddressFields'
 import { Modal, ModalHeader, ModalBody } from 'reactstrap'
@@ -9,17 +9,25 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
   const { shipping_address, customerDetails } = useContext(CartContext)
   const { firebase } = useContext(FirebaseContext)
   const [modal, setModal] = useState(false)
+  const [currentUser, setCurrentUser] = useState(false)
+  let details = JSON.parse(localStorage.getItem('details'))
+
+  useEffect(() => {
+    if (details && details.email) {
+      setCurrentUser(true)
+    }
+  }, [details && details.email])
+  console.log('shipping_address => ', shipping_address)
 
   const toggleModal = () => setModal(!modal)
 
   const handleLogin = () => {
     if (firebase && firebase.auth().currentUser) {
       setModal(false)
+      setCurrentUser(true)
     }
-    // setModal(true)
     toggleModal()
   }
-  let details = JSON.parse(localStorage.getItem('details'))
 
   return (
     <>
@@ -40,7 +48,7 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
               {shipping_address && shipping_address.last_name}
             </p>
             <p className="mb-1">
-              Address: {shipping_address && shipping_address.line1}
+              Address: {shipping_address && shipping_address.line_1}
             </p>
             <p className="mb-1">{shipping_address && shipping_address.city}</p>
             <p>
@@ -66,15 +74,12 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
             <span>1</span>
             <span className="text">DELIVERY INFORMATION</span>
           </h2>
-          {firebase && !firebase.auth().currentUser && (
+          {!currentUser && (
             <div className="frm_grp">
               <p>Already have an account ?</p>
               <button onClick={handleLogin}>Login</button>
             </div>
           )}
-          {/* {gmapsLoaded && <PlacesAutocomplete />} */}
-          {/* <PlacesAutocomplete /> */}
-          {/* <input id="searchTextField" type="text" size="50" /> */}
 
           <AddressFields
             type="shipping_address"
