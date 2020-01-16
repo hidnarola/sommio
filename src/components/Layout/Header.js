@@ -43,6 +43,7 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
     lazyApp.then(firebaseObj => {
       const firebase = getFirebase(firebaseObj)
       setFirebase(firebase)
+      console.log('firebase Header => ', firebase)
 
       if (firebase && firebase.auth().currentUser) {
         // setShow(false)

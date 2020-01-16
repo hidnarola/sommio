@@ -3,9 +3,8 @@ import { CartContext, FirebaseContext } from '../../context'
 import AddressFields from './AddressFields'
 import { Modal, ModalHeader, ModalBody } from 'reactstrap'
 import RegisterOrLogin from '../Checkout/RegisterOrLogin'
-// import PlacesAutocomplete from './GoogleAutocompleted'
 
-const ShippingAddress = ({ isCompleted, toggleEditable }) => {
+const ShippingAddress = ({ isCompleted, toggleEditable, gmapsLoaded }) => {
   const { shipping_address, customerDetails } = useContext(CartContext)
   const { firebase } = useContext(FirebaseContext)
   const [modal, setModal] = useState(false)
@@ -17,7 +16,6 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
       setCurrentUser(true)
     }
   }, [details && details.email])
-  console.log('shipping_address => ', shipping_address)
 
   const toggleModal = () => setModal(!modal)
 
@@ -82,6 +80,7 @@ const ShippingAddress = ({ isCompleted, toggleEditable }) => {
           )}
 
           <AddressFields
+            gmapsLoaded={gmapsLoaded}
             type="shipping_address"
             toggleEditable={toggleEditable}
           />

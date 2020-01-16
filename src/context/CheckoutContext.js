@@ -20,13 +20,7 @@ export const initialState = {
   orderId: null,
   userOrderData: [],
   userOrder: [],
-  totalProductQuantity: 1,
-  postalCode: '',
-  SelectedCountry: '',
-  county: '',
-  city: '',
-  address_line_1: '',
-  countryCode: ''
+  totalProductQuantity: 1
 }
 
 export default function reducer(state, action) {
@@ -70,68 +64,6 @@ export default function reducer(state, action) {
         userOrderItem: userOrderItem
       }
 
-    // case AUTOCOMPLETE_ADDRESS:
-    //   const address = action.address[0]
-    //   const address_components = action.address[0].address_components
-    //   let county,
-    //     city,
-    //     SelectedCountry,
-    //     postal_code,
-    //     street_number,
-    //     route,
-    //     area,
-    //     locality,
-    //     administrative_area_level_2,
-    //     neighborhood,
-    //     political,
-    //     postal_town,
-    //     countryCode
-
-    //   console.log('state.postalCode => ', state.postalCode)
-
-    //   address_components.map(data => {
-    //     if (data.types[0] === 'street_number') {
-    //       street_number = data.long_name
-    //     } else if (data.types[0] === 'route') {
-    //       route = data.long_name
-    //     } else if (data.types[0] === 'postal_town') {
-    //       postal_town = data.long_name
-    //     } else if (data.types[0] === 'locality') {
-    //       locality = data.long_name // area/city
-    //     } else if (data.types[0] === 'political') {
-    //       political = data.long_name //area
-    //     } else if (data.types[0] === 'neighborhood') {
-    //       neighborhood = data.long_name
-    //     } else if (data.types[0] === 'administrative_area_level_2') {
-    //       administrative_area_level_2 = data.long_name //city
-    //     } else if (data.types[0] === 'administrative_area_level_1') {
-    //       county = data.long_name
-    //     } else if (data.types[0] === 'country') {
-    //       SelectedCountry = data.long_name
-    //       countryCode = data.short_name
-    //     } else if (data.types[0] === 'postal_code') {
-    //       postal_code = data.long_name
-    //     }
-    //   })
-
-    //   return {
-    //     ...state,
-    //     SelectedCountry,
-    //     county,
-    //     postalCode: postal_code,
-    //     countryCode,
-    //     city: postal_town ? postal_town : locality,
-    //     address_line_1: `${street_number ? street_number + ',' : ''}${
-    //       neighborhood ? neighborhood + ',' : ''
-    //     }${political ? political + ',' : ''}${route ? route : ''}`
-    //   }
-    // case SET_POSTAL_CODE:
-    //   console.log('SET_POSTAL_CODE action  => ', action)
-    //   return  {
-    //     ...state,
-    //     postalCode: action.postalCode
-    //   }
-
     default:
       return state
   }
@@ -164,14 +96,7 @@ function CheckoutProvider({ children, ...props }) {
   const userOrderData = data => {
     dispatch({ type: USER_ORDER, data })
   }
-  // const setAddressFromAutoComplete = address => {
-  //   dispatch({ type: AUTOCOMPLETE_ADDRESS, address })
-  // }
-  // const setPostalCode = postalCode => {
-  //   console.log('data => ', postalCode)
 
-  //   dispatch({ type: SET_POSTAL_CODE, postalCode })
-  // }
   return (
     <Provider
       value={{

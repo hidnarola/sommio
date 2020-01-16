@@ -11,7 +11,7 @@ import shippingFormValidation from '../../validation/shippingFormValidation'
 import PlacesAutocomplete from './GoogleAutocomplete'
 import countryWithThree from '../../../countryWithThree'
 
-const AddressFields = ({ type, toggleEditable }) => {
+const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
   const {
     shipping_address,
     user,
@@ -20,12 +20,8 @@ const AddressFields = ({ type, toggleEditable }) => {
     cartItemsBuilton,
     builton,
     setUserBuilton,
-    SelectedCountry,
-    county,
-    postalCode,
-    address_line_1,
-    city,
-    countryCode
+    countryCode,
+    setAddress
   } = useContext(CartContext)
 
   let countryWithThree = country.filter(data => {
@@ -33,34 +29,19 @@ const AddressFields = ({ type, toggleEditable }) => {
   })
 
   const { firebase } = useContext(FirebaseContext)
-  const [isCurrentUser, SetCurrentUser] = useState(
-    firebase && firebase.auth().currentUser
-  )
-  const [errorMessage, setErrorMessage] = useState('')
-  const [gmapsLoaded, setGmapsLoaded] = useState(false)
 
-  const initMap = () => {
-    setGmapsLoaded(true)
-  }
+  const [isCurrentUser, SetCurrentUser] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  let details = JSON.parse(localStorage.getItem('details'))
 
   useEffect(() => {
-    window.initMap = initMap
-    const gmapScriptEl = document.createElement(`script`)
-    gmapScriptEl.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyCLzic4qigzdlIc_OV71Czc6a-5uc8SyKA&libraries=places&callback=initMap`
-    document
-      .querySelector(`body`)
-      .insertAdjacentElement(`beforeend`, gmapScriptEl)
-  }, [])
-  let details = JSON.parse(localStorage.getItem('details'))
-  console.log(
-    'handleShippingCost isCurrentUser out,details => ',
-    isCurrentUser,
-    details && details.email
-  )
+    if (details && details.email) {
+      SetCurrentUser(true)
+    }
+  }, [details && details.email])
 
   const handleShippingCost = values => {
-    console.log('handleShippingCost values => ', values)
-
     if (firebase && firebase.auth().currentUser) {
       setErrorMessage('')
       toggleEditable(true)
@@ -93,27 +74,21 @@ const AddressFields = ({ type, toggleEditable }) => {
           })
     }
   }
-
   const myInitData = {
     first_name: shipping_address && shipping_address.first_name,
     last_name: shipping_address && shipping_address.last_name,
-    line_1:
-      (shipping_address && shipping_address.line_1) ||
-      (address_line_1 && address_line_1),
-    city: (shipping_address && shipping_address.city) || (city && city),
-    county:
-      (shipping_address && shipping_address.county) ||
-      (SelectedCountry && SelectedCountry),
-    postcode:
-      (shipping_address && shipping_address.postcode) ||
-      (postalCode && postalCode),
-    country:
-      (shipping_address && shipping_address.country) ||
-      (SelectedCountry && SelectedCountry),
+    line_1: shipping_address && shipping_address.line_1,
+    city: shipping_address && shipping_address.city,
+    county: shipping_address && shipping_address.county,
+    postcode: shipping_address && shipping_address.postcode,
+    country: shipping_address && shipping_address.country,
     phone: shipping_address && shipping_address.phone,
     email: shipping_address && shipping_address.email
   }
-
+  const formValues = e => {
+    e.preventDefault()
+    setAddress({ [e.target.name]: e.target.value })
+  }
   return (
     <Form
       onSubmit={handleShippingCost}
@@ -123,15 +98,23 @@ const AddressFields = ({ type, toggleEditable }) => {
       }
     >
       {({ handleSubmit, form, submitting, pristine, values }) => {
-        console.log('values addressField => ', values)
-
         return (
           <form onSubmit={handleSubmit}>
             <div className="frm_grp">
               <Field name="first_name">
                 {({ input, meta }) => (
                   <div>
-                    <input {...input} type="text" placeholder="First name" />
+                    <input
+                      {...input}
+                      type="text"
+                      placeholder="First name"
+                      onChange={e => {
+                        input.onChange(e)
+                        if (input.onChange) {
+                          formValues(e)
+                        }
+                      }}
+                    />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -142,7 +125,17 @@ const AddressFields = ({ type, toggleEditable }) => {
               <Field name="last_name">
                 {({ input, meta }) => (
                   <div>
-                    <input {...input} type="text" placeholder="Last name" />
+                    <input
+                      {...input}
+                      type="text"
+                      placeholder="Last name"
+                      onChange={e => {
+                        input.onChange(e)
+                        if (input.onChange) {
+                          formValues(e)
+                        }
+                      }}
+                    />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -150,9 +143,15 @@ const AddressFields = ({ type, toggleEditable }) => {
             </div>
 
             <div className="frm_grp">
-              <Field name="country" component="select">
+              <Field
+                onChange={e => formValues(e)}
+                name="country"
+                component="select"
+              >
                 <option value={-1}>
-                  {SelectedCountry ? SelectedCountry : 'Select Country'}
+                  {shipping_address.country
+                    ? shipping_address.country
+                    : 'Select Country'}
                 </option>
                 {country.length &&
                   country.map((cntry, i) => (
@@ -186,6 +185,12 @@ const AddressFields = ({ type, toggleEditable }) => {
                       {...input}
                       type="text"
                       placeholder="Address line 1"
+                      onChange={e => {
+                        input.onChange(e)
+                        if (input.onChange) {
+                          formValues(e)
+                        }
+                      }}
                     />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
@@ -197,7 +202,17 @@ const AddressFields = ({ type, toggleEditable }) => {
               <Field name="city">
                 {({ input, meta }) => (
                   <div>
-                    <input {...input} type="text" placeholder="City" />
+                    <input
+                      {...input}
+                      type="text"
+                      placeholder="City"
+                      onChange={e => {
+                        input.onChange(e)
+                        if (input.onChange) {
+                          formValues(e)
+                        }
+                      }}
+                    />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -213,6 +228,12 @@ const AddressFields = ({ type, toggleEditable }) => {
                         {...input}
                         type="text"
                         placeholder="State / County / Region"
+                        onChange={e => {
+                          input.onChange(e)
+                          if (input.onChange) {
+                            formValues(e)
+                          }
+                        }}
                       />
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </div>
@@ -224,7 +245,17 @@ const AddressFields = ({ type, toggleEditable }) => {
               <Field name="phone">
                 {({ input, meta }) => (
                   <div>
-                    <input {...input} type="text" placeholder="Phone" />
+                    <input
+                      {...input}
+                      type="text"
+                      placeholder="Phone"
+                      onChange={e => {
+                        input.onChange(e)
+                        if (input.onChange) {
+                          formValues(e)
+                        }
+                      }}
+                    />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -235,14 +266,24 @@ const AddressFields = ({ type, toggleEditable }) => {
               <Field name="email">
                 {({ input, meta }) => (
                   <div>
-                    <input {...input} type="text" placeholder="Email" />
+                    <input
+                      {...input}
+                      type="text"
+                      placeholder="Email"
+                      onChange={e => {
+                        input.onChange(e)
+                        if (input.onChange) {
+                          formValues(e)
+                        }
+                      }}
+                    />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                     <span>{errorMessage}</span>
                   </div>
                 )}
               </Field>
             </div>
-            {firebase && !firebase.auth().currentUser && (
+            {!isCurrentUser && (
               <>
                 <div className="frm_grp">
                   <Field name="password">

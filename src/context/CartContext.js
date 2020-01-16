@@ -15,6 +15,7 @@ export const USER_DETAIL_BUILTON = 'USER_DETAIL_BUILTON'
 export const CART_BUILTON = 'CART_BUILTON'
 export const AUTOCOMPLETE_ADDRESS = 'AUTOCOMPLETED_ADDRESS'
 export const SET_POSTAL_CODE = 'SET_POSTAL_CODE'
+export const SET_ADDRESS_ONCHANGE = 'SET_ADDRESS_ONCHANGE'
 
 export const initialState = {
   errorMessage: '',
@@ -39,13 +40,17 @@ export const initialState = {
   toggle: false,
   shippingRate: 0,
   shipmentProductId: null,
-  shipping_address: null,
-  postalCode: '',
-  SelectedCountry: '',
-  county: '',
-  city: '',
-  address_line_1: '',
-  countryCode: ''
+  shipping_address: {
+    first_name: '',
+    last_name: '',
+    country: '',
+    city: '',
+    postcode: '',
+    county: '',
+    line_1: '',
+    phone: '',
+    email: ''
+  }
 }
 
 export default function reducer(state, action) {
@@ -64,8 +69,6 @@ export default function reducer(state, action) {
       return test
 
     case SET_ADDRESS:
-      console.log('action SET_ADDRESS => ', action)
-
       const shipping_address = action.shippingData
       const customerDetails = action.user
 
@@ -77,7 +80,32 @@ export default function reducer(state, action) {
         customerDetails,
         paymentButton: paymentButton
       }
+    case SET_ADDRESS_ONCHANGE:
+      let data = state.shipping_address
 
+      if (action.shippingDataOnchange.first_name) {
+        data.first_name = action.shippingDataOnchange.first_name
+      } else if (action.shippingDataOnchange.last_name) {
+        data.last_name = action.shippingDataOnchange.last_name
+      } else if (action.shippingDataOnchange.phone) {
+        data.phone = action.shippingDataOnchange.phone
+      } else if (action.shippingDataOnchange.email) {
+        data.email = action.shippingDataOnchange.email
+      } else if (action.shippingDataOnchange.city) {
+        data.city = action.shippingDataOnchange.city
+      } else if (action.shippingDataOnchange.county) {
+        data.county = action.shippingDataOnchange.county
+      } else if (action.shippingDataOnchange.line_1) {
+        data.line_1 = action.shippingDataOnchange.line_1
+      } else if (action.shippingDataOnchange.country) {
+        data.country = action.shippingDataOnchange.country
+      }
+
+      return {
+        ...state,
+        ...shipping_address,
+        shipping_address: data
+      }
     case SET_SELCETED_RATES:
       const shippingRate = action.payload.convertedRates
         ? action.payload.convertedRates
@@ -94,14 +122,10 @@ export default function reducer(state, action) {
       return { loading: loading }
 
     case CLEAN_CART:
-      console.log('initialState => ', initialState)
-
       return initialState
 
     case SET_VARIATION:
-      console.log('My Log', action)
       var obj = {}
-      console.log('action price => ', action)
 
       const price = action.payload.price
       obj[action.payload.name] = action.payload.value
@@ -117,13 +141,10 @@ export default function reducer(state, action) {
         toggle: !state.toggle
       }
     case SET_BUILTON_PRODUCT_PRICE:
-      console.log('action SET_BUILTON_PRODUCT_PRICE => ', action)
-
       const weightPrice = action.payload.selectWeightPrice
       const coverPrice = action.payload.selectCoverPrice
       const selectedWeight = action.payload.selectedWeight
       const selectedCover = action.payload.selectedCover
-      // const shipmentProductId = action.payload.shipmentProduct[0]._id._oid
       return {
         ...state,
         weightPrice: weightPrice,
@@ -131,12 +152,10 @@ export default function reducer(state, action) {
         selectedWeight,
         selectedCover,
         shippingSubProduct: action.payload.shippingSubProduct
-        // shipmentProductId: shipmentProductId
       }
 
     case SET_BUILTON_CART_DATA:
       const cartItemsBuilton = action.payload
-      console.log(' cartItemsBuilton => ', cartItemsBuilton)
       const countBuilton =
         state.quantityBuilton + cartItemsBuilton[0] &&
         cartItemsBuilton[0].quantityBuilton
@@ -190,6 +209,7 @@ export default function reducer(state, action) {
       }
 
     case AUTOCOMPLETE_ADDRESS:
+      let formData = state.shipping_address
       const address = action.address[0]
       const address_components = action.address[0].address_components
       let county,
@@ -205,8 +225,6 @@ export default function reducer(state, action) {
         political,
         postal_town,
         countryCode
-
-      console.log('state.postalCode => ', state.postalCode)
 
       address_components.map(data => {
         if (data.types[0] === 'street_number') {
@@ -224,32 +242,32 @@ export default function reducer(state, action) {
         } else if (data.types[0] === 'administrative_area_level_2') {
           administrative_area_level_2 = data.long_name //city
         } else if (data.types[0] === 'administrative_area_level_1') {
-          county = data.long_name
+          formData.county = data.long_name
         } else if (data.types[0] === 'country') {
-          SelectedCountry = data.long_name
+          formData.country = data.long_name
           countryCode = data.short_name
         } else if (data.types[0] === 'postal_code') {
-          postal_code = data.long_name
+          formData.postcode = data.long_name
         }
       })
 
       return {
         ...state,
-        SelectedCountry,
-        county,
-        postalCode: postal_code,
-        countryCode,
-        city: postal_town ? postal_town : locality,
-        address_line_1: `${street_number ? street_number + ',' : ''}${
-          neighborhood ? neighborhood + ',' : ''
-        }${political ? political + ',' : ''}${route ? route : ''}`
+        shipping_address: {
+          ...formData,
+          city: postal_town ? postal_town : locality,
+          line_1: `${street_number ? street_number + ',' : ''}${
+            neighborhood ? neighborhood + ',' : ''
+          }${political ? political + ',' : ''}${route ? route : ''}`
+        },
+        countryCode
       }
     case SET_POSTAL_CODE:
-      console.log('SET_POSTAL_CODE action  => ', action)
-
+      let myData = state.shipping_address
+      myData.postcode = action.postalCode
       return {
         ...state,
-        postalCode: action.postalCode
+        shipping_address: myData
       }
     default:
       return state
@@ -295,7 +313,6 @@ function CartProvider({ children, ...props }) {
         isAddToCart: false,
         currency: state.cartItemsBuilton[0].currency,
         isChangedQuantity: true,
-        // shippingPrice: state.cartItemsBuilton[0].shippingPrice,
         shippingProductId: state.cartItemsBuilton[0].shippingProductId
       }
     ]
@@ -331,14 +348,8 @@ function CartProvider({ children, ...props }) {
     shippingData,
     cartItemsBuilton
   ) => {
-    console.log(
-      'user,shippingData,cartItemsBuilton => ',
-      user,
-      shippingData,
-      cartItemsBuilton
-    )
-
     dispatch({ type: SET_ADDRESS, user, shippingData })
+
     const details = JSON.parse(localStorage.getItem('details'))
 
     var items = []
@@ -365,7 +376,6 @@ function CartProvider({ children, ...props }) {
         sku: item.human_id
       })
     }
-    console.log('item after => ', items)
     let data = {
       async: false,
       shipper_accounts: [
@@ -423,7 +433,6 @@ function CartProvider({ children, ...props }) {
       data,
       { headers: { 'postmen-api-key': apiKey } }
     )
-    console.log('payload rates => ', payload)
 
     dispatch({ type: SET_RATES, payload })
   }
@@ -467,8 +476,6 @@ function CartProvider({ children, ...props }) {
     })
   }
   const setUserBuilton = (data, builton) => {
-    console.log('data => ', data, builton)
-
     dispatch({ type: USER_DETAIL_BUILTON, data, builton })
   }
   const cartBuilton = cart => {
@@ -478,9 +485,10 @@ function CartProvider({ children, ...props }) {
     dispatch({ type: AUTOCOMPLETE_ADDRESS, address })
   }
   const setPostalCode = postalCode => {
-    console.log('data => ', postalCode)
-
     dispatch({ type: SET_POSTAL_CODE, postalCode })
+  }
+  const setAddress = shippingDataOnchange => {
+    dispatch({ type: SET_ADDRESS_ONCHANGE, shippingDataOnchange })
   }
   return (
     <Provider
@@ -500,7 +508,8 @@ function CartProvider({ children, ...props }) {
         cartBuilton,
         deleteCart,
         setAddressFromAutoComplete,
-        setPostalCode
+        setPostalCode,
+        setAddress
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng
@@ -9,12 +9,13 @@ const LocationSearchInput = () => {
   const {
     shipping_address,
     setAddressFromAutoComplete,
-    postalCode,
     setPostalCode
   } = useContext(CartContext)
 
+  const [zip, setZip] = useState()
+
   const handleChange = zipcode => {
-    console.log('address handleChange => ', zipcode)
+    setZip(zipcode)
     setPostalCode(zipcode) //update context postal code value
   }
 
@@ -22,7 +23,12 @@ const LocationSearchInput = () => {
     console.log('address => ', address)
     geocodeByAddress(address)
       .then(results => {
-        console.log('GoogleAutoComplete results => ', results)
+        results[0].address_components.map(data => {
+          if (data.types[0] === 'postal_code') {
+            setZip(data.long_name)
+            setPostalCode(data.long_name)
+          }
+        })
         setAddressFromAutoComplete(results)
         getLatLng(results[0])
       })
@@ -31,7 +37,7 @@ const LocationSearchInput = () => {
 
   return (
     <PlacesAutocomplete
-      value={postalCode}
+      value={zip}
       onChange={handleChange}
       onSelect={handleSelect}
     >
@@ -79,4 +85,3 @@ const LocationSearchInput = () => {
   )
 }
 export default LocationSearchInput
-// put this code in addressField component

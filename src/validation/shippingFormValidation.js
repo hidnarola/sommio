@@ -1,3 +1,4 @@
+let details = JSON.parse(localStorage.getItem('details'))
 const shippingFormValidation = (values, currentUser) => {
   console.log('shippingFormValidation values => ', values)
   console.log('shippingFormValidation currentUser => ', currentUser)
@@ -40,7 +41,8 @@ const shippingFormValidation = (values, currentUser) => {
   ) {
     errors.email = 'Invalid Email'
   }
-  if (!currentUser) {
+
+  if (details && !details.email && !currentUser) {
     if (!values.password) {
       errors.password = 'Required'
     }

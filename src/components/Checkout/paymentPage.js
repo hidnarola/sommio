@@ -7,17 +7,11 @@ import stripeValidation from '../../validation/stripe'
 import axios from 'axios'
 const PaymentPage = ({ changeFormEnable, isEditable }) => {
   const {
-    paymentButton,
     shipping_address,
-    customerDetails,
     shippingProvider,
     shippingRate,
     shippingRatesArray,
-    cartItemsBuilton,
     builton,
-    quantityBuilton,
-    selectedWeight,
-    selectedCover,
     shippingCost,
     shipmentProductId
   } = useContext(CartContext)
