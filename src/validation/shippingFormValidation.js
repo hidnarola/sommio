@@ -1,7 +1,5 @@
-let details = JSON.parse(localStorage.getItem('details'))
 const shippingFormValidation = (values, currentUser) => {
-  console.log('shippingFormValidation values => ', values)
-  console.log('shippingFormValidation currentUser => ', currentUser)
+  let details = JSON.parse(localStorage.getItem('details'))
 
   const errors = {}
 
