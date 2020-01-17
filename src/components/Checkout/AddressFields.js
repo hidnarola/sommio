@@ -8,7 +8,7 @@ import validation from '../../validation/shippingFormValidation'
 import { log } from 'util'
 import Builton from '@builton/core-sdk'
 import shippingFormValidation from '../../validation/shippingFormValidation'
-import PlacesAutocomplete from './GoogleAutocomplete'
+import LocationSearchInput from './GoogleAutocomplete'
 import countryWithThree from '../../../countryWithThree'
 
 const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
@@ -103,10 +103,11 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
             <div className="frm_grp">
               <Field name="first_name">
                 {({ input, meta }) => (
-                  <div>
+                  <div className="form-group">
                     <input
                       {...input}
                       type="text"
+                      id="first_name"
                       placeholder="First name"
                       onChange={e => {
                         input.onChange(e)
@@ -115,6 +116,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
                         }
                       }}
                     />
+                    <label for="first_name">First name</label>
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -124,11 +126,12 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
             <div className="frm_grp">
               <Field name="last_name">
                 {({ input, meta }) => (
-                  <div>
+                  <div className="form-group">
                     <input
                       {...input}
                       type="text"
                       placeholder="Last name"
+                      id="last_name"
                       onChange={e => {
                         input.onChange(e)
                         if (input.onChange) {
@@ -136,6 +139,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
                         }
                       }}
                     />
+                    <label for="last_name">Last name</label>
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -174,17 +178,18 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
             </div>
 
             <div className="my-2 w-full">
-              {gmapsLoaded && <PlacesAutocomplete />}
+              {gmapsLoaded && <LocationSearchInput />}
             </div>
 
             <div className="frm_grp">
               <Field name="line_1">
                 {({ input, meta }) => (
-                  <div>
+                  <div className="form-group">
                     <input
                       {...input}
                       type="text"
                       placeholder="Address line 1"
+                      id="address_line_1"
                       onChange={e => {
                         input.onChange(e)
                         if (input.onChange) {
@@ -192,6 +197,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
                         }
                       }}
                     />
+                    <label for="address_line_1">Address line 1</label>
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -201,11 +207,12 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
             <div className="frm_grp">
               <Field name="city">
                 {({ input, meta }) => (
-                  <div>
+                  <div className="form-group">
                     <input
                       {...input}
                       type="text"
                       placeholder="City"
+                      id="city"
                       onChange={e => {
                         input.onChange(e)
                         if (input.onChange) {
@@ -213,6 +220,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
                         }
                       }}
                     />
+                    <label for="city">City</label>
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -223,11 +231,12 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
               <div className="my-2 w-full">
                 <Field name="county">
                   {({ input, meta }) => (
-                    <div>
+                    <div className="form-group">
                       <input
                         {...input}
                         type="text"
                         placeholder="State / County / Region"
+                        id="county"
                         onChange={e => {
                           input.onChange(e)
                           if (input.onChange) {
@@ -235,6 +244,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
                           }
                         }}
                       />
+                      <label for="county">State / County / Region</label>
                       {meta.error && meta.touched && <span>{meta.error}</span>}
                     </div>
                   )}
@@ -244,11 +254,12 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
             <div className="frm_grp">
               <Field name="phone">
                 {({ input, meta }) => (
-                  <div>
+                  <div className="form-group">
                     <input
                       {...input}
                       type="text"
                       placeholder="Phone"
+                      id="phone"
                       onChange={e => {
                         input.onChange(e)
                         if (input.onChange) {
@@ -256,6 +267,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
                         }
                       }}
                     />
+                    <label for="phone">Phone</label>
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}
@@ -265,11 +277,12 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
             <div className="frm_grp">
               <Field name="email">
                 {({ input, meta }) => (
-                  <div>
+                  <div className="form-group">
                     <input
                       {...input}
                       type="text"
                       placeholder="Email"
+                      id="email"
                       onChange={e => {
                         input.onChange(e)
                         if (input.onChange) {
@@ -277,6 +290,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
                         }
                       }}
                     />
+                    <label for="email">Email</label>
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                     <span>{errorMessage}</span>
                   </div>
@@ -288,12 +302,14 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
                 <div className="frm_grp">
                   <Field name="password">
                     {({ input, meta }) => (
-                      <div>
+                      <div className="form-group">
                         <input
                           {...input}
                           type="password"
                           placeholder="Password"
+                          id="password"
                         />
+                        <label for="password">Password</label>
                         {meta.error && meta.touched && (
                           <span>{meta.error}</span>
                         )}
@@ -305,12 +321,14 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
                 <div className="frm_grp">
                   <Field name="confirm_password">
                     {({ input, meta }) => (
-                      <div>
+                      <div className="form-group">
                         <input
                           {...input}
                           type="password"
+                          id="confirm_password"
                           placeholder="Confirm Password"
                         />
+                        <label for="confirm_password">Confirm Password</label>
                         {meta.error && meta.touched && (
                           <span>{meta.error}</span>
                         )}

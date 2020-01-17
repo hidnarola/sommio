@@ -70,18 +70,17 @@ const RiviewOrder = ({ stripe, formEnable }) => {
           zip_code: shipping_address.postcode
         },
         payment_method: paymentMethod.id
-        // payment_method: paymentMethod._id.$oid
       })
 
       // dispatch method
-      await createOrderBuilton(createdOrder)
+      createOrderBuilton(createdOrder)
 
       // pay for the order
       const payBuilton = await builton.payments.pay(
         createdOrder.payments[0].$oid
       )
       //dispatch method
-      await paymentBuilton(payBuilton)
+      paymentBuilton(payBuilton)
     } catch (errors) {
       console.info('errors ====>', JSON.stringify(errors))
       setCheckoutError(errors)

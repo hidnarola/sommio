@@ -5,6 +5,7 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete'
 import { Field } from 'react-final-form'
 import { CartContext } from '../../context/CartContext'
+
 const LocationSearchInput = () => {
   const {
     shipping_address,
@@ -45,14 +46,16 @@ const LocationSearchInput = () => {
         <div>
           <Field name="postcode">
             {({ input, meta }) => (
-              <div>
+              <div className="form-group">
                 <input
                   type="text"
+                  id="postcode"
                   {...getInputProps({
                     placeholder: 'Postcode',
                     className: 'location-search-input'
                   })}
                 />
+                <label for="postcode">Postcode</label>
                 {meta.error && meta.touched && <span>{meta.error}</span>}
               </div>
             )}

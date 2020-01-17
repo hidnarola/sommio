@@ -8,7 +8,7 @@ import { CartContext, CheckoutContext, FirebaseContext } from '../../context'
 import Logo from '../../images/logo.png'
 import logoCheckout from '../../images/logo-checkout.png'
 import CartButton from '../CartButton'
-import RegiserOrLogin from '../../components/Checkout/RegisterOrLogin'
+import RegisterOrLogin from '../../components/Checkout/RegisterOrLogin'
 import {
   Dropdown,
   DropdownToggle,
@@ -200,7 +200,7 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
           <Modal isOpen={modal} toggle={toggleModal}>
             <ModalHeader toggle={toggleModal}>User Account</ModalHeader>
             <ModalBody>
-              <RegiserOrLogin
+              <RegisterOrLogin
                 isModal={true}
                 toggleModal={toggleModal}
                 setDropdownOpen={setDropdownOpen}
