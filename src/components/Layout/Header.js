@@ -1,22 +1,23 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'gatsby'
+import axios from 'axios'
 import { navigate } from 'gatsby'
 import Builton from '@builton/core-sdk'
-
-import { CartContext, CheckoutContext, FirebaseContext } from '../../context'
-
-import Logo from '../../images/logo.png'
-import logoCheckout from '../../images/logo-checkout.png'
-import CartButton from '../CartButton'
-import RegisterOrLogin from '../../components/Checkout/RegisterOrLogin'
+// import base64 from 'base-64'
+import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
+import { CartContext, CheckoutContext, FirebaseContext } from '../../context'
+
+import Logo from '../../images/logo.png'
+import logoCheckout from '../../images/logo-checkout.png'
+import CartButton from '../CartButton'
+import RegisterOrLogin from '../../components/Checkout/RegisterOrLogin'
 import { getFirebase } from '../../firebase/index'
-import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
 
 const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   const { orderId } = useContext(CheckoutContext)
@@ -25,16 +26,11 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   const [refresh, setRefresh] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [modal, setModal] = useState(false)
+  const [isLoading, setLoading] = useState(false)
+
   const toggleModal = () => setModal(!modal)
   const toggleDropDown = () => setDropdownOpen(!dropdownOpen)
 
-  //-----------------React-bootstrap modal-----------------------------
-  // const [show, setShow] = useState(false)
-  // const handelModal = e => setShow(!show)
-
-  // const handleClose = () => setShow(false)
-  // const handleShow = () => setShow(true)
-  //-----------------------------------------------
   let token = localStorage.getItem('firebaseToken')
   let details = JSON.parse(localStorage.getItem('details'))
 
@@ -43,7 +39,6 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
     lazyApp.then(firebaseObj => {
       const firebase = getFirebase(firebaseObj)
       setFirebase(firebase)
-      console.log('firebase Header => ', firebase)
 
       if (firebase && firebase.auth().currentUser) {
         // setShow(false)
@@ -67,6 +62,7 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
     })
     setUserBuilton(details && details.email, builton)
   }, [])
+  console.log('SSI firebase ,isLoading => ', firebase, isLoading)
 
   const handleLogout = () => {
     firebase &&
@@ -161,7 +157,6 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
                   <li className="nav-item">
                     <Link to="/about">Contact us</Link>
                   </li>
-
                   <li>
                     {refresh && firebase && firebase.auth().currentUser ? (
                       <Dropdown isOpen={dropdownOpen} toggle={toggleDropDown}>

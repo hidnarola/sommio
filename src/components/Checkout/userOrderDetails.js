@@ -16,7 +16,6 @@ const UserOrderDetails = props => {
 
   useEffect(() => {
     setLoading(true)
-    console.log('ComponentDid mount SS')
     const fetchUserOrderDetails = async () => {
       var token = await newFirebaseToken()
 
@@ -29,12 +28,9 @@ const UserOrderDetails = props => {
       })
       setOrderDetails(response.data)
       setLoading(false)
-
-      console.log('response ORDERS SS ==>', response)
     }
     fetchUserOrderDetails()
   }, [])
-  console.log('orderDetails SS => ', orderDetails)
 
   return (
     <>

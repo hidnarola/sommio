@@ -1,6 +1,4 @@
 const stripeValidation = values => {
-  console.log('values stripeValidation paymentButton => ', values)
-
   const errors = {}
 
   if (!values.stripe || !values.stripe.complete) {

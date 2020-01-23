@@ -12,7 +12,6 @@ const UserOrdersList = () => {
   const url = 'https://api.builton.dev/orders'
 
   useEffect(() => {
-    console.log('ComponentDid mount')
     setLoading(true)
 
     const fetchOrder = async () => {
@@ -27,7 +26,6 @@ const UserOrdersList = () => {
       })
 
       userOrderData(response.data)
-      console.log('response ORDERS ==>', response)
       setLoading(false)
     }
     fetchOrder()

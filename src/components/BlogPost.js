@@ -22,7 +22,6 @@ export default function BlogPost() {
       }
     }
   `)
-  console.log('Here is Contentful data  => ', contentfulData)
 
   return (
     <div className="mb-10">

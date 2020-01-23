@@ -40,9 +40,7 @@ const Layout = ({ children }) => {
           type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
-        <script src="https://x.klarnacdn.net/kp/lib/v1/api.js"></script>
         <script src="https://unpkg.com/@builton/core-sdk@latest/dist/main.bundle.js"></script>
-        {/* <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLzic4qigzdlIc_OV71Czc6a-5uc8SyKA&libraries=places"></script> */}
       </Helmet>
       <Header
         siteTitle={site.siteMetadata.title}

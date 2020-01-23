@@ -25,8 +25,6 @@ function FirebaseProvider({ children, ...props }) {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   const setFirebase = firebase => {
-    console.log('setFirebase firebase => ', firebase)
-
     dispatch({ type: SET_FIREBASE, firebase })
   }
   return (

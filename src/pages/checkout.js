@@ -4,8 +4,7 @@ import ShippingAddress from '../components/Checkout/shippingAddress'
 import PaymentPage from '../components/Checkout/paymentPage'
 import ReviewOrder from '../components/Checkout/ReviewOrder'
 import OrderConfirmation from '../components/Checkout/OrderConfirmation'
-import { Modal, ModalHeader, ModalBody } from 'reactstrap'
-import RegiserOrLogin from '../components/Checkout/RegisterOrLogin'
+
 const CheckoutPage = () => {
   const { isEmpty } = useContext(CartContext)
 

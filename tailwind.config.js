@@ -13,7 +13,7 @@ let colors = {
   pink: '#FF1984',
   yellow: '#FFE285',
   blue: '#0A0A3A',
-  'blue-light': "#e3f3ff",
+  'blue-light': '#e3f3ff',
   overlay: 'rgba(0, 0, 0, 0.1)'
 }
 
@@ -42,7 +42,6 @@ module.exports = {
       'Droid Sans',
       'Helvetica Neue',
       'sans-serif'
-
     ],
     serif: [
       'Constantia',
@@ -76,7 +75,7 @@ module.exports = {
     '3xl': '1.875rem', // 30px
     '4xl': '2.25rem', // 36px
     '5xl': '3rem', // 48px
-    '6xl' : '10rem'
+    '6xl': '10rem'
   },
 
   fontWeights: {
@@ -306,9 +305,9 @@ module.exports = {
   },
 
   objectPosition: {
-      bottom: 'bottom',
-      center: 'center',
-      left: 'left'
+    bottom: 'bottom',
+    center: 'center',
+    left: 'left'
   },
 
   modules: {

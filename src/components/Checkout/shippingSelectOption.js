@@ -20,12 +20,6 @@ function ShippingSelectOption() {
     )
 
     shippingCost(convertedRates, shipping_provider)
-    console.log(
-      'convertedRates,shippingRate ,shipperData => ',
-      convertedRates,
-      shippingRate,
-      shipperData
-    )
   }
 
   return (
