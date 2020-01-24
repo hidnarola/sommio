@@ -1,8 +1,6 @@
 import React from 'react'
 
 export default function Select({ options, defaultValue, ...props }) {
-  console.log('defaultValue', defaultValue)
-
   return (
     <div className="inline-flex relative">
       <select

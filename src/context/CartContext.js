@@ -145,6 +145,7 @@ export default function reducer(state, action) {
       const coverPrice = action.payload.selectCoverPrice
       const selectedWeight = action.payload.selectedWeight
       const selectedCover = action.payload.selectedCover
+
       return {
         ...state,
         weightPrice: weightPrice,

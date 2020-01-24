@@ -21,7 +21,6 @@ const LocationSearchInput = () => {
   }
 
   const handleSelect = address => {
-    console.log('address => ', address)
     geocodeByAddress(address)
       .then(results => {
         results[0].address_components.map(data => {

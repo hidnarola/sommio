@@ -29,7 +29,6 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
 
   const handlePayment = async values => {
     shippingCost(shippingRate, shippingProvider)
-    console.log(' builton payment => ', builton)
 
     //user authenticate
     await builton.users.authenticate({
@@ -53,7 +52,6 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
           }
         }
       )
-      console.log('response ==>', response)
     } catch (error) {
       console.error(error)
     }

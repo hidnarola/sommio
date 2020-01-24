@@ -2,7 +2,6 @@ import React from 'react'
 import { graphql } from 'gatsby'
 
 const ReadMorePage = ({ data }) => {
-  console.log('query , data => ', data)
   return (
     <div>
       <h1>{data.contentfulCondition.conditionName}</h1>

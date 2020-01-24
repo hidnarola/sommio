@@ -52,8 +52,6 @@ const shippingFormValidation = (values, currentUser) => {
     }
   }
 
-  console.log('shippingFormValidation errors => ', errors)
-
   return errors
 }
 

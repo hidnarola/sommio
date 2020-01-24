@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 
 import { CartContext, UserContext, FirebaseContext } from '../../context'
 import Builton from '@builton/core-sdk'
-
+import { newFirebaseToken } from '../../utils/newFirebaseToken'
 const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
   const {
     shipping_address,
@@ -70,7 +70,6 @@ const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {
               // set all thing in localstorage
               localStorage.setItem('firebaseToken', accessToken)
               localStorage.setItem('details', JSON.stringify(res.user))
-
               const builton = new Builton({
                 apiKey: process.env.GATSBY_BUILTON_API_KEY,
                 bearerToken: accessToken

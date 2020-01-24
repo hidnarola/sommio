@@ -10,7 +10,7 @@ import Builton from '@builton/core-sdk'
 import shippingFormValidation from '../../validation/shippingFormValidation'
 import LocationSearchInput from './GoogleAutocomplete'
 import countryWithThree from '../../../countryWithThree'
-
+import { newFirebaseToken } from '../../utils/newFirebaseToken'
 const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
   const {
     shipping_address,
@@ -41,7 +41,14 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
     }
   }, [details && details.email])
 
-  const handleShippingCost = values => {
+  const handleShippingCost = async values => {
+    let token = await newFirebaseToken()
+    const builton = new Builton({
+      apiKey: process.env.GATSBY_BUILTON_API_KEY,
+      bearerToken: token
+    })
+
+    setUserBuilton(values.email, builton)
     if (firebase && firebase.auth().currentUser) {
       setErrorMessage('')
       toggleEditable(true)

@@ -1,0 +1,17 @@
+service: order-created-slack-alert
+
+provider:
+  # name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'dev'}
+
+plugins:
+  - serverless-offline
+
+functions:
+  order_created: # A Function
+    handler: index.order_created # The file and module for this specific function.
+    events:
+      - http:
+          path: order_created
+          method: post

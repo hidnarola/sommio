@@ -1,4 +1,5 @@
 const path = require('path')
+const proxy = require('http-proxy-middleware')
 const dotenv = require('dotenv')
 dotenv.config()
 
@@ -9,6 +10,14 @@ module.exports = {
     author: '',
     url: process.env.DEPLOY_PRIME_URL || process.env.URL || 'localhost:8000'
   },
+  // proxy: {
+  //   prefix: '/messages',
+  //   url: 'https://api.eu.mailgun.net/v3/builton.sommio.co.uk'
+  // },
+  // proxy: {
+  //   prefix: 'https://api.eu.mailgun.net/v3/builton.sommio.co.uk',
+  //   url: 'http://localhost:8000/'
+  // },
   plugins: [
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sass',
@@ -65,4 +74,15 @@ module.exports = {
     },
     'gatsby-plugin-stripe'
   ]
+  // developMiddleware: app => {
+  //   app.use(
+  //     'https://api/',
+  //     proxy({
+  //       target: 'http://localhost:8000',
+  //       pathRewrite: {
+  //         'https://api/': ''
+  //       }
+  //     })
+  //   )
+  // }
 }

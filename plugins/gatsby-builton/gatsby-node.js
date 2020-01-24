@@ -1,5 +1,4 @@
 const Builton = require('@builton/core-sdk')
-console.log('inside node')
 exports.sourceNodes = async (
   { actions, createNodeId, createContentDigest },
   { apiKey }

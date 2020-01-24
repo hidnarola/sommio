@@ -52,7 +52,6 @@ const AddToCart = ({ productId, tags }) => {
     coverPrice,
     setCartData
   } = useContext(CartContext)
-  console.log('allBuiltonProduct ,=> ', allBuiltonProduct)
 
   let weightSubProduct = []
   let coverSubProduct = []

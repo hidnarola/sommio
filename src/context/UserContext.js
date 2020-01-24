@@ -12,7 +12,6 @@ export const initialState = {
 export default function reducer(state, action) {
   switch (action.type) {
     case SET_CURRENT_USER:
-      console.log('action SET_CURRENT_USER => ', action)
       const currentUserCheck = action.currentUser
 
       return {
