@@ -1,4 +1,4 @@
-service: order-created-slack-alert
+service: order-created-confirmation-mail
 
 provider:
   # name: aws
