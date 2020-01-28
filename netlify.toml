@@ -1,6 +1,6 @@
-[build]
-  base = "/"
-  publish = "public/"
-  command = "yarn build"
 
-[template.environment]
+
+[build]
+  command = "npm run build"
+  functions = "lambda"
+  publish = "public"

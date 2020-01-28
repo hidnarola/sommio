@@ -1,7 +1,7 @@
 const axios = require('axios')
 
-module.exports.order_created = async event => {
-  console.log('Event SSI ============> ', event, event.body)
+handler = async event => {
+  console.log('Event SSI ============> ', event)
   const body = JSON.parse(event.body)
 
   const mailgunUrl =
@@ -30,3 +30,4 @@ module.exports.order_created = async event => {
     statusCode: 200
   }
 }
+exports.handler = handler
