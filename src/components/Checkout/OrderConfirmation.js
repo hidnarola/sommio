@@ -60,7 +60,9 @@ export default function OrderConfirmation(props) {
             <p className="mb-2">
               Name - {shipping_address.first_name} {shipping_address.last_name}
             </p>
-            <p className="mb-2">Email - {customerDetails.email}</p>
+            <p className="mb-2">
+              Email - {customerDetails && customerDetails.email}
+            </p>
           </div>
           <div className="boxs">
             <h4 className="mb-6">Shipping Address</h4>

@@ -29,6 +29,13 @@ const RiviewOrder = ({ stripe, formEnable }) => {
     setLoading(true)
     try {
       //Stripe token
+      console.log('Before generating token ===>')
+      console.log(
+        'Before generating token shipping_address ===>',
+        shipping_address,
+        builton
+      )
+
       const token = await stripe.createToken({
         name: `${shipping_address.first_name} ${shipping_address.last_name}`,
         address_line1: shipping_address.line_1,
@@ -38,12 +45,14 @@ const RiviewOrder = ({ stripe, formEnable }) => {
         address_zip: shipping_address.postcode,
         address_country: shipping_address.country
       })
+      console.log('After generating token ===>', token, token.token.id)
 
       //creating payment
       const paymentMethod = await builton.paymentMethods.create({
         payment_method: 'stripe',
         token: token.token.id
       })
+      console.log('After Payment method ===>')
 
       //creating orders
       const createdOrder = await builton.orders.create({
@@ -75,6 +84,7 @@ const RiviewOrder = ({ stripe, formEnable }) => {
         },
         payment_method: paymentMethod.id
       })
+      console.log('After CreateOrder ===>')
 
       // dispatch method
       createOrderBuilton(createdOrder)
