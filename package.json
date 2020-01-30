@@ -53,6 +53,7 @@
     "build": "gatsby build",
     "dev": "gatsby develop",
     "prod": "gatsby build",
+    "postinstall": "sh postdeploy.sh",
     "deploy": "sudo gatsby build -H 0.0.0.0 -p 8888",
     "format": "prettier --write \"src/**/*.js\""
   },
