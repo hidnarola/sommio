@@ -12,6 +12,8 @@ import LocationSearchInput from './GoogleAutocomplete'
 import countryWithThree from '../../../countryWithThree'
 import { newFirebaseToken } from '../../utils/newFirebaseToken'
 const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
+  console.log('gmapsLoaded', gmapsLoaded)
+
   const {
     shipping_address,
     user,
@@ -185,7 +187,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
             </div>
 
             <div className="my-2 w-full">
-              {gmapsLoaded && <LocationSearchInput />}
+              {(gmapsLoaded, gmapsLoaded && <LocationSearchInput />)}
             </div>
 
             <div className="frm_grp">

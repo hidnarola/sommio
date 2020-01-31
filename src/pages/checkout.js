@@ -23,9 +23,6 @@ const CheckoutPage = () => {
     if (isMounted) {
       element.classList.add('so-checkout-page')
       isMounted.current = false
-      // if (firebase && !firebase.auth().currentUser) {
-      //   toggleModal()
-      // }
     }
     window.initMap = initMap
     const gmapScriptEl = document.createElement(`script`)

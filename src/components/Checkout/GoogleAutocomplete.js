@@ -5,6 +5,7 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete'
 import { Field } from 'react-final-form'
 import { CartContext } from '../../context/CartContext'
+import countryData from '../../../countryWithThree'
 
 const LocationSearchInput = () => {
   const {
@@ -35,11 +36,23 @@ const LocationSearchInput = () => {
       .catch(error => console.error('GoogleAutoComplete Error', error))
   }
 
+  let countryWithThree = countryData.filter(data => {
+    return data.name === shipping_address.country
+  })
+
+  const searchOptions = {
+    componentRestrictions: {
+      country: [countryWithThree[0] && countryWithThree[0].alpha2]
+    },
+    types: ['address']
+  }
+
   return (
     <PlacesAutocomplete
       value={zip}
       onChange={handleChange}
       onSelect={handleSelect}
+      searchOptions={searchOptions}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div>
