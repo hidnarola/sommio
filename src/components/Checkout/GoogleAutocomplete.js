@@ -20,10 +20,17 @@ const LocationSearchInput = () => {
     setZip(zipcode)
     setPostalCode(zipcode) //update context postal code value
   }
+  console.log(
+    'shipping_address =============>',
+    shipping_address,
+    shipping_address.country
+  )
 
   const handleSelect = address => {
     geocodeByAddress(address)
       .then(results => {
+        console.log('results =========>', results)
+
         results[0].address_components.map(data => {
           if (data.types[0] === 'postal_code') {
             setZip(data.long_name)
@@ -42,9 +49,8 @@ const LocationSearchInput = () => {
 
   const searchOptions = {
     componentRestrictions: {
-      country: [countryWithThree[0] && countryWithThree[0].alpha2]
-    },
-    types: ['address']
+      country: countryWithThree[0] && countryWithThree[0].alpha2
+    }
   }
 
   return (
@@ -75,6 +81,8 @@ const LocationSearchInput = () => {
           <div className="autocomplete-dropdown-container">
             {loading && <div>Loading...</div>}
             {suggestions.map(suggestion => {
+              console.log('suggestion ==============> ', suggestion)
+
               const className = suggestion.active
                 ? 'suggestion-item--active'
                 : 'suggestion-item'

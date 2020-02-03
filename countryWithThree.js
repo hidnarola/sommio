@@ -7,7 +7,7 @@ export default [
   },
   {
     id: 826,
-    name: 'United Kingdom of Great Britain and Northern Ireland',
+    name: 'United Kingdom',
     alpha2: 'gb',
     alpha3: 'GBR'
   },
