@@ -8,7 +8,7 @@ import {
   DropdownItem
 } from 'reactstrap'
 import { useStaticQuery, Link } from 'gatsby'
-const AddToCart = ({ productId, tags }) => {
+const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
   const { allBuiltonProduct } = useStaticQuery(graphql`
     query {
       allBuiltonProduct {
@@ -91,19 +91,20 @@ const AddToCart = ({ productId, tags }) => {
   const selectedWeight = weightSubProduct.filter(sub => {
     return sub.name === Weight
   })
+
   useEffect(() => {
     setSubProductPrice(selectedWeight, selectedCover)
   }, [Weight, Cover])
 
   const [blancketCover, setBlancketCover] = useState('Plush')
   const [dropdownOpen, setDropdownOpen] = useState(false)
-  let i = 0
 
   const toggleHandle = () => {
     setDropdownOpen(!dropdownOpen)
   }
 
-  const updateVariations = (e, name, price) => {
+  const updateVariations = (e, name, price, id) => {
+    onChangeSelectedProduct(id)
     if (name === 'Weight') {
       setVariation(name, e.target.value, price)
     } else if (name === 'Cover') {
@@ -183,13 +184,19 @@ const AddToCart = ({ productId, tags }) => {
         <div className="radio-group">
           {weightSubProduct.map((weight, k) => (
             <div className="radio-boxs">
+              {console.log('weight =======>', weight)}
               <input
                 type="radio"
                 name="weight"
                 value={weight.name}
                 id={weight.tags[0] + i}
                 onChange={e =>
-                  updateVariations(e, weight.tags[0], weight.price)
+                  updateVariations(
+                    e,
+                    weight.tags[0],
+                    weight.price,
+                    weight._id._oid
+                  )
                 }
                 defaultChecked={k === 0 ? true : false}
               />
@@ -228,7 +235,12 @@ const AddToCart = ({ productId, tags }) => {
             {coverSubProduct.map((cover, i) => (
               <div
                 onClick={e =>
-                  updateVariations(cover.name, cover.tags[0], cover.price)
+                  updateVariations(
+                    cover.name,
+                    cover.tags[0],
+                    cover.price,
+                    cover._id._oid
+                  )
                 }
                 key={i}
               >

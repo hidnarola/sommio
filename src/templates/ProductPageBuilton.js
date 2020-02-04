@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { graphql, withPrefix } from 'gatsby'
 import SEO from '../components/SEO'
 import AddToCart from '../components/ProductPage/AddToCart'
@@ -13,6 +13,13 @@ import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
 
 const ProductPageBuilton = ({ data: { product } }) => {
+console.log("ProductPageBuilton product ==================> ",product)
+
+  const [selectedVariationId, setSelectedVariationId] = useState(product._id._oid)
+  const onChangeSelectedProduct = id => {
+    console.log('onChangeSelectedProduct id => ', id)
+    setSelectedVariationId(id)
+  }
   return (
     <div>
       <SEO
@@ -38,10 +45,17 @@ const ProductPageBuilton = ({ data: { product } }) => {
             <div className="blanket-bg">
               <div className="row">
                 <div className="col-12 col-lg-4">
-                  <AddToCart productId={product.id} tags={product.tags} />
+                  <AddToCart
+                    onChangeSelectedProduct={onChangeSelectedProduct}
+                    productId={product.id}
+                    tags={product.tags}
+                  />
                 </div>
                 <div className="col-12 col-lg-8">
-                  <ProductImage productId={product.id} />
+                  <ProductImage
+                    selectedVariationId={selectedVariationId}
+                    productId={product.id}
+                  />
                 </div>
               </div>
             </div>
@@ -65,6 +79,9 @@ const ProductPageBuilton = ({ data: { product } }) => {
 export const query = graphql`
   query($id: String!) {
     product: builtonProduct(id: { eq: $id }) {
+      _id {
+         _oid
+      }
       id
       name
       price

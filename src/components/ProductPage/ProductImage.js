@@ -1,23 +1,35 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import Slider from 'react-slick'
-
-function ProductImage({ productId }) {
+import { CartContext } from '../../context/CartContext'
+function ProductImage({ productId, selectedVariationId }) {
   const { allBuiltonProduct } = useStaticQuery(
     graphql`
       query {
         allBuiltonProduct {
           nodes {
             id
+            _id {
+              _oid
+            }
             media {
               human_id
               url
             }
+            name
+            image_url
           }
         }
       }
     `
   )
+  const {
+    selectedCover,
+    selectedWeight,
+    selectedCoverImageHumanId,
+    selectedWeightImageHumanId
+  } = useContext(CartContext)
+
   const mainProduct = allBuiltonProduct.nodes.filter(product => {
     return product.id === productId
   })
@@ -33,10 +45,14 @@ function ProductImage({ productId }) {
   return (
     <div className="product-gallery">
       <Slider {...settings}>
-        {mainProduct[0] &&
-          mainProduct[0].media.map((img, i) => (
-            <img src={img.url} alt="product-image" key={i} />
-          ))}
+        {allBuiltonProduct &&
+          allBuiltonProduct.nodes.map(product => {
+            if (product._id._oid === selectedVariationId) {
+              return product.media.map(i => {
+                return <img src={i.url} alt="product-image" />
+              })
+            }
+          })}
       </Slider>
     </div>
   )

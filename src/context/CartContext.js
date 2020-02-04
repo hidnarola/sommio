@@ -40,6 +40,8 @@ export const initialState = {
   toggle: false,
   shippingRate: 0,
   shipmentProductId: null,
+  selectedCoverImageHumanId: null,
+  selectedWeightImageHumanId: null,
   shipping_address: {
     first_name: '',
     last_name: '',
@@ -141,10 +143,22 @@ export default function reducer(state, action) {
         toggle: !state.toggle
       }
     case SET_BUILTON_PRODUCT_PRICE:
+      console.log('SET_BUILTON_PRODUCT_PRICE action => ', action)
+
       const weightPrice = action.payload.selectWeightPrice
       const coverPrice = action.payload.selectCoverPrice
       const selectedWeight = action.payload.selectedWeight
       const selectedCover = action.payload.selectedCover
+      const selectedCoverImageHumanId =
+        action.payload.selectedCover[0].media[0].human_id
+      const selectedWeightImageHumanId =
+        action.payload.selectedWeight[0].media[0].human_id
+
+      console.log(
+        'selectedCoverImageHumanId,selectedWeightImageHumanId =>',
+        selectedCoverImageHumanId,
+        selectedWeightImageHumanId
+      )
 
       return {
         ...state,
@@ -152,7 +166,9 @@ export default function reducer(state, action) {
         coverPrice: coverPrice,
         selectedWeight,
         selectedCover,
-        shippingSubProduct: action.payload.shippingSubProduct
+        shippingSubProduct: action.payload.shippingSubProduct,
+        selectedCoverImageHumanId: selectedCoverImageHumanId,
+        selectedWeightImageHumanId: selectedWeightImageHumanId
       }
 
     case SET_BUILTON_CART_DATA:
