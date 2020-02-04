@@ -98,6 +98,7 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
 
   const [blancketCover, setBlancketCover] = useState('Plush')
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  let i = 0
 
   const toggleHandle = () => {
     setDropdownOpen(!dropdownOpen)
