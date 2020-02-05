@@ -1,72 +1,15 @@
 import React, { useState } from 'react'
 import { Field, Form } from 'react-final-form'
 
-function encode(data) {
-  return Object.keys(data)
-    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-    .join('&')
-}
-
 const Contact = () => {
-  //   const [values, setValues] = useState('')
-
-  //   const formValues = e => {
-  //     e.preventDefault()
-  //     setValues({ [e.target.name]: e.target.value })
-  //   }
-  //   console.log('contact values =============> ', values)
-
-  //   const handleForm = async value => {
-  //     console.log('value ========================>', value)
-  //   }
-
-  const [state, setState] = React.useState({})
-
-  const handleChange = e => {
-    setState({ ...state, [e.target.name]: e.target.value })
-  }
-  console.log('state ==========================> ', state)
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    console.log('Hiiiiiiiiiii')
-
-    // const form = e.target
-    // fetch('/', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    //   body: encode({
-    //     'form-name': form.getAttribute('name'),
-    //     ...state
-    //   })
-    // })
-    //   .then(res => {
-    //     console.log('netlifyres ============================> ', res)
-
-    //     // navigate(form.getAttribute('action'))
-    //   })
-    //   .catch(error => {
-    //     console.log('netlify error ==============> ', error)
-
-    //     alert(error)
-    //   })
-  }
-
   return (
     <div>
       <h2>Contact Us</h2>
-      <form
-        method="post"
-        action="#"
-        name="contact"
-        netlify
-        netlify-honeypot="bot-field"
-        hidden
-      >
+      <form method="post" action="#" data-netlify="true" name="contact">
         <input type="hidden" name="form-name" value="contact" />
         <input type="text" name="name" id="name" required />
         <input type="text" name="email" id="email" required />
-        <textarea name="message" id="message" rows="2" required />
+        <textarea name="message" id="message" rows="4" required />
         <input type="submit" value="Send Message" />
       </form>
     </div>
