@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form } from 'react-final-form'
 
-const Form = () => {
+const TestForm = () => {
   return (
     <div>
       <form name="contact" action="/thankyou" method="POST" data-netlify="true">
@@ -27,4 +27,4 @@ const Form = () => {
     </div>
   )
 }
-export default Form
+export default TestForm
