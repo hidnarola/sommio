@@ -29,64 +29,38 @@ const Contact = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    const form = e.target
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: encode({
-        'form-name': form.getAttribute('name'),
-        ...state
-      })
-    })
-      .then(res => {
-        console.log('res ============================> ', res)
+    console.log('Hiiiiiiiiiii')
 
-        // navigate(form.getAttribute('action'))
-      })
-      .catch(error => alert(error))
+    // const form = e.target
+    // fetch('/', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    //   body: encode({
+    //     'form-name': form.getAttribute('name'),
+    //     ...state
+    //   })
+    // })
+    //   .then(res => {
+    //     console.log('res ============================> ', res)
+
+    //     // navigate(form.getAttribute('action'))
+    //   })
+    //   .catch(error => alert(error))
   }
 
   return (
     <div>
       <h2>Contact Us</h2>
       <form
-        name="contact"
+        name="contact-form"
         method="post"
         data-netlify="true"
-        netlify-honeypot="bot-field"
-        onSubmit={handleSubmit}
+        data-netlify-honeypot="bot-field"
       >
-        <input type="hidden" name="form-name" value="contact" />
-        <p hidden>
-          <label>
-            Don’t fill this out:{' '}
-            <input name="bot-field" onChange={handleChange} />
-          </label>
-        </p>
-        <p>
-          <label>
-            Your name:
-            <br />
-            <input type="text" name="name" onChange={handleChange} />
-          </label>
-        </p>
-        <p>
-          <label>
-            Your email:
-            <br />
-            <input type="email" name="email" onChange={handleChange} />
-          </label>
-        </p>
-        <p>
-          <label>
-            Message:
-            <br />
-            <textarea name="message" onChange={handleChange} />
-          </label>
-        </p>
-        <p>
-          <button type="submit">Send</button>
-        </p>
+        <input name="name" placeholder="Your Name" type="text" />
+        <input name="email" placeholder="name@name.com" type="email" />
+        <textarea name="message" />
+        <button>Send</button>
       </form>
     </div>
   )
