@@ -62,6 +62,7 @@ const Contact = () => {
         action="#"
         netlify-honeypot="bot-field"
       >
+        <input type="hidden" name="form-name" value="contact-form" />
         <input name="name" placeholder="Your Name" type="text" />
         <input name="email" placeholder="name@name.com" type="email" />
         <textarea name="message" onChange={handleChange} />
