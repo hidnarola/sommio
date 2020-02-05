@@ -52,9 +52,8 @@ const Contact = () => {
       <form
         name="contact"
         method="post"
-        action="/thanks/"
         data-netlify="true"
-        data-netlify-honeypot="bot-field"
+        netlify-honeypot="bot-field"
         onSubmit={handleSubmit}
       >
         <input type="hidden" name="form-name" value="contact" />
