@@ -31,25 +31,25 @@ const Contact = () => {
     e.preventDefault()
     console.log('Hiiiiiiiiiii')
 
-    const form = e.target
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: encode({
-        'form-name': form.getAttribute('name'),
-        ...state
-      })
-    })
-      .then(res => {
-        console.log('netlifyres ============================> ', res)
+    // const form = e.target
+    // fetch('/', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    //   body: encode({
+    //     'form-name': form.getAttribute('name'),
+    //     ...state
+    //   })
+    // })
+    //   .then(res => {
+    //     console.log('netlifyres ============================> ', res)
 
-        // navigate(form.getAttribute('action'))
-      })
-      .catch(error => {
-        console.log('netlify error ==============> ', error)
+    //     // navigate(form.getAttribute('action'))
+    //   })
+    //   .catch(error => {
+    //     console.log('netlify error ==============> ', error)
 
-        alert(error)
-      })
+    //     alert(error)
+    //   })
   }
 
   return (
