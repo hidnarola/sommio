@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Thankyou = () => {
+export default function Test() {
   return (
     <div>
       <h2>Thank you !</h2>
