@@ -31,21 +31,25 @@ const Contact = () => {
     e.preventDefault()
     console.log('Hiiiiiiiiiii')
 
-    // const form = e.target
+    const form = e.target
     fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      // body: encode({
-      //   'form-name': form.getAttribute('name'),
-      //   ...state
-      // })
+      body: encode({
+        'form-name': form.getAttribute('name'),
+        ...state
+      })
     })
       .then(res => {
-        console.log('res ============================> ', res)
+        console.log('netlifyres ============================> ', res)
 
         // navigate(form.getAttribute('action'))
       })
-      .catch(error => alert(error))
+      .catch(error => {
+        console.log('netlify error ==============> ', error)
+
+        alert(error)
+      })
   }
 
   return (
@@ -59,9 +63,19 @@ const Contact = () => {
         onSubmit={handleSubmit}
       >
         <input name="bot-field" type="hidden" />
-        <input name="name" placeholder="Your Name" type="text" />
-        <input name="email" placeholder="name@name.com" type="email" />
-        <textarea name="message" />
+        <input
+          name="name"
+          placeholder="Your Name"
+          type="text"
+          onChange={handleChange}
+        />
+        <input
+          name="email"
+          placeholder="name@name.com"
+          type="email"
+          onChange={handleChange}
+        />
+        <textarea name="message" onChange={handleChange} />
         <button>Send</button>
       </form>
     </div>
