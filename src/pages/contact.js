@@ -31,14 +31,14 @@ const Contact = () => {
     e.preventDefault()
     console.log('Hiiiiiiiiiii')
 
-    const form = e.target
+    // const form = e.target
     fetch('/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: encode({
-        'form-name': form.getAttribute('name'),
-        ...state
-      })
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      // body: encode({
+      //   'form-name': form.getAttribute('name'),
+      //   ...state
+      // })
     })
       .then(res => {
         console.log('res ============================> ', res)
@@ -56,6 +56,7 @@ const Contact = () => {
         method="post"
         data-netlify="true"
         netlify-honeypot="bot-field"
+        onSubmit={handleSubmit}
       >
         <input name="bot-field" type="hidden" />
         <input name="name" placeholder="Your Name" type="text" />
