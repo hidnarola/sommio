@@ -155,7 +155,7 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
                     <Link to="/about">About us</Link>
                   </li>
                   <li className="nav-item">
-                    <Link to="/about">Contact us</Link>
+                    <Link to="/contact">Contact us</Link>
                   </li>
                   <li>
                     {refresh && firebase && firebase.auth().currentUser ? (
