@@ -29,34 +29,29 @@ const Contact = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    const form = e.target
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: encode({
-        'form-name': form.getAttribute('name'),
-        ...state
-      })
-    })
-      .then(res => {
-        console.log('res ============================> ', res)
+    console.log('Hiiiiiiiiiiiiiiiiiiiiiii')
 
-        // navigate(form.getAttribute('action'))
-      })
-      .catch(error => alert(error))
+    // const form = e.target
+    // fetch('/', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    //   body: encode({
+    //     'form-name': form.getAttribute('name'),
+    //     ...state
+    //   })
+    // })
+    //   .then(res => {
+    //     console.log('res ============================> ', res)
+
+    //     // navigate(form.getAttribute('action'))
+    //   })
+    //   .catch(error => alert(error))
   }
 
   return (
     <div>
       <h2>Contact Us</h2>
-      <form
-        name="contact"
-        method="post"
-        action="/thanks/"
-        data-netlify="true"
-        data-netlify-honeypot="bot-field"
-        onSubmit={handleSubmit}
-      >
+      <form name="contact" onSubmit={handleSubmit} netlify>
         <input type="hidden" name="form-name" value="contact" />
         <p hidden>
           <label>
