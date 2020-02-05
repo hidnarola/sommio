@@ -31,21 +31,21 @@ const Contact = () => {
     e.preventDefault()
     console.log('Hiiiiiiiiiii')
 
-    // const form = e.target
-    // fetch('/', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    //   body: encode({
-    //     'form-name': form.getAttribute('name'),
-    //     ...state
-    //   })
-    // })
-    //   .then(res => {
-    //     console.log('res ============================> ', res)
+    const form = e.target
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encode({
+        'form-name': form.getAttribute('name'),
+        ...state
+      })
+    })
+      .then(res => {
+        console.log('res ============================> ', res)
 
-    //     // navigate(form.getAttribute('action'))
-    //   })
-    //   .catch(error => alert(error))
+        // navigate(form.getAttribute('action'))
+      })
+      .catch(error => alert(error))
   }
 
   return (
