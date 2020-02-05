@@ -4,7 +4,14 @@ import { Form } from 'react-final-form'
 const TestForm = () => {
   return (
     <div>
-      <form name="contact" action="/thankyou" method="POST" data-netlify="true">
+      <form
+        name="contact"
+        action="/thankyou"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+      >
+        <input name="bot-field" type="hidden" />
         <p>
           <label>
             Your Name: <input type="text" name="name" />
