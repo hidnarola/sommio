@@ -5,6 +5,9 @@ const Contact = () => {
   const handle = () => {
     console.log('Hiii')
   }
+  const handleMethod = () => {
+    console.log('handleMethod')
+  }
   return (
     <div>
       <Form onSubmit={handle}>
@@ -79,6 +82,48 @@ const Contact = () => {
         <textarea name="message" id="message" rows="4" required />
         <input type="submit" value="Send Message" />
       </form>
+      <div>
+        <form
+          name="contact-test"
+          method="post"
+          action="/thanks/"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
+          onSubmit={handleMethod}
+        >
+          {/* The `form-name` hidden field is required to support form submissions without JavaScript */}
+          <input type="hidden" name="form-name" value="contact-test" />
+          <p hidden>
+            <label>
+              Don’t fill this out: <input name="bot-field" />
+            </label>
+          </p>
+          <p>
+            <label>
+              Your name:
+              <br />
+              <input type="text" name="name" />
+            </label>
+          </p>
+          <p>
+            <label>
+              Your email:
+              <br />
+              <input type="email" name="email" />
+            </label>
+          </p>
+          <p>
+            <label>
+              Message:
+              <br />
+              <textarea name="message" />
+            </label>
+          </p>
+          <p>
+            <button type="submit">Send</button>
+          </p>
+        </form>
+      </div>
     </div>
   )
 }
