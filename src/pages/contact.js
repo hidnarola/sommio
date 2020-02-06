@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import { Field, Form } from 'react-final-form'
 
 const Contact = () => {
+  const handle = () => {
+    console.log('Hiii')
+  }
   return (
     <div>
-      <Form>
+      <Form onSubmit={handle}>
         {({ handleSubmit, form, submitting, pristine, values }) => {
           return (
             <form
@@ -61,7 +64,7 @@ const Contact = () => {
                   )}
                 </Field>
               </div>
-              <div className="submit_btn">
+              <div>
                 <button type="submit">Next Step</button>
               </div>
             </form>
@@ -69,7 +72,7 @@ const Contact = () => {
         }}
       </Form>
       <h2>Contact Us</h2>
-      <form method="post" action="#" data-netlify="true" name="contact" hidden>
+      <form method="post" action="#" data-netlify="true" name="contact">
         <input type="hidden" name="form-name" value="contact" />
         <input type="text" name="name" id="name" required />
         <input type="email" name="email" id="email" required />
