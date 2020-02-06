@@ -8,7 +8,7 @@ const Contact = () => {
       <form method="post" action="#" data-netlify="true" name="contact">
         <input type="hidden" name="form-name" value="contact" />
         <input type="text" name="name" id="name" required />
-        <input type="text" name="email" id="email" required />
+        <input type="email" name="email" id="email" required />
         <textarea name="message" id="message" rows="4" required />
         <input type="submit" value="Send Message" />
       </form>
