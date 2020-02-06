@@ -6,6 +6,7 @@ handler = async event => {
   const username = 'api'
   const password = 'key-f4ba739508713f09336d8316a66e1565'
   const body = JSON.parse(event.body)
+  console.log('body =================> ', body)
 
   const response = await axios({
     method: 'post',
