@@ -10,7 +10,7 @@ handler = async event => {
   const response = await axios({
     method: 'post',
     url: mailgunUrl,
-    auth: { process.env.USERNAME, process.env.PASSWORD },
+    auth: { username, password },
     params: {
       from: 'Sommio.netlify.com <mailgun@builton.sommio.co.uk>',
       to: 'ssi@narola.email',
