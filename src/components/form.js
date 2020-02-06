@@ -5,13 +5,13 @@ const TestForm = () => {
   return (
     <div>
       <form
-        name="contact"
+        name="contact-form"
         action="/thankyou"
         method="POST"
         data-netlify="true"
         netlify-honeypot="bot-field"
       >
-        <input name="bot-field" type="hidden" value="contact" />
+        <input name="bot-field" type="hidden" value="contact-form" />
         <p>
           <label>
             Your Name: <input type="text" name="name" />
