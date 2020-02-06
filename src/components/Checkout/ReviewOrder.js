@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { injectStripe } from 'react-stripe-elements'
-import axios from 'axios'
+
 import { CartContext, CheckoutContext } from '../../context'
 import CartItemList from '../CartItemList'
 import Loader from '../Loader'

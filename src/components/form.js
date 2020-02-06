@@ -9,7 +9,6 @@ const TestForm = () => {
         action="/thankyou"
         method="POST"
         data-netlify="true"
-        netlify-honeypot="bot-field"
       >
         <input name="bot-field" type="hidden" value="contact-form" />
         <p>
