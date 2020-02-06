@@ -1,7 +1,6 @@
 const axios = require('axios')
 
 handler = async event => {
-  console.log('Event SSI ============> ', event)
   const mailgunUrl =
     'https://api.eu.mailgun.net/v3/builton.sommio.co.uk/messages'
   const username = 'api'
@@ -12,11 +11,11 @@ handler = async event => {
   const response = await axios({
     method: 'post',
     url: mailgunUrl,
-    auth: { username, password },
+    auth: { process.env.USERNAME, process.env.PASSWORD },
     params: {
       from: 'Sommio.netlify.com <mailgun@builton.sommio.co.uk>',
       to: 'ssi@narola.email',
-      subject: 'Form submission from contact form:',
+      subject: `Form submission from contact form: ${body.name}`,
       html: `<html><body>
                 <div>
                     <p>Name : ${body.name}</p>
