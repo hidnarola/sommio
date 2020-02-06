@@ -64,7 +64,7 @@ const Contact = () => {
                   <div className="form-group">
                     <input
                       {...input}
-                      type="text"
+                      type="email"
                       placeholder="Email"
                       id="email"
                       onChange={e => {
