@@ -4,6 +4,70 @@ import { Field, Form } from 'react-final-form'
 const Contact = () => {
   return (
     <div>
+      <Form>
+        {({ handleSubmit, form, submitting, pristine, values }) => {
+          return (
+            <form
+              onSubmit={handleSubmit}
+              method="post"
+              action="#"
+              data-netlify="true"
+              name="test"
+            >
+              <input type="hidden" name="form-name" value="test" />
+              <div className="frm_grp">
+                <Field name="name">
+                  {({ input, meta }) => (
+                    <div className="form-group">
+                      <input
+                        {...input}
+                        type="text"
+                        id="name"
+                        placeholder="Name"
+                      />
+                      <label for="name">Name</label>
+                    </div>
+                  )}
+                </Field>
+              </div>
+              <div className="frm_grp">
+                <Field name="email">
+                  {({ input, meta }) => (
+                    <div className="form-group">
+                      <input
+                        {...input}
+                        type="email"
+                        placeholder="Email"
+                        id="email"
+                      />
+                      <label for="email">Email</label>
+                    </div>
+                  )}
+                </Field>
+              </div>
+
+              <div className="frm_grp">
+                <Field name="message">
+                  {({ input, meta }) => (
+                    <div className="form-group">
+                      <input
+                        {...input}
+                        type="text"
+                        placeholder="Message"
+                        id="message"
+                      />
+                      <label for="city">Message</label>
+                    </div>
+                  )}
+                </Field>
+              </div>
+              <div className="submit_btn">
+                <button type="submit">Next Step</button>
+              </div>
+            </form>
+          )
+        }}
+      </Form>
       <h2>Contact Us</h2>
       <form method="post" action="#" data-netlify="true" name="contact" hidden>
         <input type="hidden" name="form-name" value="contact" />
