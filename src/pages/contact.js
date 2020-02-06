@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Field, Form } from 'react-final-form'
 import axios from 'axios'
+import { navigate } from 'gatsby'
 
 const Contact = () => {
   const [values, setValues] = useState('')
@@ -8,10 +9,10 @@ const Contact = () => {
   const url = 'https://sommio.netlify.com/.netlify/functions/contact_form'
 
   let data = {
-    Name: values.name,
-    Email: values.email,
-    Subject: values.subject,
-    Message: values.message
+    name: values.name,
+    email: values.email,
+    subject: values.subject,
+    message: values.message
   }
 
   const handleForm = async () => {
@@ -19,6 +20,8 @@ const Contact = () => {
     let response = await axios.post(url, data).catch(error => {
       console.log('serverless function error => ', error)
     })
+    navigate(`/thankyou`)
+
     console.log('serverless response => ', response)
   }
 

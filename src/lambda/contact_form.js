@@ -19,9 +19,10 @@ handler = async event => {
       subject: 'Form submission from contact form:',
       html: `<html><body>
                 <div>
-                    <p>Name :</p>
-                    <p>Email :</p>
-                    <p>Message :</p>
+                    <p>Name : ${body.name}</p>
+                    <p>Email : ${body.email}</p>
+                    <p>Subject : ${body.subject}</p>
+                    <p>Message : ${body.message}</p>
                 </div>
              </body></html>`
     }
