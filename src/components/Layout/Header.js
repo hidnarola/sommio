@@ -11,7 +11,12 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
-import { CartContext, CheckoutContext, FirebaseContext } from '../../context'
+import {
+  CartContext,
+  CheckoutContext,
+  FirebaseContext,
+  TestCartContext
+} from '../../context'
 
 import Logo from '../../images/logo.png'
 import logoCheckout from '../../images/logo-checkout.png'
@@ -22,6 +27,7 @@ import { getFirebase } from '../../firebase/index'
 const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   const { orderId } = useContext(CheckoutContext)
   const { setCartData, setUserBuilton } = useContext(CartContext)
+  const { set_cart, fetchCartDataFromStorage } = useContext(TestCartContext)
   const { setFirebase, firebase } = useContext(FirebaseContext)
   const [refresh, setRefresh] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -53,9 +59,8 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
     let cartData = JSON.parse(dataFromStorage)
 
     if (cartData) {
-      setCartData(cartData)
+      fetchCartDataFromStorage(cartData)
     }
-
     var builton = new Builton({
       apiKey: process.env.GATSBY_BUILTON_API_KEY,
       bearerToken: token
@@ -149,7 +154,7 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
               >
                 <ul className="navbar-nav ml-auto menu-list">
                   <li className="nav-item">
-                    <Link to={`/products/${human_id}`}>Shop</Link>
+                    <Link to="/products">Shop</Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/about">About us</Link>

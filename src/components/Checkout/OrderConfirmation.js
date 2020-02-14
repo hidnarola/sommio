@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { Link } from 'gatsby'
-import { CheckoutContext, CartContext } from '../../context'
+import { CheckoutContext, CartContext, TestCartContext } from '../../context'
 import OrderItems from '../OrderItems'
 
 export default function OrderConfirmation(props) {
@@ -8,12 +8,8 @@ export default function OrderConfirmation(props) {
     CartContext
   )
 
-  const {
-    orderId,
-    orderedItems,
-    order_shipping_provider_name,
-    orderPrice
-  } = useContext(CheckoutContext)
+  const { orderId } = useContext(CheckoutContext)
+
   useEffect(() => {
     return () => {
       deleteCart()
@@ -21,8 +17,8 @@ export default function OrderConfirmation(props) {
     }
   }, [])
   return (
-    <div className="orderconfimatio-main">
-      <div className="text-center py-21">
+    <div>
+      <div className="cartsliderbar-boby">
         <svg
           className="text-black w-24 h-24 mx-auto mb-6"
           xmlns="http://www.w3.org/2000/svg"

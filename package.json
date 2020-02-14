@@ -25,6 +25,7 @@
     "gatsby-source-filesystem": "2.1.4",
     "gatsby-transformer-sharp": "^2.3.9",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
     "modularscroll": "^1.0.7",
     "node-sass": "^4.13.1",
     "react": "^16.9.0",

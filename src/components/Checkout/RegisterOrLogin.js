@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 
-import { CartContext, UserContext, FirebaseContext } from '../../context'
+import { CartContext, FirebaseContext } from '../../context'
 import Builton from '@builton/core-sdk'
 import { newFirebaseToken } from '../../utils/newFirebaseToken'
 const RegisterOrLogin = ({ isModal, toggleModal, setDropdownOpen }, props) => {

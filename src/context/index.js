@@ -1,9 +1,10 @@
 import React, { createContext } from 'react'
 
 import { CartProvider, CartContext } from './CartContext'
-import { UserProvider, UserContext } from './UserContext'
+
 import { CheckoutProvider, CheckoutContext } from './CheckoutContext'
 import { FirebaseProvider, FirebaseContext } from './FirebaseContext'
+import { TestCartProvider, TestCartContext } from './TestCartConext'
 
 let BuiltonContext
 
@@ -17,11 +18,11 @@ function BuiltonProvider({ children, ...props }) {
       }}
     >
       <FirebaseProvider>
-        <UserProvider>
+        <TestCartProvider>
           <CartProvider>
             <CheckoutProvider>{children}</CheckoutProvider>
           </CartProvider>
-        </UserProvider>
+        </TestCartProvider>
       </FirebaseProvider>
     </Provider>
   )
@@ -33,6 +34,6 @@ export {
   BuiltonContext,
   CartContext,
   CheckoutContext,
-  UserContext,
-  FirebaseContext
+  FirebaseContext,
+  TestCartContext
 }

@@ -1,6 +1,6 @@
 const path = require('path')
 
-exports.createPages = async ({ page, graphql, actions: { createPage } }) => {
+exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const pages = await graphql(`
     {
       allProducts: allBuiltonProduct {
@@ -26,7 +26,7 @@ exports.createPages = async ({ page, graphql, actions: { createPage } }) => {
   pages.data.allProducts.edges.forEach(({ node: { id, human_id } }) => {
     createPage({
       path: `/products/${human_id}`,
-      component: path.resolve('./src/templates/ProductPageBuilton.js'),
+      component: path.resolve('./src/templates/ProductPage.js'),
       context: {
         id: id
       }

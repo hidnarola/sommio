@@ -1,34 +1,45 @@
 import React, { useState, useContext } from 'react'
 import { Form } from 'react-final-form'
 import { CardElement, injectStripe } from 'react-stripe-elements'
-import { CheckoutContext, CartContext, FirebaseContext } from '../../context'
+import {
+  CheckoutContext,
+  CartContext,
+  FirebaseContext,
+  TestCartContext
+} from '../../context'
 import ShippingSelectOption from './shippingSelectOption'
 import stripeValidation from '../../validation/stripe'
 import axios from 'axios'
 const PaymentPage = ({ changeFormEnable, isEditable }) => {
   const {
     shipping_address,
-    shippingProvider,
-    shippingRate,
+
     shippingRatesArray,
-    builton,
-    shippingCost,
-    shipmentProductId
+    builton
   } = useContext(CartContext)
   const { paymentData, paymentDetails } = useContext(CheckoutContext)
+  const {
+    testProductsArray,
+    shippingCost,
+    shippingRate,
+    shippingProvider
+  } = useContext(TestCartContext)
   const { firebase } = useContext(FirebaseContext)
   const [checkoutError, setCheckoutError] = useState(null)
   const [makeEnable, setMakeEnable] = useState(true)
-  const enableForm =
-    shippingRatesArray &&
-    shippingRatesArray.map(
-      charge => charge && charge.total_charge && charge.total_charge.amount
-    )
+  // const enableForm =
+  //   shippingRatesArray &&
+  //   shippingRatesArray.map(
+  //     charge => charge && charge.total_charge && charge.total_charge.amount
+  //   )
+  const shipmentProductId =
+    testProductsArray[0] && testProductsArray[0].shippingProductId
 
   const url = `https://api.builton.dev/products/${shipmentProductId}`
+  console.log('payment testProduct testProductsArray => ', testProductsArray)
 
   const handlePayment = async values => {
-    shippingCost(shippingRate, shippingProvider)
+    // shippingCost(shippingRate, shippingProvider)
 
     //user authenticate
     await builton.users.authenticate({
@@ -53,7 +64,7 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
         }
       )
     } catch (error) {
-      console.error(error)
+      console.error('Here is Error ====>', error)
     }
     setMakeEnable(false)
     paymentData(values)

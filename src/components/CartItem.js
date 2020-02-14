@@ -2,16 +2,9 @@ import React, { useState, useContext } from 'react'
 import QuantityStepper from './QuantityStepper'
 import { CartContext } from '../context/CartContext'
 import Photo from './Photo'
+import { TestCartContext } from '../context'
 
-function CartItem({
-  id,
-  name,
-  image_url,
-  media,
-  locked,
-  cartButton,
-  removeFromCartBuilton
-}) {
+function CartItem({ locked, cartButton }) {
   const [removing, setRemoving] = useState(false)
   const {
     Weight,
@@ -19,51 +12,70 @@ function CartItem({
     Cover,
     subTotalBuilton,
     quantityBuilton,
-    price,
-    isAddToCart
+    isAddToCart,
+    products
   } = useContext(CartContext)
+  const { remove_cart, testProductsArray, total, productSubTotal } = useContext(
+    TestCartContext
+  )
 
-  function onRemove() {
+  const onRemove = data => {
     setRemoving(true)
-    removeFromCartBuilton(id)
+    remove_cart(data)
     sessionStorage.clear()
   }
 
   return cartButton ? (
     <div className="cartsliderbar-item">
-      <Photo cartImg="cartImg" src={media[0] && media[0].url} alt={name} />
-      <div className="content">
-        <h4>{name}</h4>
-        <ul>
-          <li>Size: {Size}</li>
-          <li>Weight: {Weight}</li>
-          <li>Cover: {Cover}</li>
-        </ul>
-        <div className="price">
-          {isAddToCart === true ? subTotalBuilton : price} £
-        </div>
-      </div>
-      <div className="qty-remove ml-auto">
-        {!locked && <QuantityStepper itemId={id} />}
-        {!locked && (
-          <a className="remove-link" onClick={onRemove}>
-            Remove
-          </a>
-        )}
-      </div>
+      {testProductsArray &&
+        testProductsArray.map(p => {
+          return (
+            <>
+              <Photo
+                cartImg="cartImg"
+                src={p.media[0] && p.media[0].url}
+                alt={p.name}
+              />
+              <div className="content">
+                <h4>{p.name}</h4>
+                <ul>
+                  <li>Size: {Size}</li>
+                  <li>Weight: {p.weightName}</li>
+                  <li>Cover: {p.coverName}</li>
+                </ul>
+                <div className="price">
+                  {p.final_price * p.quantityBuilton}£
+                </div>
+              </div>
+              <div className="qty-remove ml-auto">
+                {!locked && <QuantityStepper product={p} />}
+                {!locked && (
+                  <a className="remove-link" onClick={() => onRemove(p)}>
+                    Remove
+                  </a>
+                )}
+              </div>
+            </>
+          )
+        })}
     </div>
   ) : (
     <div className="revieworder-box">
-      <Photo cartImg="cartImg" src={media[0] && media[0].url} alt={name} />
-      <div className="content">
-        <h5>{name}</h5>
-        <span className="qty-text">
-          {isAddToCart === true ? subTotalBuilton : price} £
-        </span>
-      </div>
-      <div className="price ml-auto">
-        {price === 0 ? subTotalBuilton : price}£
-      </div>
+      {testProductsArray &&
+        testProductsArray.map(prod => (
+          <>
+            <Photo
+              cartImg="cartImg"
+              src={prod.media[0] && prod.media[0].url}
+              alt={prod.name}
+            />
+            <div className="content">
+              <h5>{prod.name}</h5>
+              <span className="qty-text">{productSubTotal} £ </span>
+            </div>
+            <div className="price ml-auto">{productSubTotal} £ </div>
+          </>
+        ))}
     </div>
   )
 }

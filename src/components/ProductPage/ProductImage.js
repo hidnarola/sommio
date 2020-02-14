@@ -23,12 +23,7 @@ function ProductImage({ productId, selectedVariationId }) {
       }
     `
   )
-  const {
-    selectedCover,
-    selectedWeight,
-    selectedCoverImageHumanId,
-    selectedWeightImageHumanId
-  } = useContext(CartContext)
+  const { selectedCover, selectedWeight } = useContext(CartContext)
 
   const mainProduct = allBuiltonProduct.nodes.filter(product => {
     return product.id === productId

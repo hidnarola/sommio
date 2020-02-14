@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { injectStripe } from 'react-stripe-elements'
 
-import { CartContext, CheckoutContext } from '../../context'
+import { CartContext, CheckoutContext, TestCartContext } from '../../context'
 import CartItemList from '../CartItemList'
 import Loader from '../Loader'
 const RiviewOrder = ({ stripe, formEnable }) => {
@@ -11,18 +11,33 @@ const RiviewOrder = ({ stripe, formEnable }) => {
     cartItemsBuilton,
     selectedCover,
     selectedWeight,
-    quantityBuilton,
-    shipmentProductId
+    quantityBuilton
   } = useContext(CartContext)
   const { createOrderBuilton, paymentBuilton } = useContext(CheckoutContext)
+  const { testProductsArray } = useContext(TestCartContext)
   const [checkoutError, setCheckoutError] = useState(null)
-  let dataFromStorage = JSON.parse(sessionStorage.getItem('cartDetails'))[0]
 
-  const selectedWeightFromStorage =
-    dataFromStorage && dataFromStorage.subProduct.selectedWeight[0]._id._oid
+  const shipmentProductId =
+    testProductsArray[0] && testProductsArray[0].shippingProductId
 
-  const selectedCoverFromStorage =
-    dataFromStorage && dataFromStorage.subProduct.selectedCover[0]._id._oid
+  let dataFrom = JSON.parse(sessionStorage.getItem('cartDetails'))
+
+  let orderItems =
+    dataFrom &&
+    dataFrom.map(pro => {
+      return {
+        product: pro.main_product_id,
+        quantity: pro.quantityBuilton,
+        sub_products: [pro.coverId, pro.weightId]
+      }
+    })
+  console.log('ReviewmOrder orderItems before => ', orderItems)
+
+  orderItems.push({
+    product: shipmentProductId,
+    quantity: 1
+  })
+  console.log('ReviewmOrder orderItems afetr => ', orderItems)
 
   const [isLoading, setLoading] = useState(false)
   const handleOrder = async () => {
@@ -53,28 +68,11 @@ const RiviewOrder = ({ stripe, formEnable }) => {
         token: token.token.id
       })
       console.log('After Payment method ===>')
+      console.log('ReviewOreder testProductsArray => ', testProductsArray)
 
       //creating orders
       const createdOrder = await builton.orders.create({
-        items: [
-          {
-            product: cartItemsBuilton[0].main_product_id,
-            quantity: quantityBuilton,
-            sub_products: [
-              selectedWeightFromStorage
-                ? selectedWeightFromStorage
-                : selectedCover[0]._id._oid,
-              selectedCoverFromStorage
-                ? selectedCoverFromStorage
-                : selectedWeight[0]._id._oid
-            ]
-          },
-          {
-            //for 1 time calculate the shipping cost
-            product: shipmentProductId,
-            quantity: 1
-          }
-        ],
+        items: orderItems,
         delivery_address: {
           street_name: shipping_address.line_1,
           state: shipping_address.county,
@@ -84,7 +82,7 @@ const RiviewOrder = ({ stripe, formEnable }) => {
         },
         payment_method: paymentMethod.id
       })
-      console.log('After CreateOrder ===>')
+      console.log('After CreateOrder ===>', createdOrder)
 
       // dispatch method
       createOrderBuilton(createdOrder)
@@ -120,10 +118,6 @@ const RiviewOrder = ({ stripe, formEnable }) => {
             COMPLETE ORDER
           </button>
         )}
-        {/* <button
-          onClick={handleOrder}
-          disabled={isLoading === true ? true : false}
-        > */}
       </div>
     </div>
   )

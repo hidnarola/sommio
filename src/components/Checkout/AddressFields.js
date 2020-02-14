@@ -1,9 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Field, Form } from 'react-final-form'
 
-import Input from '../../components/Input'
 import country from '../../../countryWithThree'
-import { CartContext, FirebaseContext, CheckoutContext } from '../../context'
+import {
+  CartContext,
+  FirebaseContext,
+  CheckoutContext,
+  TestCartContext
+} from '../../context'
 import validation from '../../validation/shippingFormValidation'
 import { log } from 'util'
 import Builton from '@builton/core-sdk'
@@ -17,12 +21,12 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
     user,
     customerDetails,
     shippingCostCalculate,
-    cartItemsBuilton,
     builton,
     setUserBuilton,
     countryCode,
     setAddress
   } = useContext(CartContext)
+  const { testProductsArray } = useContext(TestCartContext)
 
   let countryWithThree = country.filter(data => {
     return data.alpha2.toUpperCase() === countryCode
@@ -52,7 +56,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
     if (firebase && firebase.auth().currentUser) {
       setErrorMessage('')
       toggleEditable(true)
-      shippingCostCalculate(user, values, cartItemsBuilton)
+      shippingCostCalculate(user, values, testProductsArray)
     } else {
       setErrorMessage('')
       firebase &&
@@ -72,7 +76,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
 
             SetCurrentUser(resp.user)
             setUserBuilton(values.email, builton)
-            shippingCostCalculate(user, values, cartItemsBuilton)
+            shippingCostCalculate(user, values, testProductsArray)
             toggleEditable(true)
           })
           .catch(error => {

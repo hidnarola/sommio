@@ -3,6 +3,7 @@ import { CartContext } from '../../context/CartContext'
 import { Link, useStaticQuery } from 'gatsby'
 import CartItemList from '../../components/CartItemList'
 import CartIcon from '../../images/shopping-basket-duotone.svg'
+import { TestCartContext } from '../../context'
 
 const CartButton = () => {
   const { allBuiltonProduct } = useStaticQuery(graphql`
@@ -38,6 +39,8 @@ const CartButton = () => {
     subTotalBuilton
   } = useContext(CartContext)
 
+  const { testIsEmpty, testCount } = useContext(TestCartContext)
+
   const handleToggle = () => {
     setToggle()
     let element = document.getElementsByTagName('body')[0]
@@ -52,12 +55,12 @@ const CartButton = () => {
       <button onClick={handleToggle}>
         <img src={CartIcon} />
         <span className="count-number">
-          {isEmpty && countBuilton === 0 ? 0 : countBuilton}
+          {testIsEmpty && testCount === 0 ? 0 : testCount}
         </span>
       </button>
       <div className={`${toggle ? 'show' : 'hide'} cartsliderbar-main`}>
         <div onClick={handleToggle} className="overlay"></div>
-        {!isEmpty ? (
+        {!testIsEmpty ? (
           <div className="cartsliderbar-boxs">
             <div className="cartsliderbar-header">
               <h3>Your Basket</h3>
@@ -101,7 +104,7 @@ const CartButton = () => {
               <h4>Your cart is currently empty !!!</h4>
               <Link
                 onClick={handleToggle}
-                to={`/products/${product.human_id}`}
+                to="/products"
                 className="btn btn-primary"
               >
                 Shop Products

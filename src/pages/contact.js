@@ -29,7 +29,6 @@ const Contact = () => {
     e.preventDefault()
     setValues({ ...values, [e.target.name]: e.target.value })
   }
-  console.log('contact values =============> ', values)
 
   return (
     <Form onSubmit={handleForm}>

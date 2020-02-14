@@ -8,6 +8,7 @@ import {
   DropdownItem
 } from 'reactstrap'
 import { useStaticQuery, Link } from 'gatsby'
+import { TestCartContext } from '../../context'
 const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
   const { allBuiltonProduct } = useStaticQuery(graphql`
     query {
@@ -22,8 +23,8 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
           final_price
           name
           currency
-          parent {
-            id
+          parents {
+            _oid
           }
           media {
             human_id
@@ -49,9 +50,9 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
     setToggle,
     toggle,
     weightPrice,
-    coverPrice,
-    setCartData
+    coverPrice
   } = useContext(CartContext)
+  const { set_cart } = useContext(TestCartContext)
 
   let weightSubProduct = []
   let coverSubProduct = []
@@ -61,7 +62,7 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
   let mainProduct = []
 
   allBuiltonProduct.nodes.map(data => {
-    if (productId !== data.id && data.main_product === false) {
+    if (productId !== data._id._oid && data.main_product === false) {
       childData.push(data)
     } else {
       parentData.push(data)
@@ -77,26 +78,34 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
   })
 
   childData.map(sub => {
-    if (sub.tags[0] === 'Weight') {
+    if (sub.tags[0] === 'Weight' && productId === sub.parents[0]._oid) {
       weightSubProduct.push(sub)
-    } else if (sub.tags[0] === 'Cover') {
+    } else if (sub.tags[0] === 'Cover' && productId === sub.parents[0]._oid) {
       coverSubProduct.push(sub)
     }
   })
 
   const selectedCover = coverSubProduct.filter(sub => {
-    return sub.name === Cover
+    if (Cover === null) {
+      return sub.name === coverSubProduct[0].name
+    } else {
+      return sub.name === Cover
+    }
   })
 
   const selectedWeight = weightSubProduct.filter(sub => {
-    return sub.name === Weight
+    if (Weight === null) {
+      return sub.name === weightSubProduct[0].name
+    } else {
+      return sub.name === Weight
+    }
   })
 
   useEffect(() => {
     setSubProductPrice(selectedWeight, selectedCover)
   }, [Weight, Cover])
 
-  const [blancketCover, setBlancketCover] = useState('Plush')
+  const [blancketCover, setBlancketCover] = useState(coverSubProduct[0].name)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   let i = 0
 
@@ -117,41 +126,44 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
 
   let selectedProduct
   mainProduct.filter(i => {
-    if (productId === i.id) {
+    if (productId === i._id._oid) {
       selectedProduct = i
     }
   })
 
+  let selectedCoverPrice = selectedCover[0] && selectedCover[0].price
+  let selectedWeightPrice = selectedWeight[0] && selectedWeight[0].price
+
   let finalProductPrice =
     selectedProduct &&
-    selectedProduct.price + selectedCover[0].price + selectedWeight[0].price
+    selectedProduct.price + selectedCoverPrice + selectedWeightPrice
 
+  let testCart = {
+    type: 'cart_item_builton',
+    main_product_id: selectedProduct._id._oid,
+    coverId: selectedCover[0] && selectedCover[0]._id._oid,
+    weightId: selectedWeight[0] && selectedWeight[0]._id._oid,
+    coverName: selectedCover[0] && selectedCover[0].name,
+    weightName: selectedWeight[0] && selectedWeight[0].name,
+    id: selectedProduct.id,
+    name: selectedProduct.name,
+    quantityBuilton: 1,
+    human_id: selectedProduct.human_id,
+    description: selectedProduct.description,
+    price: selectedProduct.price,
+    final_price: finalProductPrice,
+    main_product: selectedProduct.main_product,
+    image_url: selectedProduct.image_url,
+    media: selectedProduct.media,
+    coverPrice: coverPrice,
+    weightPrice: weightPrice,
+    subProduct: { selectedWeight, selectedCover },
+    isAddToCart: true,
+    currency: selectedProduct.currency,
+    shippingProductId: shipmentProduct[0]._id._oid
+  }
   const handleAddToCart = () => {
-    let cartItemsBuilton = [
-      {
-        type: 'cart_item_builton',
-        main_product_id: selectedProduct._id._oid,
-        id: selectedProduct.id,
-        name: selectedProduct.name,
-        quantityBuilton: 1,
-        human_id: selectedProduct.human_id,
-        description: selectedProduct.description,
-        price: selectedProduct.price,
-        final_price: finalProductPrice,
-        main_product: selectedProduct.main_product,
-        image_url: selectedProduct.image_url,
-        media: selectedProduct.media,
-        coverPrice: coverPrice,
-        weightPrice: weightPrice,
-        subProduct: { selectedWeight, selectedCover },
-        isAddToCart: true,
-        currency: selectedProduct.currency,
-        // shippingPrice: shipmentProduct[0].price,
-        shippingProductId: shipmentProduct[0]._id._oid
-      }
-    ]
-
-    setCartData(cartItemsBuilton)
+    set_cart(testCart)
     setToggle()
     let element = document.getElementsByTagName('body')[0]
     if (toggle === false) {
@@ -159,10 +171,9 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
     } else {
       element.classList.remove('cartopen')
     }
-
-    sessionStorage.setItem('cartDetails', JSON.stringify(cartItemsBuilton))
   }
-
+  let price =
+    selectedProduct && selectedProduct.price + weightPrice + coverPrice
   return (
     <div className="product-variation">
       <div className="blanket-boxs">
@@ -184,8 +195,7 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
 
         <div className="radio-group">
           {weightSubProduct.map((weight, k) => (
-            <div className="radio-boxs">
-              {console.log('weight =======>', weight)}
+            <div className="radio-boxs" key={weight._id._oid}>
               <input
                 type="radio"
                 name="weight"
@@ -265,10 +275,7 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
           <span>{Weight}</span> blanket with <span>{Cover}</span> cover
         </h4>
         <div className="price-boxs">
-          <span className="price">
-            {selectedProduct &&
-              selectedProduct.price + weightPrice + coverPrice}{' '}
-          </span>
+          <span className="price">{price} </span>
           <p>Or 6 weekly Interest free payments from £ 21.12</p>
         </div>
         <button className="btn btn-success" onClick={handleAddToCart}>

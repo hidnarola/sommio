@@ -2,15 +2,15 @@ import React, { useContext, createContext, useReducer } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { FirebaseContext } from './FirebaseContext'
+import { TestCartContext } from './TestCartConext'
+import { CheckoutContext } from './CheckoutContext'
 export const SET_RATES = 'SET_RATES'
 export const SET_ADDRESS = 'SET_ADDRESS'
-export const SET_SELCETED_RATES = 'SET_SELCETED_RATES'
 export const SET_LOADING = 'SET_LOADING'
 export const CLEAN_CART = 'CLEAN_CART'
 export const SET_TOGGLE = 'SET_TOGGLE'
 export const SET_VARIATION = 'SET_VARIATION'
 export const SET_BUILTON_PRODUCT_PRICE = 'SET_BUILTON_PRODUCT_PRICE'
-export const SET_BUILTON_CART_DATA = 'SET_BUILTON_CART_DATA'
 export const USER_DETAIL_BUILTON = 'USER_DETAIL_BUILTON'
 export const CART_BUILTON = 'CART_BUILTON'
 export const AUTOCOMPLETE_ADDRESS = 'AUTOCOMPLETED_ADDRESS'
@@ -26,12 +26,12 @@ export const initialState = {
   subTotalBuilton: 0,
   weihtPrice: 0,
   coverPrice: 0,
-  Size: 'single',
-  Weight: '12 kg',
-  Cover: 'Plush',
+  products: [],
+  Size: 'Single',
+  Weight: null,
+  Cover: null,
   quantityBuilton: 0,
   countBuilton: 0,
-  cartItemsBuilton: [],
   loading: false,
   rate: 0,
   paymentButton: false,
@@ -39,9 +39,6 @@ export const initialState = {
   orderCartItems: [],
   toggle: false,
   shippingRate: 0,
-  shipmentProductId: null,
-  selectedCoverImageHumanId: null,
-  selectedWeightImageHumanId: null,
   shipping_address: {
     first_name: '',
     last_name: '',
@@ -61,6 +58,7 @@ export default function reducer(state, action) {
       const shippingRatesArray =
         action.payload && action.payload.data.data.rates
       let loadingAfterRate = false
+      console.log('shippingRatesArray => ', shippingRatesArray)
 
       let test = {
         ...state,
@@ -108,16 +106,7 @@ export default function reducer(state, action) {
         ...shipping_address,
         shipping_address: data
       }
-    case SET_SELCETED_RATES:
-      const shippingRate = action.payload.convertedRates
-        ? action.payload.convertedRates
-        : initialState.shippingRate
 
-      return {
-        ...state,
-        shippingRate: shippingRate,
-        shippingProvider: action.payload.shipping_provider
-      }
     case SET_LOADING:
       const loading = true
 
@@ -149,16 +138,6 @@ export default function reducer(state, action) {
       const coverPrice = action.payload.selectCoverPrice
       const selectedWeight = action.payload.selectedWeight
       const selectedCover = action.payload.selectedCover
-      const selectedCoverImageHumanId =
-        action.payload.selectedCover[0].media[0].human_id
-      const selectedWeightImageHumanId =
-        action.payload.selectedWeight[0].media[0].human_id
-
-      console.log(
-        'selectedCoverImageHumanId,selectedWeightImageHumanId =>',
-        selectedCoverImageHumanId,
-        selectedWeightImageHumanId
-      )
 
       return {
         ...state,
@@ -166,54 +145,7 @@ export default function reducer(state, action) {
         coverPrice: coverPrice,
         selectedWeight,
         selectedCover,
-        shippingSubProduct: action.payload.shippingSubProduct,
-        selectedCoverImageHumanId: selectedCoverImageHumanId,
-        selectedWeightImageHumanId: selectedWeightImageHumanId
-      }
-
-    case SET_BUILTON_CART_DATA:
-      const cartItemsBuilton = action.payload
-      const countBuilton =
-        state.quantityBuilton + cartItemsBuilton[0] &&
-        cartItemsBuilton[0].quantityBuilton
-      const quantityBuilton =
-        cartItemsBuilton[0] && cartItemsBuilton[0].quantityBuilton
-
-      if (action.payload.removeCart === true) {
-        const { data, quantityBuilton, countBuilton, toggle } = action.payload
-        return {
-          ...state,
-          cartItemsBuilton: data,
-          quantityBuilton: quantityBuilton,
-          countBuilton: countBuilton,
-          toggle: toggle,
-          subTotalBuilton: initialState.subTotalBuilton,
-          price: initialState.price,
-          isAddToCart: false
-        }
-      } else if (action.payload[0].isChangedQuantity) {
-        const { quantityBuilton, final_price } = action.payload[0]
-
-        return {
-          ...state,
-          price: final_price,
-          quantityBuilton,
-          countBuilton,
-          cartItemsBuilton,
-          isAddToCart: false,
-          shipmentProductId: cartItemsBuilton[0].shippingProductId
-        }
-      } else {
-        return {
-          ...state,
-          cartItemsBuilton: cartItemsBuilton,
-          countBuilton,
-          subTotalBuilton: cartItemsBuilton[0].final_price,
-          quantityBuilton: quantityBuilton,
-          isAddToCart: cartItemsBuilton[0].isAddToCart,
-          orderCartItems: cartItemsBuilton,
-          shipmentProductId: cartItemsBuilton[0].shippingProductId
-        }
+        shippingSubProduct: action.payload.shippingSubProduct
       }
 
     case USER_DETAIL_BUILTON:
@@ -297,87 +229,28 @@ const { Provider, Consumer } = (CartContext = createContext())
 
 function CartProvider({ children, ...props }) {
   const { firebase } = useContext(FirebaseContext)
+  const { productSubTotal } = useContext(TestCartContext)
+
   const [state, dispatch] = useReducer(reducer, initialState)
   let isEmpty = state.countBuilton === 0
-
-  function updateQuantityBuilton(id, quantity) {
-    const testPrice =
-      state.cartItemsBuilton[0].price +
-      state.cartItemsBuilton[0].weightPrice +
-      state.cartItemsBuilton[0].coverPrice
-
-    let updatePrice = quantity * testPrice
-
-    // Update cart payload
-
-    const payload = [
-      {
-        type: 'cart_item_builton',
-        main_product_id: state.cartItemsBuilton[0].main_product_id,
-        id: state.cartItemsBuilton[0].id,
-        name: state.cartItemsBuilton[0].name,
-        quantityBuilton: quantity,
-        human_id: state.cartItemsBuilton[0].human_id,
-        description: state.cartItemsBuilton[0].description,
-        price: state.cartItemsBuilton[0].price,
-        final_price: updatePrice,
-        weightPrice: state.cartItemsBuilton[0].weightPrice,
-        coverPrice: state.cartItemsBuilton[0].coverPrice,
-        main_product: state.cartItemsBuilton[0].main_product,
-        image_url: state.cartItemsBuilton[0].image_url,
-        media: state.cartItemsBuilton[0].media,
-        subProduct: state.cartItemsBuilton[0].subProduct,
-        isAddToCart: false,
-        currency: state.cartItemsBuilton[0].currency,
-        isChangedQuantity: true,
-        shippingProductId: state.cartItemsBuilton[0].shippingProductId
-      }
-    ]
-    sessionStorage.setItem('cartDetails', JSON.stringify(payload))
-    dispatch({ type: SET_BUILTON_CART_DATA, payload: payload })
-
-    toast.success(`Quantity updated to ${quantity}`)
-  }
-
-  async function removeFromCartBuilton(id) {
-    //Remove item from cart
-    const removeCart = true
-
-    dispatch({
-      type: SET_BUILTON_CART_DATA,
-      payload: {
-        data: initialState.cartItemsBuilton,
-        removeCart,
-        quantityBuilton: initialState.quantityBuilton,
-        countBuilton: initialState.countBuilton,
-        toggle: state.toggle,
-        subTotalBuilton: initialState.subTotalBuilton,
-        price: initialState.price
-      }
-    })
-    sessionStorage.clear()
-
-    toast.success('Item removed from cart')
-  }
 
   const shippingCostCalculate = async (
     user,
     shippingData,
     cartItemsBuilton
   ) => {
+    console.log('CartContext cartItemsBuilton => ', cartItemsBuilton)
+
     dispatch({ type: SET_ADDRESS, user, shippingData })
 
     const details = JSON.parse(localStorage.getItem('details'))
 
     var items = []
-    const cartDetails = JSON.parse(sessionStorage.getItem('cartDetails'))[0]
+
+    // const cartDetails = JSON.parse(sessionStorage.getItem('cartDetails'))
 
     for (const item of cartItemsBuilton) {
-      const finalPrice =
-        cartDetails &&
-        cartDetails.price + cartDetails &&
-        cartDetails.coverPrice + cartDetails &&
-        cartDetails.weightPrice
+      const finalPrice = productSubTotal
       items.push({
         description: item.description,
         origin_country: 'USA',
@@ -393,6 +266,8 @@ function CartProvider({ children, ...props }) {
         sku: item.human_id
       })
     }
+    console.log('CartContext items => ', items)
+
     let data = {
       async: false,
       shipper_accounts: [
@@ -454,12 +329,6 @@ function CartProvider({ children, ...props }) {
     dispatch({ type: SET_RATES, payload })
   }
 
-  async function shippingCost(convertedRates, shipping_provider) {
-    dispatch({
-      type: SET_SELCETED_RATES,
-      payload: { convertedRates, shipping_provider }
-    })
-  }
   const setToggle = () => {
     dispatch({ type: SET_TOGGLE })
   }
@@ -485,13 +354,7 @@ function CartProvider({ children, ...props }) {
       }
     })
   }
-  const setCartData = cartItemsBuilton => {
-    //Add cart Data
-    dispatch({
-      type: SET_BUILTON_CART_DATA,
-      payload: cartItemsBuilton
-    })
-  }
+
   const setUserBuilton = (data, builton) => {
     dispatch({ type: USER_DETAIL_BUILTON, data, builton })
   }
@@ -514,13 +377,9 @@ function CartProvider({ children, ...props }) {
         ...props,
         isEmpty,
         shippingCostCalculate,
-        shippingCost,
         setToggle,
         setVariation,
         setSubProductPrice,
-        setCartData,
-        removeFromCartBuilton,
-        updateQuantityBuilton,
         setUserBuilton,
         cartBuilton,
         deleteCart,

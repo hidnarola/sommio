@@ -13,11 +13,12 @@ import ProductOverview from '../components/ProductPage/ProductOverview'
 import ProductImage from '../components/ProductPage/ProductImage'
 
 const ProductPageBuilton = ({ data: { product } }) => {
-console.log("ProductPageBuilton product ==================> ",product)
+  console.log('ProductPageBuilton product ==================>', product)
 
-  const [selectedVariationId, setSelectedVariationId] = useState(product._id._oid)
+  const [selectedVariationId, setSelectedVariationId] = useState(
+    product._id._oid
+  )
   const onChangeSelectedProduct = id => {
-    console.log('onChangeSelectedProduct id => ', id)
     setSelectedVariationId(id)
   }
   return (
@@ -47,7 +48,7 @@ console.log("ProductPageBuilton product ==================> ",product)
                 <div className="col-12 col-lg-4">
                   <AddToCart
                     onChangeSelectedProduct={onChangeSelectedProduct}
-                    productId={product.id}
+                    productId={product._id._oid}
                     tags={product.tags}
                   />
                 </div>
@@ -80,7 +81,7 @@ export const query = graphql`
   query($id: String!) {
     product: builtonProduct(id: { eq: $id }) {
       _id {
-         _oid
+        _oid
       }
       id
       name
