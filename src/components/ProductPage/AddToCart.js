@@ -54,6 +54,9 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
   } = useContext(CartContext)
   const { set_cart } = useContext(TestCartContext)
 
+  const [cover, setCover] = useState(null)
+  const [weight, setWeight] = useState(null)
+
   let weightSubProduct = []
   let coverSubProduct = []
   let childData = []
@@ -86,24 +89,24 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
   })
 
   const selectedCover = coverSubProduct.filter(sub => {
-    if (Cover === null) {
+    if (cover === null) {
       return sub.name === coverSubProduct[0].name
     } else {
-      return sub.name === Cover
+      return sub.name === cover
     }
   })
 
   const selectedWeight = weightSubProduct.filter(sub => {
-    if (Weight === null) {
+    if (weight === null) {
       return sub.name === weightSubProduct[0].name
     } else {
-      return sub.name === Weight
+      return sub.name === weight
     }
   })
 
   useEffect(() => {
     setSubProductPrice(selectedWeight, selectedCover)
-  }, [Weight, Cover])
+  }, [weight, cover])
 
   const [blancketCover, setBlancketCover] = useState(coverSubProduct[0].name)
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -117,8 +120,10 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
     onChangeSelectedProduct(id)
     if (name === 'Weight') {
       setVariation(name, e.target.value, price)
+      setWeight(e.target.value)
     } else if (name === 'Cover') {
       setVariation(name, e, price)
+      setCover(e)
     } else {
       setVariation(name, 'Single', price)
     }
@@ -172,8 +177,7 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
       element.classList.remove('cartopen')
     }
   }
-  let price =
-    selectedProduct && selectedProduct.price + weightPrice + coverPrice
+
   return (
     <div className="product-variation">
       <div className="blanket-boxs">
@@ -222,7 +226,6 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
           ))}
         </div>
       </div>
-
       <div className="blanket-boxs">
         <div className="size-boxs">
           <h4>Blanket Cover</h4>
@@ -275,7 +278,7 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
           <span>{Weight}</span> blanket with <span>{Cover}</span> cover
         </h4>
         <div className="price-boxs">
-          <span className="price">{price} </span>
+          <span className="price">{finalProductPrice} </span>
           <p>Or 6 weekly Interest free payments from £ 21.12</p>
         </div>
         <button className="btn btn-success" onClick={handleAddToCart}>

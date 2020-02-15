@@ -134,17 +134,23 @@ export default function reducer(state, action) {
     case SET_BUILTON_PRODUCT_PRICE:
       console.log('SET_BUILTON_PRODUCT_PRICE action => ', action)
 
-      const weightPrice = action.payload.selectWeightPrice
-      const coverPrice = action.payload.selectCoverPrice
-      const selectedWeight = action.payload.selectedWeight
-      const selectedCover = action.payload.selectedCover
+      let weightPrice = action.payload.selectWeightPrice
+      let coverPrice = action.payload.selectCoverPrice
+      let selectedWeight = action.payload.selectedWeight
+      let selectedCover = action.payload.selectedCover
+
+      console.log(
+        'addtocart selectedCover, selectedWeight =>',
+        selectedCover,
+        selectedWeight
+      )
 
       return {
         ...state,
         weightPrice: weightPrice,
         coverPrice: coverPrice,
-        selectedWeight,
-        selectedCover,
+        Weight: selectedWeight[0] && selectedWeight[0].name,
+        Cover: selectedCover[0] && selectedCover[0].name,
         shippingSubProduct: action.payload.shippingSubProduct
       }
 
