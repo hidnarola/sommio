@@ -22,8 +22,7 @@ handler = async event => {
       item.filter(i => {
         return i.name === 'Shipping cost'
       })
-    let htmlData = (
-      <html>
+    let htmlData = ` <html>
         <body>
           <div>
             <h4>Order Details</h4>
@@ -53,8 +52,8 @@ handler = async event => {
             </div>
           </div>
         </body>
-      </html>
-    )
+      </html>`
+
     const response = await axios({
       method: 'post',
       url: mailgunUrl,
