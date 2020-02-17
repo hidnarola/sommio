@@ -36,7 +36,6 @@ export const initialState = {
   rate: 0,
   paymentButton: false,
   shippingProvider: null,
-  orderCartItems: [],
   toggle: false,
   shippingRate: 0,
   shipping_address: {

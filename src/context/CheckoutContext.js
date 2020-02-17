@@ -36,8 +36,10 @@ export default function reducer(state, action) {
       }
 
     case CREATE_ORDER_BUILTON:
+      console.log('CREATE_ORDER_BUILTON => ', action)
+
       const orderedItems = action.createdOrder.items
-      const totalProductQuantity = action.createdOrder.total_quantity
+      const totalProductQuantity = action.createdOrder.total_quantity - 1
       const orderPrice = action.createdOrder.total_amount
       const orderId = action.createdOrder.id
 

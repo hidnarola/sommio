@@ -9,10 +9,13 @@ export default function OrderConfirmation(props) {
   )
 
   const { orderId } = useContext(CheckoutContext)
+  const { deleteCartData } = useContext(TestCartContext)
 
   useEffect(() => {
     return () => {
       deleteCart()
+      deleteCartData()
+
       sessionStorage.clear()
     }
   }, [])

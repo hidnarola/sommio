@@ -13,13 +13,9 @@ export default function CartItemList(props) {
     isAddToCart
   } = useContext(CartContext)
 
-  const {
-    testIsEmpty,
-    testCount,
-    productSubTotal,
-    total,
-    shippingRate
-  } = useContext(TestCartContext)
+  const { testIsEmpty, productSubTotal, total, shippingRate } = useContext(
+    TestCartContext
+  )
 
   console.log('CartItemList total => ', total)
   console.log('CartItemList shippingRate => ', shippingRate)

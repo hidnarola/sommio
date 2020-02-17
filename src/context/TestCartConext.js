@@ -8,6 +8,7 @@ export const SET_CART_TEST = 'SET_CART_TEST'
 export const REMOVE_CART_TEST = 'REMOVE_CART_TEST'
 export const UPDATE_CART_TEST = 'UPDATE_CART_TEST'
 export const FETCH_CART_DATA = 'FETCH_CART_DATA'
+export const CLEAN_CART = 'CLEAN_CART'
 export const SET_SELCETED_RATES = 'SET_SELCETED_RATES'
 
 export const initialState = {
@@ -83,6 +84,8 @@ export default function reducer(state, action) {
       }
 
     case UPDATE_CART_TEST:
+      console.log('[testcart] UPDATE_CART_TEST => ', action)
+
       const product = action.payload.product
       const flag = action.payload.flag
 
@@ -143,6 +146,7 @@ export default function reducer(state, action) {
         total: removeTotal,
         testProductsArray: state.testProductsArray
       }
+
     case FETCH_CART_DATA:
       const cartProduct = action.payload
       console.log('cartProduct ================> ', cartProduct)
@@ -154,6 +158,7 @@ export default function reducer(state, action) {
         return data.final_price * data.quantityBuilton
       })
       let fetchTotal = updateToSubTotal + state.shippingRate
+      console.log('[testcart] updateTocount => ', updateTocount)
 
       return {
         ...state,
@@ -170,13 +175,17 @@ export default function reducer(state, action) {
       let total = state.productSubTotal + shippingRate
 
       console.log('TestCart total ========> ', total)
-      console.log('TestCart shippingRate ========> ', shippingRate)
+      console.log('TestCart shippingRate ========>', shippingRate)
       return {
         ...state,
         shippingRate: shippingRate,
         shippingProvider: action.payload.shipping_provider,
         total: total
       }
+
+    case CLEAN_CART:
+      return initialState
+
     default:
       return state
   }
@@ -198,12 +207,16 @@ function TestCartProvider({ children, ...props }) {
   const fetchCartDataFromStorage = payload => {
     dispatch({ type: FETCH_CART_DATA, payload: payload })
   }
+  const deleteCartData = () => {
+    dispatch({ type: CLEAN_CART })
+  }
   const shippingCost = (convertedRates, shipping_provider) => {
     dispatch({
       type: SET_SELCETED_RATES,
       payload: { convertedRates, shipping_provider }
     })
   }
+
   return (
     <Provider
       value={{
@@ -214,6 +227,7 @@ function TestCartProvider({ children, ...props }) {
         update_cart,
         remove_cart,
         shippingCost,
+        deleteCartData,
         fetchCartDataFromStorage
       }}
     >

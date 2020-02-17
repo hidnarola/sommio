@@ -16,6 +16,7 @@ handler = async event => {
       item.filter(i => {
         return i.name === 'Shipping cost'
       })
+    console.log('[order_created] item.length => ', item.length)
 
     const response = await axios({
       method: 'post',
@@ -30,13 +31,20 @@ handler = async event => {
               <h4>Order Details</h4>
               <p>Name - ${data.first_name} ${data.last_name} </p>
               <p>Order Id - ${body.object._id}</p>
+              <p id="demo"></p>
             <div>
               <h5>Product : </h5>
-              <p>Product name: ${item[0] && item[0].name}</p>
-              <p>Total Quantity : ${item[0] && item[0].quantity}</p>
-              <p>Product Price: ${item[0] && item[0].final_price}</p>
-              <p>Shiping charge : ${shipperData[0] &&
-                shipperData[0].final_price}</p>
+              ${item.map(p => (
+                <>
+                  <p>Product name: ${p.name}</p>
+                  <p>Total Quantity : ${p.quantity}</p>
+                  <p>Product Price: ${p.final_price}</p>
+                </>
+              ))}
+              <p>
+                Shiping charge :
+                ${shipperData[0] && shipperData[0].final_price}
+              </p>
               <p>Total Amount : ${body.object.total_amount}</p>
             </div>
         <div>
@@ -48,7 +56,16 @@ handler = async event => {
           <p>Country - ${body.object.delivery_address.country} </p>
         </div>
         </div>
-    </body></html>`
+    </body>
+    <script>
+    var cars = ["BMW", "Volvo", "Saab", "Ford", "Fiat", "Audi"];
+    var text = "";
+    var i;
+    for (i = 0; i < cars.length; i++) {
+        text += cars[i] + "<br>";
+    }
+    document.getElementById("demo").innerHTML = text;
+    </script></html>`
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
     console.log('mailgun response => ', response)
