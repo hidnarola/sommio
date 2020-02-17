@@ -13,7 +13,11 @@ handler = async event => {
   if (body && body.object) {
     let data = body.object.user
     let item = body.object.items
-    people = ['geddy', 'neil', 'alex']
+    var data = [
+      { id: 1, name: 'bob' },
+      { id: 2, name: 'john' },
+      { id: 3, name: 'jake' }
+    ]
 
     let shipperData =
       item &&
@@ -29,7 +33,25 @@ handler = async event => {
         from: 'Sommio <mailgun@builton.sommio.co.uk>',
         to: body.object.user.email,
         subject: 'Sommio Blanket',
-        html: ejs.render('<%= people.join(", "); %>', { people: people })
+        // html: ejs.render('<%= people.join(", "); %>', { people: people })
+        html: ejs.render(`<html>
+        <body>
+          <div>
+            <h4>Order Details</h4>
+            <div>
+              <h5>Product : </h5>$
+              <table>
+              <% for(var i=0; i < data.length; i++) { %>
+                 <tr>
+                   <td><%= data[i].id %></td>
+                   <td><%= data[i].name %></td>
+                 </tr>
+              <% } %>
+              </table>
+
+          </div>
+        </body>
+      </html>`)
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
     console.log('mailgun response => ', response)
