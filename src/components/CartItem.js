@@ -44,7 +44,7 @@ function CartItem({ locked, cartButton }) {
                   <li>Cover: {p.coverName}</li>
                 </ul>
                 <div className="price">
-                  {p.final_price * p.quantityBuilton}£ ssicartItempage
+                  {p.final_price * p.quantityBuilton}£
                 </div>
               </div>
               <div className="qty-remove ml-auto">
