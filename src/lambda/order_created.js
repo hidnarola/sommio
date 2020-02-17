@@ -11,6 +11,15 @@ handler = async event => {
   if (body && body.object) {
     let data = body.object.user
     let item = body.object.items
+    let itemArrayData = item.map(p => (
+      <div>
+        <p>Product name: ${p.name}</p>
+        <p>Total Quantity : ${p.quantity}</p>
+        <p>Product Price: ${p.final_price}</p>
+      </div>
+    ))
+    console.log('itemArrayData ======> ', itemArrayData)
+
     let shipperData =
       item &&
       item.filter(i => {
@@ -32,13 +41,7 @@ handler = async event => {
               <p>Order Id - ${body.object._id}</p>
             <div>
               <h5>Product : </h5>
-              ${item.map(p => (
-                <div>
-                  <p>Product name: ${p.name}</p>
-                  <p>Total Quantity : ${p.quantity}</p>
-                  <p>Product Price: ${p.final_price}</p>
-                </div>
-              ))}
+              ${itemArrayData}
               <p>
                 Shiping charge :
                 ${shipperData[0] && shipperData[0].final_price}
