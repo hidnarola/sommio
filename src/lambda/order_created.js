@@ -34,24 +34,19 @@ handler = async event => {
         to: body.object.user.email,
         subject: 'Sommio Blanket',
         // html: ejs.render('<%= people.join(", "); %>', { people: people })
-        html: ejs.render(`<html>
-        <body>
-          <div>
-            <h4>Order Details</h4>
-            <div>
-              <h5>Product : </h5>
-              <table>
-              <% for(var i=0; i < dataArray.length; i++) { %>
-                 <tr>
-                   <td><%= dataArray[i].id %></td>
-                   <td><%= dataArray[i].name %></td>
-                 </tr>
-              <% } %>
-              </table>
-
-          </div>
-        </body>
-      </html>`)
+        html: ejs.render(
+          `<% dataArray.forEach(function(d) { %>
+        <li>
+            <div class="timeline-time">
+                <span  style="text-align:left">
+                <%= d.id %> </span>
+                <span style="font-weight:700;font-size:25px;line-height:20px;text-align:left;">
+                <%= d.name %> </span>
+            </div>
+        </li>
+      <% }) %>`,
+          { dataArray: dataArray }
+        )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
     console.log('mailgun response => ', response)
