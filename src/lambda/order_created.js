@@ -39,7 +39,7 @@ handler = async event => {
           <div>
             <h4>Order Details</h4>
             <div>
-              <h5>Product : </h5>$
+              <h5>Product : </h5>
               <table>
               <% for(var i=0; i < data.length; i++) { %>
                  <tr>
