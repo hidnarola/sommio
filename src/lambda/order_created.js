@@ -13,7 +13,7 @@ handler = async event => {
   if (body && body.object) {
     let data = body.object.user
     let item = body.object.items
-    var data = [
+    let dataArray = [
       { id: 1, name: 'bob' },
       { id: 2, name: 'john' },
       { id: 3, name: 'jake' }
@@ -41,10 +41,10 @@ handler = async event => {
             <div>
               <h5>Product : </h5>
               <table>
-              <% for(var i=0; i < data.length; i++) { %>
+              <% for(var i=0; i < dataArray.length; i++) { %>
                  <tr>
-                   <td><%= data[i].id %></td>
-                   <td><%= data[i].name %></td>
+                   <td><%= dataArray[i].id %></td>
+                   <td><%= dataArray[i].name %></td>
                  </tr>
               <% } %>
               </table>
