@@ -3,7 +3,6 @@ import { Link } from 'gatsby'
 import axios from 'axios'
 import { navigate } from 'gatsby'
 import Builton from '@builton/core-sdk'
-// import base64 from 'base-64'
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap'
 import {
   Dropdown,
