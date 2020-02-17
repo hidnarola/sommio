@@ -41,7 +41,13 @@ handler = async event => {
               <p>Order Id - ${body.object._id}</p>
             <div>
               <h5>Product : </h5>
-              ${itemArrayData}
+              ${item.map(p => (
+                <div>
+                  <p>Product name: ${p.name}</p>
+                  <p>Total Quantity : ${p.quantity}</p>
+                  <p>Product Price: ${p.final_price}</p>
+                </div>
+              ))}
               <p>
                 Shiping charge :
                 ${shipperData[0] && shipperData[0].final_price}
