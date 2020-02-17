@@ -31,7 +31,7 @@ handler = async event => {
         from: 'Sommio <mailgun@builton.sommio.co.uk>',
         to: body.object.user.email,
         subject: 'Sommio Blanket',
-        html: ejs.render('<%= people.join(", "); %>', {people: people});
+        html: ejs.render('<%= people.join(", "); %>', { people: people })
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
     console.log('mailgun response => ', response)
