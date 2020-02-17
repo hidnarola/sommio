@@ -31,7 +31,6 @@ handler = async event => {
               <h4>Order Details</h4>
               <p>Name - ${data.first_name} ${data.last_name} </p>
               <p>Order Id - ${body.object._id}</p>
-              <p id="demo"></p>
             <div>
               <h5>Product : </h5>
               ${item.map(p => (
@@ -57,15 +56,7 @@ handler = async event => {
         </div>
         </div>
     </body>
-    <script>
-    var cars = ["BMW", "Volvo", "Saab", "Ford", "Fiat", "Audi"];
-    var text = "";
-    var i;
-    for (i = 0; i < cars.length; i++) {
-        text += cars[i] + "<br>";
-    }
-    document.getElementById("demo").innerHTML = text;
-    </script></html>`
+ </html>`
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
     console.log('mailgun response => ', response)
