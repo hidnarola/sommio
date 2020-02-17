@@ -1,4 +1,5 @@
 const axios = require('axios')
+// let ejs = require('ejs')
 
 handler = async event => {
   console.log('Event SSI ============> ', event)
@@ -8,10 +9,12 @@ handler = async event => {
   const password = 'key-f4ba739508713f09336d8316a66e1565'
   const body = JSON.parse(event.body)
   console.log('body ============> ', body)
+
   if (body && body.object) {
     let data = body.object.user
     let item = body.object.items
-
+    // people = ['geddy', 'neil', 'alex'],
+    // html = ejs.render('<%= people.join(", "); %>', {people: people});
     console.log('itemArrayData ======> ', itemArrayData)
 
     let shipperData =
@@ -30,13 +33,11 @@ handler = async event => {
             <p>Order Id - ${body.object._id}</p>
             <div>
               <h5>Product : </h5>$
-              {item.map(p => (
-                <div>
-                  <p>Product name: ${p.name}</p>
-                  <p>Total Quantity : ${p.quantity}</p>
-                  <p>Product Price: ${p.final_price}</p>
-                </div>
-              ))}
+              <div>
+                <p>Product name: ${item[0].name}</p>
+                <p>Total Quantity : ${item[0].quantity}</p>
+                <p>Product Price: ${item[0].final_price}</p>
+              </div>
               <p>
                 Shiping charge : ${shipperData[0] && shipperData[0].final_price}
               </p>
