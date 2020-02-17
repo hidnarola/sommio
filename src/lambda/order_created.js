@@ -15,8 +15,6 @@ handler = async event => {
     let item = body.object.items
     people = ['geddy', 'neil', 'alex']
 
-    console.log('itemArrayData ======> ', itemArrayData)
-
     let shipperData =
       item &&
       item.filter(i => {
