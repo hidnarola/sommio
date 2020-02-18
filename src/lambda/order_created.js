@@ -35,14 +35,16 @@ handler = async event => {
         subject: 'Sommio Blanket',
         // html: ejs.render('<%= people.join(", "); %>', { people: people })
         html: ejs.render(
-          `<div>
-              Order Details
-
+          `<html>
+          <body>
+            <div>
+              <h4>Order Details</h4>
+              <p>
                 Name - <%= data.first_name data.last_name %>
-
-             Order Id - <%= body.object._id %>
+              </p>
+              <p>Order Id - <%= body.object._id %>
               <div>
-            Product :
+                <h5>Product : </h5>
                 <table>
                 <% for(var i=0; i < dataArray.length; i++) { %>
                    <tr>
@@ -51,21 +53,23 @@ handler = async event => {
                    </tr>
                 <% } %>
                 </table>
-
+                <p>
                   Shiping charge :  <%= shipperData[0] && shipperData[0].final_price %>
-
-             Total Amount : <%= body.object.total_amount %>
+                </p>
+                <p>Total Amount : <%= body.object.total_amount %> </p>
               </div>
               <div>
-               Shipping Address
-              Address - <%= body.object.delivery_address.street_name%>
-                City - <%= body.object.delivery_address.city%>
-                County - <%= body.object.delivery_address.state %>
-                Postcode - <%= body.object.delivery_address.zip_code %>
-                Country - <%= body.object.delivery_address.country %>
+                <h5>Shipping Address</h5>
+                <p>Address - <%= body.object.delivery_address.street_name%> </p>
+                <p>City - <%= body.object.delivery_address.city%> </p>
+                <p>County - <%= body.object.delivery_address.state %> </p>
+                <p>Postcode - <%= body.object.delivery_address.zip_code %> </p>
+                <p>Country - <%= body.object.delivery_address.country %> </p>
               </div>
-            </div>`,
-          { data: { dataArray, body, data } }
+            </div>
+          </body>
+        </html>`,
+          { data: { dataArray, body, data , shipperData[0] } }
         )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
