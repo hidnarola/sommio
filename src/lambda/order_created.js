@@ -45,12 +45,10 @@ handler = async event => {
               <p>Order Id - <%= body.object._id %>
               <div>
                 <h5>Product : </h5>
-
                 <% for(var i=0; i < products.length; i++) { %>
                     <p>Product name: <%= products[i].name %></p>
                      <p>Total Quantity: <%= products[i].quantity %></p>
                      <p>Product Price: <%= products[i].final_price %></p>
-
                 <% } %>
                 <p>
                 Shiping charge :
@@ -86,8 +84,3 @@ handler = async event => {
   }
 }
 exports.handler = handler
-//<div>
-//              <p>Product name: ${item[0].name}</p>
-//               <p>Total Quantity : ${item[0].quantity}</p>
-//               <p>Product Price: ${item[0].final_price}</p>
-//             </div>
