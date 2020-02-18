@@ -35,14 +35,12 @@ handler = async event => {
         subject: 'Sommio Blanket',
         // html: ejs.render('<%= people.join(", "); %>', { people: people })
         html: ejs.render(
-          `<html>
-          <body>
-            <div>
+          `<div>
               <h4>Order Details</h4>
               <p>
                 Name - <%= data.first_name data.last_name %>
               </p>
-              <p>Order Id - <%= body.object._id %>
+              <p>Order Id - <%= body.object._id %></p>
               <div>
                 <h5>Product : </h5>
 
@@ -68,8 +66,7 @@ handler = async event => {
                 <p>Country - <%= body.object.delivery_address.country %> </p>
               </div>
             </div>
-          </body>
-        </html>`,
+         `,
           { dataArray: dataArray }
         )
       }
