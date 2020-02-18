@@ -35,17 +35,51 @@ handler = async event => {
         subject: 'Sommio Blanket',
         // html: ejs.render('<%= people.join(", "); %>', { people: people })
         html: ejs.render(
-          `<% dataArray.forEach(function(d) { %>
-        <li>
-            <div class="timeline-time">
-                <span  style="text-align:left">
-                <%= d.id %> </span>
-                <span style="font-weight:700;font-size:25px;line-height:20px;text-align:left;">
-                <%= d.name %> </span>
+          `<html>
+          <body>
+            <div>
+              <h4>Order Details</h4>
+              <p>
+                Name - <%= data.first_name data.last_name %>
+              </p>
+              <p>Order Id - <%= body.object._id %>
+              <div>
+                <h5>Product : </h5>
+               <% item.forEach(function(d) { %>
+          <li>
+              <div class="timeline-time">
+                  <span  style="text-align:left">
+                  <%= d.id %> </span>
+                  <span style="font-weight:700;font-size:25px;line-height:20px;text-align:left;">
+                  <%= d.name %> </span>
+              </div>
+          </li>
+        <% }) %>
+                <table>
+                <% for(var i=0; i < data.length; i++) { %>
+                   <tr>
+                     <td><%= data[i].id %></td>
+                     <td><%= data[i].name %></td>
+                   </tr>
+                <% } %>
+                </table>
+                <p>
+                  Shiping charge :  <%= shipperData[0] && shipperData[0].final_price %>
+                </p>
+                <p>Total Amount : <%= body.object.total_amount %> </p>
+              </div>
+              <div>
+                <h5>Shipping Address</h5>
+                <p>Address - <%= body.object.delivery_address.street_name%> </p>
+                <p>City - <%= body.object.delivery_address.city%> </p>
+                <p>County - <%= body.object.delivery_address.state %> </p>
+                <p>Postcode - <%= body.object.delivery_address.zip_code %> </p>
+                <p>Country - <%= body.object.delivery_address.country %> </p>
+              </div>
             </div>
-        </li>
-      <% }) %>`,
-          { dataArray: dataArray }
+          </body>
+        </html>`,
+          { item: item }
         )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
