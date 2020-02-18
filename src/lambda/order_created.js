@@ -40,23 +40,35 @@ handler = async event => {
             <div>
               <h4>Order Details</h4>
               <p>
-              Name - <%= data.first_name %>
-            </p>
+                Name - <%= data.first_name %> <%= data.last_name %>
+              </p>
+              <p>Order Id - <%= body.object._id %>
               <div>
                 <h5>Product : </h5>
+
                 <table>
                 <% for(var i=0; i < item.length; i++) { %>
                    <tr>
-                     <td><%= item[i].name %></td>
+                     <td>Product name: <%= item[i].name %></td>
+                     <td>Total Quantity: <%= item[i].quantity %></td>
+                     <td>Product Price: <%= item[i].final_price %></td>
                    </tr>
                 <% } %>
                 </table>
+                <p>Total Amount : <%= body.object.total_amount %> </p>
               </div>
-
+              <div>
+                <h5>Shipping Address</h5>
+                <p>Address - <%= body.object.delivery_address.street_name%> </p>
+                <p>City - <%= body.object.delivery_address.city%> </p>
+                <p>County - <%= body.object.delivery_address.state %> </p>
+                <p>Postcode - <%= body.object.delivery_address.zip_code %> </p>
+                <p>Country - <%= body.object.delivery_address.country %> </p>
+              </div>
             </div>
           </body>
         </html>`,
-          { item: item, data: data }
+          { item: item, data: data, body: body }
         )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
