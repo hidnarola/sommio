@@ -36,13 +36,13 @@ handler = async event => {
         // html: ejs.render('<%= people.join(", "); %>', { people: people })
         html: ejs.render(
           `<div>
-              <h4>Order Details</h4>
-              <p>
+              Order Details
+
                 Name - <%= data.first_name data.last_name %>
-              </p>
-              <p>Order Id - <%= body.object._id %></p>
+
+             Order Id - <%= body.object._id %>
               <div>
-                <h5>Product : </h5>
+            Product :
                 <table>
                 <% for(var i=0; i < dataArray.length; i++) { %>
                    <tr>
@@ -51,18 +51,18 @@ handler = async event => {
                    </tr>
                 <% } %>
                 </table>
-                <p>
+
                   Shiping charge :  <%= shipperData[0] && shipperData[0].final_price %>
-                </p>
-                <p>Total Amount : <%= body.object.total_amount %> </p>
+
+             Total Amount : <%= body.object.total_amount %>
               </div>
               <div>
-                <h5>Shipping Address</h5>
-                <p>Address - <%= body.object.delivery_address.street_name%> </p>
-                <p>City - <%= body.object.delivery_address.city%> </p>
-                <p>County - <%= body.object.delivery_address.state %> </p>
-                <p>Postcode - <%= body.object.delivery_address.zip_code %> </p>
-                <p>Country - <%= body.object.delivery_address.country %> </p>
+               Shipping Address
+              Address - <%= body.object.delivery_address.street_name%>
+                City - <%= body.object.delivery_address.city%>
+                County - <%= body.object.delivery_address.state %>
+                Postcode - <%= body.object.delivery_address.zip_code %>
+                Country - <%= body.object.delivery_address.country %>
               </div>
             </div>`,
           { dataArray: dataArray }
