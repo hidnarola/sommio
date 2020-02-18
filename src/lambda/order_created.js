@@ -42,7 +42,7 @@ handler = async event => {
               <p>
                 Name - <%= data.first_name data.last_name %>
               </p>
-              <p>Order Id - <%= body.object._id %>
+              <p>Order Id - <%= body.object._id %></p>
               <div>
                 <h5>Product : </h5>
                 <table>
@@ -68,7 +68,7 @@ handler = async event => {
               </div>
             </div>
           </body>
-        </html>`,
+        </html>`
           { data: { dataArray, body, data , shipperData[0] } }
         )
       }
