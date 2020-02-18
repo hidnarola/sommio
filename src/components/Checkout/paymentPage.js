@@ -27,16 +27,11 @@ const PaymentPage = ({ changeFormEnable, isEditable }) => {
   const { firebase } = useContext(FirebaseContext)
   const [checkoutError, setCheckoutError] = useState(null)
   const [makeEnable, setMakeEnable] = useState(true)
-  // const enableForm =
-  //   shippingRatesArray &&
-  //   shippingRatesArray.map(
-  //     charge => charge && charge.total_charge && charge.total_charge.amount
-  //   )
+
   const shipmentProductId =
     testProductsArray[0] && testProductsArray[0].shippingProductId
 
   const url = `https://api.builton.dev/products/${shipmentProductId}`
-  console.log('payment testProduct testProductsArray => ', testProductsArray)
 
   const handlePayment = async values => {
     // shippingCost(shippingRate, shippingProvider)
