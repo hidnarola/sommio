@@ -40,7 +40,7 @@ handler = async event => {
             <div>
               <h4>Order Details</h4>
               <p>
-              Name - <%= data.first_name data.last_name %>
+              Name - <%= data.first_name %>
             </p>
               <div>
                 <h5>Product : </h5>
