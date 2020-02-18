@@ -57,7 +57,7 @@ handler = async event => {
             </div>
           </body>
         </html>`,
-          { data: dataArray }
+          { dataArray: dataArray }
         )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
