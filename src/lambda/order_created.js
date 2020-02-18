@@ -13,16 +13,17 @@ handler = async event => {
   if (body && body.object) {
     let data = body.object.user
     let item = body.object.items
-    let dataArrayTest = [
-      { id: 1, name: 'bob' },
-      { id: 2, name: 'john' },
-      { id: 3, name: 'jake' }
-    ]
 
-    let shipperData =
-      item &&
+    let shipperData = []
+    let products = []
+
+    item &&
       item.filter(i => {
-        return i.name === 'Shipping cost'
+        if (i.name === 'Shipping cost') {
+          shipperData.push(i)
+        } else {
+          products.push(i)
+        }
       })
 
     const response = await axios({
@@ -33,7 +34,6 @@ handler = async event => {
         from: 'Sommio <mailgun@builton.sommio.co.uk>',
         to: body.object.user.email,
         subject: 'Sommio Blanket',
-        // html: ejs.render('<%= people.join(", "); %>', { people: people })
         html: ejs.render(
           `<html>
           <body>
@@ -46,15 +46,16 @@ handler = async event => {
               <div>
                 <h5>Product : </h5>
 
-                <table>
-                <% for(var i=0; i < item.length; i++) { %>
-                   <tr>
-                     <td>Product name: <%= item[i].name %></td>
-                     <td>Total Quantity: <%= item[i].quantity %></td>
-                     <td>Product Price: <%= item[i].final_price %></td>
-                   </tr>
+                <% for(var i=0; i < products.length; i++) { %>
+                    <p>Product name: <%= products[i].name %></p>
+                     <p>Total Quantity: <%= products[i].quantity %></p>
+                     <p>Product Price: <%= products[i].final_price %></p>
+
                 <% } %>
-                </table>
+                <p>
+                Shiping charge :
+                <%= shipperData[0] && shipperData[0].final_price %>
+              </p>
                 <p>Total Amount : <%= body.object.total_amount %> </p>
               </div>
               <div>
@@ -68,7 +69,12 @@ handler = async event => {
             </div>
           </body>
         </html>`,
-          { item: item, data: data, body: body }
+          {
+            products: products,
+            data: data,
+            body: body,
+            shipperData: shipperData
+          }
         )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
