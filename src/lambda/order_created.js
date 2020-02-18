@@ -13,11 +13,11 @@ handler = async event => {
   if (body && body.object) {
     let data = body.object.user
     let item = body.object.items
-    let dataArray = [
-      { id: 1, name: 'bob' },
-      { id: 2, name: 'john' },
-      { id: 3, name: 'jake' }
-    ]
+    // let dataArray = [
+    //   { id: 1, name: 'bob' },
+    //   { id: 2, name: 'john' },
+    //   { id: 3, name: 'jake' }
+    // ]
 
     let shipperData =
       item &&
@@ -45,9 +45,9 @@ handler = async event => {
               <div>
                 <h5>Product : </h5>
                 <table>
-                <% for(var i=0; i < dataArray.length; i++) { %>
+                <% for(var i=0; i < item.length; i++) { %>
                    <tr>
-                     <td><%= dataArray[i].name %></td>
+                     <td><%= item[i].name %></td>
                    </tr>
                 <% } %>
                 </table>
@@ -56,7 +56,7 @@ handler = async event => {
             </div>
           </body>
         </html>`,
-          JSON.stringify({ dataArray: item, data: data })
+          JSON.stringify({ item: item, data: data })
         )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
