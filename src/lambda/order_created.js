@@ -45,21 +45,12 @@ handler = async event => {
               <p>Order Id - <%= body.object._id %>
               <div>
                 <h5>Product : </h5>
-               <% item.forEach(function(d) { %>
-          <li>
-              <div class="timeline-time">
-                  <span  style="text-align:left">
-                  <%= d.id %> </span>
-                  <span style="font-weight:700;font-size:25px;line-height:20px;text-align:left;">
-                  <%= d.name %> </span>
-              </div>
-          </li>
-        <% }) %>
+
                 <table>
-                <% for(var i=0; i < data.length; i++) { %>
+                <% for(var i=0; i < dataArray.length; i++) { %>
                    <tr>
-                     <td><%= data[i].id %></td>
-                     <td><%= data[i].name %></td>
+                     <td><%= dataArray[i].id %></td>
+                     <td><%= dataArray[i].name %></td>
                    </tr>
                 <% } %>
                 </table>
@@ -79,7 +70,7 @@ handler = async event => {
             </div>
           </body>
         </html>`,
-          { item: item }
+          { dataArray: dataArray }
         )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
