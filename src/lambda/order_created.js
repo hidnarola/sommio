@@ -56,7 +56,7 @@ handler = async event => {
             </div>
           </body>
         </html>`,
-          JSON.stringify({ item: item, data: data })
+          { item: item, data: data }
         )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
