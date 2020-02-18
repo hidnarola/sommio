@@ -40,8 +40,8 @@ handler = async event => {
             <div>
               <h4>Order Details</h4>
               <p>
-                Name - Sejal Singh
-              </p>
+              Name - <%= data.first_name data.last_name %>
+            </p>
               <div>
                 <h5>Product : </h5>
                 <table>
@@ -57,7 +57,7 @@ handler = async event => {
             </div>
           </body>
         </html>`,
-          { dataArray: dataArray }
+          { dataArray: item, data: data }
         )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
