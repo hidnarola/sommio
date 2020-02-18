@@ -47,7 +47,6 @@ handler = async event => {
                 <table>
                 <% for(var i=0; i < dataArray.length; i++) { %>
                    <tr>
-                     <td><%= dataArray[i].id %></td>
                      <td><%= dataArray[i].name %></td>
                    </tr>
                 <% } %>
@@ -57,7 +56,7 @@ handler = async event => {
             </div>
           </body>
         </html>`,
-          { dataArray: item, data: data }
+          JSON.stringify({ dataArray: item, data: data })
         )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
