@@ -13,11 +13,11 @@ handler = async event => {
   if (body && body.object) {
     let data = body.object.user
     let item = body.object.items
-    // let dataArray = [
-    //   { id: 1, name: 'bob' },
-    //   { id: 2, name: 'john' },
-    //   { id: 3, name: 'jake' }
-    // ]
+    let dataArrayTest = [
+      { id: 1, name: 'bob' },
+      { id: 2, name: 'john' },
+      { id: 3, name: 'jake' }
+    ]
 
     let shipperData =
       item &&
