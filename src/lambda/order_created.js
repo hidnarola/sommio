@@ -65,7 +65,7 @@ handler = async event => {
                 Country - <%= body.object.delivery_address.country %>
               </div>
             </div>`,
-          { dataArray: dataArray }
+          { data: { dataArray, body, data } }
         )
       }
     }).catch(errors => console.log('mailgun errors => ', errors))
