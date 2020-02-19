@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react'
-import { CartContext } from '../../context/CartContext'
+import { ShippingAndUserDetailContext } from '../../context/ShippingAndUserDetailContext'
 import { Link, useStaticQuery } from 'gatsby'
 import CartItemList from '../../components/CartItemList'
 import CartIcon from '../../images/shopping-basket-duotone.svg'
-import { TestCartContext } from '../../context'
+import { CartContext } from '../../context'
 
 const CartButton = () => {
   const { allBuiltonProduct } = useStaticQuery(graphql`
@@ -30,16 +30,15 @@ const CartButton = () => {
   })
 
   const {
-    isEmpty,
     toggle,
     subTotal,
     setToggle,
     rate,
     countBuilton,
     subTotalBuilton
-  } = useContext(CartContext)
+  } = useContext(ShippingAndUserDetailContext)
 
-  const { testIsEmpty, testCount } = useContext(TestCartContext)
+  const { isEmpty, count } = useContext(CartContext)
 
   const handleToggle = () => {
     setToggle()
@@ -55,12 +54,12 @@ const CartButton = () => {
       <button onClick={handleToggle}>
         <img src={CartIcon} />
         <span className="count-number">
-          {testIsEmpty && testCount === 0 ? 0 : testCount}
+          {isEmpty && count === 0 ? 0 : count}
         </span>
       </button>
       <div className={`${toggle ? 'show' : 'hide'} cartsliderbar-main`}>
         <div onClick={handleToggle} className="overlay"></div>
-        {!testIsEmpty ? (
+        {!isEmpty ? (
           <div className="cartsliderbar-boxs">
             <div className="cartsliderbar-header">
               <h3>Your Basket</h3>

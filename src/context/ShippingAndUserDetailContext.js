@@ -1,16 +1,14 @@
 import React, { useContext, createContext, useReducer } from 'react'
-import { toast } from 'react-toastify'
 import axios from 'axios'
 import { FirebaseContext } from './FirebaseContext'
-import { TestCartContext } from './TestCartConext'
+import { CartContext } from './CartConext'
 import { CheckoutContext } from './CheckoutContext'
 export const SET_RATES = 'SET_RATES'
 export const SET_ADDRESS = 'SET_ADDRESS'
 export const SET_LOADING = 'SET_LOADING'
-export const CLEAN_CART = 'CLEAN_CART'
+
 export const SET_TOGGLE = 'SET_TOGGLE'
 export const SET_VARIATION = 'SET_VARIATION'
-export const SET_BUILTON_PRODUCT_PRICE = 'SET_BUILTON_PRODUCT_PRICE'
 export const USER_DETAIL_BUILTON = 'USER_DETAIL_BUILTON'
 export const CART_BUILTON = 'CART_BUILTON'
 export const AUTOCOMPLETE_ADDRESS = 'AUTOCOMPLETED_ADDRESS'
@@ -22,22 +20,9 @@ export const initialState = {
   builton: '',
   user: { email: '', password: '' },
   isAddToCart: false,
-  price: 0,
-  subTotalBuilton: 0,
-  weihtPrice: 0,
-  coverPrice: 0,
-  products: [],
-  Size: 'Single',
-  Weight: null,
-  Cover: null,
-  quantityBuilton: 0,
-  countBuilton: 0,
   loading: false,
-  rate: 0,
   paymentButton: false,
-  shippingProvider: null,
   toggle: false,
-  shippingRate: 0,
   shipping_address: {
     first_name: '',
     last_name: '',
@@ -111,9 +96,6 @@ export default function reducer(state, action) {
 
       return { loading: loading }
 
-    case CLEAN_CART:
-      return initialState
-
     case SET_VARIATION:
       var obj = {}
 
@@ -129,28 +111,6 @@ export default function reducer(state, action) {
       return {
         ...state,
         toggle: !state.toggle
-      }
-    case SET_BUILTON_PRODUCT_PRICE:
-      console.log('SET_BUILTON_PRODUCT_PRICE action => ', action)
-
-      let weightPrice = action.payload.selectWeightPrice
-      let coverPrice = action.payload.selectCoverPrice
-      let selectedWeight = action.payload.selectedWeight
-      let selectedCover = action.payload.selectedCover
-
-      console.log(
-        'addtocart selectedCover, selectedWeight =>',
-        selectedCover,
-        selectedWeight
-      )
-
-      return {
-        ...state,
-        weightPrice: weightPrice,
-        coverPrice: coverPrice,
-        Weight: selectedWeight[0] && selectedWeight[0].name,
-        Cover: selectedCover[0] && selectedCover[0].name,
-        shippingSubProduct: action.payload.shippingSubProduct
       }
 
     case USER_DETAIL_BUILTON:
@@ -228,31 +188,26 @@ export default function reducer(state, action) {
   }
 }
 
-let CartContext
+let ShippingAndUserDetailContext
 
-const { Provider, Consumer } = (CartContext = createContext())
+const { Provider, Consumer } = (ShippingAndUserDetailContext = createContext())
 
-function CartProvider({ children, ...props }) {
+function ShippingAndUserDetailProvider({ children, ...props }) {
   const { firebase } = useContext(FirebaseContext)
-  const { productSubTotal } = useContext(TestCartContext)
+  const { productSubTotal } = useContext(CartContext)
 
   const [state, dispatch] = useReducer(reducer, initialState)
-  let isEmpty = state.countBuilton === 0
 
   const shippingCostCalculate = async (
     user,
     shippingData,
     cartItemsBuilton
   ) => {
-    console.log('CartContext cartItemsBuilton => ', cartItemsBuilton)
-
     dispatch({ type: SET_ADDRESS, user, shippingData })
 
     const details = JSON.parse(localStorage.getItem('details'))
 
     var items = []
-
-    // const cartDetails = JSON.parse(sessionStorage.getItem('cartDetails'))
 
     for (const item of cartItemsBuilton) {
       const finalPrice = productSubTotal
@@ -271,7 +226,6 @@ function CartProvider({ children, ...props }) {
         sku: item.human_id
       })
     }
-    console.log('CartContext items => ', items)
 
     let data = {
       async: false,
@@ -343,22 +297,6 @@ function CartProvider({ children, ...props }) {
       payload: { name, value, price }
     })
   }
-  const deleteCart = () => {
-    dispatch({ type: CLEAN_CART })
-  }
-  const setSubProductPrice = (selectedWeight, selectedCover) => {
-    const selectWeightPrice = selectedWeight[0] && selectedWeight[0].price
-    const selectCoverPrice = selectedWeight[0] && selectedCover[0].price
-    dispatch({
-      type: SET_BUILTON_PRODUCT_PRICE,
-      payload: {
-        selectWeightPrice,
-        selectCoverPrice,
-        selectedWeight,
-        selectedCover
-      }
-    })
-  }
 
   const setUserBuilton = (data, builton) => {
     dispatch({ type: USER_DETAIL_BUILTON, data, builton })
@@ -380,14 +318,11 @@ function CartProvider({ children, ...props }) {
       value={{
         ...state,
         ...props,
-        isEmpty,
         shippingCostCalculate,
         setToggle,
         setVariation,
-        setSubProductPrice,
         setUserBuilton,
         cartBuilton,
-        deleteCart,
         setAddressFromAutoComplete,
         setPostalCode,
         setAddress
@@ -398,4 +333,8 @@ function CartProvider({ children, ...props }) {
   )
 }
 
-export { CartProvider, Consumer as CartConsumer, CartContext }
+export {
+  ShippingAndUserDetailProvider,
+  Consumer as ShippingAndUserDetailConsumer,
+  ShippingAndUserDetailContext
+}

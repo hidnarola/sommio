@@ -1,15 +1,15 @@
 import React, { useContext } from 'react'
-import { CartContext } from '../../context/CartContext'
-import { TestCartContext } from '../../context'
+import { ShippingAndUserDetailContext } from '../../context/ShippingAndUserDetailContext'
+import { CartContext } from '../../context'
 function ShippingSelectOption() {
   const {
     shippingRatesArray,
     shipping_address,
     shippingRate,
     countryCode
-  } = useContext(CartContext)
+  } = useContext(ShippingAndUserDetailContext)
 
-  const { shippingCost } = useContext(TestCartContext)
+  const { shippingCost } = useContext(CartContext)
 
   const updateValue = async ({ target: { value } }) => {
     let shipperData = JSON.parse(value)

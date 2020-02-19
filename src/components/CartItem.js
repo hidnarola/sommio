@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react'
 import QuantityStepper from './QuantityStepper'
-import { CartContext } from '../context/CartContext'
+import { ShippingAndUserDetailContext } from '../context/ShippingAndUserDetailContext'
 import Photo from './Photo'
-import { TestCartContext } from '../context'
+import { CartContext } from '../context'
 
 function CartItem({ locked, cartButton }) {
   const [removing, setRemoving] = useState(false)
@@ -14,21 +14,20 @@ function CartItem({ locked, cartButton }) {
     quantityBuilton,
     isAddToCart,
     products
-  } = useContext(CartContext)
-  const { remove_cart, testProductsArray, total, productSubTotal } = useContext(
-    TestCartContext
+  } = useContext(ShippingAndUserDetailContext)
+  const { remove_cart, ProductsArray, total, productSubTotal } = useContext(
+    CartContext
   )
 
   const onRemove = data => {
     setRemoving(true)
     remove_cart(data)
-    sessionStorage.clear()
   }
 
   return cartButton ? (
     <div className="cartsliderbar-item">
-      {testProductsArray &&
-        testProductsArray.map(p => {
+      {ProductsArray &&
+        ProductsArray.map(p => {
           return (
             <>
               <Photo
@@ -61,8 +60,8 @@ function CartItem({ locked, cartButton }) {
     </div>
   ) : (
     <div className="revieworder-box">
-      {testProductsArray &&
-        testProductsArray.map(prod => (
+      {ProductsArray &&
+        ProductsArray.map(prod => (
           <>
             <Photo
               cartImg="cartImg"

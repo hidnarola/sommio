@@ -1,4 +1,6 @@
 const shippingFormValidation = (values, currentUser) => {
+  console.log('[validation] values => ', values)
+
   let details = JSON.parse(localStorage.getItem('details'))
 
   const errors = {}
@@ -30,11 +32,12 @@ const shippingFormValidation = (values, currentUser) => {
   } else if (isNaN(parseInt(values.phone))) {
     errors.phone = 'Must be a number'
   }
+  // values.email = details.email
   if (!values.email) {
     errors.email = 'Required'
   } else if (
     !/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(
-      values.email
+      values.email || details.email
     )
   ) {
     errors.email = 'Invalid Email'

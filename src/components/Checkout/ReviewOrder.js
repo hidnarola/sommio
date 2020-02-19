@@ -1,7 +1,11 @@
 import React, { useContext, useState } from 'react'
 import { injectStripe } from 'react-stripe-elements'
-
-import { CartContext, CheckoutContext, TestCartContext } from '../../context'
+import { toast } from 'react-toastify'
+import {
+  ShippingAndUserDetailContext,
+  CheckoutContext,
+  CartContext
+} from '../../context'
 import CartItemList from '../CartItemList'
 import Loader from '../Loader'
 const RiviewOrder = ({ stripe, formEnable }) => {
@@ -12,13 +16,13 @@ const RiviewOrder = ({ stripe, formEnable }) => {
     selectedCover,
     selectedWeight,
     quantityBuilton
-  } = useContext(CartContext)
+  } = useContext(ShippingAndUserDetailContext)
   const { createOrderBuilton, paymentBuilton } = useContext(CheckoutContext)
-  const { testProductsArray } = useContext(TestCartContext)
+  const { ProductsArray } = useContext(CartContext)
   const [checkoutError, setCheckoutError] = useState(null)
 
   const shipmentProductId =
-    testProductsArray[0] && testProductsArray[0].shippingProductId
+    ProductsArray[0] && ProductsArray[0].shippingProductId
 
   let dataFrom = JSON.parse(sessionStorage.getItem('cartDetails'))
 
@@ -63,12 +67,16 @@ const RiviewOrder = ({ stripe, formEnable }) => {
       console.log('After generating token ===>', token, token.token.id)
 
       //creating payment
-      const paymentMethod = await builton.paymentMethods.create({
-        payment_method: 'stripe',
-        token: token.token.id
-      })
-      console.log('After Payment method ===>')
-      console.log('ReviewOreder testProductsArray => ', testProductsArray)
+      const paymentMethod = await builton.paymentMethods
+        .create({
+          payment_method: 'stripe',
+          token: token.token.id
+        })
+        .catch(err =>
+          toast.info('Please Try with another Email Id !', {
+            position: toast.POSITION.TOP_RIGHT
+          })
+        )
 
       //creating orders
       const createdOrder = await builton.orders.create({

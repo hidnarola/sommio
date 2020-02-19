@@ -1,11 +1,13 @@
 import React, { useContext } from 'react'
 import _ from 'lodash'
 
-import { CartContext, TestCartContext } from '../context'
+import { ShippingAndUserDetailContext, CartContext } from '../context'
 
 export default function QuantityStepper({ product }) {
-  const { subTotalBuilton, quantityBuilton, products } = useContext(CartContext)
-  const { update_cart, testProductArray } = useContext(TestCartContext)
+  const { subTotalBuilton, quantityBuilton, products } = useContext(
+    ShippingAndUserDetailContext
+  )
+  const { update_cart } = useContext(CartContext)
 
   const increase = () => update_cart(product, 1)
   const decrease = () => update_cart(product, 0)

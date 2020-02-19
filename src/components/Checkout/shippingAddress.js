@@ -1,11 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { CartContext, FirebaseContext } from '../../context'
+import { ShippingAndUserDetailContext, FirebaseContext } from '../../context'
 import AddressFields from './AddressFields'
 import { Modal, ModalHeader, ModalBody } from 'reactstrap'
 import RegisterOrLogin from '../Checkout/RegisterOrLogin'
 
 const ShippingAddress = ({ isCompleted, toggleEditable, gmapsLoaded }) => {
-  const { shipping_address, customerDetails } = useContext(CartContext)
+  const { shipping_address, customerDetails } = useContext(
+    ShippingAndUserDetailContext
+  )
   const { firebase } = useContext(FirebaseContext)
   const [modal, setModal] = useState(false)
   const [currentUser, setCurrentUser] = useState(false)

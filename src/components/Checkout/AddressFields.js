@@ -3,10 +3,10 @@ import { Field, Form } from 'react-final-form'
 
 import country from '../../../countryWithThree'
 import {
-  CartContext,
+  ShippingAndUserDetailContext,
   FirebaseContext,
   CheckoutContext,
-  TestCartContext
+  CartContext
 } from '../../context'
 import validation from '../../validation/shippingFormValidation'
 import { log } from 'util'
@@ -15,6 +15,7 @@ import shippingFormValidation from '../../validation/shippingFormValidation'
 import LocationSearchInput from './GoogleAutocomplete'
 import countryWithThree from '../../../countryWithThree'
 import { newFirebaseToken } from '../../utils/newFirebaseToken'
+
 const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
   const {
     shipping_address,
@@ -25,8 +26,8 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
     setUserBuilton,
     countryCode,
     setAddress
-  } = useContext(CartContext)
-  const { testProductsArray } = useContext(TestCartContext)
+  } = useContext(ShippingAndUserDetailContext)
+  const { ProductsArray } = useContext(CartContext)
 
   let countryWithThree = country.filter(data => {
     return data.alpha2.toUpperCase() === countryCode
@@ -56,7 +57,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
     if (firebase && firebase.auth().currentUser) {
       setErrorMessage('')
       toggleEditable(true)
-      shippingCostCalculate(user, values, testProductsArray)
+      shippingCostCalculate(user, values, ProductsArray)
     } else {
       setErrorMessage('')
       firebase &&
@@ -76,7 +77,7 @@ const AddressFields = ({ type, toggleEditable, gmapsLoaded }) => {
 
             SetCurrentUser(resp.user)
             setUserBuilton(values.email, builton)
-            shippingCostCalculate(user, values, testProductsArray)
+            shippingCostCalculate(user, values, ProductsArray)
             toggleEditable(true)
           })
           .catch(error => {

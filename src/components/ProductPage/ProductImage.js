@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import Slider from 'react-slick'
-import { CartContext } from '../../context/CartContext'
+import { ShippingAndUserDetailContext } from '../../context/ShippingAndUserDetailContext'
 function ProductImage({ productId, selectedVariationId }) {
   const { allBuiltonProduct } = useStaticQuery(
     graphql`
@@ -23,7 +23,9 @@ function ProductImage({ productId, selectedVariationId }) {
       }
     `
   )
-  const { selectedCover, selectedWeight } = useContext(CartContext)
+  const { selectedCover, selectedWeight } = useContext(
+    ShippingAndUserDetailContext
+  )
 
   const mainProduct = allBuiltonProduct.nodes.filter(product => {
     return product.id === productId

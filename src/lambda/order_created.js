@@ -75,7 +75,10 @@ handler = async event => {
           }
         )
       }
-    }).catch(errors => console.log('mailgun errors => ', errors))
+    }).catch(errors => {
+      console.log('mailgun errors => ', errors)
+      return errors
+    })
     console.log('mailgun response => ', response)
   }
 

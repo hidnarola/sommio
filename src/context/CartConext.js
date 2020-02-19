@@ -1,19 +1,19 @@
-import React, { createContext, useReducer, useContext } from 'react'
+import React, { createContext, useReducer } from 'react'
 import { StaticQuery } from 'gatsby'
 import _ from 'lodash'
-import { CartContext } from './CartContext'
-let TestCartContext
-const { Provider, Consumer } = (TestCartContext = createContext())
-export const SET_CART_TEST = 'SET_CART_TEST'
-export const REMOVE_CART_TEST = 'REMOVE_CART_TEST'
-export const UPDATE_CART_TEST = 'UPDATE_CART_TEST'
+let CartContext
+const { Provider, Consumer } = (CartContext = createContext())
+export const SET_CART = 'SET_CART'
+export const REMOVE_CART = 'REMOVE_CART'
+export const UPDATE_CART = 'UPDATE_CART'
 export const FETCH_CART_DATA = 'FETCH_CART_DATA'
 export const CLEAN_CART = 'CLEAN_CART'
 export const SET_SELCETED_RATES = 'SET_SELCETED_RATES'
+export const SET_BUILTON_PRODUCT_PRICE = 'SET_BUILTON_PRODUCT_PRICE'
 
 export const initialState = {
-  testProductsArray: [],
-  testCartObj: {
+  ProductsArray: [],
+  CartObj: {
     type: '',
     main_product_id: '',
     coverId: '',
@@ -37,24 +37,29 @@ export const initialState = {
     currency: '',
     shippingProductId: ''
   },
-  testCount: 0,
+  count: 0,
   productSubTotal: 0,
   total: 0,
   shippingRate: 0,
-  shippingProvider: ''
+  shippingProvider: '',
+  weightPrice: 0,
+  coverPrice: 0,
+  Size: 'Single',
+  Weight: null,
+  Cover: null
 }
 
 export default function reducer(state, action) {
   switch (action.type) {
-    case SET_CART_TEST:
+    case SET_CART:
       const cartItemObj = action.payload
 
-      const prods = state.testProductsArray
+      const prods = state.ProductsArray
 
-      if (state.testProductsArray.length === 0) {
+      if (state.ProductsArray.length === 0) {
         prods.push(cartItemObj)
       } else {
-        let x = _.find(state.testProductsArray, {
+        let x = _.find(state.ProductsArray, {
           main_product_id: cartItemObj.main_product_id,
           coverId: cartItemObj.coverId,
           weightId: cartItemObj.weightId
@@ -63,10 +68,10 @@ export default function reducer(state, action) {
           prods.push(cartItemObj)
         }
       }
-      let testCount = _.sumBy(prods, data => {
+      let count = _.sumBy(prods, data => {
         return data.quantityBuilton
       })
-      let productSubTotal = _.sumBy(state.testProductsArray, data => {
+      let productSubTotal = _.sumBy(state.ProductsArray, data => {
         return data.final_price * data.quantityBuilton
       })
       let finalTotal = productSubTotal + state.shippingRate
@@ -76,75 +81,71 @@ export default function reducer(state, action) {
 
       return {
         ...state,
-        testCartObj: cartItemObj,
-        testProductsArray: prods,
-        testCount: testCount,
+        CartObj: cartItemObj,
+        ProductsArray: prods,
+        count: count,
         productSubTotal: productSubTotal,
         total: finalTotal
       }
 
-    case UPDATE_CART_TEST:
-      console.log('[testcart] UPDATE_CART_TEST => ', action)
+    case UPDATE_CART:
+      console.log('[testcart] UPDATE_CART => ', action)
 
       const product = action.payload.product
       const flag = action.payload.flag
 
-      let y = _.findIndex(state.testProductsArray, product)
+      let y = _.findIndex(state.ProductsArray, product)
 
       if (flag === 1) {
         let updateToProduct = product
         updateToProduct.quantityBuilton = updateToProduct.quantityBuilton + 1
-        state.testProductsArray.splice(y, 1, updateToProduct)
+        state.ProductsArray.splice(y, 1, updateToProduct)
       } else if (flag === 0) {
         let updateToProduct = product
         updateToProduct.quantityBuilton = updateToProduct.quantityBuilton - 1
       }
-      let count = _.sumBy(state.testProductsArray, data => {
+      let updateCount = _.sumBy(state.ProductsArray, data => {
         return data.quantityBuilton
       })
-      let prodSubTotal = _.sumBy(state.testProductsArray, data => {
+      let prodSubTotal = _.sumBy(state.ProductsArray, data => {
         return data.final_price * data.quantityBuilton
       })
       let updateTotal = prodSubTotal + state.shippingRate
 
-      sessionStorage.setItem(
-        'cartDetails',
-        JSON.stringify(state.testProductsArray)
-      )
+      sessionStorage.setItem('cartDetails', JSON.stringify(state.ProductsArray))
 
       return {
         ...state,
-        testCount: count,
+        count: updateCount,
         productSubTotal: prodSubTotal,
         total: updateTotal
       }
 
-    case REMOVE_CART_TEST:
-      console.log('REMOVE_CART_TEST action => ', action)
-
+    case REMOVE_CART:
       let selectedProduct = action.payload
 
       let removeCount
-      let z = _.findIndex(state.testProductsArray, selectedProduct)
-      state.testProductsArray.splice(z, 1)
-      console.log('Remove state.testProductsArray => ', state.testProductsArray)
+      let z = _.findIndex(state.ProductsArray, selectedProduct)
+      state.ProductsArray.splice(z, 1)
+      console.log('Remove state.ProductsArray => ', state.ProductsArray)
 
-      removeCount = _.sumBy(state.testProductsArray, data => {
+      removeCount = _.sumBy(state.ProductsArray, data => {
         return data.quantityBuilton
       })
-      let removeSubTotal = _.sumBy(state.testProductsArray, data => {
+      let removeSubTotal = _.sumBy(state.ProductsArray, data => {
         return data.final_price * data.quantityBuilton
       })
       let removeTotal = removeSubTotal + state.shippingRate
-      console.log('removeTotal => ', removeTotal)
-      console.log('removeSubTotal => ', removeSubTotal)
+      console.log('[remove cart ]state.ProductsArray => ', state.ProductsArray)
+
+      sessionStorage.setItem('cartDetails', JSON.stringify(state.ProductsArray))
 
       return {
         ...state,
-        testCount: removeCount,
+        count: removeCount,
         productSubTotal: removeSubTotal,
         total: removeTotal,
-        testProductsArray: state.testProductsArray
+        ProductsArray: state.ProductsArray
       }
 
     case FETCH_CART_DATA:
@@ -162,8 +163,8 @@ export default function reducer(state, action) {
 
       return {
         ...state,
-        testProductsArray: cartProduct,
-        testCount: updateTocount,
+        ProductsArray: cartProduct,
+        count: updateTocount,
         productSubTotal: updateToSubTotal,
         total: fetchTotal
       }
@@ -174,35 +175,48 @@ export default function reducer(state, action) {
         : initialState.shippingRate
       let total = state.productSubTotal + shippingRate
 
-      console.log('TestCart total ========> ', total)
-      console.log('TestCart shippingRate ========>', shippingRate)
       return {
         ...state,
         shippingRate: shippingRate,
         shippingProvider: action.payload.shipping_provider,
         total: total
       }
+    case SET_BUILTON_PRODUCT_PRICE:
+      console.log('SET_BUILTON_PRODUCT_PRICE action => ', action)
+
+      let weightPrice = action.payload.selectWeightPrice
+      let coverPrice = action.payload.selectCoverPrice
+      let selectedWeight = action.payload.selectedWeight
+      let selectedCover = action.payload.selectedCover
+
+      return {
+        ...state,
+        weightPrice: weightPrice,
+        coverPrice: coverPrice,
+        Weight: selectedWeight[0] && selectedWeight[0].name,
+        Cover: selectedCover[0] && selectedCover[0].name
+      }
 
     case CLEAN_CART:
-      return initialState
+      console.log('CLEAN_CART action => ', action, initialState)
+      return { ...initialState, ProductsArray: [] }
 
     default:
       return state
   }
 }
 
-function TestCartProvider({ children, ...props }) {
+function CartProvider({ children, ...props }) {
   const [state, dispatch] = useReducer(reducer, initialState)
-  let testIsEmpty = state.testCount === 0
-
+  let isEmpty = state.count === 0
   const set_cart = payload => {
-    dispatch({ type: SET_CART_TEST, payload: payload })
+    dispatch({ type: SET_CART, payload: payload })
   }
   const update_cart = (product, flag) => {
-    dispatch({ type: UPDATE_CART_TEST, payload: { product, flag } })
+    dispatch({ type: UPDATE_CART, payload: { product, flag } })
   }
   const remove_cart = payload => {
-    dispatch({ type: REMOVE_CART_TEST, payload: payload })
+    dispatch({ type: REMOVE_CART, payload: payload })
   }
   const fetchCartDataFromStorage = payload => {
     dispatch({ type: FETCH_CART_DATA, payload: payload })
@@ -217,18 +231,33 @@ function TestCartProvider({ children, ...props }) {
     })
   }
 
+  const setSubProductPrice = (selectedWeight, selectedCover) => {
+    const selectWeightPrice = selectedWeight[0] && selectedWeight[0].price
+    const selectCoverPrice = selectedWeight[0] && selectedCover[0].price
+    dispatch({
+      type: SET_BUILTON_PRODUCT_PRICE,
+      payload: {
+        selectWeightPrice,
+        selectCoverPrice,
+        selectedWeight,
+        selectedCover
+      }
+    })
+  }
+
   return (
     <Provider
       value={{
         ...state,
         ...props,
-        testIsEmpty,
+        isEmpty,
         set_cart,
         update_cart,
         remove_cart,
         shippingCost,
         deleteCartData,
-        fetchCartDataFromStorage
+        fetchCartDataFromStorage,
+        setSubProductPrice
       }}
     >
       {children}
@@ -236,4 +265,4 @@ function TestCartProvider({ children, ...props }) {
   )
 }
 
-export { TestCartProvider, Consumer as TestCartConsumer, TestCartContext }
+export { CartProvider, Consumer as CartConsumer, CartContext }

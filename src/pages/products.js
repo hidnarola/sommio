@@ -6,8 +6,6 @@ import PageTitle from '../components/PageTitle'
 import ProductGrid from '../components/ProductGrid'
 
 const IndexPage = ({ data: { allBuiltonProduct } }) => {
-  console.log('Index allBuiltonProduct =======>', allBuiltonProduct)
-
   const baseProductList =
     allBuiltonProduct &&
     allBuiltonProduct.nodes.filter(mainProduct => {

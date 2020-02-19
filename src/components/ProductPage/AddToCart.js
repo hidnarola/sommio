@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { CartContext } from '../../context/CartContext'
+import { ShippingAndUserDetailContext } from '../../context/ShippingAndUserDetailContext'
 import PlushImages from '../../images/plush.png'
 import {
   Dropdown,
@@ -8,7 +8,7 @@ import {
   DropdownItem
 } from 'reactstrap'
 import { useStaticQuery, Link } from 'gatsby'
-import { TestCartContext } from '../../context'
+import { CartContext } from '../../context'
 const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
   const { allBuiltonProduct } = useStaticQuery(graphql`
     query {
@@ -42,17 +42,17 @@ const AddToCart = ({ productId, tags, onChangeSelectedProduct }) => {
       }
     }
   `)
+  const { setVariation, setToggle, toggle } = useContext(
+    ShippingAndUserDetailContext
+  )
   const {
+    set_cart,
     setSubProductPrice,
-    setVariation,
-    Weight,
-    Cover,
-    setToggle,
-    toggle,
     weightPrice,
-    coverPrice
+    coverPrice,
+    Weight,
+    Cover
   } = useContext(CartContext)
-  const { set_cart } = useContext(TestCartContext)
 
   const [cover, setCover] = useState(null)
   const [weight, setWeight] = useState(null)

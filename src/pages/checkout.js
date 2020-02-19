@@ -1,10 +1,5 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
-import {
-  CartContext,
-  CheckoutContext,
-  FirebaseContext,
-  TestCartContext
-} from '../context'
+import { CheckoutContext, FirebaseContext, CartContext } from '../context'
 import ShippingAddress from '../components/Checkout/shippingAddress'
 import PaymentPage from '../components/Checkout/paymentPage'
 import ReviewOrder from '../components/Checkout/ReviewOrder'
@@ -12,7 +7,6 @@ import OrderConfirmation from '../components/Checkout/OrderConfirmation'
 
 const CheckoutPage = () => {
   const { isEmpty } = useContext(CartContext)
-  const { testIsEmpty } = useContext(TestCartContext)
 
   const { defaultPayment, checkoutClear } = useContext(CheckoutContext)
   const { firebase } = useContext(FirebaseContext)
@@ -47,7 +41,7 @@ const CheckoutPage = () => {
   }
 
   if (defaultPayment && defaultPayment === true) return <OrderConfirmation />
-  if (testIsEmpty && !defaultPayment)
+  if (isEmpty && !defaultPayment)
     return <p className="text-center">Your cart is empty</p>
 
   return (

@@ -2,24 +2,23 @@ import React, { useContext, useEffect } from 'react'
 import { Link } from 'gatsby'
 import {
   CheckoutContext,
+  ShippingAndUserDetailContext,
   CartContext,
-  TestCartContext,
   FirebaseContext
 } from '../../context'
 import OrderItems from '../OrderItems'
 
 export default function OrderConfirmation(props) {
-  const { deleteCart, shipping_address, customerDetails } = useContext(
-    CartContext
+  const { setToggle, shipping_address, customerDetails } = useContext(
+    ShippingAndUserDetailContext
   )
 
   const { orderId } = useContext(CheckoutContext)
-  const { deleteCartData } = useContext(TestCartContext)
+  const { deleteCartData } = useContext(CartContext)
   const { firebase } = useContext(FirebaseContext)
 
   useEffect(() => {
     return () => {
-      deleteCart()
       deleteCartData()
       sessionStorage.clear()
     }

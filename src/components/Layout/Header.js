@@ -11,10 +11,10 @@ import {
   DropdownItem
 } from 'reactstrap'
 import {
-  CartContext,
+  ShippingAndUserDetailContext,
   CheckoutContext,
   FirebaseContext,
-  TestCartContext
+  CartContext
 } from '../../context'
 
 import Logo from '../../images/logo.png'
@@ -25,8 +25,10 @@ import { getFirebase } from '../../firebase/index'
 
 const Header = ({ siteTitle, collections, slug, human_id }, props) => {
   const { orderId } = useContext(CheckoutContext)
-  const { setCartData, setUserBuilton } = useContext(CartContext)
-  const { set_cart, fetchCartDataFromStorage } = useContext(TestCartContext)
+  const { setCartData, setUserBuilton } = useContext(
+    ShippingAndUserDetailContext
+  )
+  const { set_cart, fetchCartDataFromStorage } = useContext(CartContext)
   const { setFirebase, firebase } = useContext(FirebaseContext)
   const [refresh, setRefresh] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -80,6 +82,7 @@ const Header = ({ siteTitle, collections, slug, human_id }, props) => {
         })
         .catch(err => {
           console.log('sis err Logout => ', err)
+          return err
         })
   }
 

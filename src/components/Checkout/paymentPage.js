@@ -3,33 +3,30 @@ import { Form } from 'react-final-form'
 import { CardElement, injectStripe } from 'react-stripe-elements'
 import {
   CheckoutContext,
-  CartContext,
+  ShippingAndUserDetailContext,
   FirebaseContext,
-  TestCartContext
+  CartContext
 } from '../../context'
 import ShippingSelectOption from './shippingSelectOption'
 import stripeValidation from '../../validation/stripe'
 import axios from 'axios'
 const PaymentPage = ({ changeFormEnable, isEditable }) => {
-  const {
-    shipping_address,
-
-    shippingRatesArray,
-    builton
-  } = useContext(CartContext)
+  const { shipping_address, shippingRatesArray, builton } = useContext(
+    ShippingAndUserDetailContext
+  )
   const { paymentData, paymentDetails } = useContext(CheckoutContext)
   const {
-    testProductsArray,
+    ProductsArray,
     shippingCost,
     shippingRate,
     shippingProvider
-  } = useContext(TestCartContext)
+  } = useContext(CartContext)
   const { firebase } = useContext(FirebaseContext)
   const [checkoutError, setCheckoutError] = useState(null)
   const [makeEnable, setMakeEnable] = useState(true)
 
   const shipmentProductId =
-    testProductsArray[0] && testProductsArray[0].shippingProductId
+    ProductsArray[0] && ProductsArray[0].shippingProductId
 
   const url = `https://api.builton.dev/products/${shipmentProductId}`
 

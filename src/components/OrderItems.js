@@ -1,22 +1,25 @@
 import React, { useContext } from 'react'
-import { CartContext, CheckoutContext, TestCartContext } from '../context'
+import {
+  ShippingAndUserDetailContext,
+  CheckoutContext,
+  CartContext
+} from '../context'
 import CartItem from './CartItem'
 import Photo from './Photo'
 const OrderItems = props => {
-  const { orderCartItems, isAddToCart, Size } = useContext(CartContext)
+  const { orderCartItems, isAddToCart, Size } = useContext(
+    ShippingAndUserDetailContext
+  )
   const { orderPrice, totalProductQuantity } = useContext(CheckoutContext)
-  const {
-    productSubTotal,
-    total,
-    shippingRate,
-    testProductsArray
-  } = useContext(TestCartContext)
+  const { productSubTotal, total, shippingRate, ProductsArray } = useContext(
+    CartContext
+  )
 
   return (
     <div className="revieworder-box">
       <div>
-        {testProductsArray &&
-          testProductsArray.map(p => {
+        {ProductsArray &&
+          ProductsArray.map(p => {
             return (
               <div>
                 <Photo

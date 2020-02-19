@@ -4,7 +4,7 @@ import PlacesAutocomplete, {
   getLatLng
 } from 'react-places-autocomplete'
 import { Field } from 'react-final-form'
-import { CartContext } from '../../context/CartContext'
+import { ShippingAndUserDetailContext } from '../../context/ShippingAndUserDetailContext'
 import countryData from '../../../countryWithThree'
 
 const LocationSearchInput = () => {
@@ -12,7 +12,7 @@ const LocationSearchInput = () => {
     shipping_address,
     setAddressFromAutoComplete,
     setPostalCode
-  } = useContext(CartContext)
+  } = useContext(ShippingAndUserDetailContext)
 
   const [zip, setZip] = useState()
 
@@ -40,7 +40,10 @@ const LocationSearchInput = () => {
         setAddressFromAutoComplete(results)
         getLatLng(results[0])
       })
-      .catch(error => console.error('GoogleAutoComplete Error', error))
+      .catch(error => {
+        console.error('GoogleAutoComplete Error', error)
+        return error
+      })
   }
 
   let countryWithThree = countryData.filter(data => {

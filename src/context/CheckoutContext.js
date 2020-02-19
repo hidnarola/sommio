@@ -1,7 +1,5 @@
 import React, { useContext, createContext, useReducer } from 'react'
 
-import { CartContext } from './CartContext'
-
 export const CREATE_ORDER_BUILTON = 'CREATE_ORDER_BUILTON'
 export const PAYMENT = 'PAYMENT'
 export const RESET_PAYMENT = 'RESET_PAYMENT'

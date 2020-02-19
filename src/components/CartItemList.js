@@ -1,32 +1,26 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'gatsby'
-import { CartContext, TestCartContext } from '../context'
+import { ShippingAndUserDetailContext, CartContext } from '../context'
 import CartItem from './CartItem'
 import CartButton from './CartButton'
 
 export default function CartItemList(props) {
-  const {
-    isEmpty,
-    removeFromCartBuilton,
-    subTotalBuilton,
-    price,
-    isAddToCart
-  } = useContext(CartContext)
+  const { isAddToCart } = useContext(ShippingAndUserDetailContext)
 
-  const { testIsEmpty, productSubTotal, total, shippingRate } = useContext(
-    TestCartContext
+  const { isEmpty, productSubTotal, total, shippingRate } = useContext(
+    CartContext
   )
 
   console.log('CartItemList total => ', total)
   console.log('CartItemList shippingRate => ', shippingRate)
 
-  if (testIsEmpty) return <p className="text-center">Your cart is empty</p>
+  if (isEmpty) return <p className="text-center">Your cart is empty</p>
 
   return (
     <div className="cartsliderbar-boby">
       <CartItem {...props} />
 
-      {!testIsEmpty && props.cartButton ? (
+      {!isEmpty && props.cartButton ? (
         <div className="cartsliderbar-footer">
           <div className="total-list">
             <ul>
